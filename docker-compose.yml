@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  taiwan_tourguide:
+    image: nodejs_env:latest
+    container_name: taiwan_tourguide
+    command: 'sleep infinity'
+    build:
+      context: ../../../dockerfiles/nodejs_env/
+      args:
+        NVM_VER: 0.39.1
+        PNPM_VERSION: 6.32.9
+        NODE_VER: 16.14.2
+      dockerfile: ../../../dockerfiles/nodejs_env/Dockerfile
+    privileged: true
+    ports:
+      - 3000:3000
+    volumes:
+      - /home/ec2-user/oriental-colony/src/nodejs_projects/taiwan_tourguide:/home/ec2-user/workspace/
+    stdin_open: true
