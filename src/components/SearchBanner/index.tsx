@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import search_img_1 from './search_bg_img_1.svg'
+import search_img_1 from './search_bg_img_1.png'
 import search_landing_text from './search_landing_text.svg'
 import search_subtitle from './search_subtitle.svg'
 
@@ -52,6 +52,7 @@ const SearchSubtitle = styled.div`
 `
 
 const SearchInputGroupContainer = styled.div`
+  outline: solid 1px #fff;
   width: 492px;
   height: 88px;
   min-width: 492px;
@@ -60,9 +61,42 @@ const SearchInputGroupContainer = styled.div`
   left: 367px;
   position: absolute;
   display: flex;
-  
+  flex-direction: row;
+  flex-wrap: wrap;
 `
 
+const SearchInputText = styled.div`
+  outline: solid 1px #fff;
+  display: flex;
+  width: 492px;
+  height: 40px;
+`
+
+const SearchCategorySelection = styled.div`
+  outline: solid 1px #fff;
+  display: flex;
+  width: 219px;
+  height: 40px;
+  margin-top: 8px;
+`
+
+const SearchCitySelection = styled.div`
+  outline: solid 1px #fff;
+  display: flex;
+  width: 219px;
+  height: 40px;
+  margin-top: 8px;
+  margin-left: 6px;
+`
+
+const SearchButton = styled.div`
+  outline: solid 1px #fff;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  margin-top: 8px;
+  margin-left: 8px;
+`
 
 
 export const SearchBanner = () => (
@@ -70,7 +104,13 @@ export const SearchBanner = () => (
     <SearchBgImageContainer>
       <SearchLandingTextContainer>
       </SearchLandingTextContainer>
-      <SearchSubtitle></SearchSubtitle>
+      <SearchSubtitle />
+      <SearchInputGroupContainer>
+        <SearchInputText />
+        <SearchCategorySelection />
+        <SearchCitySelection />
+        <SearchButton />
+      </SearchInputGroupContainer>
     </SearchBgImageContainer>
   </BannerContainer>
 )
