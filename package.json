@@ -41,6 +41,8 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "mockjs": "^1.1.0",
     "postcss": "^8.4.12",
+    "postcss-import": "^14.1.0",
+    "postcss-nesting": "^10.1.4",
     "prettier": "^2.6.2",
     "react-is": "^18.0.0",
     "rollup": "^2.70.2",
