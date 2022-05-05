@@ -89,8 +89,8 @@ const SearchCitySelection = styled.div`
   margin-left: 6px;
 `
 
-const SearchButton = styled.div`
-  outline: solid 1px #fff;
+
+const SearchButton = styled.button`
   display: flex;
   width: 40px;
   height: 40px;
@@ -109,7 +109,7 @@ export const SearchBanner = () => (
         <SearchInputText />
         <SearchCategorySelection />
         <SearchCitySelection />
-        <SearchButton />
+        <SearchButton className='outline-show' />
       </SearchInputGroupContainer>
     </SearchBgImageContainer>
   </BannerContainer>
