@@ -3,80 +3,82 @@ import search_img_1 from './search_bg_img_1.png'
 import search_landing_text from './search_landing_text.svg'
 import search_subtitle from './search_subtitle.svg'
 
+import { px2Rem } from '@utils/StyleConverter'
+
 const BannerContainer = styled.div`
-  width: 1280px;
-  height: 536px;
-  min-width: 1280px;
-  min-height: 536px;
+  width: ${px2Rem(1280, 16)};
+  height: ${px2Rem(536, 16)};
+  min-width: ${px2Rem(1280, 16)};
+  min-height: ${px2Rem(536, 16)};
 `
 
 const SearchBgImageContainer = styled.div`
-  width: 1226px;
-  height: 490.6px;
-  min-width: 1226px;
-  min-height: 490.6px;
+  width: ${px2Rem(1226, 16)};
+  height: ${px2Rem(490.6, 16)};
+  min-width: ${px2Rem(1226, 16)};
+  min-height: ${px2Rem(490.6, 16)};
   background-image: url(${search_img_1});
 `
 
 const SearchLandingTextContainer = styled.div`
-  width: 486px;
-  height: 70px;
-  min-width: 486px;
-  min-height: 70px;
-  top: 160px;
-  left: 367px;
+  width: ${px2Rem(486, 16)};
+  height: ${px2Rem(70, 16)};
+  min-width: ${px2Rem(486, 16)};
+  min-height: ${px2Rem(70, 16)};
+  top: ${px2Rem(160, 16)};
+  left: ${px2Rem(367, 16)};
   background-image: url(${search_landing_text});
 `
 
 const SearchSubtitle = styled.div`
-  width: 280px;
-  height: 21px;
-  min-width: 280px;
-  min-height: 21px;
-  top: 239px;
-  left: 367px;
+  width: ${px2Rem(280, 16)};
+  height: ${px2Rem(21, 16)};
+  min-width: ${px2Rem(280, 16)};
+  min-height: ${px2Rem(21, 16)};
+  top: ${px2Rem(239, 16)};
+  left: ${px2Rem(367, 16)};
   background-image: url(${search_subtitle});
 `
 
 const SearchInputGroupContainer = styled.div`
-  width: 492px;
-  height: 88px;
-  min-width: 492px;
-  min-height: 88px;
-  top: 269px;
-  left: 367px;
+  width: ${px2Rem(492, 16)};
+  height: ${px2Rem(88, 16)};
+  min-width: ${px2Rem(492, 16)};
+  min-height: ${px2Rem(88, 16)};
+  top: ${px2Rem(269, 16)};
+  left: ${px2Rem(367, 16)};
 `
 
 const SearchInputText = styled.div`
-  width: 492px;
-  height: 40px;
+  width: ${px2Rem(492, 16)};
+  height: ${px2Rem(40, 16)};
 `
 
 const SearchCategorySelection = styled.div`
-  width: 219px;
-  height: 40px;
-  margin-top: 8px;
+  width: ${px2Rem(219, 16)};
+  height: ${px2Rem(40, 16)};
+  margin-top: ${px2Rem(8, 16)};
 `
 
 const SearchCitySelection = styled.div`
-  width: 219px;
-  height: 40px;
-  margin-top: 8px;
-  margin-left: 6px;
+  width: ${px2Rem(219, 16)};
+  height: ${px2Rem(40, 16)};
+  margin-top: ${px2Rem(8, 16)};
+  margin-left: ${px2Rem(6, 16)};
 `
 
 
-const SearchButton = styled.button`
-  width: 40px;
-  height: 40px;
-  margin-top: 8px;
-  margin-left: 8px;
+const SearchButton = styled.div`
+  width: ${px2Rem(40, 16)};
+  height: ${px2Rem(40, 16)};
+  margin-top: ${px2Rem(8, 16)};
+  margin-left: ${px2Rem(8, 16)};
 `
 
 
 export const SearchBanner = () => (
   <BannerContainer className='outline-show flex items-center justify-center m-auto'>
-    <SearchBgImageContainer className='flex flex-col absolute bg-no-repeat	'>
+    <SearchBgImageContainer className='flex flex-col absolute bg-no-repeat' >
       <SearchLandingTextContainer className='outline-show flex absolute bg-no-repeat	' />
       <SearchSubtitle className='absolute bg-no-repeat	' />
       <SearchInputGroupContainer className='outline-show flex flex-row flex-wrap absolute '>
@@ -86,5 +88,5 @@ export const SearchBanner = () => (
         <SearchButton className='outline-show flex' />
       </SearchInputGroupContainer>
     </SearchBgImageContainer>
-  </BannerContainer>
+  </BannerContainer >
 )

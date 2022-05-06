@@ -22,10 +22,10 @@ export default defineConfig(({ command }: ConfigEnv) => {
       }),
       !!process.env.REPORT
         ? visualizer({
-            open: true,
-            gzipSize: true,
-            filename: path.resolve(__dirname, 'dist/stats.html')
-          })
+          open: true,
+          gzipSize: true,
+          filename: path.resolve(__dirname, 'dist/stats.html')
+        })
         : null
     ],
     resolve: {
@@ -42,6 +42,10 @@ export default defineConfig(({ command }: ConfigEnv) => {
           find: '@components',
           replacement: '/src/components'
         },
+        {
+          find: '@utils',
+          replacement: '/src/utils'
+        },
       ]
     },
     server: {
@@ -50,7 +54,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
       port: 3000,
       host: "0.0.0.0",
       hmr: {
-          overlay: true,
+        overlay: true,
       }
     },
     optimizeDeps: {
@@ -66,10 +70,10 @@ export default defineConfig(({ command }: ConfigEnv) => {
       outDir: 'dist',
       assetsDir: 'assets',
       rollupOptions: {
-        output:{
-            manualChunks: {
-                react: ['react', 'react-dom', 'styled-components'],
-            }
+        output: {
+          manualChunks: {
+            react: ['react', 'react-dom', 'styled-components'],
+          }
         }
       }
     }

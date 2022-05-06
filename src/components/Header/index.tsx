@@ -3,26 +3,21 @@ import taiwan_img from './taiwan_logo.png'
 import first_icon from './FirstNavIcon.svg'
 import second_icon from './SecondNavIcon.svg'
 import third_icon from './ThirdNavIcon.svg'
+import { px2Rem } from '@utils/StyleConverter';
 
 const HeaderContainer = styled.div`
-  margin: auto;
-  outline: 1px solid #000;
-  width: 1280px;
-  height: 104px;
-  min-width: 1280px;
-  min-height: 104px;
-  position: relative;
+  width: ${px2Rem(1280, 16)};
+  height: ${px2Rem(104, 16)};
+  min-width: ${px2Rem(1280, 16)};
+  min-height: ${px2Rem(104, 16)};
 `
 
 const TaiwanLogo = styled.div`
-  width: 99px;
-  height: 57px;
-  outline: 1px solid #000;
-  left: 108px;
-  top: 29px;
-  position: absolute;
+  width: ${px2Rem(99, 16)};
+  height: ${px2Rem(57, 16)};
+  left: ${px2Rem(108, 16)};
+  top: ${px2Rem(29, 16)};
   background-image: url(${taiwan_img});
-  background-repeat: no-repeat;
 `
 
 type NavItemProps = {
@@ -38,43 +33,33 @@ type NavItemTextLinkProps = {
 }
 
 const NavList = styled.div`
-  display: flex;
-  position: absolute;
-  left: 824px;
-  top: 54px;
+  left: ${px2Rem(824, 16)};
+  top: ${px2Rem(54, 16)};
 `
 
 const NavItem = styled.a.attrs((props: NavItemProps) => ({
   href: props.href
 }))`
-  display: flex;
-  width: 125px;
-  height: 34px;
+  width: ${px2Rem(125, 16)};
+  height: ${px2Rem(34, 16)};
   href: ${props => props.href};
-  position: relative;
-  align-items: flex-end;
 `
 
 const NavItemIcon = styled.div.attrs((props: NavItemIconProps) => ({
   backgroundImage: props.backgroundImage
 }))`
-  display: flex;
-  width: 34px;
-  height: 34px;
+  width: ${px2Rem(34, 16)};
+  height: ${px2Rem(34, 16)};
   background-image: url(${props => props.backgroundImage});
-  position: relative;
-  border-radius: 50%;
 `
+
 const NavItemTextLink = styled.span.attrs((props: NavItemTextLinkProps) => ({
   color: props.color
 }))`
-  display: flex;
-  margin-left: 8px;
-  height: 20px;
-  position: relative;
-  font-size: 14px;
-  line-height: 20px;
-  text-decoration-line: underline;
+  margin-left: ${px2Rem(8, 16)};
+  height: ${px2Rem(20, 16)};
+  font-size: ${px2Rem(14, 16)};
+  line-height: ${px2Rem(20, 16)};
   text-decoration-color: ${props => props.color};
   color: ${props => props.color};
 `
@@ -101,17 +86,17 @@ const items = [
 ]
 
 export const Header = () => (
-  <HeaderContainer>
-    <TaiwanLogo />
-    <NavList>
-    {
-      items.map(({item_link, item_color, link_text, background_img}) => (
-        <NavItem href={item_link}>
-          <NavItemIcon backgroundImage={background_img}></NavItemIcon>
-          <NavItemTextLink color={item_color}>{link_text}</NavItemTextLink>
-        </NavItem>
-      ))
-    }
+  <HeaderContainer className='outline-show m-auto relative' >
+    <TaiwanLogo className='outline-show absolute bg-no-repeat' />
+    <NavList className='outline-show flex absolute'>
+      {
+        items.map(({ item_link, item_color, link_text, background_img }) => (
+          <NavItem href={item_link} className='outline-show flex items-end'>
+            <NavItemIcon backgroundImage={background_img} className='flex rounded-full'></NavItemIcon>
+            <NavItemTextLink color={item_color} className='flex no-underline'>{link_text}</NavItemTextLink>
+          </NavItem>
+        ))
+      }
     </NavList>
   </HeaderContainer>
 )
