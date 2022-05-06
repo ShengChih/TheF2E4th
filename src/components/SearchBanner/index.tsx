@@ -6,73 +6,73 @@ import search_subtitle from './search_subtitle.svg'
 import { px2Rem } from '@utils/StyleConverter'
 
 const BannerContainer = styled.div`
-  width: ${px2Rem(1280, 16)};
-  height: ${px2Rem(536, 16)};
-  min-width: ${px2Rem(1280, 16)};
-  min-height: ${px2Rem(536, 16)};
+  width: ${px2Rem(1280)};
+  height: ${px2Rem(536)};
+  min-width: ${px2Rem(1280)};
+  min-height: ${px2Rem(536)};
 `
 
 const SearchBgImageContainer = styled.div`
-  width: ${px2Rem(1226, 16)};
-  height: ${px2Rem(490.6, 16)};
-  min-width: ${px2Rem(1226, 16)};
-  min-height: ${px2Rem(490.6, 16)};
+  width: ${px2Rem(1226)};
+  height: ${px2Rem(490.6)};
+  min-width: ${px2Rem(1226)};
+  min-height: ${px2Rem(490.6)};
   background-image: url(${search_img_1});
 `
 
 const SearchLandingTextContainer = styled.div`
-  width: ${px2Rem(486, 16)};
-  height: ${px2Rem(70, 16)};
-  min-width: ${px2Rem(486, 16)};
-  min-height: ${px2Rem(70, 16)};
-  top: ${px2Rem(160, 16)};
-  left: ${px2Rem(367, 16)};
+  width: ${px2Rem(486)};
+  height: ${px2Rem(70)};
+  min-width: ${px2Rem(486)};
+  min-height: ${px2Rem(70)};
+  top: ${px2Rem(160)};
+  left: ${px2Rem(367)};
   background-image: url(${search_landing_text});
 `
 
 const SearchSubtitle = styled.div`
-  width: ${px2Rem(280, 16)};
-  height: ${px2Rem(21, 16)};
-  min-width: ${px2Rem(280, 16)};
-  min-height: ${px2Rem(21, 16)};
-  top: ${px2Rem(239, 16)};
-  left: ${px2Rem(367, 16)};
+  width: ${px2Rem(280)};
+  height: ${px2Rem(21)};
+  min-width: ${px2Rem(280)};
+  min-height: ${px2Rem(21)};
+  top: ${px2Rem(239)};
+  left: ${px2Rem(367)};
   background-image: url(${search_subtitle});
 `
 
 const SearchInputGroupContainer = styled.div`
-  width: ${px2Rem(492, 16)};
-  height: ${px2Rem(88, 16)};
-  min-width: ${px2Rem(492, 16)};
-  min-height: ${px2Rem(88, 16)};
-  top: ${px2Rem(269, 16)};
-  left: ${px2Rem(367, 16)};
+  width: ${px2Rem(492)};
+  height: ${px2Rem(88)};
+  min-width: ${px2Rem(492)};
+  min-height: ${px2Rem(88)};
+  top: ${px2Rem(269)};
+  left: ${px2Rem(367)};
 `
 
 const SearchInputText = styled.div`
-  width: ${px2Rem(492, 16)};
-  height: ${px2Rem(40, 16)};
+  width: ${px2Rem(492)};
+  height: ${px2Rem(40)};
 `
 
 const SearchCategorySelection = styled.div`
-  width: ${px2Rem(219, 16)};
-  height: ${px2Rem(40, 16)};
-  margin-top: ${px2Rem(8, 16)};
+  width: ${px2Rem(219)};
+  height: ${px2Rem(40)};
+  margin-top: ${px2Rem(8)};
 `
 
 const SearchCitySelection = styled.div`
-  width: ${px2Rem(219, 16)};
-  height: ${px2Rem(40, 16)};
-  margin-top: ${px2Rem(8, 16)};
-  margin-left: ${px2Rem(6, 16)};
+  width: ${px2Rem(219)};
+  height: ${px2Rem(40)};
+  margin-top: ${px2Rem(8)};
+  margin-left: ${px2Rem(6)};
 `
 
 
 const SearchButton = styled.div`
-  width: ${px2Rem(40, 16)};
-  height: ${px2Rem(40, 16)};
-  margin-top: ${px2Rem(8, 16)};
-  margin-left: ${px2Rem(8, 16)};
+  width: ${px2Rem(40)};
+  height: ${px2Rem(40)};
+  margin-top: ${px2Rem(8)};
+  margin-left: ${px2Rem(8)};
 `
 
 
