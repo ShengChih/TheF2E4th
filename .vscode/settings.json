@@ -1,0 +1,34 @@
+{
+  "[sass]": {
+    "editor.tabSize": 2
+  },
+  "[html]": {
+    "editor.tabSize": 2
+  },
+  "[javascript]": {
+    "editor.tabSize": 2
+  },
+  "[typescript]": {
+    "editor.tabSize": 2
+  },
+  "[typescriptreact]": {
+    "editor.tabSize": 2
+  },
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": [
+    "typescript",
+  ],
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "formattingToggle.affects": [
+    "editor.formatOnSave"
+  ],
+  "eslint.alwaysShowStatus": true,
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "cSpell.words": [
+    "airbnb"
+  ],
+}

@@ -1,102 +1,107 @@
-import styled from 'styled-components';
-import taiwan_img from './taiwan_logo.png'
-import first_icon from './FirstNavIcon.svg'
-import second_icon from './SecondNavIcon.svg'
-import third_icon from './ThirdNavIcon.svg'
-import { px2Rem } from '@utils/StyleConverter';
+import React from "react";
+import styled from "styled-components";
+import { getPxConverter } from "@utils/StyleConverter";
+import TaiwanLogoImage from "./taiwan_logo.png";
+import FirstNavIcon from "./FirstNavIcon.svg";
+import SecondNavIcon from "./SecondNavIcon.svg";
+import ThirdNavIcon from "./ThirdNavIcon.svg";
+
+import {
+  NavItemProps,
+  NavItemIconProps,
+  NavItemTextLinkProps,
+  // @ts-ignore
+} from "./typing.d.ts";
+
+const { px2vw } = getPxConverter(1920);
 
 const HeaderContainer = styled.div`
-  width: ${px2Rem(1280)};
-  height: ${px2Rem(104)};
-  min-width: ${px2Rem(1280)};
-  min-height: ${px2Rem(104)};
-`
+  width: ${px2vw(1280)};
+  height: ${px2vw(104)};
+  min-width: ${px2vw(1280)};
+  min-height: ${px2vw(104)};
+`;
 
 const TaiwanLogo = styled.div`
-  width: ${px2Rem(99)};
-  height: ${px2Rem(57)};
-  left: ${px2Rem(108)};
-  top: ${px2Rem(29)};
-  background-image: url(${taiwan_img});
-`
-
-type NavItemProps = {
-  href: string
-}
-
-type NavItemIconProps = {
-  backgroundImage: string
-}
-
-type NavItemTextLinkProps = {
-  color: string
-}
+  width: ${px2vw(99)};
+  height: ${px2vw(57)};
+  left: ${px2vw(108)};
+  top: ${px2vw(29)};
+  background-image: url(${TaiwanLogoImage});
+`;
 
 const NavList = styled.div`
-  left: ${px2Rem(824)};
-  top: ${px2Rem(54)};
-`
+  left: ${px2vw(824)};
+  top: ${px2vw(54)};
+`;
 
 const NavItem = styled.a.attrs((props: NavItemProps) => ({
-  href: props.href
+  href: props.href,
 }))`
-  width: ${px2Rem(125)};
-  height: ${px2Rem(34)};
-  href: ${props => props.href};
-`
+  width: ${px2vw(125)};
+  height: ${px2vw(34)};
+  href: ${(props) => props.href};
+`;
 
 const NavItemIcon = styled.div.attrs((props: NavItemIconProps) => ({
-  backgroundImage: props.backgroundImage
+  backgroundImage: props.backgroundImage,
 }))`
-  width: ${px2Rem(34)};
-  height: ${px2Rem(34)};
-  background-image: url(${props => props.backgroundImage});
-`
+  width: ${px2vw(34)};
+  height: ${px2vw(34)};
+  background-image: url(${(props) => props.backgroundImage});
+`;
 
 const NavItemTextLink = styled.span.attrs((props: NavItemTextLinkProps) => ({
-  color: props.color
+  color: props.color,
 }))`
-  margin-left: ${px2Rem(8)};
-  height: ${px2Rem(20)};
-  font-size: ${px2Rem(14)};
-  line-height: ${px2Rem(20)};
-  text-decoration-color: ${props => props.color};
-  color: ${props => props.color};
-`
+  margin-left: ${px2vw(8)};
+  height: ${px2vw(20)};
+  font-size: ${px2vw(14)};
+  line-height: ${px2vw(20)};
+  text-decoration-color: ${(props) => props.color};
+  color: ${(props) => props.color};
+`;
 
 const items = [
   {
-    item_link: "",
-    item_color: "#FF1D6C",
-    link_text: "台灣景點",
-    background_img: first_icon,
+    itemLink: "",
+    itemColor: "#FF1D6C",
+    linkText: "台灣景點",
+    backgroundImg: FirstNavIcon,
   },
   {
-    item_link: "",
-    item_color: "#FFB72C",
-    link_text: "美食住宿",
-    background_img: second_icon,
+    itemLink: "",
+    itemColor: "#FFB72C",
+    linkText: "美食住宿",
+    backgroundImg: SecondNavIcon,
   },
   {
-    item_link: "",
-    item_color: "#007350",
-    link_text: "景點交通",
-    background_img: third_icon,
-  }
-]
+    itemLink: "",
+    itemColor: "#007350",
+    linkText: "景點交通",
+    backgroundImg: ThirdNavIcon,
+  },
+];
 
-export const Header = () => (
-  <HeaderContainer className='outline-show m-auto relative' >
-    <TaiwanLogo className='outline-show absolute bg-no-repeat' />
-    <NavList className='outline-show flex absolute'>
-      {
-        items.map(({ item_link, item_color, link_text, background_img }) => (
-          <NavItem href={item_link} className='outline-show flex items-end'>
-            <NavItemIcon backgroundImage={background_img} className='flex rounded-full'></NavItemIcon>
-            <NavItemTextLink color={item_color} className='flex no-underline'>{link_text}</NavItemTextLink>
+function Header() {
+  return (
+    <HeaderContainer className="outline-show m-auto relative">
+      <TaiwanLogo className="outline-show absolute bg-no-repeat bg-cover" />
+      <NavList className="outline-show flex absolute">
+        {items.map(({ itemLink, itemColor, linkText, backgroundImg }) => (
+          <NavItem href={itemLink} className="outline-show flex items-end">
+            <NavItemIcon
+              backgroundImage={backgroundImg}
+              className="flex rounded-full bg-cover"
+            />
+            <NavItemTextLink color={itemColor} className="flex no-underline">
+              {linkText}
+            </NavItemTextLink>
           </NavItem>
-        ))
-      }
-    </NavList>
-  </HeaderContainer>
-)
+        ))}
+      </NavList>
+    </HeaderContainer>
+  );
+}
+
+export default Header;
