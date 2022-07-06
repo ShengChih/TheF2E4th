@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
-import { getPxConverter } from "@utils/StyleConverter";
+
+import { autoDetectDeviceConverter } from "@utils/StyleConverter";
+
+import Selection from "@components/Selection";
 import SearchBgImage from "./search_bg_img_1.png";
 import SearchLandingTextImage from "./search_landing_text.svg";
 import SearchSubtitleImage from "./search_subtitle.svg";
@@ -13,7 +16,7 @@ import {
   // @ts-ignore
 } from "./typing.d.ts";
 
-const { px2vw } = getPxConverter(1920);
+const { px2vw } = autoDetectDeviceConverter();
 
 const BannerContainer = styled.div`
   width: ${px2vw(1280)};
@@ -65,7 +68,7 @@ const SearchInputContainer = styled.div`
 `;
 
 function SearchInput({
-  elementKey,
+  htmlFor,
   inputName,
   placeholderText,
   placeholderTextColor,
@@ -87,9 +90,12 @@ function SearchInput({
     }
   `;
   return (
-    <label htmlFor={elementKey} className="relative block w-full h-full">
-      <InputText id={elementKey} className="w-full h-full" />
-    </label>
+    <SearchInputContainer>
+      <label htmlFor={htmlFor} className="relative block w-full h-full">
+        <InputText id={htmlFor} className="w-full h-full" />
+        {htmlFor}
+      </label>
+    </SearchInputContainer>
   );
 }
 
@@ -105,21 +111,6 @@ const SearchCitySelection = styled.div`
   margin-top: ${px2vw(8)};
   margin-left: ${px2vw(6)};
 `;
-
-function Selection() {
-  const [selected, setSelected] = useState<Array<any>>();
-  const SelectionButton = styled.button``;
-
-  const Dropdown = styled.ul;
-
-  return (
-    <SelectionButton>
-      <ul>
-        <li />
-      </ul>
-    </SelectionButton>
-  );
-}
 
 const SearchButton = styled.div`
   width: ${px2vw(40)};
@@ -139,13 +130,18 @@ function SearchBanner() {
         <SearchInputGroupContainer className="outline-show flex flex-row flex-wrap absolute ">
           <SearchInputContainer className="outline-show flex">
             <SearchInput
+              htmlFor="fun_place"
               inputName="search"
               placeholderText="搜尋關鍵字"
               placeholderTextColor={placeholderTextColor}
             />
           </SearchInputContainer>
-          <SearchCategorySelection className="outline-show flex" />
-          <SearchCitySelection className="outline-show flex" />
+          <SearchCategorySelection className="outline-show flex relative">
+            <Selection defaultText="類別" />
+          </SearchCategorySelection>
+          <SearchCitySelection className="outline-show flex relative">
+            <Selection defaultText="不分縣市" />
+          </SearchCitySelection>
           <SearchButton className="outline-show flex" />
         </SearchInputGroupContainer>
       </SearchBgImageContainer>
