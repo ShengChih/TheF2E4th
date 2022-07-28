@@ -9,12 +9,12 @@ services:
       context: .
       args:
         NVM_VER: 0.39.1
-        PNPM_VERSION: 7.3.0
-        NODE_VER: 16.15.1
+        PNPM_VERSION: 7.6.0
+        NODE_VER: 16.16.0
       dockerfile: ./Dockerfile
     privileged: true
     ports:
       - 3000:3000
     volumes:
-      - /home/ec2-user/oriental-colony/src/nodejs_projects/taiwan_tourguide:/home/ec2-user/workspace/
+      - ./:/home/ec2-user/workspace/
     stdin_open: true
