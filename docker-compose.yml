@@ -2,16 +2,16 @@ version: '3.9'
 
 services:
   taiwan_tourguide:
-    image: nodejs_env:latest
+    image: taiwan_tourguide:latest
     container_name: taiwan_tourguide
     command: 'sleep infinity'
     build:
-      context: ../../../dockerfiles/nodejs_env/
+      context: .
       args:
         NVM_VER: 0.39.1
         PNPM_VERSION: 7.3.0
         NODE_VER: 16.15.1
-      dockerfile: ../../../dockerfiles/nodejs_env/Dockerfile
+      dockerfile: ./Dockerfile
     privileged: true
     ports:
       - 3000:3000
