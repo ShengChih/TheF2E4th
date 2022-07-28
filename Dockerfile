@@ -10,7 +10,14 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &
         net-tools \
         ncdu \
         git \
-        tmux && \
+        tmux \
+        cron \
+        htop \
+        zsh \
+        procps \
+        git-flow \
+        language-pack-en \
+        systemd && \
     useradd -ms /bin/bash ec2-user && \
     sudo usermod -aG sudo,root ec2-user && \
     echo "root:`tr -dc A-Za-z0-9 </dev/urandom | head -c 13`" > /home/ec2-user/root_passwd && \
@@ -27,7 +34,11 @@ WORKDIR /home/ec2-user/workspace
 ARG NVM_VER=0.39.1
 ARG NODE_VER=16.16.0
 ARG PNPM_VERSION=7.6.0
-RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VER/install.sh" | sh && \
+RUN sed 's/ec2-user://g' /home/ec2-user/ec2-user_passwd | sudo chsh -s $(which zsh) && \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting && \
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
+    curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VER/install.sh" | sh && \
     chmod +x ~/.nvm/nvm.sh && \
     . $NVM_DIR/nvm.sh && \
     nvm install --lts && \
