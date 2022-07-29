@@ -5,6 +5,7 @@ export interface SearchInputProps {
   placeholderTextColor: string;
 }
 
+
 export interface ListObject {
   [key: string]: any;
 }

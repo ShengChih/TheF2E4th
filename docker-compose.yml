@@ -17,4 +17,5 @@ services:
       - 3000:3000
     volumes:
       - ./:/home/ec2-user/workspace/
+      - /home/ec2-user/.ssh:/home/ec2-user/.ssh
     stdin_open: true
