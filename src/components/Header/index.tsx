@@ -85,7 +85,7 @@ const items = [
 
 function Header() {
   return (
-    <HeaderContainer className="outline-show m-auto relative">
+    <HeaderContainer className="outline-show mx-auto relative">
       <TaiwanLogo className="outline-show absolute bg-no-repeat bg-cover" />
       <NavList className="outline-show flex absolute">
         {items.map(({ itemLink, itemColor, linkText, backgroundImg }) => (

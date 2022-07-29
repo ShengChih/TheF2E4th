@@ -43,6 +43,10 @@ export default defineConfig(({ command }: ConfigEnv) => {
           replacement: '/src/components'
         },
         {
+          find: '@pages',
+          replacement: '/src/pages'
+        },
+        {
           find: '@utils',
           replacement: '/src/utils'
         },

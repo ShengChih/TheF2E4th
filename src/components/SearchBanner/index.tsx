@@ -129,7 +129,7 @@ const SearchButton = styled.div`
 const BannerShadowContainer = styled.div`
   width: ${px2vw(1292)};
   height: ${px2vw(52)};
-  top: -${px2vw(52 - 25)};
+  top: ${px2vw(509)};
 `;
 
 
@@ -153,8 +153,8 @@ function SearchBanner() {
   const placeholderTextColor = "#d2d2d2";
 
   return (
-    <div>
-      <BannerContainer className="outline-show flex items-center justify-center m-auto bg-white	">
+    <div className="flex mx-auto relative">
+      <BannerContainer className="outline-show flex items-center justify-center mx-auto bg-white	">
         <SearchBgImageContainer className="flex flex-col absolute bg-no-repeat bg-cover">
           <SearchLandingTextContainer className="outline-show flex absolute bg-no-repeat" />
           <SearchSubtitle className="absolute bg-no-repeat bg-center" />
@@ -176,11 +176,11 @@ function SearchBanner() {
             <SearchButton className="outline-show flex" />
           </SearchInputGroupContainer>
         </SearchBgImageContainer>
+        <BannerShadowContainer className="flex outline-show mx-auto -z-10 absolute">
+          <BannerLeftShadow className="opacity-70 " />
+          <BannerRightShadow className="opacity-70 " />
+        </BannerShadowContainer>
       </BannerContainer>
-      <BannerShadowContainer className="flex outline-show m-auto relative -z-10">
-        <BannerLeftShadow className="opacity-70 " />
-        <BannerRightShadow className="opacity-70 " />
-      </BannerShadowContainer>
     </div>
   );
 }
