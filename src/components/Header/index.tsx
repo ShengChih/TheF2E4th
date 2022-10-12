@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { getPxConverter } from "@utils/StyleConverter";
 import TaiwanLogoImage from "./taiwan_logo.png";
 import FirstNavIcon from "./FirstNavIcon.svg";
 import SecondNavIcon from "./SecondNavIcon.svg";
@@ -13,51 +12,50 @@ import {
   // @ts-ignore
 } from "./typing.d.ts";
 
-const { px2vw } = getPxConverter(1920);
 
 const HeaderContainer = styled.div`
-  width: ${px2vw(1280)};
-  height: ${px2vw(104)};
-  min-width: ${px2vw(1280)};
-  min-height: ${px2vw(104)};
+  width: 1280px;
+  height: 104px;
+  min-width: 1280px;
+  min-height: 104px;
 `;
 
 const TaiwanLogo = styled.div`
-  width: ${px2vw(99)};
-  height: ${px2vw(57)};
-  left: ${px2vw(108)};
-  top: ${px2vw(29)};
+  width: 99px;
+  height: 57px;
+  left: 108px;
+  top: 29px;
   background-image: url(${TaiwanLogoImage});
 `;
 
 const NavList = styled.div`
-  left: ${px2vw(824)};
-  top: ${px2vw(54)};
+  left: 824px;
+  top: 54px;
 `;
 
 const NavItem = styled.a.attrs((props: NavItemProps) => ({
   href: props.href,
 }))`
-  width: ${px2vw(125)};
-  height: ${px2vw(34)};
+  width: 125px;
+  height: 34px;
   href: ${(props) => props.href};
 `;
 
 const NavItemIcon = styled.div.attrs((props: NavItemIconProps) => ({
   backgroundImage: props.backgroundImage,
 }))`
-  width: ${px2vw(34)};
-  height: ${px2vw(34)};
+  width: 34px;
+  height: 34px;
   background-image: url(${(props) => props.backgroundImage});
 `;
 
 const NavItemTextLink = styled.span.attrs((props: NavItemTextLinkProps) => ({
   color: props.color,
 }))`
-  margin-left: ${px2vw(8)};
-  height: ${px2vw(20)};
-  font-size: ${px2vw(14)};
-  line-height: ${px2vw(20)};
+  margin-left: 8px;
+  height: 20px;
+  font-size: 14px;
+  line-height: 20px;
   text-decoration-color: ${(props) => props.color};
   color: ${(props) => props.color};
 `;

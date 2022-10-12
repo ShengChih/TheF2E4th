@@ -1,17 +1,14 @@
 import styled from "styled-components";
-import { getPxConverter } from "@utils/StyleConverter";
-
-const { px2vw } = getPxConverter(1920);
 
 const FooterBody = styled.footer`
-  width: ${px2vw(1280)};
-  height: ${px2vw(65)};
-  line-height: ${px2vw(65)};
+  width: 1280px;
+  height: 65px;
+  line-height: 65px;
   text-align: center;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  font-size: ${px2vw(12)};
+  font-size: 12px;
 
   color: #ACACAC;
 `

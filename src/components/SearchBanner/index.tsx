@@ -2,8 +2,6 @@ import React, { Fragment, useState } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
-import { autoDetectDeviceConverter } from "@utils/StyleConverter";
-
 import Selection from "@components/Selection";
 import SearchBgImage from "./search_bg_img_1.png";
 import SearchLandingTextImage from "./search_landing_text.svg";
@@ -17,55 +15,54 @@ import {
   // @ts-ignore
 } from "./typing.d.ts";
 
-const { px2vw } = autoDetectDeviceConverter();
 
 const BannerContainer = styled.div`
-  width: ${px2vw(1280)};
-  height: ${px2vw(536)};
-  min-width: ${px2vw(1280)};
-  min-height: ${px2vw(536)};
+  width: 1280px;
+  height: 536px;
+  min-width: 1280px;
+  min-height: 536px;
 `;
 
 const SearchBgImageContainer = styled.div`
-  width: ${px2vw(1226)};
-  height: ${px2vw(490.6)};
-  min-width: ${px2vw(1226)};
-  min-height: ${px2vw(490.6)};
+  width: 1226px;
+  height: 490.6px;
+  min-width: 1226px;
+  min-height: 490.6px;
   background-image: url(${SearchBgImage});
 `;
 
 const SearchLandingTextContainer = styled.div`
-  width: ${px2vw(486)};
-  height: ${px2vw(70)};
-  min-width: ${px2vw(486)};
-  min-height: ${px2vw(70)};
-  top: ${px2vw(160)};
-  left: ${px2vw(367)};
+  width: 486px;
+  height: 70px;
+  min-width: 486px;
+  min-height: 70px;
+  top: 160px;
+  left: 367px;
   background-image: url(${SearchLandingTextImage});
 `;
 
 const SearchSubtitle = styled.div`
-  width: ${px2vw(280)};
-  height: ${px2vw(21)};
-  min-width: ${px2vw(280)};
-  min-height: ${px2vw(21)};
-  top: ${px2vw(239)};
-  left: ${px2vw(367)};
+  width: 280px;
+  height: 21px;
+  min-width: 280px;
+  min-height: 21px;
+  top: 239px;
+  left: 367px;
   background-image: url(${SearchSubtitleImage});
 `;
 
 const SearchInputGroupContainer = styled.div`
-  width: ${px2vw(492)};
-  height: ${px2vw(88)};
-  min-width: ${px2vw(492)};
-  min-height: ${px2vw(88)};
-  top: ${px2vw(269)};
-  left: ${px2vw(367)};
+  width: 492px;
+  height: 88px;
+  min-width: 492px;
+  min-height: 88px;
+  top: 269px;
+  left: 367px;
 `;
 
 const SearchInputContainer = styled.div`
-  width: ${px2vw(492)};
-  height: ${px2vw(40)};
+  width: 492px;
+  height: 40px;
 `;
 
 function SearchInput({
@@ -79,8 +76,8 @@ function SearchInput({
     type: "text",
     name: inputName,
   })`
-    padding-left: ${px2vw(24)};
-    border-radius: ${px2vw(6)};
+    padding-left: 24px;
+    border-radius: 6px;
     box-shadow: 0px 2px 4px rgba(13, 11, 12, 0.2);
     ::placeholder,
     ::-webkit-input-placeholder {
@@ -101,52 +98,52 @@ function SearchInput({
 }
 
 const SearchCategorySelection = styled.div`
-  width: ${px2vw(219)};
-  height: ${px2vw(40)};
-  margin-top: ${px2vw(8)};
+  width: 219px;
+  height: 40px;
+  margin-top: 8px;
 `;
 
 const SearchCitySelection = styled.div`
-  width: ${px2vw(219)};
-  height: ${px2vw(40)};
-  margin-top: ${px2vw(8)};
-  margin-left: ${px2vw(6)};
+  width: 219px;
+  height: 40px;
+  margin-top: 8px;
+  margin-left: 6px;
 `;
 
 const SearchButton = styled.div`
-  width: ${px2vw(40)};
-  height: ${px2vw(40)};
-  margin-top: ${px2vw(8)};
-  margin-left: ${px2vw(8)};
+  width: 40px;
+  height: 40px;
+  margin-top: 8px;
+  margin-left: 8px;
   background-color: #ff1d6c;
   background-image: url(${SearchIconImage});
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: ${px2vw(6)};
-  box-shadow: ${px2vw(0)} ${px2vw(2)} ${px2vw(4)} rgba(13, 11, 12, 0.2);
+  border-radius: 6px;
+  box-shadow: 0)} 2)} 4)} rgba(13, 11, 12, 0.2);
 `;
 
 const BannerShadowContainer = styled.div`
-  width: ${px2vw(1292)};
-  height: ${px2vw(52)};
-  top: ${px2vw(509)};
+  width: 1292px;
+  height: 52px;
+  top: 509px;
 `;
 
 
 const BannerLeftShadow = styled.div`
-  margin-left: ${px2vw(6)};
-  width: ${px2vw(679.73)};
-  height: ${px2vw(52)};
+  margin-left: 6px;
+  width: 679.73px;
+  height: 52px;
   background-image: url(${LeftShadow});
-  background-position-y: ${px2vw(64)};
+  background-position-y: 64px;
 `;
 
 const BannerRightShadow = styled.div`
-  margin-right: ${px2vw(6)};
-  width: ${px2vw(679.73)};
-  height: ${px2vw(52)};
+  margin-right: 6px;
+  width: 679.73px;
+  height: 52px;
   background-image: url(${RightShadow});
-  background-position-y: ${px2vw(64)};
+  background-position-y: 64px;
 `;
 
 function SearchBanner() {

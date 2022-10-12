@@ -27,6 +27,8 @@ specifiers:
   postcss: ^8.4.17
   postcss-import: ^14.1.0
   postcss-nesting: ^10.2.0
+  postcss-px-to-viewport: ^1.1.1
+  postcss-pxtorem: ^6.0.0
   prettier: ^2.7.1
   react: ^18.2.0
   react-dom: ^18.2.0
@@ -81,6 +83,8 @@ devDependencies:
   postcss: 8.4.17
   postcss-import: 14.1.0_postcss@8.4.17
   postcss-nesting: 10.2.0_postcss@8.4.17
+  postcss-px-to-viewport: 1.1.1
+  postcss-pxtorem: 6.0.0_postcss@8.4.17
   prettier: 2.7.1
   react-is: 18.2.0
   rollup: 2.79.1
@@ -2732,6 +2736,21 @@ packages:
       '@csstools/selector-specificity': 2.0.2_zurzgjffv23ohtxa7nq7nizuja
       postcss: 8.4.17
       postcss-selector-parser: 6.0.10
+    dev: true
+
+  /postcss-px-to-viewport/1.1.1:
+    resolution: {integrity: sha512-2x9oGnBms+e0cYtBJOZdlwrFg/mLR4P1g2IFu7jYKvnqnH/HLhoKyareW2Q/x4sg0BgklHlP1qeWo2oCyPm8FQ==}
+    dependencies:
+      object-assign: 4.1.1
+      postcss: 8.4.17
+    dev: true
+
+  /postcss-pxtorem/6.0.0_postcss@8.4.17:
+    resolution: {integrity: sha512-ZRXrD7MLLjLk2RNGV6UA4f5Y7gy+a/j1EqjAfp9NdcNYVjUMvg5HTYduTjSkKBkRkfqbg/iKrjMO70V4g1LZeg==}
+    peerDependencies:
+      postcss: ^8.0.0
+    dependencies:
+      postcss: 8.4.17
     dev: true
 
   /postcss-selector-parser/6.0.10:
