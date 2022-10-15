@@ -1,64 +1,8 @@
 import React from "react";
-import styled from "styled-components";
-import TaiwanLogoImage from "./taiwan_logo.png";
+import TaiwanLogoImage from "./TaiwanLogo.svg";
 import FirstNavIcon from "./FirstNavIcon.svg";
 import SecondNavIcon from "./SecondNavIcon.svg";
 import ThirdNavIcon from "./ThirdNavIcon.svg";
-
-import {
-  NavItemProps,
-  NavItemIconProps,
-  NavItemTextLinkProps,
-  // @ts-ignore
-} from "./typing.d.ts";
-
-
-const HeaderContainer = styled.div`
-  width: 1280px;
-  height: 104px;
-  min-width: 1280px;
-  min-height: 104px;
-`;
-
-const TaiwanLogo = styled.div`
-  width: 99px;
-  height: 57px;
-  left: 108px;
-  top: 29px;
-  background-image: url(${TaiwanLogoImage});
-`;
-
-const NavList = styled.div`
-  left: 824px;
-  top: 54px;
-`;
-
-const NavItem = styled.a.attrs((props: NavItemProps) => ({
-  href: props.href,
-}))`
-  width: 125px;
-  height: 34px;
-  href: ${(props) => props.href};
-`;
-
-const NavItemIcon = styled.div.attrs((props: NavItemIconProps) => ({
-  backgroundImage: props.backgroundImage,
-}))`
-  width: 34px;
-  height: 34px;
-  background-image: url(${(props) => props.backgroundImage});
-`;
-
-const NavItemTextLink = styled.span.attrs((props: NavItemTextLinkProps) => ({
-  color: props.color,
-}))`
-  margin-left: 8px;
-  height: 20px;
-  font-size: 14px;
-  line-height: 20px;
-  text-decoration-color: ${(props) => props.color};
-  color: ${(props) => props.color};
-`;
 
 const items = [
   {
@@ -83,22 +27,35 @@ const items = [
 
 function Header() {
   return (
-    <HeaderContainer className="outline-show mx-auto relative">
-      <TaiwanLogo className="outline-show absolute bg-no-repeat bg-cover" />
-      <NavList className="outline-show flex absolute">
+    <div className="w-full max-w-[1280px] h-[104px] outline-show mx-auto relative">
+      <div
+        style={{
+          backgroundImage: `url(${TaiwanLogoImage})`
+        }}
+        className={'w-[99px] h-[57px] left-[108px] top-[29px] outline-show absolute bg-no-repeat bg-cover'}
+      />
+      <div className="outline-show flex absolute left-[824px] top-[54px]">
         {items.map(({ itemLink, itemColor, linkText, backgroundImg }) => (
-          <NavItem href={itemLink} className="outline-show flex items-end">
-            <NavItemIcon
-              backgroundImage={backgroundImg}
-              className="flex rounded-full bg-cover"
+          <a href={itemLink} className="outline-show left-[125px] top-[34px] flex items-end">
+            <div
+              style={{
+                backgroundImage: `url(${backgroundImg})`
+              }}
+              className="flex rounded-full bg-cover w-[34px] h-[34px]"
             />
-            <NavItemTextLink color={itemColor} className="flex no-underline">
+            <span
+              style={{
+                textDecoration: itemColor,
+                color: itemColor
+              }}
+              className="flex no-underline ml-[8px] h-[20px] text-[14px] leading-[20px]"
+            >
               {linkText}
-            </NavItemTextLink>
-          </NavItem>
+            </span>
+          </a>
         ))}
-      </NavList>
-    </HeaderContainer>
+      </div>
+    </div>
   );
 }
 
