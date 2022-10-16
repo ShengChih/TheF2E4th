@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/** 1280px */
+@media (min-width: 1280px) {
+  .header--pc {
+    @apply h-[104px]
+  }
+}
