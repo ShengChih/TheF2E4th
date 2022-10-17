@@ -33,4 +33,10 @@
   ],
   "terminal.integrated.fontSize": 14,
   "window.zoomLevel": 0,
+  "css.lint.argumentsInColorFunction": "error",
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "scss.lint.duplicateProperties": "warning",
+  "editor.insertSpaces": false,
+  "editor.tabSize": 2,
 }
