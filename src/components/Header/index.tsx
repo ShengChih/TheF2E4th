@@ -3,7 +3,7 @@ import TaiwanLogoImage from "./TaiwanLogo.svg";
 import FirstNavIcon from "./FirstNavIcon.svg";
 import SecondNavIcon from "./SecondNavIcon.svg";
 import ThirdNavIcon from "./ThirdNavIcon.svg";
-// import { isDesktop, isTablet, isMobile } from 'react-device-detect';
+import { isMobile } from 'react-device-detect';
 
 import './Header.scss'
 
@@ -51,29 +51,31 @@ function Header() {
         style={{
           backgroundImage: `url(${TaiwanLogoImage})`
         }}
-        className={'w-[99px] h-[57px] left-[108px] top-[29px] outline-show absolute bg-no-repeat bg-cover'}
+        className={'outline-show header__logo header--mobile__logo header--tablet__logo header--pc__logo'}
       />
-      <div className="outline-show flex absolute left-[824px] top-[54px]">
+      {
+        isMobile
+          ? ''
+          : (
+        <div className="outline-show header__items header--mobile__items header--tablet__items header--pc__items">
         {items.map(({ itemLink, itemColor, linkText, backgroundImg }, index) => (
-          <a key={`item-${index}`}  href={itemLink} className="outline-show left-[125px] top-[34px] flex items-end">
+          <a key={`item-${index}`}  href={itemLink} className="outline-show">
             <div
               style={{
                 backgroundImage: `url(${backgroundImg})`
               }}
-              className="flex rounded-full bg-cover w-[34px] h-[34px]"
             />
             <span
               style={{
                 textDecoration: itemColor,
                 color: itemColor
               }}
-              className="flex no-underline ml-[8px] h-[20px] text-[14px] leading-[20px]"
-            >
-              {linkText}
-            </span>
+            >{linkText}</span>
           </a>
         ))}
       </div>
+        )
+      }
     </div>
   );
 }

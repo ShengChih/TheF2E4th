@@ -4,7 +4,27 @@
 
 /** 1280px */
 @media (min-width: 1280px) {
-  .header--pc {
-    @apply h-[104px]
-  }
+	.header--pc {
+		&__logo {
+			@apply w-[99px] h-[57px] left-[108px] top-[29px];
+		}
+
+		&__items {
+			> a {
+				> div {
+					@apply w-[34px] h-[34px];
+				}
+
+				> span {
+					@apply ml-[8px] h-[20px] text-[14px] leading-[20.7px];
+				}
+
+				@apply w-[125px];
+			}
+
+			@apply left-[824px] top-[54px];
+		}
+
+		@apply h-[104px];
+	}
 }

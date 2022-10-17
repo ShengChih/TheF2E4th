@@ -6,13 +6,17 @@ import { viteMockServe } from 'vite-plugin-mock';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 import path from 'path';
+import postcss from 'postcss';
 import postcssImport from 'postcss-import';
 import tailwindcssNesting from 'tailwindcss/nesting';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 import px2vw from 'postcss-px-to-viewport'
 import px2rem from 'postcss-pxtorem'
-import postcssNesting from 'postcss-nesting'
+import postcssNested from 'postcss-nested'
+import postcssMixins from 'postcss-mixins'
+import postcssSimpleVars from 'postcss-simple-vars';
+
 
 export default defineConfig(({ command }: ConfigEnv) => {
   return {
@@ -90,8 +94,17 @@ export default defineConfig(({ command }: ConfigEnv) => {
     css: {
       postcss: {
         plugins: [
-          postcssImport,
-          tailwindcssNesting(postcssNesting),
+          {
+            postcssPlugin: 'grouped',
+            Once(root, { result }) {
+              return postcss([
+                postcssImport,
+                postcssMixins,
+                postcssSimpleVars
+              ]).process(root, result.opts)
+            },
+          },
+          tailwindcssNesting(postcssNested),
           tailwindcss,
           autoprefixer,
           px2vw({

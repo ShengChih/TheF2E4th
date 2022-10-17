@@ -3,5 +3,25 @@
 @tailwind utilities;
 
 .header {
-    @apply w-full mx-auto relative;
+	&__logo {
+		@apply absolute bg-no-repeat bg-cover;
+	}
+
+	&__items {
+		@apply flex absolute;
+
+		> a {
+			> div {
+				@apply flex rounded-full bg-cover;
+			}
+
+			> span {
+				@apply flex no-underline;
+			}
+
+			@apply flex items-end;
+		}
+	}
+
+	@apply w-full mx-auto relative;
 }

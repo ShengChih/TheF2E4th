@@ -4,7 +4,15 @@
 
 /** 360px */
 @media (min-width: 360px) and (max-width: 767px) {
-  .header--mobile {
-    @apply h-[84px]
-  }
+	.header--mobile {
+		&__logo {
+			@apply w-[90px] h-[52px] left-[108px] top-[29px];
+		}
+
+		&__items {
+			@apply invisible;
+		}
+
+		@apply h-[80px];
+	}
 }
