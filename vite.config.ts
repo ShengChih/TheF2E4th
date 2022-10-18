@@ -118,8 +118,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
             minPixelValue: 1, // 默認值1，小於或等於4px則不進行轉換
             mediaQuery: true, // 是否在媒體查詢的css代碼中也進行轉換，默認false
             replace: true, // 是否轉換後直接更換屬性值
-            exclude: [/node_modules/, /pc/, /tablet/], // 設置忽略文件，用正則做目錄名匹配
-            include: [/mobile/],
+            exclude: [/node_modules/, /pc\.scss/, /tablet\.scss/], // 設置忽略文件，用正則做目錄名匹配
             landscape: false // 是否處理橫屏情況
           }),
           px2vw({
@@ -133,7 +132,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
             minPixelValue: 1, // 默認值1，小於或等於4px則不進行轉換
             mediaQuery: true, // 是否在媒體查詢的css代碼中也進行轉換，默認false
             replace: true, // 是否轉換後直接更換屬性值
-            exclude: [/node_modules/, /mobile/, /tablet/], // 設置忽略文件，用正則做目錄名匹配
+            exclude: [/node_modules/, /mobile\.scss/, /tablet\.scss/], // 設置忽略文件，用正則做目錄名匹配
             landscape: false // 是否處理橫屏情況
           }),
           px2vw({
@@ -147,7 +146,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
             minPixelValue: 1, // 默認值1，小於或等於4px則不進行轉換
             mediaQuery: true, // 是否在媒體查詢的css代碼中也進行轉換，默認false
             replace: true, // 是否轉換後直接更換屬性值
-            exclude: [/node_modules/, /mobile/, /pc/], // 設置忽略文件，用正則做目錄名匹配
+            exclude: [/node_modules/, /mobile\.scss/, /pc\.scss/], // 設置忽略文件，用正則做目錄名匹配
             landscape: false // 是否處理橫屏情況
           }),
           px2rem({
