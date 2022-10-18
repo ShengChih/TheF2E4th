@@ -1,5 +1,5 @@
-button {
-	@apply w-full flex items-center;
+.dropdown_click {
+	@apply w-full flex items-center bg-white;
 }
 
 .dropdown_text {
@@ -12,4 +12,21 @@ button {
 
 .dropdown_action {
 	@apply absolute;
+}
+
+.dropdown_options {
+	li {
+		@apply bg-white;
+	}
+
+	a {
+		@apply flex hover:bg-[#F8235B] hover:text-[#FFFFFF] items-center;
+	}
+
+	p {
+		text-align-last: justify;
+		@apply text-justify;
+	}
+
+	@apply absolute w-full z-10;
 }

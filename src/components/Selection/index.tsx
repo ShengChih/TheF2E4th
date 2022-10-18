@@ -8,12 +8,50 @@ import {
 import './index.scss';
 import './pc.scss';
 
-export default function Selection({ defaultText }: SelectionProps) {
+export default function Selection({ defaultText, dropdownId, selectOptions }: SelectionProps) {
+  const [isOpened, setOpened] = useState<Boolean>(false);
   const [selected, setSelected] = useState<Array<any>>();
+
+  const hasRoundedStyles = isOpened
+    ? 'rounded-b-none'
+    : ''
+
+  const displaySelectionOptions = (
+    isOpened
+      ? (
+        <div id={dropdownId}  className="dropdown_options dropdown_options--pc">
+        <ul className="" aria-labelledby={dropdownId}>
+          {
+            selectOptions
+              ? (
+                selectOptions.map((option: string) => (
+                  <li>
+                    <a href="#"><p>{option}</p></a>
+                  </li>
+                ))
+              )
+              : ''
+          }
+          </ul>
+      </div>
+    ): ''
+  )
+
+  const onClickDropdown = () => { 
+    setOpened(!isOpened)
+  }
+
+  const onBlurDropdown = () => { 
+    setOpened(false)
+  }
 
   return (
     <>
-      <button>
+      <button
+        className={`dropdown_click dropdown_click--pc ${hasRoundedStyles}`}
+        onClick={onClickDropdown}
+        onBlur={onBlurDropdown}
+      >
         <p className="dropdown_text dropdown_text--pc">
           {defaultText}
         </p>
@@ -32,23 +70,7 @@ export default function Selection({ defaultText }: SelectionProps) {
           </svg>
         </span>
       </button>
-
-      <div id="dropdownDivider" className="absolute w-full z-10 translate-y-[10px]">
-          <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
-            <li>
-              <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-            </li>
-          </ul>
-          <div className="py-1">
-            <a href="#" className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Separated link</a>
-          </div>
-      </div>
+      {displaySelectionOptions}
     </>
   );
 }
