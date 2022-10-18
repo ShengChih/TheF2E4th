@@ -1,0 +1,10 @@
+/** 1280px */
+@media (min-width: 1280px) {
+	.dropdown_text--pc {
+		@apply w-[63px] h-[23px] ml-[16px] text-[16px] leading-[23px];
+	}
+
+	.dropdown_action--pc {
+		@apply right-[18.5px];
+	}
+}

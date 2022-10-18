@@ -1,39 +1,23 @@
-import React, { Fragment, useState } from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
 
 import {
   SelectionProps,
   // @ts-ignore
 } from "./typing.d.ts";
 
+import './index.scss';
+import './pc.scss';
 
 export default function Selection({ defaultText }: SelectionProps) {
   const [selected, setSelected] = useState<Array<any>>();
-  const SelectionButton = styled.button`
-    border-radius: 6px;
-  `;
-
-  const LowTriangle = styled.span`
-    right: 18.5px;
-  `;
-
-  const DefaultSelectionText = styled.span`
-    margin-left: 16px;
-    color: #0d0b0c;
-    font-family: "Noto Sans TC";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 23px;
-  `;
 
   return (
     <>
-      <SelectionButton className="relative round-lg text-left bg-white w-full">
-        <DefaultSelectionText className="block truncate">
+      <button>
+        <p className="dropdown_text dropdown_text--pc">
           {defaultText}
-        </DefaultSelectionText>
-        <LowTriangle className="flex absolute inset-y-0 items-center">
+        </p>
+        <span className="dropdown_action dropdown_action--pc">
           <svg
             width="8"
             height="8"
@@ -46,8 +30,25 @@ export default function Selection({ defaultText }: SelectionProps) {
               fill="#0D0B0C"
             />
           </svg>
-        </LowTriangle>
-      </SelectionButton>
+        </span>
+      </button>
+
+      <div id="dropdownDivider" className="absolute w-full z-10 translate-y-[10px]">
+          <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
+            <li>
+              <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+            </li>
+            <li>
+              <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+            </li>
+            <li>
+              <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+            </li>
+          </ul>
+          <div className="py-1">
+            <a href="#" className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Separated link</a>
+          </div>
+      </div>
     </>
   );
 }

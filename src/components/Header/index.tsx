@@ -48,9 +48,9 @@ function Header() {
   const itemList = (
     isDesktop || isTablet
     ? (
-      <div className="outline-show header__items header--mobile__items header--tablet__items header--pc__items">
+      <div className="header__items header--mobile__items header--tablet__items header--pc__items">
       {items.map(({ itemLink, itemColor, linkText, backgroundImg }, index) => (
-        <a key={`item-${index}`}  href={itemLink} className="outline-show">
+        <a key={`item-${index}`}  href={itemLink}>
           <div
             style={{
               backgroundImage: `url(${backgroundImg})`
@@ -70,12 +70,12 @@ function Header() {
   )
 
   return (
-    <div className="outline-show header header--mobile header--tablet header--pc">
+    <div className="header header--mobile header--tablet header--pc">
       <div
         style={{
           backgroundImage: `url(${TaiwanLogoImage})`
         }}
-        className={'outline-show header__logo header--mobile__logo header--tablet__logo header--pc__logo'}
+        className="header__logo header--mobile__logo header--tablet__logo header--pc__logo"
       />
       {itemList}
     </div>

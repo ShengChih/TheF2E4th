@@ -13,7 +13,7 @@ function MainPage() {
         <section className="festival-card outline-show" />
         <section className="festival-card outline-show" />
       </div>
-      <Footer />
+      {false ? <Footer /> : ''}
     </>
   );
 }

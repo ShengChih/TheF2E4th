@@ -111,7 +111,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
             unitToConvert: 'px', // 要轉化的單位
             viewportWidth: 360, // UI設計稿的寬度
             unitPrecision: 6, // 轉換後的精度，即小數點位數
-            propList: ['*', '!min-width', '!min-height'], // 指定轉換的css屬性的單位，*代表全部css屬性的單位都進行轉換
+            propList: ['*', '!min-width', '!min-height', '!font-size', '!filter'], // 指定轉換的css屬性的單位，*代表全部css屬性的單位都進行轉換
             viewportUnit: 'vw', // 指定需要轉換成的視窗單位，默認vw
             fontViewportUnit: 'vw', // 指定字體需要轉換成的視窗單位，默認vw
             selectorBlackList: ['wrap'], // 指定不轉換為視窗單位的類名，
@@ -125,7 +125,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
             unitToConvert: 'px', // 要轉化的單位
             viewportWidth: 1280, // UI設計稿的寬度
             unitPrecision: 6, // 轉換後的精度，即小數點位數
-            propList: ['*', '!min-width', '!min-height'], // 指定轉換的css屬性的單位，*代表全部css屬性的單位都進行轉換
+            propList: ['*', '!min-width', '!min-height', '!font-size', '!filter'], // 指定轉換的css屬性的單位，*代表全部css屬性的單位都進行轉換
             viewportUnit: 'vw', // 指定需要轉換成的視窗單位，默認vw
             fontViewportUnit: 'vw', // 指定字體需要轉換成的視窗單位，默認vw
             selectorBlackList: ['wrap'], // 指定不轉換為視窗單位的類名，
@@ -139,7 +139,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
             unitToConvert: 'px', // 要轉化的單位
             viewportWidth: 768, // UI設計稿的寬度
             unitPrecision: 6, // 轉換後的精度，即小數點位數
-            propList: ['*', '!min-width', '!min-height'], // 指定轉換的css屬性的單位，*代表全部css屬性的單位都進行轉換
+            propList: ['*', '!min-width', '!min-height', '!font-size', '!filter'], // 指定轉換的css屬性的單位，*代表全部css屬性的單位都進行轉換
             viewportUnit: 'vw', // 指定需要轉換成的視窗單位，默認vw
             fontViewportUnit: 'vw', // 指定字體需要轉換成的視窗單位，默認vw
             selectorBlackList: ['wrap'], // 指定不轉換為視窗單位的類名，

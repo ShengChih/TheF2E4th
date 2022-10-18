@@ -1,0 +1,51 @@
+.search_banner {
+	&__bg_container {
+		@apply flex flex-col absolute bg-no-repeat bg-cover;
+	}
+
+	&__welcome {
+		@apply absolute bg-no-repeat bg-cover;
+	}
+
+	&__subtitle {
+		@apply absolute bg-no-repeat;
+	}
+
+	&__group {
+		@apply flex flex-row flex-wrap absolute;
+	}
+
+	&__keyword {
+		&__label {
+			@apply relative block w-full h-full;
+		}
+
+		&__input {
+			@apply text-gray-900 w-full h-full placeholder:text-[16px];
+		}
+
+		@apply flex w-full;
+	}
+
+	&__dropdown {
+		@apply flex relative bg-white;
+	}
+
+	&__submit {
+		@apply flex bg-no-repeat bg-center bg-[#ff1d6c];
+	}
+
+	&__shadow {
+		@apply flex absolute -z-10;
+	}
+
+	&__shadow_left {
+		@apply bg-[#0D0B0C] opacity-30 origin-bottom-left -rotate-[5deg];
+	}
+
+	&__shadow_right {
+		@apply bg-[#0D0B0C] opacity-30 origin-bottom-right rotate-[5deg];
+	}
+
+	@apply flex mx-auto relative items-center justify-center bg-white w-full;
+}

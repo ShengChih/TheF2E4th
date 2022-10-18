@@ -1,0 +1,15 @@
+button {
+	@apply w-full flex items-center;
+}
+
+.dropdown_text {
+	color: #0d0b0c;
+	font-family: "Noto Sans TC";
+	font-style: normal;
+	font-weight: 400;
+	@apply text-justify after:content-[''] after:inline-block after:w-full;
+}
+
+.dropdown_action {
+	@apply absolute;
+}
