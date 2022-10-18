@@ -3,7 +3,7 @@ import TaiwanLogoImage from "./TaiwanLogo.svg";
 import FirstNavIcon from "./FirstNavIcon.svg";
 import SecondNavIcon from "./SecondNavIcon.svg";
 import ThirdNavIcon from "./ThirdNavIcon.svg";
-import { isMobile } from 'react-device-detect';
+import { isDesktop, isTablet, isMobile } from 'react-device-detect';
 
 import './Header.scss'
 
@@ -19,9 +19,9 @@ import './Header.scss'
  * 
  * 這只會限制特別的裝置 styles，針對 media query 內的用法，其他不在意可使用 @import
  */
-import './pc/device.scss';
-import './mobile/device.scss';
-import './tablet/device.scss';
+import './pc.scss';
+import './mobile.scss';
+import './tablet.scss';
 
 const items = [
   {
@@ -45,6 +45,30 @@ const items = [
 ];
 
 function Header() {
+  const itemList = (
+    isDesktop || isTablet
+    ? (
+      <div className="outline-show header__items header--mobile__items header--tablet__items header--pc__items">
+      {items.map(({ itemLink, itemColor, linkText, backgroundImg }, index) => (
+        <a key={`item-${index}`}  href={itemLink} className="outline-show">
+          <div
+            style={{
+              backgroundImage: `url(${backgroundImg})`
+            }}
+          />
+          <span
+            style={{
+              textDecoration: itemColor,
+              color: itemColor
+            }}
+          >{linkText}</span>
+        </a>
+      ))}
+      </div>
+      )
+      : ''
+  )
+
   return (
     <div className="outline-show header header--mobile header--tablet header--pc">
       <div
@@ -53,29 +77,7 @@ function Header() {
         }}
         className={'outline-show header__logo header--mobile__logo header--tablet__logo header--pc__logo'}
       />
-      {
-        isMobile
-          ? ''
-          : (
-        <div className="outline-show header__items header--mobile__items header--tablet__items header--pc__items">
-        {items.map(({ itemLink, itemColor, linkText, backgroundImg }, index) => (
-          <a key={`item-${index}`}  href={itemLink} className="outline-show">
-            <div
-              style={{
-                backgroundImage: `url(${backgroundImg})`
-              }}
-            />
-            <span
-              style={{
-                textDecoration: itemColor,
-                color: itemColor
-              }}
-            >{linkText}</span>
-          </a>
-        ))}
-      </div>
-        )
-      }
+      {itemList}
     </div>
   );
 }
