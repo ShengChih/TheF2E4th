@@ -14,7 +14,7 @@
 		}
 
 		&__group {
-			@apply w-[492px] h-[88px] top-[269px] left-[367px];
+			@apply w-[492px] top-[292px] left-[394px];
 	  }
 
 		&__keyword {
@@ -51,6 +51,6 @@
 			@apply mr-[-6px] w-[679.73px] h-[52px];
 		}
 
-		@apply h-[536px];
+		@apply flex mx-auto items-center justify-center h-[536px];
 	}
 }

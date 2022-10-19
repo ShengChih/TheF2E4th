@@ -61,6 +61,10 @@ export default defineConfig(({ command }: ConfigEnv) => {
           find: '@utils',
           replacement: '/src/utils'
         },
+        {
+          find: '@hooks',
+          replacement: '/src/hooks'
+        },
       ]
     },
     server: {

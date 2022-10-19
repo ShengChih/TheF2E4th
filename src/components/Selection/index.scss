@@ -7,7 +7,8 @@
 	font-family: "Noto Sans TC";
 	font-style: normal;
 	font-weight: 400;
-	@apply text-justify after:content-[''] after:inline-block after:w-full;
+	text-align-last: justify;
+	@apply text-justify;
 }
 
 .dropdown_action {
@@ -20,7 +21,7 @@
 	}
 
 	a {
-		@apply flex hover:bg-[#F8235B] hover:text-[#FFFFFF] items-center;
+		@apply flex items-center;
 	}
 
 	p {
