@@ -1,0 +1,24 @@
+/** 1280px */
+@media (min-width: 1280px) {
+	.city_suggestion--pc {
+		@apply mx-auto mt-[131px];
+	}
+
+	.city_title {
+		@apply w-[1062px] h-[29px] top-[-41px];
+	}
+
+	.popular_city {
+		> div {
+			&:nth-child(3n + 1) > div {
+				@apply w-[177px] h-[217px];
+			}
+
+			> div {
+				@apply w-[185px] h-[106px];
+			}
+		}
+
+		@apply w-[1062px] h-[245px] gap-x-[13px] gap-y-[12px];
+	}
+}
