@@ -19,7 +19,10 @@ import postcssSimpleVars from 'postcss-simple-vars';
 
 
 export default defineConfig(({ command }: ConfigEnv) => {
-  const excludeCssAttributes = ['*', '!min-width', '!min-height', '!font-size', '!filter', '!border-radius']
+  const excludeCssAttributes = [
+    '*', '!min-width', '!min-height', '!font-size', '!filter', '!border-radius',
+    '!column-gap', '!row-gap'
+  ]
   return {
     base: './',
     plugins: [
@@ -115,7 +118,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
           px2vw({
             unitToConvert: 'px', // 要轉化的單位
             viewportWidth: 360, // UI設計稿的寬度
-            unitPrecision: 6, // 轉換後的精度，即小數點位數
+            unitPrecision: 64, // 轉換後的精度，即小數點位數
             propList: excludeCssAttributes, // 指定轉換的css屬性的單位，*代表全部css屬性的單位都進行轉換
             viewportUnit: 'vw', // 指定需要轉換成的視窗單位，默認vw
             fontViewportUnit: 'vw', // 指定字體需要轉換成的視窗單位，默認vw
@@ -129,7 +132,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
           px2vw({
             unitToConvert: 'px', // 要轉化的單位
             viewportWidth: 1280, // UI設計稿的寬度
-            unitPrecision: 6, // 轉換後的精度，即小數點位數
+            unitPrecision: 64, // 轉換後的精度，即小數點位數
             propList: excludeCssAttributes, // 指定轉換的css屬性的單位，*代表全部css屬性的單位都進行轉換
             viewportUnit: 'vw', // 指定需要轉換成的視窗單位，默認vw
             fontViewportUnit: 'vw', // 指定字體需要轉換成的視窗單位，默認vw
@@ -143,7 +146,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
           px2vw({
             unitToConvert: 'px', // 要轉化的單位
             viewportWidth: 768, // UI設計稿的寬度
-            unitPrecision: 6, // 轉換後的精度，即小數點位數
+            unitPrecision: 64, // 轉換後的精度，即小數點位數
             propList: excludeCssAttributes, // 指定轉換的css屬性的單位，*代表全部css屬性的單位都進行轉換
             viewportUnit: 'vw', // 指定需要轉換成的視窗單位，默認vw
             fontViewportUnit: 'vw', // 指定字體需要轉換成的視窗單位，默認vw

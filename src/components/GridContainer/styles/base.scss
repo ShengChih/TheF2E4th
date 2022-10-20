@@ -1,0 +1,11 @@
+.grid_section {
+	> div {
+		&:nth-child(3n + 1) {
+			@apply row-span-2;
+		}
+
+		@apply w-full h-full row-span-1 flex items-center justify-center;
+	}
+
+	@apply grid grid-cols-5 grid-flow-col mx-auto;
+}

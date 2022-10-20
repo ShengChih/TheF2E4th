@@ -8,7 +8,7 @@
 		@apply w-[1062px] h-[29px] top-[-41px];
 	}
 
-	.popular_city {
+	.grid_section {
 		> div {
 			&:nth-child(3n + 1) > div {
 				@apply w-[177px] h-[217px];
@@ -19,6 +19,18 @@
 			}
 		}
 
-		@apply w-[1062px] h-[245px] gap-x-[13px] gap-y-[12px];
+		@apply w-[1062px] h-[245px] gap-x-[13px] gap-y-[5px];
+	}
+
+	.slide_control {
+		@apply w-[1062px] h-[32px];
+	}
+
+	.slide_left {
+		@apply left-[-53px];
+	}
+
+	.slide_right {
+		@apply left-[1083px];
 	}
 }

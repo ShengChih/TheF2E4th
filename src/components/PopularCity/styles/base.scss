@@ -6,7 +6,7 @@
 	@apply absolute flex items-center m-auto inset-x-0;
 }
 
-.popular_city {
+.grid_section {
 	> div {
 		&:nth-child(3n + 1) {
 			@apply row-span-2;
@@ -15,5 +15,17 @@
 		@apply w-full h-full row-span-1 flex items-center justify-center;
 	}
 
-	@apply grid grid-rows-2 grid-flow-col mx-auto;
+	@apply grid grid-cols-5 grid-flow-col mx-auto;
+}
+
+.slide_control {
+	@apply m-auto absolute inset-0;
+}
+
+.slide_left {
+	@apply absolute bg-white;
+}
+
+.slide_right {
+	@apply absolute bg-[#0D0B0C];
 }
