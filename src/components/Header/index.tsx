@@ -1,11 +1,11 @@
 import React from "react";
-import TaiwanLogoImage from "./TaiwanLogo.svg";
-import FirstNavIcon from "./FirstNavIcon.svg";
-import SecondNavIcon from "./SecondNavIcon.svg";
-import ThirdNavIcon from "./ThirdNavIcon.svg";
-import { isDesktop, isTablet, isMobile } from 'react-device-detect';
+import TaiwanLogoImage from "./images/TaiwanLogo.svg";
+import FirstNavIcon from "./images/FirstNavIcon.svg";
+import SecondNavIcon from "./images/SecondNavIcon.svg";
+import ThirdNavIcon from "./images/ThirdNavIcon.svg";
+import { isDesktop, isTablet } from 'react-device-detect';
 
-import './Header.scss'
+import './styles/base.scss'
 
 /**
  * Don't use sass/scss @import for different devices classnames, 
@@ -19,9 +19,9 @@ import './Header.scss'
  * 
  * 這只會限制特別的裝置 styles，針對 media query 內的用法，其他不在意可使用 @import
  */
-import './pc.scss';
-import './mobile.scss';
-import './tablet.scss';
+import './styles/pc.scss';
+import './styles/mobile.scss';
+import './styles/tablet.scss';
 
 const items = [
   {

@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 
 import Selection from "@components/Selection";
-import SearchBgImage from "./search_bg_img_1.svg";
-import SearchLandingTextImage from "./search_landing_text.svg";
-import SearchSubtitleImage from "./search_subtitle.svg";
-import SearchIconImage from "./search_icon.svg";
+import SearchBgImage from "./images/search_bg_img_1.svg";
+import SearchLandingTextImage from "./images/search_landing_text.svg";
+import SearchSubtitleImage from "./images/search_subtitle.svg";
+import SearchIconImage from "./images/search_icon.svg";
 
-import { isDesktop, isTablet, isMobile } from 'react-device-detect';
+import { isDesktop } from 'react-device-detect';
 
-import "./index.scss";
-import "./pc.scss";
-import "./tablet.scss";
-import "./mobile.scss";
+import "./styles/base.scss";
+import "./styles/pc.scss";
+import "./styles/tablet.scss";
+import "./styles/mobile.scss";
 
 function SearchBanner() {
   const displayBackgroundImage = (

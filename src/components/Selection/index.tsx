@@ -5,9 +5,9 @@ import {
   // @ts-ignore
 } from "./typing.d.ts";
 
-import './index.scss';
-import './pc.scss';
-import './tablet.scss';
+import './styles/base.scss';
+import './styles/pc.scss';
+import './styles/tablet.scss';
 
 import { isTablet, isMobile } from 'react-device-detect';
 import useTouchDetector from '@hooks/useTouchDetector';
