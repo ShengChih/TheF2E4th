@@ -67,19 +67,18 @@ export default function withCitySilder({
 			<div className="slide_control">
 				{
 					state.currentPage > 1
-						? <WhiteLeftArrowButton containerProps={{
-							className: 'slide_left',
-							onClick: handleLeftClick
-						}} />
+						? <WhiteLeftArrowButton
+							className={'slide_left'}
+							onClick = { handleLeftClick }
+						/>
 						: ''
 				}
 				{
 					state.currentPage < state.maxPage
 						? <BlackRightArrowButton
-							containerProps={{
-								className: 'slide_right',
-								onClick: handleRightClick
-							}} />
+								className={'slide_right'}
+								onClick={handleRightClick}
+							/>
 						: ''
 				}
 			</div>

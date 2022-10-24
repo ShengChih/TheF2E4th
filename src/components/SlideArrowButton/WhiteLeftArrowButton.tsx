@@ -1,10 +1,11 @@
+import { ComponentProps, ElementType } from 'react'
+
 import ArrowButton from '@components/SlideArrowButton/ArrowButton'
 import LeftArrow from './images/arrow_left_black.svg'
+import buttonStyles from './styles/button.module.scss'
 
-interface WhiteLeftArrowButtonProps<P = any> {
-	containerProps: P
-}
+type WhiteLeftArrowButtonProps<T extends ElementType> = ComponentProps<T>
 
-export default function WhiteLeftArrowButton({ containerProps }: WhiteLeftArrowButtonProps) {
-	return <ArrowButton imageUrl={LeftArrow} containerProps={containerProps} />
+export default function WhiteLeftArrowButton<T extends ElementType>(props: WhiteLeftArrowButtonProps<T>) {
+	return <ArrowButton imageUrl={LeftArrow} {...props} />
 }

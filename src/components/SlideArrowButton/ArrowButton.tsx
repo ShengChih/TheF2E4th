@@ -1,22 +1,22 @@
+import { ComponentProps, ElementType } from 'react'
 import withAll from '@HOC/withAll'
 import BaseArrowButton from '@components/SlideArrowButton/BaseArrowButton'
 import pcStyles from './styles/pc.module.scss'
 
-interface ArrowButtonProps<P = any> {
+type ArrowButtonProps<T extends ElementType> = ComponentProps<T> & {
 	imageUrl: string
-	containerProps: P
 }
 
-export default function ArrowButton({ imageUrl, containerProps }: ArrowButtonProps) {
+export default function ArrowButton<T extends ElementType>({ imageUrl, ...props}: ArrowButtonProps<T>) {
 	return withAll({
 		WrappedComponent: BaseArrowButton,
 		componentProps: {
-			...containerProps,
+			...props,
 			style: {
 				backgroundImage: `url(${imageUrl})`,
-				...containerProps?.style
+				...props?.style
 			},
-			className: `${pcStyles.arrow_button} ${containerProps?.className}`
+			className: `${pcStyles.arrow_button} ${props?.className}`
 		}
 	})
 }
