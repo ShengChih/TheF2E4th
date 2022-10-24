@@ -1,6 +1,6 @@
 /** 1280px */
 @media (min-width: 1280px) {
-	.city_suggestion--pc {
+	.city_suggestion {
 		@apply mx-auto mt-[131px];
 	}
 
@@ -22,7 +22,7 @@
 		@apply w-[1062px] h-[245px] gap-x-[13px] gap-y-[5px];
 	}
 
-	.arrow_button--pc {
+	.arrow_button {
 		@apply w-[32px] h-[32px] rounded-[6px];
 	}
 
@@ -31,12 +31,12 @@
 	}
 
 	.slide_left {
-		@extend .arrow_button--pc;
+		@extend .arrow_button;
 		@apply left-[-53px];
 	}
 
 	.slide_right {
-		@extend .arrow_button--pc;
+		@extend .arrow_button;
 		@apply left-[1083px];
 	}
 }

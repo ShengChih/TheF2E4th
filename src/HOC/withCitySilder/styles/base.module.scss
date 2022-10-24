@@ -1,0 +1,11 @@
+.slide_control {
+	@apply m-auto absolute inset-0;
+}
+
+.slide_left {
+	@apply absolute;
+}
+
+.slide_right {
+	@apply absolute;
+}

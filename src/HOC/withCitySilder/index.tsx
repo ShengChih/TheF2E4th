@@ -1,11 +1,17 @@
-import React, { useState, useEffect, ComponentType, useCallback } from 'react'
+import { useState, useEffect, ComponentType, ComponentPropsWithRef, ElementType } from 'react'
 import BlackRightArrowButton from '@components/SlideArrowButton/BlackRightArrowButton'
 import WhiteLeftArrowButton from '@components/SlideArrowButton/WhiteLeftArrowButton'
 
-interface CitySliderProps<P = any> {
-	WrappedContainer: ComponentType<P>
-	containerProps: P
+import baseStyles from './styles/base.module.scss'
+
+
+interface CitySliderProps<T extends ElementType, P = any> {
 	cities: CityInfo[]
+	WrappedContainer: ComponentType<P>
+	containerProps: ComponentPropsWithRef<T>
+	sliderContainerClassName?: string
+	leftButtonClassName?: string
+	rightButtonClassName?: string
 }
 
 type CityInfo = {
@@ -25,11 +31,14 @@ const InitSlideState = {
 	currentPage: 0,
 }
 
-export default function withCitySilder({
+export default function withCitySilder<T extends ElementType, P = any>({
 	WrappedContainer,
 	containerProps,
+	sliderContainerClassName,
+	leftButtonClassName,
+	rightButtonClassName,
 	cities
-}: CitySliderProps) {
+}: CitySliderProps<T, P>) {
 	const [state, setState] = useState<SlideState>(InitSlideState)
 
 	useEffect(() => {
@@ -61,14 +70,16 @@ export default function withCitySilder({
 	return () => (
 		<>
 			<WrappedContainer
-				{...containerProps}
+				{
+					...containerProps
+				}
 				data={gridData}
 			/>
-			<div className="slide_control">
+			<div className={`${baseStyles.slide_control} ${sliderContainerClassName}`}>
 				{
 					state.currentPage > 1
 						? <WhiteLeftArrowButton
-							className={'slide_left'}
+							className={`${baseStyles.slide_left} ${leftButtonClassName}`}
 							onClick = { handleLeftClick }
 						/>
 						: ''
@@ -76,7 +87,7 @@ export default function withCitySilder({
 				{
 					state.currentPage < state.maxPage
 						? <BlackRightArrowButton
-								className={'slide_right'}
+								className={`${baseStyles.slide_right} ${rightButtonClassName}`}
 								onClick={handleRightClick}
 							/>
 						: ''

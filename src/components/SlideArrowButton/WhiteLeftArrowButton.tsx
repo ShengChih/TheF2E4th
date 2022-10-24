@@ -7,5 +7,13 @@ import buttonStyles from './styles/button.module.scss'
 type WhiteLeftArrowButtonProps<T extends ElementType> = ComponentProps<T>
 
 export default function WhiteLeftArrowButton<T extends ElementType>(props: WhiteLeftArrowButtonProps<T>) {
-	return <ArrowButton imageUrl={LeftArrow} {...props} />
+	const newProps = {
+		...props,
+		style: {
+			...props.style,
+			backgroundImage: `url(${LeftArrow})`,
+		},
+		className: `bg-white ${props?.className}`
+	}
+	return <ArrowButton {...newProps} />
 }
