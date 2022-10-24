@@ -1,22 +1,21 @@
-import React from 'react'
+import React, { MouseEvent, CSSProperties } from 'react'
 
-import './styles/base.scss'
-import './styles/pc.scss'
-import './styles/tablet.scss'
-import './styles/mobile.scss'
+import styles from './styles/base.module.scss'
 
 interface BaseArrowButtonProps {
-	imageUrl: string
-	classNames?: string
+	style: CSSProperties
+	className?: string
+	onClick?: (e: MouseEvent<HTMLDivElement>) => void
 }
 	
-export default function BaseArrowButton({ imageUrl, classNames }:BaseArrowButtonProps) {
+export default function BaseArrowButton({ style, className, onClick }:BaseArrowButtonProps) {
 	return (
 		<div
 			style={{
-				backgroundImage: `url(${imageUrl})`
+				...style
 			}}
-			className={`arrow_button arrow_button--pc ${classNames}`}
+			className={`${styles.arrow_button} ${className}`}
+			onClick={onClick}
 		/>
 	)
 }

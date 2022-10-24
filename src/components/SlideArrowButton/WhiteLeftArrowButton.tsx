@@ -1,12 +1,10 @@
-import React from 'react'
-
-import BaseArrowButton from './BaseArrowButton'
+import ArrowButton from '@components/SlideArrowButton/ArrowButton'
 import LeftArrow from './images/arrow_left_black.svg'
 
-interface WhiteLeftArrowButtonProps {
-	classNames?: string
+interface WhiteLeftArrowButtonProps<P = any> {
+	containerProps: P
 }
 
-export default function WhiteLeftArrowButton({ classNames }: WhiteLeftArrowButtonProps) {
-	return <BaseArrowButton imageUrl={LeftArrow} classNames={classNames} />
+export default function WhiteLeftArrowButton({ containerProps }: WhiteLeftArrowButtonProps) {
+	return <ArrowButton imageUrl={LeftArrow} containerProps={containerProps} />
 }
