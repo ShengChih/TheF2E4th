@@ -1,4 +1,4 @@
-.grid_section {
+.grid_container {
 	> div {
 		&:nth-child(3n + 1) {
 			@apply row-span-2;

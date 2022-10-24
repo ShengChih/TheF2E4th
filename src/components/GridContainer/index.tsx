@@ -1,16 +1,17 @@
 import React, { ReactNode } from "react";
 
-import "./styles/base.scss"
+import styles from "./styles/base.module.scss"
 
 interface GridContainerProps {
+	className?: string
 	data: ReactNode[]
 }
 
-export default function GridContainer({ data }: GridContainerProps) {
+export default function GridContainer({ className, data }: GridContainerProps) {
 	return (
-		<section className="grid_section">
+		<section className={`${styles.grid_container} ${className}`}>
 			{
-				data.map((node: ReactNode) => (<div>{node}</div>))
+				data.map((node: ReactNode, index: number) => (<div key={`grid-${index}`}>{node}</div>))
 			}
 		</section>
 	)	

@@ -8,7 +8,7 @@
 		@apply w-[1062px] h-[29px] top-[-41px];
 	}
 
-	.grid_section {
+	.city_grid {
 		> div {
 			&:nth-child(3n + 1) > div {
 				@apply w-[177px] h-[217px];
@@ -22,15 +22,21 @@
 		@apply w-[1062px] h-[245px] gap-x-[13px] gap-y-[5px];
 	}
 
+	.arrow_button--pc {
+		@apply w-[32px] h-[32px] rounded-[6px];
+	}
+
 	.slide_control {
 		@apply w-[1062px] h-[32px];
 	}
 
 	.slide_left {
+		@extend .arrow_button--pc;
 		@apply left-[-53px];
 	}
 
 	.slide_right {
+		@extend .arrow_button--pc;
 		@apply left-[1083px];
 	}
 }
