@@ -6,12 +6,14 @@ import pcStyles from "./styles/pc.module.scss"
 
 type SectionTitleProps<P = {}> = {
 	WrappedContainer: ComponentType<P>
-	title: string
+	title: string,
+	iconUrl: string
 }
 
 export default function withSectionTitle({
 	WrappedContainer,
-	title
+	title,
+	iconUrl
 }: SectionTitleProps) {
 	
 	return () => (
@@ -19,7 +21,12 @@ export default function withSectionTitle({
 			<SectionTitle
 				title={title}
 				sectionClassName={`${baseStyles.city_title} ${pcStyles.city_title}`}
-				iconClassName={`${pcStyles.city_title__icon}`}
+				iconProps={{
+					style: {
+						backgroundImage: `url(${iconUrl})`
+					},
+					className: `${baseStyles.city_title__icon} ${pcStyles.city_title__icon}`
+				}}
 			/>
 			<WrappedContainer />
 		</>

@@ -1,25 +1,24 @@
 import React, { ReactNode, ComponentType, ComponentProps, ElementType } from 'react';
 
 import baseStyles from './styles/base.module.scss'
-import pcStyles from './styles/pc.module.scss'
 
 
-interface SectionTitleProps {
+interface SectionTitleProps<T extends ElementType> {
 	title: string
 	sectionClassName?: string | undefined
-	iconClassName?: string | undefined
+	iconProps?: ComponentProps<T>
 }
 
-export default function SectionTitle({
+export default function SectionTitle<T extends ElementType>({
 	title,
 	sectionClassName,
-	iconClassName
-}: SectionTitleProps) {
+	iconProps
+}: SectionTitleProps<T>) {
 	return (
 		<div
 			className={`${baseStyles.section} ${sectionClassName}`}
 		>
-			<div className={`${iconClassName}`}></div>
+			<div {...iconProps}></div>
 			<div>{title}</div>
 		</div>
 	)

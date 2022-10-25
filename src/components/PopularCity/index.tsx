@@ -7,6 +7,8 @@ import withSectionTitle from "@HOCs/withSectionTitle"
 import baseStyles from "./styles/base.module.scss"
 import pcStyles from "./styles/pc.module.scss"
 
+import TriangleIcon from '@components/SectionTitle/images/Triangle.svg'
+
 import Taipei from "./images/Taipei.png"
 import NewTaipei from "./images/NewTaipei.png"
 import Taoyuan from "./images/Taoyuan.png"
@@ -89,18 +91,13 @@ export default function PopularCity() {
 
 	const CitySliderShow = withCitySilder({
 		WrappedContainer: GridContainer,
-		containerProps: {
-			className: `${pcStyles.city_grid}`
-		},
-		sliderContainerClassName: `${pcStyles.slide_control}`,
-		leftButtonClassName: `${pcStyles.slide_left}`,
-		rightButtonClassName: `${pcStyles.slide_right}`,
 		cities: cities
 	})
 
 	const CitySection = withSectionTitle({
 		WrappedContainer: CitySliderShow,
-		title: '熱門城市'
+		title: '熱門城市',
+		iconUrl: TriangleIcon
 	})
 
 	return (

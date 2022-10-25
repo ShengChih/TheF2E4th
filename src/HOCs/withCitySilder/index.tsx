@@ -1,4 +1,4 @@
-import { useState, useEffect, ComponentType } from 'react'
+import { useState, useEffect, ComponentType, ReactNode, ComponentProps, ElementType } from 'react'
 import BlackRightArrowButton from '@components/SlideArrowButton/BlackRightArrowButton'
 import WhiteLeftArrowButton from '@components/SlideArrowButton/WhiteLeftArrowButton'
 
@@ -6,15 +6,19 @@ import mapIcon from './images/map.svg'
 import baseStyles from './styles/base.module.scss'
 import pcStyles from './styles/pc.module.scss'
 
-
-interface CitySliderProps<P = {}> {
-	cities: CityInfo[]
-	WrappedContainer: ComponentType<P>
-}
-
 type CityInfo = {
 	name: string
 	imageUrl: string
+}
+
+type WrappedContainerProps = {
+	className?: string | undefined
+	data: ReactNode[]
+}
+
+interface CitySliderProps {
+	cities: CityInfo[]
+	WrappedContainer: ComponentType<WrappedContainerProps>
 }
 
 type SlideState = {
@@ -29,10 +33,10 @@ const InitSlideState = {
 	currentPage: 0,
 }
 
-export default function withCitySilder<P = {}>({
+export default function withCitySilder({
 	WrappedContainer,
 	cities
-}: CitySliderProps<P>) {
+}: CitySliderProps) {
 	const [state, setState] = useState<SlideState>(InitSlideState)
 
 	useEffect(() => {
@@ -45,7 +49,7 @@ export default function withCitySilder<P = {}>({
 
 	const start = (state.currentPage - 1) * 7
 	const end = (start + 7) > state.cities.length ? state.cities.length : (start + 7)
-	const gridData = state.cities.map(
+	const gridData = (state.cities.map(
 		(city: CityInfo) => (
 			<div
 				style={{
@@ -62,7 +66,7 @@ export default function withCitySilder<P = {}>({
 				<div className={`${baseStyles.city_name} ${pcStyles.city_name}`}>{city.name}</div>
 			</div>
 		)
-	).slice(start, end)
+	).slice(start, end))
 
 	const wrappedClick = (val: number) => {
 		return () => {
