@@ -1,8 +1,8 @@
 import React from "react";
-import SectionTitle from "@components/SectionTitle"
 
 import GridContainer from '@components/GridContainer'
-import withCitySilder from '@HOC/withCitySilder'
+import withCitySilder from '@HOCs/withCitySilder'
+import withSectionTitle from "@HOCs/withSectionTitle"
 
 import baseStyles from "./styles/base.module.scss"
 import pcStyles from "./styles/pc.module.scss"
@@ -28,10 +28,14 @@ export default function PopularCity({ cities }: PopularCity) {
 		cities: cities
 	})
 
+	const CitySection = withSectionTitle({
+		WrappedContainer: CitySliderShow,
+		title: '熱門城市'
+	})
+
 	return (
 		<div className={`${baseStyles.city_suggestion} ${pcStyles.city_suggestion}`}>
-			<SectionTitle className={`${baseStyles.city_title} ${pcStyles.city_title}`} title={'熱門城市'} imageUrl={''} />
-			<CitySliderShow />
+			<CitySection />
 		</div>
 	)
 }

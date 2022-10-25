@@ -69,8 +69,8 @@ export default defineConfig(({ command }: ConfigEnv) => {
           replacement: '/src/hooks'
         },
         {
-          find: '@HOC',
-          replacement: '/src/HOC'
+          find: '@HOCs',
+          replacement: '/src/HOCs'
         },
       ]
     },

@@ -1,14 +1,17 @@
-import { ComponentProps, ElementType } from 'react'
-import withAll from '@HOC/withAll'
-import BaseArrowButton from '@components/SlideArrowButton/BaseArrowButton'
-import pcStyles from './styles/pc.module.scss'
+import React, { MouseEvent, CSSProperties } from 'react'
+import baseStyles from './styles/base.module.scss'
 
-export default function ArrowButton<T extends ElementType>(props: ComponentProps<T>) {
-	return withAll({
-		WrappedComponent: BaseArrowButton,
-		componentProps: {
-			...props,
-			className: `${pcStyles.arrow_button} ${props?.className}`
-		}
-	})
+interface ArrowButtonProps {
+	style: CSSProperties
+	className?: string
+	onClick?: (e: MouseEvent<HTMLDivElement>) => void
+}
+	
+export default function ArrowButton(props: ArrowButtonProps) {
+	return (
+		<div
+			{...props}
+			className={`${baseStyles.arrow_button} ${props?.className}`}
+		/>
+	)
 }

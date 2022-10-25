@@ -1,18 +1,17 @@
 import { ComponentProps, ElementType } from 'react'
-
+import withBackwardStyle from '@HOCs/withBackwardStyle'
+import withClassName from '@HOCs/withClassName'
 import ArrowButton from '@components/SlideArrowButton/ArrowButton'
 import RightArrow from './images/arrow_right_white.svg'
 
 type BlackRightArrowButtonProps<T extends ElementType> = ComponentProps<T>
 
 export default function BlackRightArrowButton<T extends ElementType>(props: BlackRightArrowButtonProps<T>) {
-	const newProps = {
-		...props,
-		style: {
-			...props.style,
+	const NewArrowButton = withClassName(
+		withBackwardStyle(ArrowButton, {
 			backgroundImage: `url(${RightArrow})`,
-		},
-		className: `bg-[#0D0B0C] ${props.className}`
-	}
-	return <ArrowButton {...newProps} />
+		}),
+		`bg-[#0D0B0C]`
+	)
+	return <NewArrowButton {...props} />
 }

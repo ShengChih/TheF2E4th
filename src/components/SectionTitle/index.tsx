@@ -1,25 +1,26 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, ComponentType, ComponentProps, ElementType } from 'react';
 
-import './styles/base.scss'
-import './styles/pc.scss'
+import baseStyles from './styles/base.module.scss'
+import pcStyles from './styles/pc.module.scss'
 
-interface SectionTitileProps {
-	className: string
-	title: string | ReactNode
-	imageUrl: string | ReactNode
+
+interface SectionTitleProps {
+	title: string
+	sectionClassName?: string | undefined
+	iconClassName?: string | undefined
 }
 
-export default function SectionTitile({
-	className,
+export default function SectionTitle({
 	title,
-	imageUrl
-}: SectionTitileProps) {
+	sectionClassName,
+	iconClassName
+}: SectionTitleProps) {
 	return (
 		<div
-			className={className}
+			className={`${baseStyles.section} ${sectionClassName}`}
 		>
-			<div className="icon icon--pc"></div>
-			<div children={title}></div>
+			<div className={`${iconClassName}`}></div>
+			<div>{title}</div>
 		</div>
 	)
 }
