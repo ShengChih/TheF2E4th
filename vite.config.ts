@@ -72,6 +72,10 @@ export default defineConfig(({ command }: ConfigEnv) => {
           find: '@HOCs',
           replacement: '/src/HOCs'
         },
+        {
+          find: '@layouts',
+          replacement: '/src/layouts'
+        }
       ]
     },
     server: {
