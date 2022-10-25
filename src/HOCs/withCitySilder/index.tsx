@@ -1,17 +1,15 @@
-import { useState, useEffect, ComponentType, ComponentPropsWithRef, ElementType } from 'react'
+import { useState, useEffect, ComponentType } from 'react'
 import BlackRightArrowButton from '@components/SlideArrowButton/BlackRightArrowButton'
 import WhiteLeftArrowButton from '@components/SlideArrowButton/WhiteLeftArrowButton'
 
+import mapIcon from './images/map.svg'
 import baseStyles from './styles/base.module.scss'
+import pcStyles from './styles/pc.module.scss'
 
 
-interface CitySliderProps<T extends ElementType, P = any> {
+interface CitySliderProps<P = {}> {
 	cities: CityInfo[]
 	WrappedContainer: ComponentType<P>
-	containerProps: ComponentPropsWithRef<T>
-	sliderContainerClassName?: string
-	leftButtonClassName?: string
-	rightButtonClassName?: string
 }
 
 type CityInfo = {
@@ -31,14 +29,10 @@ const InitSlideState = {
 	currentPage: 0,
 }
 
-export default function withCitySilder<T extends ElementType, P = any>({
+export default function withCitySilder<P = {}>({
 	WrappedContainer,
-	containerProps,
-	sliderContainerClassName,
-	leftButtonClassName,
-	rightButtonClassName,
 	cities
-}: CitySliderProps<T, P>) {
+}: CitySliderProps<P>) {
 	const [state, setState] = useState<SlideState>(InitSlideState)
 
 	useEffect(() => {
@@ -52,7 +46,22 @@ export default function withCitySilder<T extends ElementType, P = any>({
 	const start = (state.currentPage - 1) * 7
 	const end = (start + 7) > state.cities.length ? state.cities.length : (start + 7)
 	const gridData = state.cities.map(
-		(city: CityInfo) => (<div>{city.name}</div>)
+		(city: CityInfo) => (
+			<div
+				style={{
+					backgroundImage: `url(${city.imageUrl})`,
+				}}
+				className={`${baseStyles.city_container}`}
+			>
+				<div className={`${baseStyles.city_mask}`}></div>
+				<img
+					alt={city.name}
+					src={`${mapIcon}`}
+					className={`${baseStyles.city_map_icon} ${pcStyles.city_map_icon}`
+				} />
+				<div className={`${baseStyles.city_name} ${pcStyles.city_name}`}>{city.name}</div>
+			</div>
+		)
 	).slice(start, end)
 
 	const wrappedClick = (val: number) => {
@@ -70,16 +79,14 @@ export default function withCitySilder<T extends ElementType, P = any>({
 	return () => (
 		<>
 			<WrappedContainer
-				{
-					...containerProps
-				}
+				className={`${pcStyles.city_grid}`}
 				data={gridData}
 			/>
-			<div className={`${baseStyles.slide_control} ${sliderContainerClassName}`}>
+			<div className={`${baseStyles.slide_control} ${pcStyles.slide_control}`}>
 				{
 					state.currentPage > 1
 						? <WhiteLeftArrowButton
-							className={`${baseStyles.slide_left} ${leftButtonClassName}`}
+							className={`${baseStyles.slide_left} ${pcStyles.slide_left}`}
 							onClick = { handleLeftClick }
 						/>
 						: ''
@@ -87,7 +94,7 @@ export default function withCitySilder<T extends ElementType, P = any>({
 				{
 					state.currentPage < state.maxPage
 						? <BlackRightArrowButton
-								className={`${baseStyles.slide_right} ${rightButtonClassName}`}
+								className={`${baseStyles.slide_right} ${pcStyles.slide_right}`}
 								onClick={handleRightClick}
 							/>
 						: ''

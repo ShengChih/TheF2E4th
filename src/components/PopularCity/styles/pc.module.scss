@@ -3,36 +3,4 @@
 	.city_suggestion {
 		@apply mx-auto mt-[131px];
 	}
-
-	.city_grid {
-		> div {
-			&:nth-child(3n + 1) > div {
-				@apply w-[177px] h-[217px];
-			}
-
-			> div {
-				@apply w-[185px] h-[106px];
-			}
-		}
-
-		@apply w-[1062px] h-[245px] gap-x-[13px] gap-y-[5px];
-	}
-
-	.arrow_button {
-		@apply w-[32px] h-[32px] rounded-[6px];
-	}
-
-	.slide_control {
-		@apply w-[1062px] h-[32px];
-	}
-
-	.slide_left {
-		@extend .arrow_button;
-		@apply left-[-53px];
-	}
-
-	.slide_right {
-		@extend .arrow_button;
-		@apply left-[1083px];
-	}
 }

@@ -1,3 +1,19 @@
+.city_container {
+	@apply relative;
+}
+
+.city_map_icon {
+	@apply absolute mx-auto inset-x-0;
+}
+
+.city_name {
+	@apply absolute mx-auto inset-x-0 text-center text-white font-normal;
+}
+
+.city_mask {
+	@apply w-full h-full opacity-30 bg-[#0D0B0C] z-10;
+}
+
 .slide_control {
 	@apply m-auto absolute inset-0;
 }
