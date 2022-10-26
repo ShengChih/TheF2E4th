@@ -11,11 +11,11 @@
 }
 
 .title {
-	@apply w-[278px] h-[23px];
+	@apply w-[278px] h-[23px] text-[15px];
 }
 
 .summary {
-	@apply w-[278px] h-[102px] mt-[14px] leading-[21px];
+	@apply w-[278px] h-[102px] mt-[14px] leading-[21px] text-[14px];
 }
 
 .action {
@@ -31,7 +31,7 @@
 }
 
 .location_text {
-	@apply w-[88px] h-[21px] ml-[8px];
+	@apply w-[88px] h-[21px] ml-[8px] text-[14px];
 }
 
 .detail_button {
