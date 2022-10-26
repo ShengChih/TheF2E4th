@@ -1,7 +1,7 @@
 import React from "react";
 
-import GridContainer from '@components/GridContainer'
-import withCitySilder from '@HOCs/withCitySilder'
+import Grid2x5 from '@components/Grid2x5'
+import withSilder from '@HOCs/withSilder'
 import withSectionTitle from "@HOCs/withSectionTitle"
 
 import baseStyles from "./styles/base.module.scss"
@@ -9,6 +9,7 @@ import pcStyles from "./styles/pc.module.scss"
 
 import TriangleIcon from '@components/SectionTitle/images/Triangle.svg'
 
+import mapIcon from './images/map.svg'
 import Taipei from "./images/Taipei.png"
 import NewTaipei from "./images/NewTaipei.png"
 import Taoyuan from "./images/Taoyuan.png"
@@ -89,9 +90,29 @@ export default function PopularCity() {
 		},
 	]
 
-	const CitySliderShow = withCitySilder({
-		WrappedContainer: GridContainer,
-		cities: cities
+	const data = cities.map(
+			(city: CityInfo) => (
+				<div
+					style={{
+						backgroundImage: `url(${city.imageUrl})`,
+					}}
+					className={`${baseStyles.city_container}`}
+				>
+					<div className={`${baseStyles.city_mask}`}></div>
+					<img
+						alt={city.name}
+						src={`${mapIcon}`}
+						className={`${baseStyles.city_map_icon} ${pcStyles.city_map_icon}`
+					} />
+					<div className={`${baseStyles.city_name} ${pcStyles.city_name}`}>{city.name}</div>
+				</div>
+			)
+		)
+
+	const CitySliderShow = withSilder({
+		WrappedContainer: Grid2x5,
+		totalRows: cities.length,
+		maxRowsInContainer: 7
 	})
 
 	const CitySection = withSectionTitle({
@@ -102,7 +123,10 @@ export default function PopularCity() {
 
 	return (
 		<div className={`${baseStyles.city_suggestion} ${pcStyles.city_suggestion}`}>
-			<CitySection />
+			<CitySection
+				className={`${baseStyles.city_grid} ${pcStyles.city_grid}`}
+				data={data}
+			/>
 		</div>
 	)
 }

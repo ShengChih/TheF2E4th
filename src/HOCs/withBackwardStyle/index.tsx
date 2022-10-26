@@ -1,5 +1,5 @@
 import { ComponentType, ComponentProps, ElementType, CSSProperties } from 'react'
-	
+
 export default function withBackwardStyle<T extends ElementType>(
 	WrappedComponent: ComponentType<ComponentProps<T>>,
 	style: CSSProperties | undefined
