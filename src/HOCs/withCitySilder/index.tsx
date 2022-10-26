@@ -1,4 +1,5 @@
-import { useState, useEffect, ComponentType, ReactNode, ComponentProps, ElementType } from 'react'
+import { useState, useEffect, ComponentType, ReactNode } from 'react'
+import useSlider from '@hooks/useSlider'
 import BlackRightArrowButton from '@components/SlideArrowButton/BlackRightArrowButton'
 import WhiteLeftArrowButton from '@components/SlideArrowButton/WhiteLeftArrowButton'
 
@@ -21,74 +22,67 @@ interface CitySliderProps {
 	WrappedContainer: ComponentType<WrappedContainerProps>
 }
 
-type SlideState = {
-	cities: CityInfo[]
-	maxPage: number
-	currentPage: number
+type SliderState = {
+	cities: ReactNode[]
 }
 
-const InitSlideState = {
+const InitSliderState = {
 	cities: [],
-	maxPage: 0,
-	currentPage: 0,
 }
 
 export default function withCitySilder({
 	WrappedContainer,
 	cities
 }: CitySliderProps) {
-	const [state, setState] = useState<SlideState>(InitSlideState)
+	const {
+		start,
+		end,
+		currentPage,
+		maxPage,
+		handleLeftClick,
+		handleRightClick
+	} = useSlider({
+		totalRows: cities.length,
+		maxRowsInContainer: 7
+	})
+	const [state, setState] = useState<SliderState>(InitSliderState)
 
 	useEffect(() => {
+		const newCities = cities.map(
+			(city: CityInfo) => (
+				<div
+					style={{
+						backgroundImage: `url(${city.imageUrl})`,
+					}}
+					className={`${baseStyles.city_container}`}
+				>
+					<div className={`${baseStyles.city_mask}`}></div>
+					<img
+						alt={city.name}
+						src={`${mapIcon}`}
+						className={`${baseStyles.city_map_icon} ${pcStyles.city_map_icon}`
+					} />
+					<div className={`${baseStyles.city_name} ${pcStyles.city_name}`}>{city.name}</div>
+				</div>
+			)
+		)
+
 		setState({
-			cities: cities,
-			maxPage: Math.ceil(cities.length / 7),
-			currentPage: 1,
+			cities: newCities
 		})
 	}, [])
 
-	const start = (state.currentPage - 1) * 7
-	const end = (start + 7) > state.cities.length ? state.cities.length : (start + 7)
-	const gridData = (state.cities.map(
-		(city: CityInfo) => (
-			<div
-				style={{
-					backgroundImage: `url(${city.imageUrl})`,
-				}}
-				className={`${baseStyles.city_container}`}
-			>
-				<div className={`${baseStyles.city_mask}`}></div>
-				<img
-					alt={city.name}
-					src={`${mapIcon}`}
-					className={`${baseStyles.city_map_icon} ${pcStyles.city_map_icon}`
-				} />
-				<div className={`${baseStyles.city_name} ${pcStyles.city_name}`}>{city.name}</div>
-			</div>
-		)
-	).slice(start, end))
-
-	const wrappedClick = (val: number) => {
-		return () => {
-			setState({
-				...state,
-				currentPage: state.currentPage + val,
-			})
-		}
-	}
-
-	const handleRightClick = wrappedClick(1)
-	const handleLeftClick = wrappedClick(-1)
+	const gridData = state.cities.slice(start, end)
 
 	return () => (
 		<>
 			<WrappedContainer
-				className={`${pcStyles.city_grid}`}
+				className={`${baseStyles.city_grid} ${pcStyles.city_grid}`}
 				data={gridData}
 			/>
 			<div className={`${baseStyles.slide_control} ${pcStyles.slide_control}`}>
 				{
-					state.currentPage > 1
+					currentPage > 1
 						? <WhiteLeftArrowButton
 							className={`${baseStyles.slide_left} ${pcStyles.slide_left}`}
 							onClick = { handleLeftClick }
@@ -96,7 +90,7 @@ export default function withCitySilder({
 						: ''
 				}
 				{
-					state.currentPage < state.maxPage
+					currentPage < maxPage
 						? <BlackRightArrowButton
 								className={`${baseStyles.slide_right} ${pcStyles.slide_right}`}
 								onClick={handleRightClick}
