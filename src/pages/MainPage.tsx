@@ -2,6 +2,7 @@ import React from "react";
 import Header from "@components/Header";
 import SearchBanner from "@components/SearchBanner";
 import PopularCity from "@layouts/PopularCity";
+import PopularFestival from "@layouts/PopularFestival";
 import Footer from "@components/Footer";
 
 function MainPage() {
@@ -9,9 +10,9 @@ function MainPage() {
     <>
       <Header />
       <SearchBanner />
-      <div className="mx-auto flex bg-[#E5E5E5] outline-show">
+      <div className="mx-auto flex flex-col	bg-[#E5E5E5] outline-show">
         <PopularCity />
-        <section className="festival-card outline-show" />
+        <PopularFestival />
         <section className="festival-card outline-show" />
       </div>
       <Footer />

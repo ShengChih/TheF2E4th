@@ -1,0 +1,14 @@
+/** 1280px */
+@media (min-width: 1280px) {
+	.festival_suggestion {
+		@apply mx-auto mt-[102px] w-[1065px] h-[504px];
+	}
+
+	.festival_grid {
+		> div {
+			@apply w-[522px] h-[228px];
+		}
+
+		@apply gap-x-[21px] gap-y-[48px];
+	}
+}

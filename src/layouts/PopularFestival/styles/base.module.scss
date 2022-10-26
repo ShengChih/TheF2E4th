@@ -1,0 +1,9 @@
+.festival_suggestion {
+	@apply mx-auto relative;
+}
+
+.festival_grid {
+	> div {
+		@apply bg-white;
+	}
+}

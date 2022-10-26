@@ -1,0 +1,7 @@
+.grid_container {
+	> div {
+		@apply w-full h-full row-span-1 flex items-center justify-center;
+	}
+
+	@apply grid grid-cols-2 grid-rows-2 grid-flow-row mx-auto;
+}
