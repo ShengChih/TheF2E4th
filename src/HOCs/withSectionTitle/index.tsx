@@ -4,31 +4,31 @@ import SectionTitle from "@components/SectionTitle"
 import baseStyles from "./styles/base.module.scss"
 import pcStyles from "./styles/pc.module.scss"
 
-type SectionTitleProps<P = {}> = {
+type SectionTitleProps<P = any> = {
 	WrappedContainer: ComponentType<P>
 	title: string,
 	iconUrl: string
 }
 
-export default function withSectionTitle({
+export default function withSectionTitle<P = any>({
 	WrappedContainer,
 	title,
 	iconUrl
 }: SectionTitleProps) {
 	
-	return () => (
+	return (props: P) => (
 		<>
 			<SectionTitle
 				title={title}
-				sectionClassName={`${baseStyles.city_title} ${pcStyles.city_title}`}
+				sectionClassName={`${baseStyles.section_title} ${pcStyles.section_title}`}
 				iconProps={{
 					style: {
 						backgroundImage: `url(${iconUrl})`
 					},
-					className: `${baseStyles.city_title__icon} ${pcStyles.city_title__icon}`
+					className: `${baseStyles.section_title__icon} ${pcStyles.section_title__icon}`
 				}}
 			/>
-			<WrappedContainer />
+			<WrappedContainer {...props} />
 		</>
 	)
 }
