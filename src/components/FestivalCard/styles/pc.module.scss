@@ -1,0 +1,39 @@
+.festival_card {
+	@apply p-[16px] pr-[25px];
+}
+
+.main_image {
+	@apply w-[187px] h-[196px];
+}
+
+.description {
+	@apply w-[278px] h-[193px];
+}
+
+.title {
+	@apply w-[278px] h-[23px];
+}
+
+.summary {
+	@apply w-[278px] h-[102px] mt-[14px] leading-[21px];
+}
+
+.action {
+	@apply w-[267px] h-[40px] mt-[14px];
+}
+
+.location {
+	@apply w-[120px] h-[24px];
+}
+
+.location_icon {
+	@apply w-[16px] h-[19.56px] mx-[4px];
+}
+
+.location_text {
+	@apply w-[88px] h-[21px] ml-[8px];
+}
+
+.detail_button {
+	@apply w-[120px] h-[40px] ml-[27px] rounded-[8px] border-[1px];
+}

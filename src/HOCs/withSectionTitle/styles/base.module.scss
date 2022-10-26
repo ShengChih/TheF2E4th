@@ -2,6 +2,6 @@
 	@apply absolute m-auto inset-x-0;
 
 	&__icon {
-		@apply bg-contain;
+		@apply bg-no-repeat bg-center;
 	}
 }

@@ -10,7 +10,7 @@ function MainPage() {
     <>
       <Header />
       <SearchBanner />
-      <div className="mx-auto flex flex-col	bg-[#E5E5E5] outline-show">
+      <div className="mx-auto flex flex-col outline-show">
         <PopularCity />
         <PopularFestival />
         <section className="festival-card outline-show" />
