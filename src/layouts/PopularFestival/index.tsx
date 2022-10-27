@@ -1,7 +1,13 @@
-import React, { MouseEvent } from "react";
+import React, { useState, useEffect, MouseEvent } from "react";
 import Grid2x2 from '@components/Grid2x2'
 import FestivalCard, { FestivalCardProps } from "@components/FestivalCard";
+import FestivalDetailModal, {
+	InitState as FestivalModalInitState,
+	FestivalDetailModalProps
+} from "@components/FestivalDetailModal";
 import withSectionTitle from "@HOCs/withSectionTitle";
+
+import ModalNoImage from './images/NoImage.svg'
 import TriangleIcon from '@components/SectionTitle/images/Triangle.svg'
 import CardImage1 from './images/card_1.png'
 import CardImage2 from './images/card_2.png'
@@ -11,10 +17,17 @@ import CardImage4 from './images/card_4.png'
 import baseStyles from "./styles/base.module.scss"
 import pcStyles from "./styles/pc.module.scss"
 
+type PopularFestivalState = {
+	modalData: Omit<FestivalDetailModalProps, 'onCloseModal'>,
+}
+
+const PopularFestivalState: PopularFestivalState = {
+	modalData: FestivalModalInitState
+}
+
 export default function PopularFestival() {
-	const onClick = (e: MouseEvent<HTMLElement>) => {
-		console.log(`onClick`)
-	}
+	const [state, setState] = useState<PopularFestivalState>(PopularFestivalState)
+
 	const activities = [
 		{
 			title: '合歡山國際暗空公園-星空清境跨年活動',
@@ -40,8 +53,35 @@ export default function PopularFestival() {
 			location: '臺北市 中正區',
 			mainImage: CardImage4
 		},
-	].map((activity: FestivalCardProps) =>
-		<FestivalCard {...activity} onClickActivityDetail={onClick} />
+	]
+
+	const handleDetailAction = (activity_id: number) => {
+		return (e: MouseEvent<HTMLElement>) => {
+			setTimeout((activity_id: number) => {
+				const { summary, mainImage, ...others } = activities[activity_id]
+				setState({
+					modalData: {
+						isDisplay: true,
+						...others,
+						description: summary,
+						images: [mainImage, ModalNoImage, ModalNoImage, ModalNoImage],
+						period: '開放式空間，無時間限制',
+						price: '免費',
+						contact: '886-1234567890'
+					}
+				})
+			}, 1000, activity_id)
+		}
+	}
+
+	const handleModalClose = (e: MouseEvent) => {
+		setState({
+			modalData: FestivalModalInitState
+		})
+	}
+
+	const newActivities = activities.map((activity: FestivalCardProps, index: number) =>
+		<FestivalCard {...activity} onClickActivityDetail={handleDetailAction(index)} />
 	)
 
 	const FestivalSection = withSectionTitle({
@@ -50,12 +90,23 @@ export default function PopularFestival() {
 		iconUrl: TriangleIcon
 	})
 
+	useEffect(() => {
+		state.modalData.isDisplay
+			? document.body.classList.add('overflow-y-hidden')
+			: document.body.classList.remove('overflow-y-hidden')
+		
+		return () => {
+			document.body.classList.remove('overflow-y-hidden')
+		}
+	}, [state.modalData.isDisplay])
+
 	return (
 		<div className={`${baseStyles.festival_suggestion} ${pcStyles.festival_suggestion}`}>
 			<FestivalSection
 				className={`${baseStyles.festival_grid} ${pcStyles.festival_grid}`}
-				data={activities}
+				data={newActivities}
 			/>
+			<FestivalDetailModal {...state.modalData } onCloseModal={handleModalClose} />
 		</div>
 	)
 }

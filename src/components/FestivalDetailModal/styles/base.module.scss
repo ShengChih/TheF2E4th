@@ -1,0 +1,39 @@
+.fullmask {
+	@apply w-[100vw] h-[100vh] flex items-center justify-center bg-[#D2D2D2]/[.75] fixed inset-0 overflow-y-auto;
+}
+
+.container {
+	@apply flex flex-col bg-white relative;
+}
+
+.close {
+	@apply absolute flex items-center justify-center bg-center top-0;
+}
+
+.flex_row {
+	@apply flex flex-row items-center justify-center;
+}
+
+.period_price {
+	@extend .flex_row;
+}
+
+.period {
+	@extend .flex_row;
+}
+
+.price {
+	@extend .flex_row;
+}
+
+.location_contact {
+	@extend .flex_row;
+}
+
+.location {
+	@extend .flex_row;
+}
+
+.contact {
+	@extend .flex_row;
+}
