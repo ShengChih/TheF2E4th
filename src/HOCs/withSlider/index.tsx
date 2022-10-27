@@ -17,7 +17,7 @@ interface SliderProps {
 	maxRowsInContainer: number
 }
 
-export default function withSilder({
+export default function withSlider({
 	WrappedContainer,
 	totalRows,
 	maxRowsInContainer

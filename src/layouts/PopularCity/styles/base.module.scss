@@ -9,7 +9,7 @@
 }
 
 .city_container {
-	@apply relative;
+	@apply relative bg-center bg-no-repeat bg-contain;
 }
 
 .city_map_icon {

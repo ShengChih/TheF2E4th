@@ -1,7 +1,7 @@
 import React from "react";
 
 import Grid2x5 from '@components/Grid2x5'
-import withSilder from '@HOCs/withSilder'
+import withSlider from '@HOCs/withSlider'
 import withSectionTitle from "@HOCs/withSectionTitle"
 
 import baseStyles from "./styles/base.module.scss"
@@ -109,7 +109,7 @@ export default function PopularCity() {
 			)
 		)
 
-	const CitySliderShow = withSilder({
+	const CitySliderShow = withSlider({
 		WrappedContainer: Grid2x5,
 		totalRows: cities.length,
 		maxRowsInContainer: 7
