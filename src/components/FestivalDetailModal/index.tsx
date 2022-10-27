@@ -4,6 +4,11 @@ import withSlider from '@HOCs/withSlider'
 
 import NoImage from './images/NoImage.svg'
 import Close from './images/close.svg'
+
+import mapIcon from './images/map.svg'
+import timeIcon from './images/time.svg'
+import ticketIcon from './images/ticket.svg'
+import telIcon from './images/tel.svg'
 import baseStyles from './styles/base.module.scss'
 import pcStyles from './styles/pc.module.scss'
 
@@ -70,21 +75,37 @@ export default function FestivalDetailModal({
 				<div className={`${baseStyles.description} ${pcStyles.description}`}>{description}</div>
 				<div className={`${baseStyles.period_price} ${pcStyles.period_price}`}>
 					<div className={`${baseStyles.period} ${pcStyles.period}`}>
-						<div className={`${baseStyles.period_icon} ${pcStyles.period_icon}`}></div>
+						<div
+							style={{
+								backgroundImage: `url(${timeIcon})`
+							}}
+							className={`${baseStyles.period_icon} ${pcStyles.period_icon}`}></div>
 						<div className={`${baseStyles.period_text} ${pcStyles.period_text}`}>{period}</div>
 					</div>
 					<div className={`${baseStyles.price} ${pcStyles.price}`}>
-						<div className={`${baseStyles.price_icon} ${pcStyles.price_icon}`}></div>
+						<div
+							style={{
+								backgroundImage: `url(${ticketIcon})`
+							}}
+							className={`${baseStyles.price_icon} ${pcStyles.price_icon}`}></div>
 						<div className={`${baseStyles.price_text} ${pcStyles.price_text}`}>{price}</div>
 					</div>
 				</div>
 				<div className={`${baseStyles.location_contact} ${pcStyles.location_contact}`}>
 					<div className={`${baseStyles.location} ${pcStyles.location}`}>
-						<div className={`${baseStyles.location_icon} ${pcStyles.location_icon}`}></div>
+						<div
+							style={{
+								backgroundImage: `url(${mapIcon})`
+							}}
+							className={`${baseStyles.location_icon} ${pcStyles.location_icon}`}></div>
 						<div className={`${baseStyles.location_text} ${pcStyles.location_text}`}>{location}</div>
 					</div>
 					<div className={`${baseStyles.contact} ${pcStyles.contact}`}>
-						<div className={`${baseStyles.contact_icon} ${pcStyles.contact_icon}`}></div>
+						<div
+							style={{
+								backgroundImage: `url(${telIcon})`
+							}}
+							className={`${baseStyles.contact_icon} ${pcStyles.contact_icon}`}></div>
 						<div className={`${baseStyles.contact_text} ${pcStyles.contact_text}`}>{contact}</div>
 					</div>
 				</div>

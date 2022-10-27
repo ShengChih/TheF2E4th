@@ -11,7 +11,7 @@
 }
 
 .flex_row {
-	@apply flex flex-row items-center justify-center;
+	@apply flex flex-row items-center;
 }
 
 .period_price {
@@ -22,18 +22,34 @@
 	@extend .flex_row;
 }
 
+.period_icon {
+	@apply bg-center;
+}
+
 .price {
 	@extend .flex_row;
 }
 
+.price_icon {
+	@apply bg-center;
+}
+
 .location_contact {
-	@extend .flex_row;
+	@apply flex flex-row;
 }
 
 .location {
-	@extend .flex_row;
+	@apply flex flex-row;
+}
+
+.location_icon {
+	@apply bg-center;
 }
 
 .contact {
-	@extend .flex_row;
+	@apply flex flex-row;
+}
+
+.contact_icon {
+	@apply bg-center;
 }

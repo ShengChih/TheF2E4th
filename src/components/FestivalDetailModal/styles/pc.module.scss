@@ -26,8 +26,24 @@
 	@apply w-[359px] h-[24px];
 }
 
+.period_icon {
+	@apply w-[19px] h-[19px] ml-[2.5px];
+}
+
+.period_text {
+	@apply ml-[12.5px];
+}
+
 .price {
-	@apply w-[212px] h-[24px];
+	@apply w-[212px] h-[24px] ml-[41px];
+}
+
+.price_icon {
+	@apply w-[19px] h-[15.47px] ml-[2.5px];
+}
+
+.price_text {
+	@apply ml-[12.5px];
 }
 
 .location_contact {
@@ -38,6 +54,22 @@
 	@apply w-[359px] h-[32px];
 }
 
+.location_icon {
+	@apply w-[16px] h-[19.56px] ml-[4px] mt-[2.22px];
+}
+
+.location_text {
+	@apply ml-[14px];
+}
+
 .contact {
-	@apply w-[212px] h-[32px];
+	@apply w-[212px] h-[32px] ml-[41px];
+}
+
+.contact_icon {
+	@apply w-[19px] h-[19px] ml-[2.5px] mt-[2.5px];
+}
+
+.contact_text {
+	@apply ml-[12.5px];
 }
