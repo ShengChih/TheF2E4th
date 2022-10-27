@@ -1,6 +1,6 @@
 import React from "react";
 
-import Grid2x5 from '@components/Grid2x5'
+import GridContainer from '@components/GridContainer'
 import withSlider from '@HOCs/withSlider'
 import withSectionTitle from "@HOCs/withSectionTitle"
 
@@ -110,7 +110,7 @@ export default function PopularCity() {
 		)
 
 	const { SliderContainer: CitySliderShow, sliceFunc } = withSlider({
-		WrappedContainer: Grid2x5,
+		WrappedContainer: GridContainer,
 		totalRows: cities.length,
 		maxRowsInContainer: 7
 	})

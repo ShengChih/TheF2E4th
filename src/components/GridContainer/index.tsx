@@ -2,12 +2,12 @@ import React, { ReactNode } from "react";
 
 import styles from "./styles/base.module.scss"
 
-interface Grid2x5Props {
+interface GridContainerProps {
 	className?: string | undefined
 	data: ReactNode[]
 }
 
-export default function Grid2x5({ className, data }: Grid2x5Props) {
+export default function GridContainer({ className, data }: GridContainerProps) {
 	return (
 		<section className={`${styles.grid_container} ${className}`}>
 			{

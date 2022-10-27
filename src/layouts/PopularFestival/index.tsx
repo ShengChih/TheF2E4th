@@ -1,5 +1,5 @@
 import React, { useState, useEffect, MouseEvent } from "react";
-import Grid2x2 from '@components/Grid2x2'
+import GridContainer from '@components/GridContainer'
 import FestivalCard, { FestivalCardProps } from "@components/FestivalCard";
 import FestivalDetailModal, {
 	InitState as FestivalModalInitState,
@@ -85,7 +85,7 @@ export default function PopularFestival() {
 	)
 
 	const FestivalSection = withSectionTitle({
-		WrappedContainer: Grid2x2,
+		WrappedContainer: GridContainer,
 		title: '熱門活動',
 		iconUrl: TriangleIcon
 	})

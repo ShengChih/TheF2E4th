@@ -4,8 +4,13 @@
 
 .city_grid {
 	> div {
+		&:nth-child(3n + 1) {
+			@apply row-span-2;
+		}
+
 		@apply bg-white;
 	}
+	@apply mx-auto grid-cols-5 grid-flow-col;
 }
 
 .city_container {
