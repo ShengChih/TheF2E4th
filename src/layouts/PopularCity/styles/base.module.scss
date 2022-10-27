@@ -2,6 +2,10 @@
 	@apply mx-auto relative;
 }
 
+.city_section_icon {
+	@apply bg-no-repeat bg-center;
+}
+
 .city_grid {
 	> div {
 		&:nth-child(3n + 1) {

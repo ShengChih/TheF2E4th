@@ -1,14 +1,15 @@
 import React, { useState, useEffect, MouseEvent } from "react";
 import GridContainer from '@components/GridContainer'
+import Triangle from "@components/SectionIcon/Triangle";
 import FestivalCard, { FestivalCardProps } from "@components/FestivalCard";
 import FestivalDetailModal, {
 	InitState as FestivalModalInitState,
 	FestivalDetailModalProps
 } from "@components/FestivalDetailModal";
+
 import withSectionTitle from "@HOCs/withSectionTitle";
 
 import ModalNoImage from './images/NoImage.svg'
-import TriangleIcon from '@components/SectionTitle/images/Triangle.svg'
 import CardImage1 from './images/card_1.png'
 import CardImage2 from './images/card_2.png'
 import CardImage3 from './images/card_3.png'
@@ -87,7 +88,7 @@ export default function PopularFestival() {
 	const FestivalSection = withSectionTitle({
 		WrappedContainer: GridContainer,
 		title: '熱門活動',
-		iconUrl: TriangleIcon
+		icon: <Triangle className={`${baseStyles.festival_section_title}`} />
 	})
 
 	useEffect(() => {

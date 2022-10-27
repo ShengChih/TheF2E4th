@@ -2,6 +2,10 @@
 	@apply mx-auto relative;
 }
 
+.festival_section_title {
+	@apply bg-no-repeat bg-center;
+}
+
 .festival_grid {
 	> div {
 		@apply bg-white;

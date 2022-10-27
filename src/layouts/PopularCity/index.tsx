@@ -1,13 +1,12 @@
 import React from "react";
 
 import GridContainer from '@components/GridContainer'
+import Triangle from "@components/SectionIcon/Triangle";
 import withSlider from '@HOCs/withSlider'
 import withSectionTitle from "@HOCs/withSectionTitle"
 
 import baseStyles from "./styles/base.module.scss"
 import pcStyles from "./styles/pc.module.scss"
-
-import TriangleIcon from '@components/SectionTitle/images/Triangle.svg'
 
 import mapIcon from './images/map.svg'
 import Taipei from "./images/Taipei.png"
@@ -118,7 +117,7 @@ export default function PopularCity() {
 	const CitySection = withSectionTitle({
 		WrappedContainer: CitySliderShow,
 		title: '熱門城市',
-		iconUrl: TriangleIcon
+		icon: <Triangle className={`${baseStyles.city_section_icon}`} />
 	})
 
 	return (

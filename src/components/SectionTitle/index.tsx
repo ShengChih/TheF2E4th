@@ -1,24 +1,22 @@
-import React, { ReactNode, ComponentType, ComponentProps, ElementType } from 'react';
+import React, { ReactNode, ComponentProps, ElementType } from 'react';
 
 import baseStyles from './styles/base.module.scss'
 
 
-interface SectionTitleProps<T extends ElementType> {
+interface SectionTitleProps {
 	title: string
 	sectionClassName?: string | undefined
-	iconProps?: ComponentProps<T>
+	icon?: ReactNode
 }
 
-export default function SectionTitle<T extends ElementType>({
+export default function SectionTitle({
 	title,
 	sectionClassName,
-	iconProps
-}: SectionTitleProps<T>) {
+	icon
+}: SectionTitleProps) {
 	return (
-		<div
-			className={`${baseStyles.section} ${sectionClassName}`}
-		>
-			<div {...iconProps}></div>
+		<div className={`${baseStyles.section} ${sectionClassName}`} >
+			{icon}
 			<div>{title}</div>
 		</div>
 	)
