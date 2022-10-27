@@ -1,4 +1,5 @@
-import { ComponentType, ReactNode } from 'react'
+import { ComponentType, ComponentProps, ElementType, ReactNode } from 'react'
+
 import useSlider from '@hooks/useSlider'
 import BlackRightArrowButton from '@components/SlideArrowButton/BlackRightArrowButton'
 import WhiteLeftArrowButton from '@components/SlideArrowButton/WhiteLeftArrowButton'
@@ -6,22 +7,19 @@ import WhiteLeftArrowButton from '@components/SlideArrowButton/WhiteLeftArrowBut
 import baseStyles from './styles/base.module.scss'
 import pcStyles from './styles/pc.module.scss'
 
-type WrappedContainerProps = {
-	className?: string | undefined
-	data: ReactNode[]
-}
+type ComponentAnyProps<T extends ElementType> = ComponentProps<T>
 
-interface SliderProps {
-	WrappedContainer: ComponentType<WrappedContainerProps>
+interface SliderProps<T extends ElementType> {
+	WrappedContainer: ComponentType<ComponentAnyProps<T>>
 	totalRows: number
 	maxRowsInContainer: number
 }
 
-export default function withSlider({
+export default function withSlider<T extends ElementType>({
 	WrappedContainer,
 	totalRows,
 	maxRowsInContainer
-}: SliderProps) {
+}: SliderProps<T>) {
 	const {
 		start,
 		end,
@@ -34,10 +32,12 @@ export default function withSlider({
 		maxRowsInContainer: maxRowsInContainer
 	})
 
-	return (props: WrappedContainerProps) => (
+	const sliceFunc = (data: ReactNode[]) => data.slice(start, end)
+
+	const SliderContainer = (props: ComponentAnyProps<T>) => (
 		<>
 			<WrappedContainer
-				{...props} data={props.data.slice(start, end)}
+				{...props}
 			/>
 			<div className={`${baseStyles.slide_control} ${pcStyles.slide_control}`}>
 				{
@@ -59,4 +59,9 @@ export default function withSlider({
 			</div>
 		</>
 	)
+
+	return {
+		SliderContainer,
+		sliceFunc
+	}
 }

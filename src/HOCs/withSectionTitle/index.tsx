@@ -1,22 +1,23 @@
-import { ComponentType } from 'react'
+import { ComponentType, ComponentProps, ElementType } from 'react'
 import SectionTitle from "@components/SectionTitle"
 
 import baseStyles from "./styles/base.module.scss"
 import pcStyles from "./styles/pc.module.scss"
 
-type SectionTitleProps<P = any> = {
-	WrappedContainer: ComponentType<P>
+type ComponentAnyProps<T extends ElementType> = ComponentProps<T>
+
+type SectionTitleProps<T extends ElementType> = {
+	WrappedContainer: ComponentType<ComponentAnyProps<T>>
 	title: string,
 	iconUrl: string
 }
 
-export default function withSectionTitle<P = any>({
+export default function withSectionTitle<T extends ElementType>({
 	WrappedContainer,
 	title,
 	iconUrl
-}: SectionTitleProps) {
-	
-	return (props: P) => (
+}: SectionTitleProps<T>) {
+	return (props: ComponentAnyProps<T>) => (
 		<>
 			<SectionTitle
 				title={title}

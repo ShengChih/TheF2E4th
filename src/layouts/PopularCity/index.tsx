@@ -109,7 +109,7 @@ export default function PopularCity() {
 			)
 		)
 
-	const CitySliderShow = withSlider({
+	const { SliderContainer: CitySliderShow, sliceFunc } = withSlider({
 		WrappedContainer: Grid2x5,
 		totalRows: cities.length,
 		maxRowsInContainer: 7
@@ -125,7 +125,7 @@ export default function PopularCity() {
 		<div className={`${baseStyles.city_suggestion} ${pcStyles.city_suggestion}`}>
 			<CitySection
 				className={`${baseStyles.city_grid} ${pcStyles.city_grid}`}
-				data={data}
+				data={sliceFunc(data)}
 			/>
 		</div>
 	)
