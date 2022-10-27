@@ -1,20 +1,8 @@
-import styled from "styled-components";
-
-const FooterBody = styled.footer`
-  width: 1280px;
-  height: 65px;
-  line-height: 65px;
-  text-align: center;
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-
-  color: #ACACAC;
-`
+import baseStyles from './styles/base.module.scss'
+import pcStyles from './styles/pc.module.scss'
 
 function Footer() {
-  return <FooterBody className="mx-auto bg-white">Taiwan Tourguide  © Code: ShengChih.Chu  /  Design: KT</FooterBody>
+  return <footer className={`${baseStyles.footer} ${pcStyles.footer}`}>Taiwan Tourguide  © Code: ShengChih.Chu  /  Design: KT</footer>
 }
 
 export default Footer;
