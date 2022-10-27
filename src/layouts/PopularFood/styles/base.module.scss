@@ -1,0 +1,14 @@
+.food_suggestion {
+	@apply mx-auto relative;
+}
+
+.food_section_icon {
+	@apply bg-center bg-no-repeat;
+}
+
+.food_grid {
+	> div {
+		@apply bg-white;
+	}
+	@apply mx-auto grid-cols-5 grid-flow-row;
+}

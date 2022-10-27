@@ -3,6 +3,7 @@ import Header from "@components/Header";
 import SearchBanner from "@components/SearchBanner";
 import PopularCity from "@layouts/PopularCity";
 import PopularFestival from "@layouts/PopularFestival";
+import PopularFood from "@layouts/PopularFood";
 import Footer from "@components/Footer";
 
 function MainPage() {
@@ -13,7 +14,7 @@ function MainPage() {
       <div className="mx-auto flex flex-col outline-show">
         <PopularCity />
         <PopularFestival />
-        <section className="festival-card outline-show" />
+        <PopularFood />
       </div>
       <Footer />
     </>

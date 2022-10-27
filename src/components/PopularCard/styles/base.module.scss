@@ -1,0 +1,15 @@
+.popular_card {
+	@apply flex flex-wrap	flex-col;
+}
+
+.location {
+	@apply flex flex-row;
+}
+
+.location_icon {
+	@apply bg-no-repeat bg-center;
+}
+
+.location_text {
+	@apply flex text-[#007350];
+}

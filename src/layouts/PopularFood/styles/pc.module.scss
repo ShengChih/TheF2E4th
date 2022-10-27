@@ -1,0 +1,16 @@
+/** 1280px */
+@media (min-width: 1280px) {
+	.food_suggestion {
+		@apply mt-[124px] mb-[85px];
+	}
+
+	.food_grid {
+		> div {
+			> div {
+				@apply p-[12px] pb-[16px];
+			}
+		}
+
+		@apply w-[1066px] h-[521px] gap-x-[9px] gap-y-[35px];
+	}
+}
