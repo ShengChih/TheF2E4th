@@ -75,6 +75,10 @@ export default defineConfig(({ command }: ConfigEnv) => {
         {
           find: '@layouts',
           replacement: '/src/layouts'
+        },
+        {
+          find: '@api',
+          replacement: '/src/api'
         }
       ]
     },
