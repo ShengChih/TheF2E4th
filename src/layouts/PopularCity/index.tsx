@@ -1,9 +1,12 @@
 import React, { MouseEvent, useEffect } from "react";
 
-import TDXApi, { CityInfoGet, CityStr } from '@api/TDXApi'
+import TDXApi, { CityInfoGet } from '@api/TDXApi'
 
+import BlackRightArrowButton from '@components/SlideArrowButton/BlackRightArrowButton'
+import WhiteLeftArrowButton from '@components/SlideArrowButton/WhiteLeftArrowButton'
 import GridContainer from '@components/GridContainer'
 import Triangle from "@components/SectionIcon/Triangle";
+import withClassName from '@HOCs/withClassName'
 import withSlider from '@HOCs/withSlider'
 import withSectionTitle from "@HOCs/withSectionTitle"
 
@@ -26,7 +29,7 @@ import Hualien from "./images/Hualien.png"
 import Taitung from "./images/Taitung.png"
 import PenghuKinmenMatsu from "./images/Penghu_Kinmen_Matsu.png"
 
-type CityType = CityStr | CityStr[]
+// type CityType = CityStr | CityStr[]
 type CityApiParamType = CityInfoGet // Omit<CityInfoGet, 'City'> & { City: CityType }
 
 type CityInfo = {
@@ -163,6 +166,15 @@ export default function PopularCity() {
 		},
 	]
 
+	const LeftButton = withClassName(
+		WhiteLeftArrowButton,
+		`${baseStyles.slide_button} ${pcStyles.slide_left}`
+	)
+	const RightButton = withClassName(
+		BlackRightArrowButton,
+		`${baseStyles.slide_button} ${pcStyles.slide_right}`
+	)
+
 	const linkCityInfo = (apiParams: CityApiParamType) => {
 		return (e: MouseEvent<HTMLElement>) => {
 			// for testing api
@@ -208,6 +220,8 @@ export default function PopularCity() {
 
 	const { SliderContainer: CitySliderShow, sliceFunc } = withSlider({
 		WrappedContainer: GridContainer,
+		LeftButton: LeftButton,
+		RightButton: RightButton,
 		totalRows: cities.length,
 		maxRowsInContainer: 7
 	})

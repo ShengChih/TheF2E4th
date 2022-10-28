@@ -1,22 +1,32 @@
-import { ComponentType, ComponentProps, ElementType, ReactNode } from 'react'
+import {
+	ComponentType,
+	ComponentProps,
+	ElementType,
+	ReactNode,
+	MouseEvent
+} from 'react'
 
 import useSlider from '@hooks/useSlider'
-import BlackRightArrowButton from '@components/SlideArrowButton/BlackRightArrowButton'
-import WhiteLeftArrowButton from '@components/SlideArrowButton/WhiteLeftArrowButton'
 
 import baseStyles from './styles/base.module.scss'
-import pcStyles from './styles/pc.module.scss'
 
 type ComponentAnyProps<T extends ElementType> = ComponentProps<T>
+type ButtonComponentProps = {
+	onClick: (e: MouseEvent<HTMLElement>) => void
+}
 
 interface SliderProps<T extends ElementType> {
 	WrappedContainer: ComponentType<ComponentAnyProps<T>>
+	LeftButton: ComponentType<ButtonComponentProps>
+	RightButton: ComponentType<ButtonComponentProps>
 	totalRows: number
 	maxRowsInContainer: number
 }
 
 export default function withSlider<T extends ElementType>({
 	WrappedContainer,
+	LeftButton,
+	RightButton,
 	totalRows,
 	maxRowsInContainer
 }: SliderProps<T>) {
@@ -39,24 +49,16 @@ export default function withSlider<T extends ElementType>({
 			<WrappedContainer
 				{...props}
 			/>
-			<div className={`${baseStyles.slide_control} ${pcStyles.slide_control}`}>
-				{
-					currentPage > 1
-						? <WhiteLeftArrowButton
-							className={`${baseStyles.slide_left} ${pcStyles.slide_left}`}
-							onClick = { handleLeftClick }
-						/>
-						: ''
-				}
-				{
-					currentPage < maxPage
-						? <BlackRightArrowButton
-								className={`${baseStyles.slide_right} ${pcStyles.slide_right}`}
-								onClick={handleRightClick}
-							/>
-						: ''
-				}
-			</div>
+			{
+				currentPage > 1
+					? <LeftButton onClick = { handleLeftClick } />
+					: ''
+			}
+			{
+				currentPage < maxPage
+					? <RightButton onClick={handleRightClick} />
+					: ''
+			}
 		</>
 	)
 

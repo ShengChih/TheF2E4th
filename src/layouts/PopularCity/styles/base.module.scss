@@ -32,3 +32,7 @@
 .city_mask {
 	@apply w-full h-full opacity-30 bg-[#0D0B0C] z-10;
 }
+
+.slide_button {
+	@apply my-auto inset-y-0 absolute;
+}
