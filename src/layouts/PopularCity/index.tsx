@@ -1,4 +1,6 @@
-import React from "react";
+import React, { MouseEvent, useEffect } from "react";
+
+import TDXApi, { CityInfoGet, CityStr } from '@api/TDXApi'
 
 import GridContainer from '@components/GridContainer'
 import Triangle from "@components/SectionIcon/Triangle";
@@ -24,70 +26,165 @@ import Hualien from "./images/Hualien.png"
 import Taitung from "./images/Taitung.png"
 import PenghuKinmenMatsu from "./images/Penghu_Kinmen_Matsu.png"
 
+type CityType = CityStr | CityStr[]
+type CityApiParamType = CityInfoGet // Omit<CityInfoGet, 'City'> & { City: CityType }
+
 type CityInfo = {
 	name: string
-	imageUrl: string
+	imageUrl: string,
+	apiParams: CityApiParamType
 }
 
+const api = TDXApi.getInstance()
+
 export default function PopularCity() {
+	useEffect(() => {
+		const AllCityName = `All City`
+			
+		if (!!!localStorage.getItem(AllCityName)) {
+			api.getCities({}).then(({ data }) => {
+				localStorage.setItem(AllCityName, JSON.stringify(data))
+			})
+		}
+	}, [])
+	
 	const cities: CityInfo[] = [
 		{
 			name: "台北",
-			imageUrl: Taipei
+			imageUrl: Taipei,
+			apiParams: {
+				City: 'Taipei',
+				$top: '10',
+			}
 		},
 		{
 			name: "新北",
-			imageUrl: NewTaipei
+			imageUrl: NewTaipei,
+			apiParams: {
+				City: 'NewTaipei',
+				$top: '10',
+			}
 		},
 		{
 			name: "桃園",
-			imageUrl: Taoyuan
+			imageUrl: Taoyuan,
+			apiParams: {
+				City: 'Taoyuan',
+				$top: '10',
+			}
 		},
 		{
-			name: "新竹",
-			imageUrl: Hsinchu
+			name: "新竹、苗栗",
+			imageUrl: Hsinchu,
+			apiParams: {
+				City: 'Hsinchu',
+				$top: '10',
+			}
 		},
 		{
 			name: "台中",
-			imageUrl: Taichung
+			imageUrl: Taichung,
+			apiParams: {
+				City: 'Taichung',
+				$top: '10',
+			}
 		},
 		{
 			name: "南投",
-			imageUrl: Nantou
+			imageUrl: Nantou,
+			apiParams: {
+				City: 'NantouCounty',
+				$top: '10',
+			}
 		},
 		{
 			name: "嘉義",
-			imageUrl: Chiayi
+			imageUrl: Chiayi,
+			apiParams: {
+				City: 'Chiayi',
+				$top: '10',
+			}
 		},
 		{
 			name: "台南",
-			imageUrl: Tainan
+			imageUrl: Tainan,
+			apiParams: {
+				City: 'Tainan',
+				$top: '10',
+			}
 		},
 		{
 			name: "高雄",
-			imageUrl: Kaohsiung
+			imageUrl: Kaohsiung,
+			apiParams: {
+				City: 'Kaohsiung',
+				$top: '10',
+			}
 		},
 		{
 			name: "屏東",
-			imageUrl: Pingtung
+			imageUrl: Pingtung,
+			apiParams: {
+				City: 'PingtungCounty',
+				$top: '10',
+			}
 		},
 		{
 			name: "宜蘭",
-			imageUrl: Yilan
+			imageUrl: Yilan,
+			apiParams: {
+				City: 'YilanCounty',
+				$top: '10',
+			}
 		},
 		{
 			name: "花蓮",
-			imageUrl: Hualien
+			imageUrl: Hualien,
+			apiParams: {
+				City: 'HualienCounty',
+				$top: '10',
+			}
 		},
 		{
 			name: "台東",
-			imageUrl: Taitung
+			imageUrl: Taitung,
+			apiParams: {
+				City: 'TaitungCounty',
+				$top: '10',
+			}
 		},
 		{
 			name: "澎湖、金門、馬祖",
-			imageUrl: PenghuKinmenMatsu
+			imageUrl: PenghuKinmenMatsu,
+			apiParams: {
+				City: 'PenghuCounty',
+				$top: '10',
+			}
 		},
 	]
+
+	const linkCityInfo = (apiParams: CityApiParamType) => {
+		return (e: MouseEvent<HTMLElement>) => {
+			// for testing api
+			const CityName = (apiParams.City ?? '')
+			const ActivityName = `${CityName} Activity`
+			const RestaurantName = `${CityName} Restaurant`
+			
+			if (!!!localStorage.getItem(ActivityName)) {
+				api.getActivity(apiParams)
+					.then(({ data }) => {
+						localStorage.setItem(`${ActivityName}`, JSON.stringify(data))
+					})
+			}
+
+			if (!!!localStorage.getItem(RestaurantName)) {
+				api.getRestaurant(apiParams)
+					.then(({ data }) => {
+						localStorage.setItem(`${RestaurantName}`, JSON.stringify(data))
+					})
+			}
+		}
+	}
 
 	const data = cities.map(
 			(city: CityInfo) => (
@@ -96,6 +193,7 @@ export default function PopularCity() {
 						backgroundImage: `url(${city.imageUrl})`,
 					}}
 					className={`${baseStyles.city_container}`}
+					onClick={linkCityInfo(city.apiParams)}
 				>
 					<div className={`${baseStyles.city_mask}`}></div>
 					<img
