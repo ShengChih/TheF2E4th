@@ -1,5 +1,5 @@
 .fullmask {
-	@apply w-[100vw] h-[100vh] flex items-center justify-center bg-[#D2D2D2]/[.75] fixed inset-0 overflow-y-auto;
+	@apply w-[100vw] h-[100vh] flex items-center justify-center bg-[#D2D2D2]/[.75] fixed inset-0 overflow-y-auto z-10;
 }
 
 .container {
@@ -7,7 +7,11 @@
 }
 
 .close {
-	@apply absolute flex items-center justify-center bg-center top-0;
+	@apply absolute flex items-center justify-center bg-center top-0 bg-no-repeat;
+}
+
+.slide_button {
+	@apply absolute;
 }
 
 .flex_row {

@@ -23,11 +23,11 @@ export default function FestivalCard({
 }: FestivalCardProps) {
 	return (
 		<div className={`${baseStyles.festival_card} ${pcStyles.festival_card}`}>
-			<img className={`${baseStyles.main_image} ${pcStyles.main_image}`}
+			<img className={`${pcStyles.main_image}`}
 				alt={title} src={mainImage ? mainImage : NoImage}
 			/>
 			<div className={`${pcStyles.description}`}>
-				<div className={`${baseStyles.title} ${pcStyles.title}`}>{title}</div>
+				<div className={`${pcStyles.title}`}>{title}</div>
 				<div className={`${baseStyles.summary} ${pcStyles.summary}`}>{summary}</div>
 				<div className={`${baseStyles.action} ${pcStyles.action}`}>
 					<div className={`${baseStyles.location} ${pcStyles.location}`}>

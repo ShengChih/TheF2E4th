@@ -1,5 +1,9 @@
 import { ComponentProps, MouseEvent } from 'react'
 
+import BlackRightArrowButton from '@components/SlideArrowButton/BlackRightArrowButton'
+import WhiteLeftArrowButton from '@components/SlideArrowButton/WhiteLeftArrowButton'
+
+import withClassName from '@HOCs/withClassName'
 import withSlider from '@HOCs/withSlider'
 
 import NoImage from './images/NoImage.svg'
@@ -50,10 +54,19 @@ export default function FestivalDetailModal({
 	const ImageContainer = (props: ComponentProps<"img">) => (
 		<img {...props} />
 	)
-
 	const newImages = images && images.length > 0 ? images : [NoImage]
+	const LeftButton = withClassName(
+		WhiteLeftArrowButton,
+		`${baseStyles.slide_button} ${pcStyles.slide_left}`
+	)
+	const RightButton = withClassName(
+		BlackRightArrowButton,
+		`${baseStyles.slide_button} ${pcStyles.slide_right}`
+	)
 	const { SliderContainer: ImageSlider, sliceFunc } = withSlider({
 		WrappedContainer: ImageContainer,
+		LeftButton,
+		RightButton,
 		totalRows: images?.length ?? 0,
 		maxRowsInContainer: 1
 	})
@@ -61,7 +74,7 @@ export default function FestivalDetailModal({
 	const invisibleClassName = isDisplay ? '' : 'hidden'
 
 	return (
-		<div className={`${baseStyles.fullmask} ${pcStyles.fullmask} ${invisibleClassName}`}>
+		<div className={`${baseStyles.fullmask} ${invisibleClassName}`}>
 			<div className={`${baseStyles.container} ${pcStyles.container}`}>
 				<div
 					style={{
@@ -70,9 +83,9 @@ export default function FestivalDetailModal({
 					className={`${baseStyles.close} ${pcStyles.close}`}
 					onClick={onCloseModal}
 				></div>
-				<ImageSlider className={`${baseStyles.image} ${pcStyles.image}`} src={sliceFunc(newImages)} />
-				<div className={`${baseStyles.title} ${pcStyles.title}`}>{title}</div>
-				<div className={`${baseStyles.description} ${pcStyles.description}`}>{description}</div>
+				<ImageSlider className={`${pcStyles.image}`} src={sliceFunc(newImages)} />
+				<div className={`${pcStyles.title}`}>{title}</div>
+				<div className={`${pcStyles.description}`}>{description}</div>
 				<div className={`${baseStyles.period_price} ${pcStyles.period_price}`}>
 					<div className={`${baseStyles.period} ${pcStyles.period}`}>
 						<div
@@ -98,7 +111,7 @@ export default function FestivalDetailModal({
 								backgroundImage: `url(${mapIcon})`
 							}}
 							className={`${baseStyles.location_icon} ${pcStyles.location_icon}`}></div>
-						<div className={`${baseStyles.location_text} ${pcStyles.location_text}`}>{location}</div>
+						<div className={`${pcStyles.location_text}`}>{location}</div>
 					</div>
 					<div className={`${baseStyles.contact} ${pcStyles.contact}`}>
 						<div

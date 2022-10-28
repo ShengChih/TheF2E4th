@@ -10,6 +10,20 @@
 	@apply w-[612px] h-[459px];
 }
 
+.arrow_button {
+	@apply top-[513px] w-[32px] h-[32px] rounded-[6px] shadow-[0_4px_3px_rgba(13,11,12,0.3)];
+}
+
+.slide_left {
+	@extend .arrow_button;
+	@apply left-[562px];
+}
+
+.slide_right {
+	@extend .arrow_button;
+	@apply left-[612px];
+}
+
 .title {
 	@apply w-[612px] h-[26px] mt-[76px];
 }
