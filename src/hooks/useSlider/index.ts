@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, MouseEvent } from 'react'
 
 interface SliderProps {
 	totalRows: number
@@ -28,7 +28,7 @@ export default function useSlider({
 			maxPage: Math.ceil(totalRows / maxRowsInContainer),
 			currentPage: 1,
 		})
-	}, [])
+	}, [totalRows, maxRowsInContainer])
 
 	const maxPage = state.maxPage
 	const currentPage = state.currentPage
@@ -40,7 +40,7 @@ export default function useSlider({
 	)
 
 	const wrappedClick = (val: number) => {
-		return () => {
+		return (e: MouseEvent<HTMLElement>) => {
 			setState({
 				maxPage: state.maxPage,
 				currentPage: state.currentPage + val,
