@@ -1,85 +1,16 @@
-import React from "react";
-import TaiwanLogoImage from "./images/TaiwanLogo.svg";
-import FirstNavIcon from "./images/FirstNavIcon.svg";
-import SecondNavIcon from "./images/SecondNavIcon.svg";
-import ThirdNavIcon from "./images/ThirdNavIcon.svg";
-import { isDesktop, isTablet } from 'react-device-detect';
+import HexSchoolLogo from './images/hex-logo.svg'
 
-import './styles/base.scss'
-
-/**
- * Don't use sass/scss @import for different devices classnames, 
- * because that causes postcss-px-to-vw packages
- * execute in wrong ordered postcss plugins
- * 
- * 因為 sass/scss 透過 postcss-import 支援 @import 語法
- * 因此 postcss-import 先於 postcss-px-to-vw 將所有的 sass/scss 檔案匯聚成一份
- * 就不能使用 postcss-px-to-vw exclude / include 的設定根據不同 designedWidth 設定 config
- * px 轉 vw 就會只用最先執行的 config 轉。
- * 
- * 這只會限制特別的裝置 styles，針對 media query 內的用法，其他不在意可使用 @import
- */
-import './styles/pc.scss';
-import './styles/mobile.scss';
-import './styles/tablet.scss';
-
-const items = [
-  {
-    itemLink: "",
-    itemColor: "#FF1D6C",
-    linkText: "台灣景點",
-    backgroundImg: FirstNavIcon,
-  },
-  {
-    itemLink: "",
-    itemColor: "#FFB72C",
-    linkText: "美食住宿",
-    backgroundImg: SecondNavIcon,
-  },
-  {
-    itemLink: "",
-    itemColor: "#007350",
-    linkText: "景點交通",
-    backgroundImg: ThirdNavIcon,
-  },
-];
-
-function Header() {
-  const itemList = (
-    isDesktop || isTablet
-    ? (
-      <div className="header__items header--mobile__items header--tablet__items header--pc__items">
-      {items.map(({ itemLink, itemColor, linkText, backgroundImg }, index) => (
-        <a key={`item-${index}`}  href={itemLink}>
-          <div
-            style={{
-              backgroundImage: `url(${backgroundImg})`
-            }}
-          />
-          <span
-            style={{
-              textDecoration: itemColor,
-              color: itemColor
-            }}
-          >{linkText}</span>
-        </a>
-      ))}
-      </div>
-      )
-      : ''
-  )
-
-  return (
-    <div className="header header--mobile header--tablet header--pc">
-      <div
-        style={{
-          backgroundImage: `url(${TaiwanLogoImage})`
-        }}
-        className="header__logo header--mobile__logo header--tablet__logo header--pc__logo"
-      />
-      {itemList}
-    </div>
-  );
+export default function Header() {
+	return (
+		<header className={`relative flex items-center justify-between bg-[#38241B] desktop:h-[62px] desktop:px-[40px]`}>
+			<img src={HexSchoolLogo} className={`desktop:w-[145px] desktop:h-[35px] bg-no-repeat flex items-center`} />
+			<nav className={`flex desktop:w-[386px] desktop:h-[42px] desktop:inset-y-[10px]`}>
+				<ul className={`h-full flex items-center justify-between desktop:px-[8px] desktop:w-[196px]`}>
+					<li className={`text-white desktop:text-[18px] desktop:leading-[26.06px] font-normal	font-sans desktop:w-[72px] desktop:h-[26px]`}>關卡任務</li>
+					<li className={`text-white desktop:text-[18px] desktop:leading-[26.06px] font-normal	font-sans desktop:w-[72px] desktop:h-[26px]`}>競賽說明</li>
+				</ul>
+				<button className={`flex justify-center items-center text-white font-medium font-sans desktop:ml-[7px] desktop:text-[20px] desktop:leading-[29px] desktop:w-[183px] desktop:h-[42px] bg-[#951205] rounded-[40px] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]`}>立即報名</button>
+			</nav>
+		</header>
+	)
 }
-
-export default Header;
