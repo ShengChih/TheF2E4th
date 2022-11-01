@@ -21,13 +21,17 @@ function MainPage() {
         <SponserInfo />
         <ScheduleTask>
           {
-            Tasks.map(({ title, subtitle, content, tipUrl, contributeUrl}: TaskType, index: number) => {
+            Tasks.map(({
+              title, subtitle, content, tipUrl, contributeUrl,
+              TaskLogo,
+              EnterpriseLogo
+            }: TaskType, index: number) => {
               const props = {
                 title: title,
                 subtitle: subtitle,
                 content: content, 
-                EnterpriseLogo: <></>,
-                TaskLogo: <></>,
+                EnterpriseLogo: EnterpriseLogo,
+                TaskLogo: TaskLogo,
                 forwardTips: () => {
                   window.open(tipUrl, "_blank")
                 },

@@ -9,7 +9,7 @@ export default function MainContainer({ children }: MainContainerProps) {
 			style={{
 				backgroundImage: `url(${MainBackground})`
 			}}
-			className={`bg-no-repeat bg-center flex flex-col items-center relative desktop:h-[6443px]`}
+			className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative desktop:h-[6443px]`}
 		>
 			{children}
 		</div>

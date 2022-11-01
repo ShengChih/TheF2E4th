@@ -42,6 +42,11 @@ module.exports = {
           },
           {
             fontFamily: 'Noto Sans TC',
+            fontWeight: 700,
+            src: 'url("./fonts/Noto_Sans_TC/NotoSansTC-Bold.otf") format("opentype");'
+          },
+          {
+            fontFamily: 'Noto Sans TC',
             fontWeight: 900,
             src: 'url("./fonts/Noto_Sans_TC/NotoSansTC-Black.otf") format("opentype");'
           },
@@ -54,6 +59,11 @@ module.exports = {
             fontFamily: 'Noto Serif TC',
             fontWeight: 500,
             src: 'url("./fonts/Noto_Sans_TC/NotoSerifTC-Medium.otf") format("opentype");'
+          },
+          {
+            fontFamily: 'Noto Serif TC',
+            fontWeight: 700,
+            src: 'url("./fonts/Noto_Sans_TC/NotoSerifTC-Bold.otf") format("opentype");'
           },
           {
             fontFamily: 'Noto Serif TC',
