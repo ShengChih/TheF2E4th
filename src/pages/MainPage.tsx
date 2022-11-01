@@ -1,11 +1,16 @@
-import React, { useEffect } from "react"
+import React from "react"
 import MainBannerContainer from "@components/MainBannerContainer";
 import MainBanner from "@components/MainBanner";
 import Header from '@components/Header'
 import MainContainer from '@components/MainContainer'
-import SponserInfo from "@components/SponserInfo";
+import HostInfo from "@components/HostInfo";
 import ScheduleTask from "@components/ScheduleTask"
 import TaskCard from "@components/TaskCard"
+import ScheduleInfo from "@components/ScheduleInfo"
+import AwardInfo from "@components/AwardInfo"
+import LiveShareVideo from "@components/LiveShareVideo"
+import SponerInfo from "@components/SponerInfo"
+import Footer from "@components/Footer";
 
 import { TaskType, Tasks } from "@components/TaskCard/constants"
 
@@ -18,7 +23,7 @@ function MainPage() {
         <MainBanner className={`mx-auto mt-[39px]`} />
       </MainBannerContainer>
       <MainContainer>
-        <SponserInfo />
+        <HostInfo />
         <ScheduleTask>
           {
             Tasks.map(({
@@ -43,6 +48,11 @@ function MainPage() {
             })
           }
         </ScheduleTask>
+        <ScheduleInfo></ScheduleInfo>
+        <AwardInfo></AwardInfo>
+        <LiveShareVideo></LiveShareVideo>
+        <SponerInfo></SponerInfo>
+        <Footer></Footer>
       </MainContainer>
     </>
   );
