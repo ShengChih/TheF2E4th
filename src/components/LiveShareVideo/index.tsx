@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { ReactNode, useState, MouseEvent } from 'react'
 import BackgroundImage from './images/BackgroundImage.svg'
 import BlockStudioSpeaker from './images/BlockStudioSpeaker1x.png'
 import LeoSpeaker from './images/LeoSpeaker1x.png'
@@ -18,6 +18,13 @@ interface ShareSpeakerCardProps {
 	ActivityInfo: ReactNode | ReactNode[]
 }
 
+interface LiveShareState {
+	displayCard: boolean
+}
+
+const initState = {
+	displayCard: false
+}
 
 function ShareSpeakerCard({
 	SubjectStyle,
@@ -60,8 +67,16 @@ function ShareSpeakerCard({
 }
 
 export default function LiveShareVideo() {
-	return (
-		<section className={`w-full desktop:h-[1825px]`}>
+	const [state, setState] = useState<LiveShareState>(initState)
+
+	const handleClick = (e: MouseEvent<HTMLElement>) => {
+		setState({
+			displayCard: true
+		})
+	}
+	
+	const SpeakerCards = (
+		<>
 			<div className={`flex items-center justify-center bg-[#3C221B] font-serif font-black text-white desktop:h-[170px] desktop:text-[60px] desktop:leading-[86px]`}>各界大神直播分享</div>
 			<div className={`grid grid-flow-row grid-cols-2 mx-auto desktop:mt-[63px] desktop:w-[1064px] desktop:h-[1529px] desktop:gap-x-[20px] desktop:gap-y-[52px]`}>
 				<ShareSpeakerCard
@@ -105,6 +120,24 @@ export default function LiveShareVideo() {
 					ActivityInfo={`11/24(四)20:00 ~ 21:30`}
 				/>
 			</div>
+		</>
+	)
+
+	const ClickBlock = (
+		<div onClick={handleClick} className={`font-serif font-black mx-auto text-center text-[#3C221B] desktop:leading-[103px] desktop:text-[72px] desktop:mt-[215px] desktop:w-[504px] desktop:h-[245px]`}>
+			意想不到的好康
+			<span className={`text-[#951205]`}>請點擊</span>
+		</div>
+	)
+	
+	return (
+		<section className={`w-full desktop:h-[1825px]`}>
+			{
+				state.displayCard
+					? SpeakerCards
+					: ClickBlock
+			}
+			
 		</section>
 	)
 }
