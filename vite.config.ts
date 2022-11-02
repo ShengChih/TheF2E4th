@@ -73,6 +73,10 @@ export default defineConfig(({ command }: ConfigEnv) => {
         {
           find: '@api',
           replacement: '/src/api'
+        },
+        {
+          find: '@images',
+          replacement: '/src/images'
         }
       ]
     },

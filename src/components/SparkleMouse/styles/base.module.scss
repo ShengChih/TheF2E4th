@@ -1,0 +1,27 @@
+.cursor {
+  width: 49px;
+  height: 49px;
+  position: fixed;
+  transform: translate(-40%, -40%);
+  pointer-events: none;
+  z-index: 9999;
+  transition: all 150ms ease;
+  transition-property: opacity;
+}
+
+.star {
+  opacity: 1;
+  animation: fade 1.5s infinite;
+}
+
+@keyframes fade {
+  0% { opacity: 1; }
+  25% { opacity: 0.75; }
+  50% { opacity: 0.5; }
+  75% { opacity: 0.25; }
+  100% { opacity: 0; }
+}
+
+.cursor--hidden {
+  opacity: 0;
+}
