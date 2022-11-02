@@ -24,55 +24,67 @@ function SchedulePoint({
 	)
 }
 
+const SchedulePoints = [
+	{
+		CardStyle: `desktop:w-[290.37px]`,
+		title: `開始報名`,
+		RectangleStyle: ``,
+		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[32.37px]`,
+		ActivityPeriods: ['10/13(四) 早上 11:00', <br />, '至 11/6(日) 晚上 23:59']
+	},
+	{
+		CardStyle: `desktop:w-[290.37px]`,
+		title: `開賽`,
+		RectangleStyle: ``,
+		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[32.37px]`,
+		ActivityPeriods: ['UI組、團體組開賽 10/31', <br />, '前端組開賽 11 /7'],
+	},
+	{
+		CardStyle: `desktop:w-[290.37px]`,
+		title: `投稿作品`,
+		RectangleStyle: ``,
+		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[32.37px]`,
+		ActivityPeriods: ['10/31(一) 中午 12:00', <br />, '至11/28(一) 中午 12:00'],
+	},
+	{
+		CardStyle: `desktop:w-[290.37px]`,
+		title: `線上直播`,
+		RectangleStyle: ``,
+		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[48.37px]`,
+		ActivityPeriods: ['11/3 至 11/24(每週四)'],
+	}
+]
+
+const SchedulePoints2 = [
+	{
+		CardStyle: `desktop:w-[290.37px]`,
+		title: `初選`,
+		RectangleStyle: ``,
+		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[48.37px]`,
+		ActivityPeriods: '12/05(五)',
+	},
+	{
+		CardStyle: `desktop:w-[284.37px]`,
+		title: `決選`,
+		RectangleStyle: ``,
+		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[48.37px]`,
+		ActivityPeriods:`12/05(五)`,
+	}				
+]
+
 export default function ScheduleInfo() {
 	return (
 		<section className={`w-full desktop:h-[1040px]`}>
 			<div className={`flex items-center justify-center bg-[#3C221B] font-serif font-black text-white desktop:h-[170px] desktop:text-[60px] desktop:leading-[86px]`}>賽程時間</div>
 			<div className={`flex mx-auto w-max desktop:mt-[155px]`}>
-				<SchedulePoint
-					CardStyle={`desktop:w-[290.37px]`}
-					title={`開始報名`}
-					RectangleStyle={``}
-					PeriodStyle={`desktop:leading-[35px] desktop:text-[24px] desktop:top-[32.37px]`}
-					ActivityPeriods={['10/13(四) 早上 11:00', <br />, '至 11/6(日) 晚上 23:59']}
-				/>
-				<SchedulePoint
-					CardStyle={`desktop:w-[290.37px]`}
-					title={`開賽`}
-					RectangleStyle={``}
-					PeriodStyle={`desktop:leading-[35px] desktop:text-[24px] desktop:top-[32.37px]`}
-					ActivityPeriods={['UI組、團體組開賽 10/31', <br />, '前端組開賽 11 /7']}
-				/>
-				<SchedulePoint
-					CardStyle={`desktop:w-[290.37px]`}
-					title={`投稿作品`}
-					RectangleStyle={``}
-					PeriodStyle={`desktop:leading-[35px] desktop:text-[24px] desktop:top-[32.37px]`}
-					ActivityPeriods={['10/31(一) 中午 12:00', <br />, '至11/28(一) 中午 12:00']}
-				/>
-				<SchedulePoint
-					CardStyle={`desktop:w-[290.37px]`}
-					title={`線上直播`}
-					RectangleStyle={``}
-					PeriodStyle={`desktop:leading-[35px] desktop:text-[24px] desktop:top-[48.37px]`}
-					ActivityPeriods={['11/3 至 11/24(每週四)']}
-				/>
+				{
+					SchedulePoints.map((point, index:number ) => <SchedulePoint {...point} key={`scheduleponit1-key-${index}`} />)
+				}
 			</div>
 			<div className={`flex mx-auto w-max desktop:mt-[155px]`}>
-				<SchedulePoint
-					CardStyle={`desktop:w-[290.37px]`}
-					title={`初選`}
-					RectangleStyle={``}
-					PeriodStyle={`desktop:leading-[35px] desktop:text-[24px] desktop:top-[48.37px]`}
-					ActivityPeriods={'12/05(五)'}
-				/>
-				<SchedulePoint
-					CardStyle={`desktop:w-[284.37px]`}
-					title={`決選`}
-					RectangleStyle={``}
-					PeriodStyle={`desktop:leading-[35px] desktop:text-[24px] desktop:top-[48.37px]`}
-					ActivityPeriods={`12/05(五)`}
-				/>
+				{
+					SchedulePoints2.map((point, index:number ) => <SchedulePoint {...point} key={`scheduleponit2-key-${index}`} />)
+				}
 			</div>
 			<div className={`font-sans text-[#3C221B] desktop:text-[28px] mx-auto desktop:w-[1198px] desktop:h-[89px] desktop:mt-[127.37px]`}>
 				初選：將由六角學院前端、UI 評審進行第一波篩選，並於 12/5（五）公布初選佳作名單。<br />
