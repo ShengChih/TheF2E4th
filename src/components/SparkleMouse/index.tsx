@@ -49,10 +49,10 @@ const SparkleMouse = () => {
 		return () => removeEventListeners()
   }, []);
 
-	const onMouseMove = (e: MouseEvent) => {
+	const onMouseMove = ({ clientX, clientY }: MouseEvent) => {
 		setPosition({
-			x: e.clientX,
-			y: e.clientY
+			x: clientX,
+			y: clientY
 		})
 		throttleSetStars(genStarPositions())
 	}
@@ -66,7 +66,7 @@ const SparkleMouse = () => {
 	}
 
   const addEventListeners = () => {
-		document.addEventListener("mousemove", onMouseMove)
+		document.addEventListener("pointermove", onMouseMove)
 		document.addEventListener("mouseenter", onMouseEnter)
 		document.addEventListener("mouseleave", onMouseLeave)
 	}
