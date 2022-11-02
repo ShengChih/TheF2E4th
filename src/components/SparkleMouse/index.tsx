@@ -72,7 +72,7 @@ const SparkleMouse = () => {
 	}
 
   const removeEventListeners = () => {
-		document.removeEventListener("mousemove", onMouseMove)
+		document.removeEventListener("pointermove", onPointerMove)
 	}
 
 	const hiddenClassname = hidden
