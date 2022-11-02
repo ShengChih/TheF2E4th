@@ -17,7 +17,8 @@ module.exports = {
     fontFamily: {
       'sans': ['Noto Sans TC', ],
       'serif': ['Noto Serif TC'],
-      'julian': ['AR JULIAN']
+      'julian': ['AR JULIAN'],
+      'roboto': ['Roboto']
     },
     extend: {},
   },
@@ -25,6 +26,21 @@ module.exports = {
     plugin(function ({ addBase }) {
       const fonts = {
         '@font-face': [
+          {
+            fontFamily: 'Roboto',
+            fontWeight: 400,
+            src: 'url("./fonts/Roboto/Roboto-Regular.ttf") format("tff");'
+          },
+          {
+            fontFamily: 'Roboto',
+            fontWeight: 500,
+            src: 'url("./fonts/Roboto/Roboto-Medium.ttf") format("tff");'
+          },
+          {
+            fontFamily: 'Roboto',
+            fontWeight: 900,
+            src: 'url("./fonts/Roboto/Roboto-Black.ttf") format("tff");'
+          },
           {
             fontFamily: 'AR JULIAN',
             fontWeight: 400,
