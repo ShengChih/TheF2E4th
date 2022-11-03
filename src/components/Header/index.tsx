@@ -1,8 +1,11 @@
+import { ComponentProps } from 'react'
 import HexSchoolLogo from './images/hex-logo.svg'
 
-export default function Header() {
+type HeaderProps = ComponentProps<"header">
+
+export default function Header({ className }: HeaderProps) {
 	return (
-		<header className={`relative flex items-center justify-between bg-[#38241B] desktop:h-[62px] desktop:px-[40px]`}>
+		<header className={`relative flex items-center justify-between bg-[#38241B] desktop:h-[62px] desktop:px-[40px] ${className}`}>
 			<img src={HexSchoolLogo} className={`desktop:w-[145px] desktop:h-[35px] bg-no-repeat flex items-center`} />
 			<nav className={`flex desktop:w-[386px] desktop:h-[42px] desktop:inset-y-[10px]`}>
 				<ul className={`h-full flex items-center justify-between desktop:px-[8px] desktop:w-[196px]`}>

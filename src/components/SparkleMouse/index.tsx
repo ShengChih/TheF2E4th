@@ -1,5 +1,5 @@
 import React, {
-	useRef, useState, useEffect, forwardRef, useImperativeHandle, RefObject,
+	useRef, useState, useEffect, forwardRef, useImperativeHandle,
 	ForwardRefRenderFunction, ElementRef
 } from 'react'
 import { throttle } from 'lodash'

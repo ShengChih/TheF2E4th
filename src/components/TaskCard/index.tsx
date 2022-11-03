@@ -1,4 +1,7 @@
-import { MouseEvent, ReactNode } from 'react'
+import {
+	MouseEvent, ReactNode, useRef, RefObject,
+	forwardRef, ForwardRefRenderFunction, useImperativeHandle
+} from 'react'
 import CardBackground from './images/card_background.svg'
 
 interface TaskCardProps {
@@ -11,7 +14,11 @@ interface TaskCardProps {
 	forwardContribute?: (e: MouseEvent<HTMLElement>) => void
 }
 
-export default function TaskCard({
+type TaskCardHandle = {
+	getRef: () => RefObject<HTMLDivElement>
+}
+
+const TaskCardComponent: ForwardRefRenderFunction<TaskCardHandle, TaskCardProps> = ({
 	title,
 	subtitle,
 	content,
@@ -19,9 +26,20 @@ export default function TaskCard({
 	TaskLogo,
 	forwardTips,
 	forwardContribute
-}: TaskCardProps) {
+}, forwardref) => {
+	const TaskCardRef = useRef<HTMLDivElement>(null)
+
+	useImperativeHandle(forwardref, () => {
+		return {
+			getRef: () => {
+				return TaskCardRef ?? {}
+			}
+		}
+	}, [])
+
 	return (
 		<div
+			ref={TaskCardRef}
 			style={{
 				backgroundImage: `url(${CardBackground})`
 			}}
@@ -43,3 +61,5 @@ export default function TaskCard({
 		</div>
 	)
 }
+
+export default forwardRef(TaskCardComponent)

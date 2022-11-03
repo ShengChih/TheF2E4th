@@ -1,14 +1,54 @@
+import {
+	useRef,
+	RefObject,
+	forwardRef,
+	useImperativeHandle,
+	ForwardRefRenderFunction,
+	ComponentProps
+} from 'react'
 import TeamAward from './images/TeamAward.svg'
 import PersonalAward from './images/PersonalAward.svg'
 import ShortListAward from './images/ShortListAward.svg'
 
-export default function AwardInfo() {
+type AwardInfoHandle = {
+	getSectionRef: () => RefObject<HTMLElement>
+	getTeamAwardRef: () => RefObject<HTMLDivElement>
+	getPersonalAwardRef: () => RefObject<HTMLDivElement>
+	getShortListAwardRef: () => RefObject<HTMLDivElement>
+}
+
+type AwardInfoProps = ComponentProps<"section"> 
+
+const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> = (props, forwardref) => {
+	const SectionRef = useRef<HTMLElement>(null)
+	const TeamAwardRef = useRef<HTMLDivElement>(null)
+	const PersonalAwardRef = useRef<HTMLDivElement>(null)
+	const ShortListAwardRef = useRef<HTMLDivElement>(null)
+
+	useImperativeHandle(forwardref, () => {
+		return {
+			getSectionRef: () => {
+				return SectionRef ?? {}
+			},
+			getTeamAwardRef: () => {
+				return TeamAwardRef ?? {}
+			},
+			getPersonalAwardRef: () => {
+				return PersonalAwardRef ?? {}
+			},
+			getShortListAwardRef: () => {
+				return ShortListAwardRef ?? {}
+			},
+		}
+	}, [])
+
 	return (
-		<section className={`w-full desktop:h-[879px]`}>
+		<section ref={SectionRef} className={`w-full desktop:h-[879px]`}>
 			<div className={`flex items-center justify-center bg-[#3C221B] font-serif font-black text-white desktop:h-[170px] desktop:text-[60px] desktop:leading-[86px]`}>獎項</div>
 			<div className={`grid grid-flow-col mx-auto desktop:mt-[92px] desktop:w-[1198px] desktop:h-[461px] desktop:gap-x-[20px]`}>
 				<div className={`desktop:w-[386px] desktop:h-[461px]`}>
 					<div
+						ref={TeamAwardRef}
 						style={{
 							backgroundImage: `url(${TeamAward})`
 						}}
@@ -20,6 +60,7 @@ export default function AwardInfo() {
 				</div>
 				<div className={`desktop:w-[386px] desktop:h-[461px]`}>
 					<div
+						ref={PersonalAwardRef}
 						style={{
 							backgroundImage: `url(${PersonalAward})`
 						}}
@@ -31,6 +72,7 @@ export default function AwardInfo() {
 				</div>
 				<div className={`relative desktop:w-[386px] desktop:h-[461px]`}>
 					<div
+						ref={ShortListAwardRef}
 						style={{
 							backgroundImage: `url(${ShortListAward})`
 						}}
@@ -45,3 +87,5 @@ export default function AwardInfo() {
 		</section>
 	)
 }
+
+export default forwardRef(AwardInfoBase)

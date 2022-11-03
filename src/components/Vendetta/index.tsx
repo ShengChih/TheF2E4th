@@ -1,5 +1,5 @@
 import {
-	ComponentProps, MutableRefObject, ForwardRefRenderFunction,
+	ComponentProps, ForwardRefRenderFunction,
 	useRef, useImperativeHandle, forwardRef, RefObject
 } from 'react'
 import EntireImage from './images/entire.svg'
