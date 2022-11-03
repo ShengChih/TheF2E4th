@@ -1,4 +1,7 @@
-import React, { useRef, useState, useEffect, forwardRef, useImperativeHandle, RefObject } from 'react'
+import React, {
+	useRef, useState, useEffect, forwardRef, useImperativeHandle, RefObject,
+	ForwardRefRenderFunction, ElementRef
+} from 'react'
 import { throttle } from 'lodash'
 import Star from './images/star.png'
 import baseStyles from './styles/base.module.scss'
@@ -38,7 +41,11 @@ const initStarState = {
 	clientY: innerHeight / 2
 }
 
-const StarIcon = forwardRef(({ delay }: StarProps, ref) => {
+type StarHandle = {
+	moveTo: (postion: StarState) => void
+}
+
+const StarBase: ForwardRefRenderFunction<StarHandle, StarProps> = ({ delay }, ref) => {
 	const el = useRef<HTMLDivElement>(null)
 	const [position, setPosition] = useState<StarState>(initStarState)
 
@@ -73,10 +80,12 @@ const StarIcon = forwardRef(({ delay }: StarProps, ref) => {
 			ref={el}
 		></div>
 	)
-})
+}
+
+const StarIcon = forwardRef(StarBase)
 
 const SparkleMouse = () => {
-	const starRefs = useRef<Array<RefObject<HTMLDivElement>>>([])
+	const starRefs = useRef<Array<ElementRef<typeof StarIcon>>>([])
 	const [stars, setStars] = useState<number[][]>([])
 	const throttleSetStars = throttle(setStars, 5000)
 
@@ -120,7 +129,7 @@ const SparkleMouse = () => {
 		document.removeEventListener("pointermove", onPointerMove)
 	}
 
-	const addStarRef = (ref: RefObject<HTMLDivElement>) => {
+	const addStarRef = (ref: ElementRef<typeof StarIcon>) => {
     if (ref) {
       starRefs.current.push(ref);
     }    
