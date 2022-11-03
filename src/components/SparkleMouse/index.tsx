@@ -27,15 +27,15 @@ interface StarProps {
 interface StarState {
 	x?: number
 	y?: number
-	pageX?: number,
-	pageY?: number
+	clientX?: number,
+	clientY?: number
 }
 
 const initStarState = {
 	x: 0,
 	y: 0,
-	pageX: innerWidth / 2,
-	pageY: innerHeight / 2
+	clientX: innerWidth / 2,
+	clientY: innerHeight / 2
 }
 
 const StarIcon = forwardRef(({ delay }: StarProps, ref) => {
@@ -44,18 +44,18 @@ const StarIcon = forwardRef(({ delay }: StarProps, ref) => {
 
 	useImperativeHandle(ref, () => {
 		return {
-			moveTo({ pageX, pageY, x, y }: StarState) {
+			moveTo({ clientX, clientY, x, y }: StarState) {
 				let newX = x ?? position.x ?? 0
 				let newY = y ?? position.y ?? 0
-				let newPageX = (pageX ?? position.pageX ?? innerWidth / 2) + (newX * offsetBase)
-				let newPageY = (pageY ?? position.pageY ?? innerHeight / 2) + (newY * offsetBase)
+				let newClientX = (clientX ?? position.clientX ?? innerWidth / 2) + (newX * offsetBase)
+				let newClientY = (clientY ?? position.clientY ?? innerHeight / 2) + (newY * offsetBase)
 
 				if (!!el.current) {
-					el.current.style.transform = `translate3d(${newPageX}px, ${newPageY}px, 0)`
+					el.current.style.transform = `translate3d(${newClientX}px, ${newClientY}px, 0)`
 					el.current.style.transition = `transform ${delay} ease`
 					setPosition({
-						pageX,
-						pageY,
+						clientX,
+						clientY,
 						x,
 						y
 					})
@@ -69,7 +69,7 @@ const StarIcon = forwardRef(({ delay }: StarProps, ref) => {
 			style={{
 				backgroundImage: `url(${Star})`,
 			}}
-			className={`absolute bg-center bg-no-repeat ${baseStyles.star} desktop w-[7px] desktop:h-[7px]`}
+			className={`fixed left-0 top-0 bg-center bg-no-repeat ${baseStyles.star} desktop w-[7px] desktop:h-[7px]`}
 			ref={el}
 		></div>
 	)
@@ -97,12 +97,13 @@ const SparkleMouse = () => {
 		})
 	}, [stars])
 
-	const onPointerMove = ({ pageX, pageY }: MouseEvent) => {
+	const onPointerMove = ({ clientX, clientY }: MouseEvent) => {
+		console.log(clientX, clientY)
 		stars && starRefs.current.forEach((ref, index) => {
 			const [x, y] = stars.hasOwnProperty(index) ? stars[index] : [0, 0]
 			ref.moveTo({
-				pageX,
-				pageY,
+				clientX,
+				clientY,
 				x,
 				y
 			})
