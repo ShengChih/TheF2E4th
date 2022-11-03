@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, forwardRef, useImperativeHandle, RefObject } from 'react'
 import { throttle } from 'lodash'
 import Star from './images/star.png'
 import baseStyles from './styles/base.module.scss'
 
-const maxStar = 5
-const offsetBase = 7
+const maxStar = 6
+const offsetBase = 8
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
@@ -20,80 +20,119 @@ function genStarPositions() {
 	return ret;
 }
 
-interface Position {
-	x: number
-	y: number
+interface StarProps {
+	delay: string
 }
 
-function StarIcon({ x, y }: Position) {
+interface StarState {
+	x?: number
+	y?: number
+	pageX?: number,
+	pageY?: number
+}
+
+const initStarState = {
+	x: 0,
+	y: 0,
+	pageX: innerWidth / 2,
+	pageY: innerHeight / 2
+}
+
+const StarIcon = forwardRef(({ delay }: StarProps, ref) => {
+	const el = useRef<HTMLDivElement>(null)
+	const [position, setPosition] = useState<StarState>(initStarState)
+
+	useImperativeHandle(ref, () => {
+		return {
+			moveTo({ pageX, pageY, x, y }: StarState) {
+				let newX = x ?? position.x ?? 0
+				let newY = y ?? position.y ?? 0
+				let newPageX = (pageX ?? position.pageX ?? innerWidth / 2) + (newX * offsetBase)
+				let newPageY = (pageY ?? position.pageY ?? innerHeight / 2) + (newY * offsetBase)
+
+				if (!!el.current) {
+					el.current.style.transform = `translate3d(${newPageX}px, ${newPageY}px, 0)`
+					el.current.style.transition = `transform ${delay} ease`
+					setPosition({
+						pageX,
+						pageY,
+						x,
+						y
+					})
+				}
+			}
+		}
+	}, [delay])
+
 	return (
 		<div
 			style={{
 				backgroundImage: `url(${Star})`,
-				left: `${x * offsetBase}px`,
-				top: `${y * offsetBase}px`
 			}}
 			className={`absolute bg-center bg-no-repeat ${baseStyles.star} desktop w-[7px] desktop:h-[7px]`}
+			ref={el}
 		></div>
 	)
-}
+})
 
 const SparkleMouse = () => {
-	const [position, setPosition] = useState<Position>({ x: 0, y: 0 })
-	const [hidden, setHidden] = useState<boolean>(false)
+	const starRefs = useRef<Array<RefObject<HTMLDivElement>>>([])
 	const [stars, setStars] = useState<number[][]>([])
-	const throttleSetStars = throttle(setStars, 1500)
+	const throttleSetStars = throttle(setStars, 5000)
 
-  useEffect(() => {
+	starRefs.current = []
+
+	useEffect(() => {
 		addEventListeners();
 		return () => removeEventListeners()
   }, []);
 
-	const onPointerMove = ({ clientX, clientY }: MouseEvent) => {
-		setPosition({
-			x: clientX,
-			y: clientY
+	useEffect(() => {
+		stars && starRefs.current.forEach((ref, index) => {
+			const [x, y] = stars[index]
+			ref.moveTo({
+				x,
+				y
+			})
 		})
+	}, [stars])
+
+	const onPointerMove = ({ pageX, pageY }: MouseEvent) => {
+		stars && starRefs.current.forEach((ref, index) => {
+			const [x, y] = stars.hasOwnProperty(index) ? stars[index] : [0, 0]
+			ref.moveTo({
+				pageX,
+				pageY,
+				x,
+				y
+			})
+		})
+
 		throttleSetStars(genStarPositions())
-	}
-
-	const onMouseEnter = (e: MouseEvent) => {
-		setHidden(false)
-	}
-
-	const onMouseLeave = (e: MouseEvent) => {
-		setHidden(true)
 	}
 
   const addEventListeners = () => {
 		document.addEventListener("pointermove", onPointerMove)
-		document.addEventListener("mouseenter", onMouseEnter)
-		document.addEventListener("mouseleave", onMouseLeave)
 	}
 
   const removeEventListeners = () => {
 		document.removeEventListener("pointermove", onPointerMove)
 	}
 
-	const hiddenClassname = hidden
-		? `${baseStyles['cursor--hidden']}`
-		: ''
+	const addStarRef = (ref: RefObject<HTMLDivElement>) => {
+    if (ref) {
+      starRefs.current.push(ref);
+    }    
+  }
 
 	return (
-		<div
-			style={{
-				left: `${position.x}px`,
-				top: `${position.y}px`
-			}}
-			className={`${baseStyles.cursor} ${hiddenClassname}`}
-		>
+		<>
 			{
-				stars.map((starPosition, index: number) => {
-					const [x, y] = starPosition
-					return <StarIcon key={`star-${index}`} x={x} y={y} />
+				stars.map((ignore, index: number) => {
+					return <StarIcon key={`star-${index}`} delay={`${index * 100}ms`} ref={addStarRef} />
 				})
 			}
-		</div >
+		</>
 	)
 }
 
