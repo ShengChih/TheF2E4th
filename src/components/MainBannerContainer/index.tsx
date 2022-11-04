@@ -1,4 +1,8 @@
-import { ReactNode } from 'react'
+import {
+	ReactNode,
+	ComponentProps, ForwardRefRenderFunction,
+	useRef, useImperativeHandle, forwardRef, RefObject
+} from 'react'
 import MainImage from './images/background.svg'
 
 interface MainVisualProps {
@@ -6,9 +10,27 @@ interface MainVisualProps {
 	children: ReactNode | ReactNode[]
 }
 
-export default function MainBannerContainer({ className, children }: MainVisualProps) {
+type MainVisualHandle = {
+	getRef: () => RefObject<HTMLDivElement>
+}
+
+const MainBannerContainer: ForwardRefRenderFunction<MainVisualHandle, MainVisualProps> = (
+	{ className, children }: MainVisualProps,
+	forwardref
+) => {
+	const el = useRef<HTMLDivElement>(null)
+
+	useImperativeHandle(forwardref, () => {
+		return {
+			getRef: () => {
+				return el ?? {}
+			}
+		}
+	}, [])
+
 	return (
 		<div
+			ref={el}
 			style={{
 				backgroundImage: `url(${MainImage})`
 			}}
@@ -16,3 +38,5 @@ export default function MainBannerContainer({ className, children }: MainVisualP
 		>{children}</div>
 	)
 }
+
+export default forwardRef(MainBannerContainer)

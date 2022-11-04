@@ -26,7 +26,7 @@ const Vendetta: ForwardRefRenderFunction<VendettaHandle, VendettaProps> = ({ cla
 			style={{
 				backgroundImage: `url(${EntireImage})`
 			}}
-			className={`relative desktop:w-[632.89px] desktop:h-[529.05px] ${className}`}
+			className={`absolute bg-no-repeat bg-center bg-cover desktop:w-[672.27px] desktop:h-[562px] ${className}`}
 			ref={el}
 		></div>
 	)

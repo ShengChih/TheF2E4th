@@ -1,5 +1,6 @@
-import { useRef, useLayoutEffect, ElementRef } from "react"
+import { useRef, useEffect, useLayoutEffect, ElementRef, Event } from "react"
 import { gsap } from "gsap"
+
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 import MainBannerContainer from "@components/MainBannerContainer";
@@ -23,6 +24,7 @@ import RewardTask from './images/reward_task.svg'
 
 import { TaskType, Tasks } from "@components/TaskCard/constants"
 
+type MainVisualHandle = ElementRef<typeof MainBannerContainer>
 type VendettaHandle = ElementRef<typeof Vendetta>
 type ScheduleTaskHandle = ElementRef<typeof ScheduleTask>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
@@ -30,13 +32,13 @@ type AwardInfoHandle = ElementRef<typeof AwardInfo>
 
 function MainPage() {
   gsap.registerPlugin(ScrollTrigger)
-
+  const BlankPageRef = useRef<HTMLDivElement>(null)
+  const MainBannerRef = useRef<MainVisualHandle>(null)
 	const MaskLv1Ref = useRef<HTMLDivElement>(null)
 	const MaskLv2Ref = useRef<HTMLDivElement>(null)
 	const MaskLv3Ref = useRef<HTMLDivElement>(null)
 	const VendettaRef = useRef<VendettaHandle>(null)
   const RewardTaskRef = useRef<HTMLImageElement>(null)
-  const BlankSectionRef1 = useRef<HTMLDivElement>(null)
   const BlankSectionRef2 = useRef<HTMLDivElement>(null)
   const AwardInfoSectionRef = useRef<AwardInfoHandle>(null)
   const ScheduleTaskRefs = useRef<Array<ElementRef<typeof TaskCard>>>([])
@@ -49,59 +51,180 @@ function MainPage() {
     }    
   }
 
+  useEffect(() => {
+    // testing scroll postion
+    const handleScroll = (e: Event<HTMLElement>) => {
+      console.log('window.scrollY', window.pageYOffset)
+    }
+
+    document.addEventListener('scroll', handleScroll)
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   useLayoutEffect(() => {
-		const timeline = gsap.timeline({
-			scrollTrigger: {
-				trigger: document.body,
-				markers: true,
-				scrub: true,
-				start: 'top 30%',
-				end: 'bottom bottom'
-			}
-		})
+    /**
+     * [實作想法]:
+     * 
+     * 用不用 pin 在於 pin 會對 trigger DOM 加上 postion: fixed
+     * 如果 trigger selector 是目標本身而不是 container，
+     * 且我的圖片起始位置是相對於 container 位置，那麼要注意位置會錯。
+     * 
+     * 另外設計圖是前景動畫移動，不是背景動畫移動
+     * 目前只想到的實作是：
+     * 因此一開始先對 Banner fixed
+     * 之後滾動完這一頁動畫後，Banner 要可以被下一頁滾動
+     * 1. 需要將 Banner 變成從 fixed 變回 relative 之類 ? (可能會突然位置跳動很大？)
+     * 2. 偽裝自己滾動，一樣 fixed 只是位置變動假裝滾動 ？ (這可能比較好做)
+     * 
+     * 嗯~ 又想到一個更好的做法，用 pin 的話：
+     * 塞一頁空白 100% 的頁面，空白頁用來滾動動畫，讓 scroll trigger 自動將 header & banner fixed 起來
+     * 進來 pin 的機制，會把 fixed 拿掉，自然就被第二頁滾走?
+     * (這好像比較好，跟上面 1. 方法差在要自己手動處理，scroll 結束的 callback 不用自己寫 function)
+     * */
 
-		if (VendettaRef.current) {
-      timeline.fromTo(
+    /** 讓第一頁的空白頁滾動，置頂第二頁 */
+    let animations: ReturnType<typeof gsap.context | typeof gsap.timeline>[] = []
+
+    animations.push(
+      gsap.context(() => {
+        if (MainBannerRef.current) {
+          const bannerRef = MainBannerRef.current.getRef().current
+          /** 置頂第一頁，滾動空白的二三頁 */
+          ScrollTrigger.create({
+            trigger: bannerRef,
+            start: 'top top',
+            end: `+=948px`,
+            pin: true
+          })
+        }
+      }, MainBannerRef)
+    )
+
+    /**
+     * 先移上方圖 往 y 方向 -230px，滾動軸也卷動 1:1 的 230px
+     * 
+     * 移動 px 跟滾動 px 1:1 好處理，不用映射距離範圍
+     * 若要映射或裝置要算，可用 gsap.mapRanges 映射，就是滾動 1px 圖要移動多少 px 概念。
+     * 
+     * 錯誤用法: 一個 timeline, 塞很多不同的 scrollTrigger，官方建議獨立 scrollTrigger 事件
+     * */
+    animations.push(
+      gsap.context(() => {
+        gsap.fromTo(
+          MaskLv2Ref.current,
+          { x: 0, y: 0 },
+          {
+            scrollTrigger: {
+              trigger: MaskLv2Ref.current,
+              pin: true,
+              scrub: 1,
+              start: 'top top',
+              end: `+=230px`
+            },
+            x: 0, y: -230
+          }
+        )
+
+      }, MaskLv2Ref)
+    )
+
+    /**
+     * 接著第二步一起移動
+     * 1280 * 720
+     * 1. 上方圖: 往 y 方向移動 -364px (已看不到圖)
+     * 2. 左下圖: 往 y 方向移動 103px
+     * 3. 右下圖: 往 y 方向移動 413px (已看不到圖)
+     * 4. 人頭 + 獎金: 往 y 移動，上移至 0 + 360px
+     * 
+     * */
+    let step2Timeline = gsap.timeline({
+      scrollTrigger: {
+        pin: true,
+        trigger: MaskLv2Ref.current,
+        scrub: 1,
+        start: 'top+=230px top',
+        end: `+=364px`,
+        markers: true
+      },
+    })
+
+    step2Timeline.fromTo(
+      MaskLv2Ref.current,
+      { x: 0, y: -230 },
+      { x: 0, y: -594, opacity: 0},
+    )
+
+    if (VendettaRef.current) {
+      step2Timeline.fromTo(
         VendettaRef.current.getRef().current,
-				{ x: 326, y: 169 },
-				{ x: 326, y: 69, duration: 3 }
-			)
-		}
+        { x: 314, y: 597, opacity: 0 }, 
+        { x: 314, y: 259, opacity: 1 }, // 動畫結束後，暫停至新的相對位置
+        "<"
+      )
+    }
 
-		timeline.fromTo(
-			MaskLv1Ref.current,
-			{ x: 463, y: 287 },
-			{ x: 462, y: 700, duration: 3 },
-			"<"
-		)
+    step2Timeline.fromTo(
+      MaskLv1Ref.current,
+      { x: 462, y: 287 },
+      { x: 462, y: 700, opacity: 0 },
+      "<"
+    )
 
-		timeline.fromTo(
-			MaskLv2Ref.current,
-			{ x: 0, y: 0 },
-			{ x: 0, y: -720, duration: 3 },
-			"<"
-		)
+    step2Timeline.fromTo(
+      MaskLv3Ref.current,
+      { x: -248, y: 261 },
+      { x: -248, y: 364 },
+      "<"
+    )
 
-		timeline.fromTo(
-			MaskLv3Ref.current,
-			{ x: -247, y: 261 },
-			{ x: -248, y: 718, duration: 3 }
-		)
+    animations.push(step2Timeline)
 
-		timeline.fromTo(
-			RewardTaskRef.current,
-			{ opacity: 0 },
-			{ opacity: 1, duration: 1 },
-		)
+    let step3Timeline = gsap.timeline({
+      scrollTrigger: {
+        pin: true,
+        trigger: MaskLv3Ref.current,
+        scrub: 1,
+        start: 'top+=594px top',
+        end: `top+=354px`,
+        markers: true
+      },
+    })
+
+    step3Timeline.fromTo(
+      MaskLv3Ref.current,
+      { x: -248, y: 364 },
+      { x: -248, y: 718, opacity: 0 }
+    )
+
+    if (VendettaRef.current) {
+      step3Timeline.fromTo(
+        VendettaRef.current.getRef().current,
+        { x: 314, y: 259, opacity: 1 },
+        { x: 314, y: 36 },
+        "<"
+      )
+    }
+
+    step3Timeline.fromTo(
+      RewardTaskRef.current,
+      { x: 856, y: -25, opacity: 0 },
+      { x: 856, y: -25, opacity: 1 },
+      "<"
+    )
+
+    animations.push(step3Timeline)
 
 		return () => {
-			timeline.revert()
+      animations.map((animation) => animation.revert())
 		}
 	}, [])
 
   return (
     <>
-      <MainBannerContainer className={`fixed inset-0`}>
+      <MainBannerContainer className={`inset-0`} ref={MainBannerRef}>
         <Header />
         <MainBanner
           className={`mx-auto mt-[39px]`}
@@ -112,24 +235,25 @@ function MainPage() {
               style={{
                 backgroundImage: `url(${RewardTask})`
               }}
-              className={`absolute desktop:w-[373px] desktop:h-[225px] desktop:left-[850px] desktop:top-[-25px]`}
+              className={`absolute desktop:w-[373px] desktop:h-[225px]`}
             />
           }
         />
       </MainBannerContainer>
+      <div className={`w-screen desktop:h-[948px] relative`} ref={BlankPageRef}></div>
       <div
 				ref={MaskLv1Ref}
 				style={{
 					backgroundImage: `url(${RightBottomMasklv1})`
 				}}
-				className={`fixed z-10 left-0 top-0 bg-no-repeat desktop:w-[1218px] desktop:h-[1008px]`}
+				className={`fixed z-10 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1218px] desktop:h-[1008px]`}
 			></div>
 			<div
 				ref={MaskLv2Ref}
 				style={{
 					backgroundImage: `url(${TopMasklv2})`
 				}}
-				className={`fixed z-10 left-0 top-0 bg-no-repeat desktop:w-[1280px] desktop:h-[720px]`}
+				className={`fixed z-10 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1280px] desktop:h-[720px]`}
 			></div>
 			<div
 				ref={MaskLv3Ref}
@@ -137,10 +261,8 @@ function MainPage() {
 					backgroundImage: `url(${LeftBottomMasklv3})`,
 					overflow: 'auto'
 				}}
-				className={`fixed z-10 left-0 top-0 bg-no-repeat desktop:w-[942px] desktop:h-[1058px]`}
+				className={`fixed z-10 left-0 top-0 bg-no-repeat bg-cover desktop:w-[942px] desktop:h-[1058px]`}
 			></div>
-      <div ref={BlankSectionRef1}  className={`w-screen h-screen relative`}></div>
-      <div ref={BlankSectionRef2} className={`w-screen h-screen relative`}></div>
       <MainContainer>
         <HostInfo />
         <ScheduleTask>

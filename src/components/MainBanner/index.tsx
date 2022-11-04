@@ -22,7 +22,7 @@ export default function MainBanner({
 			style={{
 				backgroundImage: `url(${MainImage})`
 			}}
-			className={`desktop:w-[1200px] desktop:h-[597px] relative bg-no-repeat bg-center bg-contain ${className ?? ''}`}
+			className={`relative bg-no-repeat bg-center bg-cover desktop:w-[1200px] desktop:h-[597px] ${className ?? ''}`}
 		>
 			<div className={`absolute font-julian text-[#38241B] desktop:w-[313px] desktop:h-[90px] desktop:text-[80px] desktop:leading-[89.84px] font-medium	left-[56px] top-[51px]`}>THE F2E</div>
 			<div className={`absolute font-sans drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-[#951205] text-white text-[32px] leading-[46.34px] flex justify-center items-center desktop:w-[109px] desktop:h-[46px] desktop:left-[385px] desktop:top-[76px] rounded-[14px]`}>4th</div>

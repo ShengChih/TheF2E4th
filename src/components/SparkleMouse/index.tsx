@@ -107,7 +107,6 @@ const SparkleMouse = () => {
 	}, [stars])
 
 	const onPointerMove = ({ clientX, clientY }: MouseEvent) => {
-		console.log(clientX, clientY)
 		stars && starRefs.current.forEach((ref, index) => {
 			const [x, y] = stars.hasOwnProperty(index) ? stars[index] : [0, 0]
 			ref.moveTo({
