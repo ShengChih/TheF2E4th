@@ -32,14 +32,12 @@ type AwardInfoHandle = ElementRef<typeof AwardInfo>
 
 function MainPage() {
   gsap.registerPlugin(ScrollTrigger)
-  const BlankPageRef = useRef<HTMLDivElement>(null)
   const MainBannerRef = useRef<MainVisualHandle>(null)
 	const MaskLv1Ref = useRef<HTMLDivElement>(null)
 	const MaskLv2Ref = useRef<HTMLDivElement>(null)
 	const MaskLv3Ref = useRef<HTMLDivElement>(null)
 	const VendettaRef = useRef<VendettaHandle>(null)
   const RewardTaskRef = useRef<HTMLImageElement>(null)
-  const BlankSectionRef2 = useRef<HTMLDivElement>(null)
   const AwardInfoSectionRef = useRef<AwardInfoHandle>(null)
   const ScheduleTaskRefs = useRef<Array<ElementRef<typeof TaskCard>>>([])
 
@@ -50,19 +48,6 @@ function MainPage() {
       ScheduleTaskRefs.current.push(ref);
     }    
   }
-
-  useEffect(() => {
-    // testing scroll postion
-    const handleScroll = (e: Event<HTMLElement>) => {
-      console.log('window.scrollY', window.pageYOffset)
-    }
-
-    document.addEventListener('scroll', handleScroll)
-
-    return () => {
-      document.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
 
   useLayoutEffect(() => {
     /**
@@ -95,9 +80,11 @@ function MainPage() {
           /** 置頂第一頁，滾動空白的二三頁 */
           ScrollTrigger.create({
             trigger: bannerRef,
+            scrub: 1,
             start: 'top top',
             end: `+=948px`,
-            pin: true
+            pin: true,
+            markers: true
           })
         }
       }, MainBannerRef)
@@ -119,15 +106,14 @@ function MainPage() {
           {
             scrollTrigger: {
               trigger: MaskLv2Ref.current,
-              pin: true,
               scrub: 1,
               start: 'top top',
-              end: `+=230px`
+              end: `+=230px`,
+              markers: true
             },
             x: 0, y: -230
           }
         )
-
       }, MaskLv2Ref)
     )
 
@@ -140,82 +126,81 @@ function MainPage() {
      * 4. 人頭 + 獎金: 往 y 移動，上移至 0 + 360px
      * 
      * */
-    let step2Timeline = gsap.timeline({
-      scrollTrigger: {
-        pin: true,
-        trigger: MaskLv2Ref.current,
-        scrub: 1,
-        start: 'top+=230px top',
-        end: `+=364px`,
-        markers: true
-      },
-    })
-
-    step2Timeline.fromTo(
-      MaskLv2Ref.current,
-      { x: 0, y: -230 },
-      { x: 0, y: -594, opacity: 0},
-    )
-
     if (VendettaRef.current) {
+      let step2Timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: MaskLv2Ref.current,
+          scrub: 1,
+          start: `top top-=230px`,
+          end: `+=364px`,
+          markers: true
+        },
+      })
+
+      step2Timeline.fromTo(
+        MaskLv2Ref.current,
+        { x: 0, y: -230 },
+        { x: 0, y: -594, opacity: 0},
+      )
       step2Timeline.fromTo(
         VendettaRef.current.getRef().current,
         { x: 314, y: 597, opacity: 0 }, 
         { x: 314, y: 259, opacity: 1 }, // 動畫結束後，暫停至新的相對位置
         "<"
       )
+
+      step2Timeline.fromTo(
+        MaskLv1Ref.current,
+        { x: 462, y: 287 },
+        { x: 462, y: 700, opacity: 0 },
+        "<"
+      )
+
+      step2Timeline.fromTo(
+        MaskLv3Ref.current,
+        { x: -248, y: 261 },
+        { x: -248, y: 364 },
+        "<"
+      )
+
+      animations.push(step2Timeline)
     }
 
-    step2Timeline.fromTo(
-      MaskLv1Ref.current,
-      { x: 462, y: 287 },
-      { x: 462, y: 700, opacity: 0 },
-      "<"
-    )
-
-    step2Timeline.fromTo(
-      MaskLv3Ref.current,
-      { x: -248, y: 261 },
-      { x: -248, y: 364 },
-      "<"
-    )
-
-    animations.push(step2Timeline)
-
-    let step3Timeline = gsap.timeline({
-      scrollTrigger: {
-        pin: true,
-        trigger: MaskLv3Ref.current,
-        scrub: 1,
-        start: 'top+=594px top',
-        end: `top+=354px`,
-        markers: true
-      },
-    })
-
-    step3Timeline.fromTo(
-      MaskLv3Ref.current,
-      { x: -248, y: 364 },
-      { x: -248, y: 718, opacity: 0 }
-    )
-
     if (VendettaRef.current) {
+      let step3Timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: MaskLv3Ref.current,
+          scrub: 1,
+          start: 'top top-=594px',
+          end: `top+=354px`,
+          markers: true
+        },
+      })
+
+      step3Timeline.fromTo(
+        MaskLv3Ref.current,
+        { x: -248, y: 364 },
+        { x: -248, y: 718, opacity: 0 }
+      )
+
       step3Timeline.fromTo(
         VendettaRef.current.getRef().current,
         { x: 314, y: 259, opacity: 1 },
         { x: 314, y: 36 },
         "<"
       )
+
+      step3Timeline.fromTo(
+        RewardTaskRef.current,
+        { x: 856, y: -25, opacity: 0 },
+        { x: 856, y: -25, opacity: 1 },
+        "<"
+      )
+
+      animations.push(step3Timeline)
     }
 
-    step3Timeline.fromTo(
-      RewardTaskRef.current,
-      { x: 856, y: -25, opacity: 0 },
-      { x: 856, y: -25, opacity: 1 },
-      "<"
-    )
-
-    animations.push(step3Timeline)
+    console.log(animations.length)
 
 		return () => {
       animations.map((animation) => animation.revert())
@@ -227,20 +212,20 @@ function MainPage() {
       <MainBannerContainer className={`inset-0`} ref={MainBannerRef}>
         <Header />
         <MainBanner
-          className={`mx-auto mt-[39px]`}
-          BannerImage={<Vendetta ref={VendettaRef} />}
+          className={`mx-auto overflow-hidden	desktop:mt-[101px]`}
+          BannerImage={<Vendetta className={`opacity-0`} ref={VendettaRef} />}
           RewardTaskImage={
             <img
               ref={RewardTaskRef}
               style={{
                 backgroundImage: `url(${RewardTask})`
               }}
-              className={`absolute desktop:w-[373px] desktop:h-[225px]`}
+              className={`opacity-0	absolute desktop:w-[373px] desktop:h-[225px]`}
             />
           }
         />
       </MainBannerContainer>
-      <div className={`w-screen desktop:h-[948px] relative`} ref={BlankPageRef}></div>
+      
       <div
 				ref={MaskLv1Ref}
 				style={{
