@@ -220,14 +220,14 @@ function MainPage() {
         { x: 314, y: 36 },
         "<"
       )
-////
-      //step3Timeline.fromTo(
-      //  RewardTaskRef.current,
-      //  { x: 856, y: -25, opacity: 0 },
-      //  { x: 856, y: -25, opacity: 1 },
-      //  "<"
-      //)
-////
+
+      step3Timeline.fromTo(
+        RewardTaskRef.current,
+        { x: 856, y: -25, opacity: 0 },
+        { x: 856, y: -25, opacity: 1 },
+        "<"
+      )
+
       animations.push(step3Timeline)
     }
 
