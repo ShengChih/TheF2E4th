@@ -21,6 +21,7 @@ import RightBottomMasklv1 from './images/RightBottomMasklv1@1x.png'
 import TopMasklv2 from './images/TopMasklv2@1x.png'
 import LeftBottomMasklv3 from './images/LeftBottomMasklv3@1x.png'
 import RewardTask from './images/reward_task.svg'
+import ContentBgImage from './images/ContentBgImage.svg'
 
 //const RightBottomMasklv1 = ''
 //const TopMasklv2 = ''
@@ -42,6 +43,8 @@ function MainPage() {
 	const MaskLv3Ref = useRef<HTMLDivElement>(null)
 	const VendettaRef = useRef<VendettaHandle>(null)
   const RewardTaskRef = useRef<HTMLImageElement>(null)
+
+  const ContentContainerRef = useRef<HTMLDivElement>(null)
   const AwardInfoSectionRef = useRef<AwardInfoHandle>(null)
   const ScheduleTaskRefs = useRef<Array<ElementRef<typeof TaskCard>>>([])
 
@@ -92,21 +95,18 @@ function MainPage() {
 
     animations.push(
       gsap.context(() => {
-        if (MainBannerRef.current) {
-          //const bannerRef = MainBannerRef.current.getRef().current
-          /** 置頂 Banner 後，滾動動畫效果 */
-          ScrollTrigger.create({
-            trigger: MainBannerRef.current,
-            scrub: true,
-            start: `top top`, /** 滾動軸還未滾之前就要將 banner 透過 pin fixed 起來，滾動才不會滾到 banner，因此填 0 */
-            end: '+=948',//`+=948`, /** 滾完第一頁動畫，要很順接第二頁，230 + 364 + 354 */
-            pin: true,
-            markers: true,
-            onLeave: ({ start, end, progress, direction, isActive }) => {
-              console.log('onLeave pin:', start, end, progress, direction, isActive)
-            }
-          })
-        }
+        /** 置頂 Banner 後，滾動動畫效果 */
+        ScrollTrigger.create({
+          trigger: MainBannerRef.current,
+          scrub: true,
+          start: `top top`, /** 滾動軸還未滾之前就要將 banner 透過 pin fixed 起來，滾動才不會滾到 banner，因此填 0 */
+          end: '+=948',//`+=948`, /** 滾完第一頁動畫，要很順接第二頁，230 + 364 + 354 */
+          pin: true,
+          markers: true,
+          onLeave: ({ start, end, progress, direction, isActive }) => {
+            console.log('onLeave pin:', start, end, progress, direction, isActive)
+          }
+        })
       }, MainBannerRef)
     )
 
@@ -207,12 +207,13 @@ function MainPage() {
           scrub: true,
           start: 'top+=333 top', /** > (第一次滾動軸)230px + (第二次滾動軸偏移量 364 - 261) 103px */
           end: `+=354`,
-          onEnter: ({ scroller, start, end, trigger, progress, direction, isActive }) => {
-            console.log('step3Timeline:', start, end, scroller, trigger, start, end)
-          },
-          onUpdate: ({ scroller, start, end, trigger, progress, direction, isActive }) => {
-            console.log(`step3Timeline:`, start, end, trigger?.getBoundingClientRect())
-          }
+          //markers: true,
+          //onEnter: ({ scroller, start, end, trigger, progress, direction, isActive }) => {
+          //  console.log('step3Timeline:', start, end, scroller, trigger, start, end)
+          //},
+          //onUpdate: ({ scroller, start, end, trigger, progress, direction, isActive }) => {
+          //  console.log(`step3Timeline:`, start, end, trigger?.getBoundingClientRect())
+          //}
         },
       })
     
@@ -268,7 +269,13 @@ function MainPage() {
             }
           />
         </div>
-        <MainContainer>
+        <div
+          ref={ContentContainerRef}
+          style={{
+            backgroundImage: `url(${ContentBgImage})`
+          }}
+          className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative desktop:h-[6443px]`}
+        >
           <HostInfo />
           <ScheduleTask>
             {
@@ -299,7 +306,7 @@ function MainPage() {
           <LiveShareVideo></LiveShareVideo>
           <SponerInfo></SponerInfo>
           <Footer></Footer>
-        </MainContainer>
+        </div>
       </div>
       <div
 				ref={MaskLv1Ref}
