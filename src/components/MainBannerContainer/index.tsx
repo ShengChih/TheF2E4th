@@ -1,6 +1,6 @@
 import {
 	ReactNode,
-	ComponentProps, ForwardRefRenderFunction,
+	ForwardRefRenderFunction,
 	useRef, useImperativeHandle, forwardRef, RefObject
 } from 'react'
 import MainImage from './images/background.svg'

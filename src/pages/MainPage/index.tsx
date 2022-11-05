@@ -3,7 +3,6 @@ import { gsap } from "gsap"
 
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-import MainBannerContainer from "@components/MainBannerContainer";
 import MainBanner from "@components/MainBanner";
 import Header from '@components/Header'
 import MainContainer from '@components/MainContainer'
@@ -17,6 +16,7 @@ import SponerInfo from "@components/SponerInfo"
 import Footer from "@components/Footer"
 import Vendetta from '@components/Vendetta'
 
+import MainImage from './images/BannerBgImage.svg'
 import RightBottomMasklv1 from './images/RightBottomMasklv1@1x.png'
 import TopMasklv2 from './images/TopMasklv2@1x.png'
 import LeftBottomMasklv3 from './images/LeftBottomMasklv3@1x.png'
@@ -29,7 +29,6 @@ import RewardTask from './images/reward_task.svg'
 
 import { TaskType, Tasks } from "@components/TaskCard/constants"
 
-type MainVisualHandle = ElementRef<typeof MainBannerContainer>
 type VendettaHandle = ElementRef<typeof Vendetta>
 type ScheduleTaskHandle = ElementRef<typeof ScheduleTask>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
@@ -37,7 +36,7 @@ type AwardInfoHandle = ElementRef<typeof AwardInfo>
 
 function MainPage() {
   gsap.registerPlugin(ScrollTrigger)
-  const MainBannerRef = useRef<MainVisualHandle>(null)
+  const MainBannerRef = useRef<HTMLDivElement>(null)
 	const MaskLv1Ref = useRef<HTMLDivElement>(null)
 	const MaskLv2Ref = useRef<HTMLDivElement>(null)
 	const MaskLv3Ref = useRef<HTMLDivElement>(null)
@@ -49,7 +48,7 @@ function MainPage() {
   ScheduleTaskRefs.current = []
 
   useEffect(() => {
-    /**  testing scroll postion
+    /**  testing scroll postion */
     const handleScroll = (e: Event<HTMLElement>) => {
       console.log('window.scrollY', window.pageYOffset)
     }
@@ -59,7 +58,6 @@ function MainPage() {
     return () => {
       document.removeEventListener('scroll', handleScroll)
     }
-    */
   }, [])
 
   const addScheduleTaskRef = (ref: ElementRef<typeof TaskCard>) => {
@@ -95,15 +93,18 @@ function MainPage() {
     animations.push(
       gsap.context(() => {
         if (MainBannerRef.current) {
-          const bannerRef = MainBannerRef.current.getRef().current
-          /** 置頂第一頁，滾動空白的二三頁 */
+          //const bannerRef = MainBannerRef.current.getRef().current
+          /** 置頂 Banner 後，滾動動畫效果 */
           ScrollTrigger.create({
-            trigger: bannerRef,
+            trigger: MainBannerRef.current,
             scrub: true,
-            start: 'top top',
-            end: `+=948px`,
+            start: `top top`, /** 滾動軸還未滾之前就要將 banner 透過 pin fixed 起來，滾動才不會滾到 banner，因此填 0 */
+            end: '+=948',//`+=948`, /** 滾完第一頁動畫，要很順接第二頁，230 + 364 + 354 */
             pin: true,
-            markers: true
+            markers: true,
+            onLeave: ({ start, end, progress, direction, isActive }) => {
+              console.log('onLeave pin:', start, end, progress, direction, isActive)
+            }
           })
         }
       }, MainBannerRef)
@@ -204,9 +205,8 @@ function MainPage() {
         scrollTrigger: {
           trigger: MaskLv3Ref.current,
           scrub: true,
-          start: 'top+=335 top',
+          start: 'top+=333 top', /** > (第一次滾動軸)230px + (第二次滾動軸偏移量 364 - 261) 103px */
           end: `+=354`,
-          markers: true,
           onEnter: ({ scroller, start, end, trigger, progress, direction, isActive }) => {
             console.log('step3Timeline:', start, end, scroller, trigger, start, end)
           },
@@ -231,7 +231,6 @@ function MainPage() {
         RewardTaskRef.current,
         { x: 856, y: -25, opacity: 0 },
         { x: 856, y: -25, opacity: 1 },
-        "<"
       )
 
       animations.push(step3Timeline)
@@ -246,23 +245,62 @@ function MainPage() {
 
   return (
     <>
-      <MainBannerContainer className={`inset-0`} ref={MainBannerRef}>
-        <Header className={`fixed`} />
-        <MainBanner
-          className={`mx-auto overflow-hidden	desktop:mt-[101px] desktop:mb-[22px]`}
-          BannerImage={<Vendetta className={`tbg-[brown]`} ref={VendettaRef} />}
-          RewardTaskImage={
-            <img
-              ref={RewardTaskRef}
-              style={{
-                backgroundImage: `url(${RewardTask})`
-              }}
-              className={`tbg-[black] absolute desktop:w-[373px] desktop:h-[225px]`}
-            />
-          }
-        />
-      </MainBannerContainer>
-      
+      <Header className={`fixed z-[5]`} />
+      <div className={`w-full h-screen`}>
+        <div
+          style={{
+            backgroundImage: `url(${MainImage})`
+          }}
+          className={`flex bg-no-repeat bg-cover desktop:h-[720px]`}
+          ref={MainBannerRef}
+        >
+          <MainBanner
+            className={`inset-0 mx-auto desktop:mt-[101px] desktop:mb-[22px]`}
+            BannerImage={<Vendetta className={`tbg-[brown]`} ref={VendettaRef} />}
+            RewardTaskImage={
+              <img
+                ref={RewardTaskRef}
+                style={{
+                  backgroundImage: `url(${RewardTask})`
+                }}
+                className={`tbg-[black] absolute desktop:w-[373px] desktop:h-[225px]`}
+              />
+            }
+          />
+        </div>
+        <MainContainer>
+          <HostInfo />
+          <ScheduleTask>
+            {
+              Tasks.map(({
+                title, subtitle, content, tipUrl, contributeUrl,
+                TaskLogo,
+                EnterpriseLogo
+              }: TaskType, index: number) => {
+                const props = {
+                  title: title,
+                  subtitle: subtitle,
+                  content: content, 
+                  EnterpriseLogo: EnterpriseLogo,
+                  TaskLogo: TaskLogo,
+                  forwardTips: () => {
+                    window.open(tipUrl, "_blank")
+                  },
+                  forwardContribute: () => {
+                    window.open(contributeUrl, "_blank")
+                  }
+                }
+                return <TaskCard {...props} key={`task-grid-${index}`} ref={addScheduleTaskRef} />
+              })
+            }
+          </ScheduleTask>
+          <ScheduleInfo></ScheduleInfo>
+          <AwardInfo ref={AwardInfoSectionRef}></AwardInfo>
+          <LiveShareVideo></LiveShareVideo>
+          <SponerInfo></SponerInfo>
+          <Footer></Footer>
+        </MainContainer>
+      </div>
       <div
 				ref={MaskLv1Ref}
 				style={{
@@ -285,38 +323,6 @@ function MainPage() {
 				}}
 				className={`fixed tbg-[purple] z-30 left-0 top-0 bg-no-repeat bg-cover desktop:w-[942px] desktop:h-[1058px]`}
 			></div>
-      <MainContainer>
-        <HostInfo />
-        <ScheduleTask>
-          {
-            Tasks.map(({
-              title, subtitle, content, tipUrl, contributeUrl,
-              TaskLogo,
-              EnterpriseLogo
-            }: TaskType, index: number) => {
-              const props = {
-                title: title,
-                subtitle: subtitle,
-                content: content, 
-                EnterpriseLogo: EnterpriseLogo,
-                TaskLogo: TaskLogo,
-                forwardTips: () => {
-                  window.open(tipUrl, "_blank")
-                },
-                forwardContribute: () => {
-                  window.open(contributeUrl, "_blank")
-                }
-              }
-              return <TaskCard {...props} key={`task-grid-${index}`} ref={addScheduleTaskRef} />
-            })
-          }
-        </ScheduleTask>
-        <ScheduleInfo></ScheduleInfo>
-        <AwardInfo ref={AwardInfoSectionRef}></AwardInfo>
-        <LiveShareVideo></LiveShareVideo>
-        <SponerInfo></SponerInfo>
-        <Footer></Footer>
-      </MainContainer>
     </>
   );
 }
