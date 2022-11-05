@@ -3,10 +3,9 @@ import { gsap } from "gsap"
 
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-import MainBanner from "@components/MainBanner";
+import MainBanner from "@components/MainBanner"
 import Header from '@components/Header'
-import MainContainer from '@components/MainContainer'
-import HostInfo from "@components/HostInfo";
+import HostInfo from "@components/HostInfo"
 import ScheduleTask from "@components/ScheduleTask"
 import TaskCard from "@components/TaskCard"
 import ScheduleInfo from "@components/ScheduleInfo"
@@ -46,7 +45,7 @@ function MainPage() {
 
   const ContentContainerRef = useRef<HTMLDivElement>(null)
   const AwardInfoSectionRef = useRef<AwardInfoHandle>(null)
-  const ScheduleTaskRefs = useRef<Array<ElementRef<typeof TaskCard>>>([])
+  const ScheduleTaskRefs = useRef<Array<ElementRef<typeof TaskCard> | HTMLDivElement>>([])
 
   ScheduleTaskRefs.current = []
 
@@ -65,7 +64,7 @@ function MainPage() {
 
   const addScheduleTaskRef = (ref: ElementRef<typeof TaskCard>) => {
     if (ref) {
-      ScheduleTaskRefs.current.push(ref);
+      ScheduleTaskRefs.current.push(ref.getRef().current);
     }    
   }
 
@@ -91,7 +90,7 @@ function MainPage() {
      * */
 
     /** 讓第一頁的空白頁滾動，置頂第二頁 */
-    let animations: ReturnType<typeof gsap.context | typeof gsap.timeline>[] = []
+    let animations: ReturnType<typeof gsap.context | typeof gsap.timeline | typeof gsap.fromTo>[] = []
 
     animations.push(
       gsap.context(() => {
@@ -102,10 +101,10 @@ function MainPage() {
           start: `top top`, /** 滾動軸還未滾之前就要將 banner 透過 pin fixed 起來，滾動才不會滾到 banner，因此填 0 */
           end: '+=948',//`+=948`, /** 滾完第一頁動畫，要很順接第二頁，230 + 364 + 354 */
           pin: true,
-          markers: true,
-          onLeave: ({ start, end, progress, direction, isActive }) => {
-            console.log('onLeave pin:', start, end, progress, direction, isActive)
-          }
+          //markers: true,
+          //onLeave: ({ start, end, progress, direction, isActive }) => {
+          //  console.log('onLeave pin:', start, end, progress, direction, isActive)
+          //}
         })
       }, MainBannerRef)
     )
@@ -237,6 +236,31 @@ function MainPage() {
       animations.push(step3Timeline)
     }
 
+    const cardTriggers = [
+      ...ScheduleTaskRefs.current
+    ] as gsap.DOMTarget[]
+
+    const cardEffects: gsap.TweenVars[][] = [
+      [{ xPercent: "-110" }, { xPercent: "0", duration: 1 }],
+      [{ xPercent: "110" }, { xPercent: "0", duration: 1 }],
+      [{ xPercent: "-110" }, { xPercent: "0", duration: 1 }],
+    ]
+
+    for (let i = 0; i < cardEffects.length; i++) {
+      const [from, to] = cardEffects[i]
+      ScrollTrigger.create({
+        trigger: cardTriggers[i],
+        start: "top bottom",
+        onEnter: () => {
+          gsap.fromTo(
+            cardTriggers[i],
+            from,
+            to
+          )
+        }
+      })
+    }
+
     console.log(animations.length)
 
 		return () => {
@@ -285,6 +309,7 @@ function MainPage() {
                 EnterpriseLogo
               }: TaskType, index: number) => {
                 const props = {
+                  className: `desktop:w-[1200px] desktop:h-[528px] `,
                   title: title,
                   subtitle: subtitle,
                   content: content, 

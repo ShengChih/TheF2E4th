@@ -5,6 +5,7 @@ import {
 import CardBackground from './images/card_background.svg'
 
 interface TaskCardProps {
+	className?: string
 	title?: string
 	subtitle?: string
 	content?: string
@@ -19,6 +20,7 @@ type TaskCardHandle = {
 }
 
 const TaskCardComponent: ForwardRefRenderFunction<TaskCardHandle, TaskCardProps> = ({
+	className,
 	title,
 	subtitle,
 	content,
@@ -43,7 +45,7 @@ const TaskCardComponent: ForwardRefRenderFunction<TaskCardHandle, TaskCardProps>
 			style={{
 				backgroundImage: `url(${CardBackground})`
 			}}
-			className={`relative bg-no-repeat bg-center desktop:w-[1200px] desktop:h-[528px]`}
+			className={`relative bg-no-repeat bg-center ${className ?? ''}`}
 		>
 			<div className={`font-sans font-bold absolute text-white desktop:w-[684.78px] desktop:h-[64px] desktop:left-[40px] desktop:top-[19px] desktop:leading-[64px] desktop:text-[44px]`}>{title}</div>
 			<div className={`font-serif font-black absolute text-[#38241B] desktop:w-[592px] desktop:h-[63px] desktop:left-[506px] desktop:top-[142px] desktop:leading-[63px] desktop:text-[44px]`}>{subtitle}</div>
