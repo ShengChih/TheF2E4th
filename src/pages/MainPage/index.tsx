@@ -17,15 +17,15 @@ import SponerInfo from "@components/SponerInfo"
 import Footer from "@components/Footer"
 import Vendetta from '@components/Vendetta'
 
-//import RightBottomMasklv1 from './images/RightBottomMasklv1@1x.png'
-//import TopMasklv2 from './images/TopMasklv2@1x.png'
-//import LeftBottomMasklv3 from './images/LeftBottomMasklv3@1x.png'
-//import RewardTask from './images/reward_task.svg'
+import RightBottomMasklv1 from './images/RightBottomMasklv1@1x.png'
+import TopMasklv2 from './images/TopMasklv2@1x.png'
+import LeftBottomMasklv3 from './images/LeftBottomMasklv3@1x.png'
+import RewardTask from './images/reward_task.svg'
 
-const RightBottomMasklv1 = ''
-const TopMasklv2 = ''
-const LeftBottomMasklv3 = ''
-const RewardTask = ''
+//const RightBottomMasklv1 = ''
+//const TopMasklv2 = ''
+//const LeftBottomMasklv3 = ''
+//const RewardTask = ''
 
 import { TaskType, Tasks } from "@components/TaskCard/constants"
 
@@ -49,10 +49,9 @@ function MainPage() {
   ScheduleTaskRefs.current = []
 
   useEffect(() => {
-    // testing scroll postion
+    /**  testing scroll postion
     const handleScroll = (e: Event<HTMLElement>) => {
       console.log('window.scrollY', window.pageYOffset)
-      console.log(`MaskRef3:`, MaskLv3Ref.current?.getClientRects())
     }
 
     document.addEventListener('scroll', handleScroll)
@@ -60,6 +59,7 @@ function MainPage() {
     return () => {
       document.removeEventListener('scroll', handleScroll)
     }
+    */
   }, [])
 
   const addScheduleTaskRef = (ref: ElementRef<typeof TaskCard>) => {
@@ -179,7 +179,13 @@ function MainPage() {
       step2Timeline.fromTo(
         MaskLv1Ref.current,
         { x: 462, y: 287 },
-        { x: 462, y: 700 },
+        {
+          x: 462,
+          y: function (index, target, targets) { //function-based value
+            const { top } = target.getBoundingClientRect()
+            return top + (window.innerHeight - top);
+          },
+        },
         "<"
       )
 
@@ -241,17 +247,17 @@ function MainPage() {
   return (
     <>
       <MainBannerContainer className={`inset-0`} ref={MainBannerRef}>
-        <Header />
+        <Header className={`fixed`} />
         <MainBanner
-          className={`mx-auto overflow-hidden	desktop:mt-[101px]`}
-          BannerImage={<Vendetta className={`bg-[brown]`} ref={VendettaRef} />}
+          className={`mx-auto overflow-hidden	desktop:mt-[101px] desktop:mb-[22px]`}
+          BannerImage={<Vendetta className={`tbg-[brown]`} ref={VendettaRef} />}
           RewardTaskImage={
             <img
               ref={RewardTaskRef}
               style={{
                 backgroundImage: `url(${RewardTask})`
               }}
-              className={`bg-[black] absolute desktop:w-[373px] desktop:h-[225px]`}
+              className={`tbg-[black] absolute desktop:w-[373px] desktop:h-[225px]`}
             />
           }
         />
@@ -262,14 +268,14 @@ function MainPage() {
 				style={{
 					backgroundImage: `url(${RightBottomMasklv1})`
 				}}
-				className={`fixed bg-[yellow] z-10 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1218px] desktop:h-[1008px]`}
+				className={`fixed tbg-[yellow] z-10 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1218px] desktop:h-[1008px]`}
 			></div>
 			<div
 				ref={MaskLv2Ref}
 				style={{
 					backgroundImage: `url(${TopMasklv2})`
 				}}
-				className={`fixed bg-[pink] z-20 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1280px] desktop:h-[720px]`}
+				className={`fixed tbg-[pink] z-20 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1280px] desktop:h-[720px]`}
 			></div>
 			<div
 				ref={MaskLv3Ref}
@@ -277,7 +283,7 @@ function MainPage() {
 					backgroundImage: `url(${LeftBottomMasklv3})`,
 					overflow: 'auto'
 				}}
-				className={`fixed bg-[purple] z-30 left-0 top-0 bg-no-repeat bg-cover desktop:w-[942px] desktop:h-[1058px]`}
+				className={`fixed tbg-[purple] z-30 left-0 top-0 bg-no-repeat bg-cover desktop:w-[942px] desktop:h-[1058px]`}
 			></div>
       <MainContainer>
         <HostInfo />

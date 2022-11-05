@@ -2,9 +2,9 @@ import {
 	ComponentProps, ForwardRefRenderFunction,
 	useRef, useImperativeHandle, forwardRef, RefObject
 } from 'react'
-//import EntireImage from './images/entire.svg'
+import EntireImage from './images/entire.svg'
 
-const EntireImage = ''
+//const EntireImage = ''
 
 type VendettaProps = ComponentProps<"div"> 
 
