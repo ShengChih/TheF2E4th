@@ -17,10 +17,15 @@ import SponerInfo from "@components/SponerInfo"
 import Footer from "@components/Footer"
 import Vendetta from '@components/Vendetta'
 
-import RightBottomMasklv1 from './images/RightBottomMasklv1@1x.png'
-import TopMasklv2 from './images/TopMasklv2@1x.png'
-import LeftBottomMasklv3 from './images/LeftBottomMasklv3@1x.png'
-import RewardTask from './images/reward_task.svg'
+//import RightBottomMasklv1 from './images/RightBottomMasklv1@1x.png'
+//import TopMasklv2 from './images/TopMasklv2@1x.png'
+//import LeftBottomMasklv3 from './images/LeftBottomMasklv3@1x.png'
+//import RewardTask from './images/reward_task.svg'
+
+const RightBottomMasklv1 = ''
+const TopMasklv2 = ''
+const LeftBottomMasklv3 = ''
+const RewardTask = ''
 
 import { TaskType, Tasks } from "@components/TaskCard/constants"
 
@@ -213,14 +218,14 @@ function MainPage() {
         <Header />
         <MainBanner
           className={`mx-auto overflow-hidden	desktop:mt-[101px]`}
-          BannerImage={<Vendetta className={`opacity-0`} ref={VendettaRef} />}
+          BannerImage={<Vendetta className={`opacity-0 bg-[brown]`} ref={VendettaRef} />}
           RewardTaskImage={
             <img
               ref={RewardTaskRef}
               style={{
                 backgroundImage: `url(${RewardTask})`
               }}
-              className={`opacity-0	absolute desktop:w-[373px] desktop:h-[225px]`}
+              className={`opacity-0	bg-[black] absolute desktop:w-[373px] desktop:h-[225px]`}
             />
           }
         />
@@ -231,14 +236,14 @@ function MainPage() {
 				style={{
 					backgroundImage: `url(${RightBottomMasklv1})`
 				}}
-				className={`fixed z-10 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1218px] desktop:h-[1008px]`}
+				className={`fixed bg-[yellow] z-10 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1218px] desktop:h-[1008px]`}
 			></div>
 			<div
 				ref={MaskLv2Ref}
 				style={{
 					backgroundImage: `url(${TopMasklv2})`
 				}}
-				className={`fixed z-10 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1280px] desktop:h-[720px]`}
+				className={`fixed bg-[pink] z-20 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1280px] desktop:h-[720px]`}
 			></div>
 			<div
 				ref={MaskLv3Ref}
@@ -246,7 +251,7 @@ function MainPage() {
 					backgroundImage: `url(${LeftBottomMasklv3})`,
 					overflow: 'auto'
 				}}
-				className={`fixed z-10 left-0 top-0 bg-no-repeat bg-cover desktop:w-[942px] desktop:h-[1058px]`}
+				className={`fixed bg-[purple] z-30 left-0 top-0 bg-no-repeat bg-cover desktop:w-[942px] desktop:h-[1058px]`}
 			></div>
       <MainContainer>
         <HostInfo />

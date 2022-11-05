@@ -76,7 +76,7 @@ const StarBase: ForwardRefRenderFunction<StarHandle, StarProps> = ({ delay }, re
 			style={{
 				backgroundImage: `url(${Star})`,
 			}}
-			className={`fixed left-0 top-0 bg-center bg-no-repeat ${baseStyles.star} desktop w-[7px] desktop:h-[7px]`}
+			className={`fixed bg-center bg-no-repeat ${baseStyles.star} desktop w-[7px] desktop:h-[7px]`}
 			ref={el}
 		></div>
 	)

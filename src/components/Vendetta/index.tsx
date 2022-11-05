@@ -2,7 +2,9 @@ import {
 	ComponentProps, ForwardRefRenderFunction,
 	useRef, useImperativeHandle, forwardRef, RefObject
 } from 'react'
-import EntireImage from './images/entire.svg'
+//import EntireImage from './images/entire.svg'
+
+const EntireImage = ''
 
 type VendettaProps = ComponentProps<"div"> 
 
@@ -26,7 +28,7 @@ const Vendetta: ForwardRefRenderFunction<VendettaHandle, VendettaProps> = ({ cla
 			style={{
 				backgroundImage: `url(${EntireImage})`
 			}}
-			className={`absolute bg-no-repeat bg-center bg-cover desktop:w-[672.27px] desktop:h-[562px] ${className}`}
+			className={`absolute bg-no-repeat bg-center bg-cover desktop:w-[672.3px] desktop:h-[562px] ${className}`}
 			ref={el}
 		></div>
 	)
