@@ -95,7 +95,8 @@ export default function ScheduleInfo() {
 						ProgressPoints.map(
 							({ starttime, endtime, RectangleStyle, ...point }, index: number) => {
 								const now = + new Date()
-								const rectangleStyle = RectangleStyle + (now >= starttime && now <= endtime
+								const rectangleStyle = RectangleStyle + (
+									now >= starttime && now <= endtime
 									? `bg-[#951205]`
 									: ``
 								)
@@ -112,10 +113,24 @@ export default function ScheduleInfo() {
 				</div>
 			</div>
 			<div className={`relative`}>
-				<div className={`absolute left-[151px] border-[5px] border-solid border-[#3C221B] desktop:left-[466px] desktop:top-[63px] desktop:w-[328px]`}></div>
 				<div className={`flex mx-auto w-max desktop:mt-[155px]`}>
+					<div className={`absolute inset-x-0 mx-auto border-[5px] border-solid border-[#3C221B] desktop:translate-y-[63px] desktop:w-[328px]`}></div>
 					{
-						FinalPoints.map((point, index: number) => <SchedulePoint key={`final-${index}`} {...point} />)
+						FinalPoints.map(({ starttime, endtime, RectangleStyle, ...point }, index: number) => {
+							const now = + new Date()
+							const rectangleStyle = RectangleStyle + (
+								now >= starttime && now <= endtime
+								? `bg-[#951205]`
+								: ``
+							)
+							return (
+								<SchedulePoint
+									key={`final-${index}`}
+									RectangleStyle={rectangleStyle}
+									{...point}
+								/>
+							)
+						})
 					}
 				</div>
 			</div>
