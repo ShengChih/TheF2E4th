@@ -20,7 +20,17 @@ module.exports = {
       'julian': ['AR JULIAN'],
       'roboto': ['Roboto']
     },
-    extend: {},
+    extend: {
+      animation: {
+        'fade-in': 'fadeIn 1s linear'
+      },
+      keyframes: {
+        'fadeIn': {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 }
+        }
+      }
+    },
   },
   plugins: [
     plugin(function ({ addBase }) {

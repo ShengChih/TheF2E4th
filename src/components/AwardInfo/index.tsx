@@ -4,8 +4,9 @@ import {
 	forwardRef,
 	useImperativeHandle,
 	ForwardRefRenderFunction,
-	ComponentProps
+	ComponentProps,
 } from 'react'
+
 import TeamAward from './images/TeamAward.svg'
 import PersonalAward from './images/PersonalAward.svg'
 import ShortListAward from './images/ShortListAward.svg'
@@ -15,6 +16,7 @@ type AwardInfoHandle = {
 	getTeamAwardRef: () => RefObject<HTMLDivElement>
 	getPersonalAwardRef: () => RefObject<HTMLDivElement>
 	getShortListAwardRef: () => RefObject<HTMLDivElement>
+	getBottomTextRef: () => RefObject<HTMLDivElement>
 }
 
 type AwardInfoProps = ComponentProps<"section"> 
@@ -24,6 +26,7 @@ const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> =
 	const teamAwardRef = useRef<HTMLDivElement>(null)
 	const personalAwardRef = useRef<HTMLDivElement>(null)
 	const shortListAwardRef = useRef<HTMLDivElement>(null)
+	const bottomTextRef = useRef<HTMLDivElement>(null)
 
 	useImperativeHandle(forwardref, () => {
 		return {
@@ -39,6 +42,9 @@ const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> =
 			getShortListAwardRef: () => {
 				return shortListAwardRef ?? {}
 			},
+			getBottomTextRef: () => {
+				return bottomTextRef ?? {}
+			}
 		}
 	}, [])
 
@@ -83,7 +89,7 @@ const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> =
 					<div className={`font-sans font-normal text-center text-[#3C221B] desktop:text-[26px] desktop:leading-[38px] desktop:mt-[11px]`}>{'每個關卡個人組十位\n、團體組十組'}</div>
 				</div>
 			</div>
-			<div className={`font-sans font-normal text-center mx-auto text-[#3C221B] desktop:w-[396px] desktop:h-[52px] desktop:leading-[52px] desktop:text-[36px] desktop:mt-[92px] desktop:mb-[12px]`}>以上皆提供完賽數位獎狀</div>
+			<div ref={bottomTextRef}  className={`font-sans font-normal text-center mx-auto text-[#3C221B] desktop:w-[396px] desktop:h-[52px] desktop:leading-[52px] desktop:text-[36px] desktop:mt-[92px] desktop:mb-[12px]`}>以上皆提供完賽數位獎狀</div>
 		</section>
 	)
 }

@@ -49,8 +49,8 @@ function MainPage() {
 
   ScheduleTaskRefs.current = []
 
+  /** testing scroll postion
   useEffect(() => {
-    /**  testing scroll postion */
     const handleScroll = (e: Event<HTMLElement>) => {
       console.log('window.scrollY', window.pageYOffset)
     }
@@ -61,6 +61,7 @@ function MainPage() {
       document.removeEventListener('scroll', handleScroll)
     }
   }, [])
+  */
 
   const addScheduleTaskRef = (ref: ElementRef<typeof TaskCard>) => {
     if (ref) {
@@ -128,7 +129,15 @@ function MainPage() {
               scrub: true,
               start: 'top top',
               end: `+=230`,
-              //markers: true
+              //markers: true,
+              onEnterBack: ({ start, end, progress, direction, isActive }) => {
+                /** scroll trigger 有時候回捲不一定會觸發 */
+                console.debug('step0 onEnterBack:', start, end, progress, direction, isActive)
+              },
+              onLeaveBack: ({ start, end, progress, direction, isActive }) => {
+                /** scroll trigger 有時候回捲不會觸發  */
+                console.debug('step0 onLeaveBack:', start, end, progress, direction, isActive)
+              }
             },
             x: 0, y: -230
           }
@@ -213,6 +222,12 @@ function MainPage() {
           //onUpdate: ({ scroller, start, end, trigger, progress, direction, isActive }) => {
           //  console.log(`step3Timeline:`, start, end, trigger?.getBoundingClientRect())
           //}
+          onEnterBack: ({ start, end, progress, direction, isActive }) => {
+            console.debug('step3 onEnterBack:', start, end, progress, direction, isActive)
+          },
+          onLeaveBack: ({ start, end, progress, direction, isActive }) => {
+            console.debug('step3 onLeaveBack:', start, end, progress, direction, isActive)
+          }
         },
       })
     
@@ -269,17 +284,26 @@ function MainPage() {
         {
           el: awardEl.getTeamAwardRef().current,
           from: { yPercent: "-100", visibility: 'hidden' },
-          to: { yPercent: "0", duration: 1.2, visibility: 'visible' }
+          to: { yPercent: "0", duration: 1.2, visibility: 'visible' },
+          order: "<"
         },
         {
           el: awardEl.getPersonalAwardRef().current,
           from: { yPercent: "-100", visibility: 'hidden' },
-          to: { yPercent: "0", duration: 0.8, visibility: 'visible' }
+          to: { yPercent: "0", duration: 0.8, visibility: 'visible' },
+          order: "<"
         },
         {
           el: awardEl.getShortListAwardRef().current,
           from: { yPercent: "-100", visibility: 'hidden' },
-          to: { yPercent: "0", duration: 0.6, visibility: 'visible' }
+          to: { yPercent: "0", duration: 0.6, visibility: 'visible' },
+          order: "<"
+        },
+        {
+          el: awardEl.getBottomTextRef().current,
+          from: { opacity: 0 },
+          to: { duration: 2, opacity: 1, delay: 2 },
+          order: ""
         }
       ]
 
@@ -291,8 +315,8 @@ function MainPage() {
         }
       })
 
-      rewardTrigger.map(({ el, from, to }) => {
-        rewardTimeline.fromTo(el, from, to, "<")
+      rewardTrigger.map(({ el, from, to, order }) => {
+        rewardTimeline.fromTo(el, from, to, order)
       })
       animations.push(rewardTimeline)
     }
