@@ -1,7 +1,12 @@
 import { useRef, useState, useEffect, useLayoutEffect, ElementRef, MouseEvent } from "react"
 import { gsap } from "gsap"
 
+import { px2mapping } from "@utils/converter"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+import pcStyles from "./styles/fullpage/pc.module.scss"
+import mobileStyles from "./styles/fullpage/mobile.module.scss"
+import tabletStyles from "./styles/fullpage/tablet.module.scss"
 
 import ScrollMouseIcon from "@components/ScrollMouseIcon"
 import MainBanner from "@components/MainBanner"
@@ -9,6 +14,7 @@ import Header from '@components/Header'
 import HostInfo from "@components/HostInfo"
 import ScheduleTask from "@components/ScheduleTask"
 import TaskCard from "@components/TaskCard"
+import { TaskType, Tasks } from "@components/TaskCard/constants"
 import ScheduleInfo from "@components/ScheduleInfo"
 import AwardInfo from "@components/AwardInfo"
 import LiveShareVideo from "@components/LiveShareVideo"
@@ -29,7 +35,7 @@ import ContentBgImage from './images/ContentBgImage.svg'
 //const LeftBottomMasklv3 = ''
 //const RewardTask = ''
 
-import { TaskType, Tasks } from "@components/TaskCard/constants"
+
 
 type VendettaHandle = ElementRef<typeof Vendetta>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
@@ -120,7 +126,7 @@ function MainPage() {
           trigger: MainBannerRef.current,
           scrub: true,
           start: `top top`, /** 滾動軸還未滾之前就要將 banner 透過 pin fixed 起來，滾動才不會滾到 banner，因此填 0 */
-          end: '+=948',//`+=948`, /** 滾完第一頁動畫，要很順接第二頁，230 + 364 + 354 */
+          end: `+=948`,//`+=948`, /** 滾完第一頁動畫，要很順接第二頁，230 + 364 + 354 */
           pin: true,
           //markers: true,
           //onLeave: ({ start, end, progress, direction, isActive }) => {
@@ -364,7 +370,7 @@ function MainPage() {
           style={{
             backgroundImage: `url(${MainImage})`
           }}
-          className={`flex bg-no-repeat bg-cover desktop:h-[720px]`}
+          className={`flex bg-no-repeat bg-cover desktop:h-screen`}
           ref={MainBannerRef}
         >
           <MainBanner
@@ -430,14 +436,14 @@ function MainPage() {
 				style={{
 					backgroundImage: `url(${RightBottomMasklv1})`
 				}}
-				className={`fixed tbg-[yellow] z-10 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1218px] desktop:h-[1008px]`}
+				className={`fixed tbg-[yellow] z-10 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv1}`}
 			></div>
 			<div
 				ref={MaskLv2Ref}
 				style={{
 					backgroundImage: `url(${TopMasklv2})`
 				}}
-				className={`fixed tbg-[pink] z-20 left-0 top-0 bg-no-repeat bg-cover desktop:w-[1280px] desktop:h-[720px]`}
+				className={`fixed tbg-[pink] z-20 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv2}`}
 			></div>
 			<div
 				ref={MaskLv3Ref}
@@ -445,7 +451,7 @@ function MainPage() {
 					backgroundImage: `url(${LeftBottomMasklv3})`,
 					overflow: 'auto'
 				}}
-				className={`fixed tbg-[purple] z-30 left-0 top-0 bg-no-repeat bg-cover desktop:w-[942px] desktop:h-[1058px]`}
+				className={`fixed tbg-[purple] z-30 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv3}`}
 			></div>
       <div ref={ScrollMouseTopRef} className={`fixed z-40 left-1/2 top-1/2 translate-x-[-32px] translate-y-[-50.05px]`}>
         <ScrollMouseIcon />
