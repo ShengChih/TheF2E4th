@@ -121,8 +121,8 @@ export default function LiveShareVideo() {
 	
 	const SpeakerCards = (
 		<>
-			<div className={`flex items-center justify-center bg-[#3C221B] font-serif font-black text-white desktop:h-[170px] desktop:text-[60px] desktop:leading-[86px]`}>各界大神直播分享</div>
-			<div className={`grid grid-flow-row grid-cols-2 mx-auto desktop:mt-[63px] desktop:w-[1064px] desktop:h-[1529px] desktop:gap-x-[20px] desktop:gap-y-[52px]`}>
+			<div className={`animate-fade-in flex items-center justify-center bg-[#3C221B] font-serif font-black text-white desktop:h-[170px] desktop:text-[60px] desktop:leading-[86px]`}>各界大神直播分享</div>
+			<div className={`animate-fade-in grid grid-flow-row grid-cols-2 mx-auto desktop:mt-[63px] desktop:w-[1064px] desktop:h-[1529px] desktop:gap-x-[20px] desktop:gap-y-[52px]`}>
 				{
 					liveShares.map(
 						(speaker, index: number) => (
@@ -148,7 +148,6 @@ export default function LiveShareVideo() {
 					? SpeakerCards
 					: ClickBlock
 			}
-			
 		</section>
 	)
 }
