@@ -30,7 +30,9 @@ const ProgressPoints = [
 		title: `開始報名`,
 		RectangleStyle: ``,
 		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[32.37px]`,
-		ActivityPeriods: '10/13(四) 早上 11:00\n至 11/6(日) 晚上 23:59'
+		ActivityPeriods: '10/13(四) 早上 11:00\n至 11/6(日) 晚上 23:59',
+		starttime: +new Date("2022-10-13T11:00:00.000+08:00"),
+		endtime: +new Date("2022-11-06T23:59:59.000+08:00")
 	},
 	{
 		CardStyle: `desktop:w-[323px]`,
@@ -38,6 +40,8 @@ const ProgressPoints = [
 		RectangleStyle: ``,
 		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[32.37px]`,
 		ActivityPeriods: 'UI組、團體組開賽 10/31\n前端組開賽 11 /7',
+		starttime: +new Date("2022-10-31T00:00:00.000+08:00"),
+		endtime: +new Date("2022-11-07T23:59:59.000+08:00")
 	},
 	{
 		CardStyle: `desktop:w-[323px]`,
@@ -45,6 +49,8 @@ const ProgressPoints = [
 		RectangleStyle: ``,
 		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[32.37px]`,
 		ActivityPeriods: '10/31(一) 中午 12:00\n至11/28(一) 中午 12:00',
+		starttime: +new Date("2022-10-31T12:00:00.000+08:00"),
+		endtime: +new Date("2022-11-28T12:00:00.000+08:00")
 	},
 	{
 		CardStyle: `desktop:w-[323px]`,
@@ -52,6 +58,8 @@ const ProgressPoints = [
 		RectangleStyle: ``,
 		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[48.37px]`,
 		ActivityPeriods: ['11/3 至 11/24(每週四)'],
+		starttime: +new Date("2022-11-03T00:00:00.000+08:00"),
+		endtime: +new Date("2022-11-24T23:59:59.000+08:00")
 	}
 ]
 
@@ -62,13 +70,17 @@ const FinalPoints = [
 		RectangleStyle: ``,
 		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[48.37px]`,
 		ActivityPeriods: '12/05(五)',
+		starttime: +new Date("2022-12-05T00:00:00.000+08:00"),
+		endtime: +new Date("2022-12-05T23:59:59.000+08:00")
 	},
 	{
 		CardStyle: `desktop:w-[317px]`,
 		title: `決選`,
 		RectangleStyle: ``,
 		PeriodStyle: `desktop:leading-[35px] desktop:text-[24px] desktop:top-[48.37px]`,
-		ActivityPeriods:`12/05(五)`,
+		ActivityPeriods: `12/05(五)`,
+		starttime: +new Date("2022-12-05T00:00:00.000+08:00"),
+		endtime: +new Date("2022-12-05T23:59:59.000+08:00")
 	}				
 ]
 
@@ -77,10 +89,25 @@ export default function ScheduleInfo() {
 		<section className={`w-full desktop:h-[1040px]`}>
 			<div className={`flex items-center justify-center bg-[#3C221B] font-serif font-black text-white desktop:h-[170px] desktop:text-[60px] desktop:leading-[86px]`}>賽程時間</div>
 			<div className={`relative`}>
-				<div className={`absolute left-[151px] border-[5px] border-solid border-[#3C221B] desktop:left-[151px] desktop:top-[63px] desktop:w-[957px]`}></div>
 				<div className={`flex mx-auto w-max desktop:mt-[155px]`}>
+					<div className={`absolute inset-x-0 mx-auto desktop:translate-y-[63px] border-[5px] border-solid border-[#951205] desktop:w-[957px]`}></div>
 					{
-						ProgressPoints.map((point, index:number ) => <SchedulePoint key={`progress-${index}`} {...point} />)
+						ProgressPoints.map(
+							({ starttime, endtime, RectangleStyle, ...point }, index: number) => {
+								const now = + new Date()
+								const rectangleStyle = RectangleStyle + (now >= starttime && now <= endtime
+									? `bg-[#951205]`
+									: ``
+								)
+								return (
+									<SchedulePoint
+										key={`progress-${index}`}
+										RectangleStyle={rectangleStyle}
+										{ ...point }
+									/>
+								)
+							}
+						)
 					}
 				</div>
 			</div>
