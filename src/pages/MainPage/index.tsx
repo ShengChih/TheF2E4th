@@ -12,6 +12,7 @@ import ScheduleInfo from "@components/ScheduleInfo"
 import AwardInfo from "@components/AwardInfo"
 import LiveShareVideo from "@components/LiveShareVideo"
 import SponerInfo from "@components/SponerInfo"
+import PartnerInfo from "@components/PartnerInfo"
 import Footer from "@components/Footer"
 import Vendetta from '@components/Vendetta'
 
@@ -364,6 +365,7 @@ function MainPage() {
           <ScheduleInfo></ScheduleInfo>
           <AwardInfo ref={AwardInfoSectionRef}></AwardInfo>
           <LiveShareVideo></LiveShareVideo>
+          <PartnerInfo></PartnerInfo>
           <SponerInfo></SponerInfo>
           <Footer></Footer>
         </div>
