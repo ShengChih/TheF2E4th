@@ -1,4 +1,7 @@
-import { useRef, useState, useEffect, useLayoutEffect, ElementRef, MouseEvent } from "react"
+import {
+  useRef, useState, useEffect, useLayoutEffect,
+  useCallback, ElementRef, MouseEvent
+} from "react"
 import { gsap } from "gsap"
 
 import { px2mapping } from "@utils/converter"
@@ -40,9 +43,13 @@ import ContentBgImage from './images/ContentBgImage.svg'
 type VendettaHandle = ElementRef<typeof Vendetta>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
 
+const MaxEasterEgg = 5
 
 function MainPage() {
   gsap.registerPlugin(ScrollTrigger)
+
+  const [isDisplayDiscount, setDisplayDiscount] = useState<boolean>(false)
+  const [easterEggCount, setEasterEggCount] = useState<number>(0)
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const hexSchoolAnchorRef = useRef<HTMLDivElement>(null)
   const scheduleInfoAnchorRef = useRef<HTMLElement>(null)
@@ -66,6 +73,20 @@ function MainPage() {
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   }, [anchor])
+
+  useEffect(() => {
+    if (easterEggCount === MaxEasterEgg) {
+      setDisplayDiscount(true)
+    }
+  }, [easterEggCount])
+
+  const handleCloseDiscount = (e: MouseEvent) => {
+    setDisplayDiscount(false)
+  }
+
+  const handleEasterEggCount = (e: MouseEvent) => {
+    setEasterEggCount(easterEggCount + 1)
+  }
 
   /** testing scroll postion
   useEffect(() => {
@@ -456,6 +477,25 @@ function MainPage() {
       <div ref={ScrollMouseTopRef} className={`fixed z-40 left-1/2 top-1/2 translate-x-[-32px] translate-y-[-50.05px]`}>
         <ScrollMouseIcon />
       </div>
+      {
+        true || isDisplayDiscount
+          ? (
+            <div className={`fixed flex items-center justify-center font-sans font-normal text-[#38241B] z-50 top-1/2 left-1/2 m-auto bg-white  desktop:w-[527px] desktop:h-[310px] desktop:translate-x-[-263.5px] desktop:translate-y-[-152px]`}>
+              <div className={`whitespace-pre-line flex flex-col items-center justify-center desktop:leading-[55px] desktop:text-[25px] desktop:w-[420px] desktop:h-[104px]`}>
+                {'恭喜您！獲得六角課程專屬折扣碼\n'}<span className={`font-sans font-bold text-[#951205] desktop:leading-[55px] desktop:text-[40px]`}>【HEXSCHOOL2022】</span>
+              </div>
+              <div 
+                onClick={handleCloseDiscount}
+                className={`absolute bg-[#38241B] top-0 right-0 flex items-center justify-center desktop:rounded-[50px] desktop:w-[72px] desktop:h-[72px] desktop:translate-x-[36px] desktop:translate-y-[-36px]`}
+              >
+                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.0418 12.9994L24.4553 6.58506C25.8482 5.19188 25.8482 2.93807 24.4553 1.54489C23.0623 0.151705 20.804 0.151705 19.411 1.54489L12.9976 7.95447L6.58895 1.54489C5.19597 0.151705 2.93772 0.151705 1.54474 1.54489C0.151754 2.93807 0.151754 5.19188 1.54474 6.58506L7.95816 12.9994L1.54474 19.4137C0.151754 20.8069 0.151754 23.0607 1.54474 24.4539C2.24361 25.1529 3.15641 25.5 4.06922 25.5C4.97728 25.5 5.89008 25.1529 6.58895 24.4539L12.9976 18.0443L19.411 24.4539C20.1099 25.1529 21.018 25.5 21.9308 25.5C22.8436 25.5 23.7564 25.1529 24.4553 24.4539C25.8482 23.0607 25.8482 20.8069 24.4553 19.4137L18.0418 12.9994Z" fill="white"/>
+                </svg>
+              </div>
+            </div>
+          )
+          : ''
+      }
     </>
   );
 }

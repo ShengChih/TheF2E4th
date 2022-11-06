@@ -9,6 +9,7 @@ function App() {
         style={{
           cursor: `url(${WandCursor}), auto`
         }}
+        className={`relative`}
       >
         <MainPage />
       </div>
