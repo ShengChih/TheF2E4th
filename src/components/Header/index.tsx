@@ -15,7 +15,7 @@ export default function Header({ className, gotoHexSchoolAnchor, gotoScheduleInf
 					<li onClick={gotoHexSchoolAnchor} className={`flex items-center text-white desktop:text-[18px] font-normal	font-sans desktop:w-[72px] h-full`}>關卡任務</li>
 					<li onClick={gotoScheduleInfoAnchor} className={`flex items-center text-white desktop:text-[18px] font-normal	font-sans desktop:w-[72px] h-full`}>競賽說明</li>
 				</ul>
-				<button className={`flex justify-center items-center text-white font-medium font-sans desktop:ml-[7px] desktop:text-[20px] desktop:leading-[29px] desktop:w-[183px] desktop:h-[42px] bg-[#951205] rounded-[40px] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]`}>立即報名</button>
+				<button className={`flex justify-center items-center text-white font-medium font-sans desktop:ml-[7px] desktop:text-[20px]  desktop:w-[183px] desktop:h-[42px] bg-[#951205] rounded-[40px] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]`}>立即報名</button>
 			</nav>
 		</header>
 	)
