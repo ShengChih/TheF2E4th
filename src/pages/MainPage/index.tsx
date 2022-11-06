@@ -43,9 +43,8 @@ function MainPage() {
 	const VendettaRef = useRef<VendettaHandle>(null)
   const RewardTaskRef = useRef<HTMLImageElement>(null)
 
-  const ContentContainerRef = useRef<HTMLDivElement>(null)
   const AwardInfoSectionRef = useRef<AwardInfoHandle>(null)
-  const ScheduleTaskRefs = useRef<Array<ElementRef<typeof TaskCard> | HTMLDivElement>>([])
+  const ScheduleTaskRefs = useRef<Array<ElementRef<typeof TaskCard>>>([])
 
   ScheduleTaskRefs.current = []
 
@@ -64,7 +63,7 @@ function MainPage() {
 
   const addScheduleTaskRef = (ref: ElementRef<typeof TaskCard>) => {
     if (ref) {
-      ScheduleTaskRefs.current.push(ref.getRef().current);
+      ScheduleTaskRefs.current.push(ref);
     }    
   }
 
@@ -236,29 +235,31 @@ function MainPage() {
       animations.push(step3Timeline)
     }
 
-    const cardTriggers = [
-      ...ScheduleTaskRefs.current
-    ] as gsap.DOMTarget[]
+    const cardTriggers = (ScheduleTaskRefs.current.map(
+      (ref: ElementRef<typeof TaskCard>) => ref.getRef().current
+    )) as gsap.DOMTarget[]
 
     const cardEffects: gsap.TweenVars[][] = [
-      [{ xPercent: "-110" }, { xPercent: "0", duration: 1 }],
-      [{ xPercent: "110" }, { xPercent: "0", duration: 1 }],
-      [{ xPercent: "-110" }, { xPercent: "0", duration: 1 }],
+      [{ xPercent: "-110" }, { xPercent: "0", duration: 0.8 }],
+      [{ xPercent: "110" }, { xPercent: "0", duration: 0.8 }],
+      [{ xPercent: "-110" }, { xPercent: "0", duration: 0.8 }],
     ]
 
     for (let i = 0; i < cardEffects.length; i++) {
       const [from, to] = cardEffects[i]
-      ScrollTrigger.create({
-        trigger: cardTriggers[i],
-        start: "top bottom",
-        onEnter: () => {
-          gsap.fromTo(
-            cardTriggers[i],
-            from,
-            to
-          )
-        }
-      })
+      let el = cardTriggers[i]
+      animations.push(
+        gsap.context(() => {
+          ScrollTrigger.create({
+            once: true,
+            trigger: el,
+            start: "top-=5% bottom",
+            onEnter: () => {
+              gsap.fromTo(el, from, to)
+            }
+          })
+        }, [el])
+      )
     }
 
     console.log(animations.length)
@@ -294,7 +295,6 @@ function MainPage() {
           />
         </div>
         <div
-          ref={ContentContainerRef}
           style={{
             backgroundImage: `url(${ContentBgImage})`
           }}
