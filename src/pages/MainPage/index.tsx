@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useLayoutEffect, ElementRef, MouseEvent, Event } from "react"
+import { useRef, useState, useEffect, useLayoutEffect, ElementRef, MouseEvent } from "react"
 import { gsap } from "gsap"
 
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -63,7 +63,7 @@ function MainPage() {
 
   /** testing scroll postion
   useEffect(() => {
-    const handleScroll = (e: Event<HTMLElement>) => {
+    const handleScroll = (e: Event) => {
       console.log('window.scrollY', window.pageYOffset)
     }
 
