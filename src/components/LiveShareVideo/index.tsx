@@ -16,6 +16,7 @@ interface ShareSpeakerCardProps {
 	SpeakerTitle: ReactNode | ReactNode[]
 	ActivityPeriodsStyle: string
 	ActivityInfo: ReactNode | ReactNode[]
+	VideoLink?: string
 }
 
 interface LiveShareState {
@@ -34,8 +35,13 @@ function ShareSpeakerCard({
 	SpeakerTitleStyle,
 	SpeakerTitle,
 	ActivityPeriodsStyle,
-	ActivityInfo
+	ActivityInfo,
+	VideoLink
 }: ShareSpeakerCardProps) {
+	const go2Link = VideoLink ? () => {
+		window.open(VideoLink, "_blank")
+	} : undefined
+
 	return (
 		<div 
 			style={{
@@ -44,7 +50,10 @@ function ShareSpeakerCard({
 			className={`relative flex flex-col desktop:w-[522px] h-[738.5px]`}
 		>
 			<div className={`text-center font-serif font-black mx-auto ${SubjectStyle}`}>{SubjectTitle}</div>
-			<div className={`relative mx-auto desktop:w-[341.48px] desktop:h-[468.35px]`}>
+			<div
+				onClick={go2Link}
+				className={`relative mx-auto desktop:w-[341.48px] desktop:h-[468.35px]`}
+			>
 				<img src={SpeakerImage} alt={SpeakerInfo} />
 				<div
 					style={{
@@ -77,6 +86,7 @@ const liveShares = [
 		SpeakerTitle: '李明\n版塊設計創辦人兼總監',
 		ActivityPeriodsStyle: `desktop:text-[35px] desktop:leading-[67px] desktop:ml-[57px] desktop:mt-[28.65px] desktop:w-[402.39px] desktop:h-[58.74px]`,
 		ActivityInfo: `11/03(四)20:00 ~ 21:30`,
+		VideoLink: `https://www.youtube.com/watch?v=9gzDFKTIFB4`
 	},
 	{
 		SubjectStyle: `desktop:text-[49px] desktop:leading-[62px] desktop:mt-[20.68px] desktop:mb-[16.84px] desktop:w-[402.39px] desktop:h-[117.47px]`,

@@ -92,9 +92,11 @@ export default function ScheduleInfo() {
 					}
 				</div>
 			</div>
-			<div className={`font-sans whitespace-pre text-[#3C221B] desktop:text-[28px] mx-auto desktop:w-[1198px] desktop:h-[89px] desktop:mt-[127.37px]`}>
-				初選：將由六角學院前端、UI 評審進行第一波篩選，並於 12/5（五）公布初選佳作名單。\n
-				決選：由三大企業針對該企業主題進行入圍獎最後篩選，並於 12/23（五）公布企業得獎名單。
+			<div className={`font-sans whitespace-pre-line text-[#3C221B] desktop:text-[28px] mx-auto desktop:w-[1198px] desktop:h-[89px] desktop:mt-[127.37px]`}>
+				{
+					"初選：將由六角學院前端、UI 評審進行第一波篩選，並於 12/5（五）公布初選佳作名單。\n\
+					決選：由三大企業針對該企業主題進行入圍獎最後篩選，並於 12/23（五）公布企業得獎名單。"
+				}
 			</div>
 		</section>
 	)
