@@ -89,7 +89,7 @@ function MainPage() {
      * */
 
     /** 讓第一頁的空白頁滾動，置頂第二頁 */
-    let animations: ReturnType<typeof gsap.context | typeof gsap.timeline | typeof gsap.fromTo>[] = []
+    let animations: ReturnType<typeof gsap.context | typeof gsap.timeline | typeof gsap.fromTo>[]  = []
 
     animations.push(
       gsap.context(() => {
@@ -261,6 +261,41 @@ function MainPage() {
         }, [el])
       )
     }
+
+    if (AwardInfoSectionRef.current) {
+      const awardEl = AwardInfoSectionRef.current
+      const rewardTrigger = [
+        {
+          el: awardEl.getTeamAwardRef().current,
+          from: { yPercent: "-100", visibility: 'hidden' },
+          to: { yPercent: "0", duration: 1.2, visibility: 'visible' }
+        },
+        {
+          el: awardEl.getPersonalAwardRef().current,
+          from: { yPercent: "-100", visibility: 'hidden' },
+          to: { yPercent: "0", duration: 0.8, visibility: 'visible' }
+        },
+        {
+          el: awardEl.getShortListAwardRef().current,
+          from: { yPercent: "-100", visibility: 'hidden' },
+          to: { yPercent: "0", duration: 0.6, visibility: 'visible' }
+        }
+      ]
+
+      const rewardTimeline = gsap.timeline({
+        scrollTrigger: {
+          once: true,
+          trigger: (awardEl.getSectionTitleRef().current as gsap.DOMTarget),
+          start: 'top top',
+        }
+      })
+
+      rewardTrigger.map(({ el, from, to }) => {
+        rewardTimeline.fromTo(el, from, to, "<")
+      })
+      animations.push(rewardTimeline)
+    }
+
 
     console.log(animations.length)
 
