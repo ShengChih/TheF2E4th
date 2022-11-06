@@ -1,0 +1,34 @@
+.scroll-down-1 {
+	animation: mouse_fade_out 1s;
+	animation-timing-function: ease-in-out;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	opacity: 0;
+}
+
+.scroll-down-2 {
+	animation: mouse_fade_in 1s;
+	animation-timing-function: ease-in-out;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	opacity: 0;
+}
+
+
+@keyframes mouse_fade_out {
+	0%, 50% {
+		opacity: 1
+	}
+	51%, 100% {
+		opacity: 0
+	}
+}
+
+@keyframes mouse_fade_in {
+	0%, 50% {
+		opacity: 0
+	}
+	51%, 100% {
+		opacity: 1
+	}
+}

@@ -1,5 +1,6 @@
 import { ComponentProps, ReactNode } from 'react'
 
+import ScrollMouseIcon from "@components/ScrollMouseIcon"
 import MainImage from './images/background.png'
 import MainTitle from './images/title.svg'
 import Attendee1158 from './images/1158.svg'
@@ -54,6 +55,7 @@ export default function MainBanner({
 				}}
 				className={`absolute bg-no-repeat bg-left-top	 desktop:w-[302px] desktop:h-[56px] desktop:left-[845px] desktop:top-[335px]`}
 			></div>
+			<ScrollMouseIcon className={`absolute translate-x-[1085px] translate-y-[467px]`} />
 		</div>
 	)
 }

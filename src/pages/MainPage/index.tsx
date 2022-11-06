@@ -3,6 +3,7 @@ import { gsap } from "gsap"
 
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
+import ScrollMouseIcon from "@components/ScrollMouseIcon"
 import MainBanner from "@components/MainBanner"
 import Header from '@components/Header'
 import HostInfo from "@components/HostInfo"
@@ -40,6 +41,7 @@ function MainPage() {
   const hexSchoolAnchorRef = useRef<HTMLDivElement>(null)
   const scheduleInfoAnchorRef = useRef<HTMLElement>(null)
 
+  const ScrollMouseTopRef = useRef<HTMLDivElement>(null)
   const MainBannerRef = useRef<HTMLDivElement>(null)
 	const MaskLv1Ref = useRef<HTMLDivElement>(null)
 	const MaskLv2Ref = useRef<HTMLDivElement>(null)
@@ -136,32 +138,35 @@ function MainPage() {
      * 
      * 錯誤用法: 一個 timeline, 塞很多不同的 scrollTrigger，官方建議獨立 scrollTrigger 事件
      * */
-    animations.push(
-      gsap.context(() => {
-        gsap.fromTo(
-          MaskLv2Ref.current,
-          { x: 0, y: 0 },
-          {
-            scrollTrigger: {
-              trigger: MaskLv2Ref.current,
-              scrub: true,
-              start: 'top top',
-              end: `+=230`,
-              //markers: true,
-              onEnterBack: ({ start, end, progress, direction, isActive }) => {
-                /** scroll trigger 有時候回捲不一定會觸發 */
-                console.debug('step0 onEnterBack:', start, end, progress, direction, isActive)
-              },
-              onLeaveBack: ({ start, end, progress, direction, isActive }) => {
-                /** scroll trigger 有時候回捲不會觸發  */
-                console.debug('step0 onLeaveBack:', start, end, progress, direction, isActive)
-              }
-            },
-            x: 0, y: -230
-          }
-        )
-      }, MaskLv2Ref)
+
+    const step1Tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: MaskLv2Ref.current,
+        scrub: true,
+        start: 'top top',
+        end: `+=230`,
+        //markers: true,
+        onEnterBack: ({ start, end, progress, direction, isActive }) => {
+          /** scroll trigger 有時候回捲不一定會觸發 */
+          console.debug('step0 onEnterBack:', start, end, progress, direction, isActive)
+        },
+        onLeaveBack: ({ start, end, progress, direction, isActive }) => {
+          /** scroll trigger 有時候回捲不會觸發  */
+          console.debug('step0 onLeaveBack:', start, end, progress, direction, isActive)
+        }
+      },
+    })
+    step1Tl.fromTo(
+      MaskLv2Ref.current,
+      { x: 0, y: 0 },
+      { x: 0, y: -230 },
     )
+
+    step1Tl.to(
+      ScrollMouseTopRef.current,
+      { visibility: 'hidden' },
+    )
+    animations.push(step1Tl)
 
     /**
      * 接著第二步一起移動
@@ -442,6 +447,9 @@ function MainPage() {
 				}}
 				className={`fixed tbg-[purple] z-30 left-0 top-0 bg-no-repeat bg-cover desktop:w-[942px] desktop:h-[1058px]`}
 			></div>
+      <div ref={ScrollMouseTopRef} className={`fixed z-40 left-1/2 top-1/2 translate-x-[-32px] translate-y-[-50.05px]`}>
+        <ScrollMouseIcon />
+      </div>
     </>
   );
 }
