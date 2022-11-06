@@ -86,7 +86,7 @@ const FinalPoints = [
 
 export default function ScheduleInfo() {
 	return (
-		<section className={`w-full desktop:h-[1040px]`}>
+		<>
 			<div className={`flex items-center justify-center bg-[#3C221B] font-serif font-black text-white desktop:h-[170px] desktop:text-[60px] desktop:leading-[86px]`}>賽程時間</div>
 			<div className={`relative`}>
 				<div className={`flex mx-auto w-max desktop:mt-[155px]`}>
@@ -125,6 +125,6 @@ export default function ScheduleInfo() {
 					決選：由三大企業針對該企業主題進行入圍獎最後篩選，並於 12/23（五）公布企業得獎名單。"
 				}
 			</div>
-		</section>
+		</>
 	)
 }

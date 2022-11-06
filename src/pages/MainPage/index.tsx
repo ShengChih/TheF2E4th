@@ -1,4 +1,4 @@
-import { useRef, useEffect, useLayoutEffect, ElementRef, Event } from "react"
+import { useRef, useState, useEffect, useLayoutEffect, ElementRef, MouseEvent, Event } from "react"
 import { gsap } from "gsap"
 
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -31,12 +31,15 @@ import ContentBgImage from './images/ContentBgImage.svg'
 import { TaskType, Tasks } from "@components/TaskCard/constants"
 
 type VendettaHandle = ElementRef<typeof Vendetta>
-type ScheduleTaskHandle = ElementRef<typeof ScheduleTask>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
 
 
 function MainPage() {
   gsap.registerPlugin(ScrollTrigger)
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null)
+  const hexSchoolAnchorRef = useRef<HTMLDivElement>(null)
+  const scheduleInfoAnchorRef = useRef<HTMLElement>(null)
+
   const MainBannerRef = useRef<HTMLDivElement>(null)
 	const MaskLv1Ref = useRef<HTMLDivElement>(null)
 	const MaskLv2Ref = useRef<HTMLDivElement>(null)
@@ -48,6 +51,13 @@ function MainPage() {
   const ScheduleTaskRefs = useRef<Array<ElementRef<typeof TaskCard>>>([])
 
   ScheduleTaskRefs.current = []
+
+  useEffect(() => {
+    if (anchor) {
+      const y = anchor.getBoundingClientRect().top + window.pageYOffset - 10;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, [anchor])
 
   /** testing scroll postion
   useEffect(() => {
@@ -67,6 +77,14 @@ function MainPage() {
     if (ref) {
       ScheduleTaskRefs.current.push(ref);
     }    
+  }
+
+  const gotoHexSchoolAnchor = (e: MouseEvent) => {
+    setAnchor(hexSchoolAnchorRef.current)
+  }
+
+  const gotoScheduleInfoAnchor = (e: MouseEvent) => {
+    setAnchor(scheduleInfoAnchorRef.current)
   }
 
   useLayoutEffect(() => {
@@ -174,7 +192,7 @@ function MainPage() {
       step2Timeline.to(
         MaskLv2Ref.current,
         {
-          x: 0, y: -594,
+          x: 0, yPercent: '-100'
         },
       )
 
@@ -331,7 +349,11 @@ function MainPage() {
 
   return (
     <>
-      <Header className={`fixed z-[5]`} />
+      <Header
+        className={`fixed z-[5]`}
+        gotoHexSchoolAnchor={gotoHexSchoolAnchor}
+        gotoScheduleInfoAnchor={gotoScheduleInfoAnchor}
+      />
       <div className={`w-full h-screen`}>
         <div
           style={{
@@ -360,7 +382,9 @@ function MainPage() {
           }}
           className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative desktop:h-[6443px]`}
         >
-          <HostInfo />
+          <div className={`relative`} ref={hexSchoolAnchorRef}>
+            <HostInfo />
+          </div>
           <ScheduleTask>
             {
               Tasks.map(({
@@ -386,7 +410,9 @@ function MainPage() {
               })
             }
           </ScheduleTask>
-          <ScheduleInfo></ScheduleInfo>
+          <section className={`w-full desktop:h-[1040px]`} ref={scheduleInfoAnchorRef}>
+            <ScheduleInfo></ScheduleInfo>
+          </section>
           <AwardInfo ref={AwardInfoSectionRef}></AwardInfo>
           <LiveShareVideo></LiveShareVideo>
           <PartnerInfo></PartnerInfo>
