@@ -84,9 +84,9 @@ function MainPage() {
     setDisplayDiscount(false)
   }
 
-  const handleEasterEggCount = (e: MouseEvent) => {
+  const handleEasterEggCount = useCallback((e: MouseEvent) => {
     setEasterEggCount(easterEggCount + 1)
-  }
+  }, [easterEggCount])
 
   /** testing scroll postion
   useEffect(() => {
@@ -412,43 +412,58 @@ function MainPage() {
           style={{
             backgroundImage: `url(${ContentBgImage})`
           }}
-          className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative desktop:h-[6443px]`}
+          className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative desktop:h-[6535px]`}
         >
           <div className={`relative`} ref={hexSchoolAnchorRef}>
             <HostInfo />
           </div>
-          <ScheduleTask>
-            {
-              Tasks.map(({
-                title, subtitle, content, tipUrl, contributeUrl,
-                TaskLogo,
-                EnterpriseLogo
-              }: TaskType, index: number) => {
-                const props = {
-                  className: `desktop:w-[1200px] desktop:h-[528px] `,
-                  title: title,
-                  subtitle: subtitle,
-                  content: content, 
-                  EnterpriseLogo: EnterpriseLogo,
-                  TaskLogo: TaskLogo,
-                  forwardTips: () => {
-                    window.open(tipUrl, "_blank")
-                  },
-                  forwardContribute: () => {
-                    window.open(contributeUrl, "_blank")
+
+          <div className={`desktop:pt-[99px] desktop:pb-[175px] desktop:w-[1200px] desktop:h-[1942px]`}>
+            <ScheduleTask>
+              {
+                Tasks.map(({
+                  title, subtitle, content, tipUrl, contributeUrl,
+                  TaskLogo,
+                  EnterpriseLogo
+                }: TaskType, index: number) => {
+                  const props = {
+                    className: `desktop:w-[1200px] desktop:h-[528px] `,
+                    title: title,
+                    subtitle: subtitle,
+                    content: content, 
+                    EnterpriseLogo: EnterpriseLogo,
+                    TaskLogo: TaskLogo,
+                    forwardTips: () => {
+                      window.open(tipUrl, "_blank")
+                    },
+                    forwardContribute: () => {
+                      window.open(contributeUrl, "_blank")
+                    }
                   }
-                }
-                return <TaskCard {...props} key={`task-grid-${index}`} ref={addScheduleTaskRef} />
-              })
-            }
-          </ScheduleTask>
+                  return <TaskCard {...props} key={`task-grid-${index}`} ref={addScheduleTaskRef} />
+                })
+              }
+            </ScheduleTask>
+            <div className={`relative desktop:translate-x-[-29.4px] desktop:translate-y-[19.21px]`} onClick={handleEasterEggCount}>
+              <svg width="52" height="56" viewBox="0 0 52 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.3277 18.4826C16.8383 20.9163 16.7976 23.3058 16.2063 25.6897L16.2083 25.6954C15.7512 30.2328 11.8572 34.5053 11.0233 39.0724C10.5296 41.7509 11.2839 44.0341 12.1945 45.6811L13.3134 47.2418C13.4495 47.4261 13.5855 47.6104 13.731 47.785C13.8671 47.8596 23.3725 53.1204 32.1672 40.6443C41.0277 28.0803 41.0406 12.5211 36.7807 6.72514C33.9427 4.17071 29.958 2.95695 25.9362 3.79579C19.2275 5.1959 14.9256 11.7682 16.3277 18.4826Z" fill="#CEA809"/>
+                <path d="M32.1707 40.6361C23.376 53.1123 13.8706 47.8514 13.7345 47.7768C18.7273 53.9853 28.385 53.7902 33.0559 47.1845C33.1086 47.1142 33.1592 47.0383 33.2119 46.9681C40.4821 36.5726 43.0458 24.9665 40.6265 13.3961C40.509 12.8438 40.3591 12.3094 40.1767 11.7929C39.4717 9.79571 38.2883 8.07065 36.7842 6.71698C41.0441 12.5129 41.0255 28.0742 32.1707 40.6361Z" fill="#AA8900"/>
+              </svg>
+            </div>
+          </div>
+
           <section className={`w-full desktop:h-[1040px]`} ref={scheduleInfoAnchorRef}>
             <ScheduleInfo></ScheduleInfo>
           </section>
+
           <AwardInfo ref={AwardInfoSectionRef}></AwardInfo>
+
           <LiveShareVideo></LiveShareVideo>
+
           <PartnerInfo></PartnerInfo>
+
           <SponerInfo></SponerInfo>
+
           <Footer></Footer>
         </div>
       </div>
@@ -477,25 +492,19 @@ function MainPage() {
       <div ref={ScrollMouseTopRef} className={`fixed z-40 left-1/2 top-1/2 translate-x-[-32px] translate-y-[-50.05px]`}>
         <ScrollMouseIcon />
       </div>
-      {
-        true || isDisplayDiscount
-          ? (
-            <div className={`fixed flex items-center justify-center font-sans font-normal text-[#38241B] z-50 top-1/2 left-1/2 m-auto bg-white  desktop:w-[527px] desktop:h-[310px] desktop:translate-x-[-263.5px] desktop:translate-y-[-152px]`}>
-              <div className={`whitespace-pre-line flex flex-col items-center justify-center desktop:leading-[55px] desktop:text-[25px] desktop:w-[420px] desktop:h-[104px]`}>
-                {'恭喜您！獲得六角課程專屬折扣碼\n'}<span className={`font-sans font-bold text-[#951205] desktop:leading-[55px] desktop:text-[40px]`}>【HEXSCHOOL2022】</span>
-              </div>
-              <div 
-                onClick={handleCloseDiscount}
-                className={`absolute bg-[#38241B] top-0 right-0 flex items-center justify-center desktop:rounded-[50px] desktop:w-[72px] desktop:h-[72px] desktop:translate-x-[36px] desktop:translate-y-[-36px]`}
-              >
-                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18.0418 12.9994L24.4553 6.58506C25.8482 5.19188 25.8482 2.93807 24.4553 1.54489C23.0623 0.151705 20.804 0.151705 19.411 1.54489L12.9976 7.95447L6.58895 1.54489C5.19597 0.151705 2.93772 0.151705 1.54474 1.54489C0.151754 2.93807 0.151754 5.19188 1.54474 6.58506L7.95816 12.9994L1.54474 19.4137C0.151754 20.8069 0.151754 23.0607 1.54474 24.4539C2.24361 25.1529 3.15641 25.5 4.06922 25.5C4.97728 25.5 5.89008 25.1529 6.58895 24.4539L12.9976 18.0443L19.411 24.4539C20.1099 25.1529 21.018 25.5 21.9308 25.5C22.8436 25.5 23.7564 25.1529 24.4553 24.4539C25.8482 23.0607 25.8482 20.8069 24.4553 19.4137L18.0418 12.9994Z" fill="white"/>
-                </svg>
-              </div>
-            </div>
-          )
-          : ''
-      }
+      <div className={`fixed flex items-center justify-center font-sans font-normal text-[#38241B] z-50 top-1/2 left-1/2 m-auto bg-white  desktop:w-[527px] desktop:h-[310px] desktop:translate-x-[-263.5px] desktop:translate-y-[-152px] ${isDisplayDiscount? 'opacity-100': 'opacity-0'}`}>
+        <div className={`whitespace-pre-line flex flex-col items-center justify-center desktop:leading-[55px] desktop:text-[25px] desktop:w-[420px] desktop:h-[104px]`}>
+          {'恭喜您！獲得六角課程專屬折扣碼\n'}<span className={`font-sans font-bold text-[#951205] desktop:leading-[55px] desktop:text-[40px]`}>【HEXSCHOOL2022】</span>
+        </div>
+        <div 
+          onClick={handleCloseDiscount}
+          className={`absolute bg-[#38241B] top-0 right-0 flex items-center justify-center desktop:rounded-[50px] desktop:w-[72px] desktop:h-[72px] desktop:translate-x-[36px] desktop:translate-y-[-36px]`}
+        >
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.0418 12.9994L24.4553 6.58506C25.8482 5.19188 25.8482 2.93807 24.4553 1.54489C23.0623 0.151705 20.804 0.151705 19.411 1.54489L12.9976 7.95447L6.58895 1.54489C5.19597 0.151705 2.93772 0.151705 1.54474 1.54489C0.151754 2.93807 0.151754 5.19188 1.54474 6.58506L7.95816 12.9994L1.54474 19.4137C0.151754 20.8069 0.151754 23.0607 1.54474 24.4539C2.24361 25.1529 3.15641 25.5 4.06922 25.5C4.97728 25.5 5.89008 25.1529 6.58895 24.4539L12.9976 18.0443L19.411 24.4539C20.1099 25.1529 21.018 25.5 21.9308 25.5C22.8436 25.5 23.7564 25.1529 24.4553 24.4539C25.8482 23.0607 25.8482 20.8069 24.4553 19.4137L18.0418 12.9994Z" fill="white"/>
+          </svg>
+        </div>
+      </div>
     </>
   );
 }
