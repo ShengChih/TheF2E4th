@@ -1,4 +1,5 @@
-import { ReactNode } from 'react'
+import { ReactNode, ComponentProps } from 'react'
+import SectionTitle from '@components/SectionTitle'
 
 interface SchedulePointProps {
 	CardStyle: string
@@ -88,61 +89,68 @@ const FinalPoints = [
 	}				
 ]
 
-export default function ScheduleInfo() {
+type ScheduleInfoProps = Pick<ComponentProps<"div">, "children">
+
+export default function ScheduleInfo({ children }: ScheduleInfoProps) {
 	return (
 		<>
-			<div className={`flex items-center justify-center bg-[#3C221B] font-serif font-black text-white desktop:h-[170px] desktop:text-[60px] desktop:leading-[86px]`}>賽程時間</div>
-			<div className={`flex mx-auto desktop:w-[1280px] desktop:mt-[92px] desktop:h-[246px]`}>
-				<div className={`absolute inset-x-0 flex items-center mx-auto desktop:mt-[63px] desktop:w-[960px] desktop:h-[68.37px]`}>
-					<div className={`absolute inset-x-0 mx-auto border-[5px] border-solid border-[#951205]`}></div>
-				</div>
-				{
-					ProgressPoints.map(
-						({ starttime, endtime, RectangleStyle, ...point }, index: number) => {
-							const now = + new Date()
-							const rectangleStyle = RectangleStyle + (
-								now >= starttime
-								? `bg-[#951205]`
-								: ``
-							)
-							return (
-								<SchedulePoint
-									key={`progress-${index}`}
-									RectangleStyle={rectangleStyle}
-									{ ...point }
-								/>
+			<SectionTitle className={`items-center desktop:h-[170px]`} title={`賽程時間`} />
+			<div className={`relative flex items-center justify-center h-[870px]`}>
+				<div className={`relative w-[1280px] h-[686px]`}>
+					<div className={`relative flex desktop:w-[1280px]  desktop:h-[246px]`}>
+						<div className={`absolute inset-x-0 flex items-center mx-auto desktop:mt-[63px] desktop:w-[960px] desktop:h-[68.37px]`}>
+							<div className={`absolute inset-x-0 mx-auto border-[5px] border-solid border-[#951205]`}></div>
+						</div>
+						{
+							ProgressPoints.map(
+								({ starttime, endtime, RectangleStyle, ...point }, index: number) => {
+									const now = + new Date()
+									const rectangleStyle = RectangleStyle + (
+										now >= starttime
+										? `bg-[#951205]`
+										: ``
+									)
+									return (
+										<SchedulePoint
+											key={`progress-${index}`}
+											RectangleStyle={rectangleStyle}
+											{ ...point }
+										/>
+									)
+								}
 							)
 						}
-					)
-				}
-			</div>
-			<div className={`flex mx-auto desktop:w-[640px] desktop:mt-[92px] desktop:h-[215px]`}>
-				<div className={`absolute inset-x-0 flex items-center mx-auto desktop:mt-[63px] desktop:w-[320px] desktop:h-[68.37px]`}>
-					<div className={`absolute inset-x-0 mx-auto border-[5px] border-solid ${+new Date() >= +new Date("2022-12-05T00:00:00.000+08:00") ? 'border-[#951205]':'border-[#3C221B]'}`}></div>
+					</div>
+					<div className={`relative mx-auto flex desktop:w-[640px] desktop:mt-[92px] desktop:h-[215px]`}>
+						<div className={`absolute inset-x-0 flex items-center mx-auto desktop:mt-[63px] desktop:w-[320px] desktop:h-[68.37px]`}>
+							<div className={`absolute inset-x-0 mx-auto border-[5px] border-solid ${+new Date() >= +new Date("2022-12-05T00:00:00.000+08:00") ? 'border-[#951205]':'border-[#3C221B]'}`}></div>
+						</div>
+						{
+							FinalPoints.map(({ starttime, endtime, RectangleStyle, ...point }, index: number) => {
+								const now = + new Date()
+								const rectangleStyle = RectangleStyle + (
+									now >= starttime
+									? `bg-[#951205]`
+									: ``
+								)
+								return (
+									<SchedulePoint
+										key={`final-${index}`}
+										RectangleStyle={rectangleStyle}
+										{...point}
+									/>
+								)
+							})
+						}
+					</div>
+					<div className={`font-sans mx-auto whitespace-pre-line text-[#3C221B] desktop:text-[28px]  desktop:w-[1198px] desktop:h-[89px] desktop:mt-[44px]`}>
+						{
+							"初選：將由六角學院前端、UI 評審進行第一波篩選，並於 12/5（五）公布初選佳作名單。\n\
+							決選：由三大企業針對該企業主題進行入圍獎最後篩選，並於 12/23（五）公布企業得獎名單。"
+						}
+					</div>
+					{ children }
 				</div>
-				{
-					FinalPoints.map(({ starttime, endtime, RectangleStyle, ...point }, index: number) => {
-						const now = + new Date()
-						const rectangleStyle = RectangleStyle + (
-							now >= starttime
-							? `bg-[#951205]`
-							: ``
-						)
-						return (
-							<SchedulePoint
-								key={`final-${index}`}
-								RectangleStyle={rectangleStyle}
-								{...point}
-							/>
-						)
-					})
-				}
-			</div>
-			<div className={`font-sans whitespace-pre-line text-[#3C221B] desktop:text-[28px] mx-auto desktop:w-[1198px] desktop:h-[89px] desktop:mt-[44px] desktop:mb-[92px]`}>
-				{
-					"初選：將由六角學院前端、UI 評審進行第一波篩選，並於 12/5（五）公布初選佳作名單。\n\
-					決選：由三大企業針對該企業主題進行入圍獎最後篩選，並於 12/23（五）公布企業得獎名單。"
-				}
 			</div>
 		</>
 	)

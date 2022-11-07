@@ -1,4 +1,5 @@
-import { ReactNode, useState, MouseEvent } from 'react'
+import React, { useCallback, useState, MouseEvent, ReactNode } from 'react'
+import SectionTitle from '@components/SectionTitle'
 import BackgroundImage from './images/BackgroundImage.svg'
 import BlockStudioSpeaker from './images/BlockStudioSpeaker1x.png'
 import LeoSpeaker from './images/LeoSpeaker1x.png'
@@ -13,9 +14,9 @@ interface ShareSpeakerCardProps {
 	SpeakerImage: string
 	SpeakerInfo: string
 	SpeakerTitleStyle: string
-	SpeakerTitle: ReactNode | ReactNode[]
+	SpeakerTitle: string
 	ActivityPeriodsStyle: string
-	ActivityInfo: ReactNode | ReactNode[]
+	ActivityInfo: string
 	VideoLink?: string
 }
 
@@ -27,7 +28,7 @@ const initState = {
 	displayCard: false
 }
 
-function ShareSpeakerCard({
+const ShareSpeakerCard = React.memo(({
 	SubjectStyle,
 	SubjectTitle,
 	SpeakerImage,
@@ -37,7 +38,7 @@ function ShareSpeakerCard({
 	ActivityPeriodsStyle,
 	ActivityInfo,
 	VideoLink
-}: ShareSpeakerCardProps) {
+}: ShareSpeakerCardProps) => {
 	const go2Link = VideoLink ? () => {
 		window.open(VideoLink, "_blank")
 	} : undefined
@@ -74,7 +75,7 @@ function ShareSpeakerCard({
 			<div className={`relative font-roboto font-black text-center text-[#38241B] ${ActivityPeriodsStyle}`}>{ActivityInfo}</div>
 		</div>
 	)
-}
+})
 
 const liveShares = [
 	{
@@ -120,44 +121,52 @@ const liveShares = [
 	}
 ]
 
-export default function LiveShareVideo() {
+type ClickBlockProps = {
+	handleClick: (e: MouseEvent<HTMLDivElement>) => void
+}
+
+const ClickBlock = React.memo(({ handleClick }: ClickBlockProps) => (
+	<div
+		onClick={handleClick}
+		className={`font-serif font-black mx-auto text-center text-[#3C221B] desktop:leading-[103px] desktop:text-[72px] desktop:mt-[215px] desktop:w-[504px] desktop:h-[245px]`}
+	>
+		意想不到的好康
+		<span className={`text-[#951205]`}>請點擊</span>
+	</div>
+))
+
+type LiveShareVideoProps = {
+	children?: ReactNode | ReactNode[]
+}
+	
+export default function LiveShareVideo({ children }: LiveShareVideoProps) {
 	const [state, setState] = useState<LiveShareState>(initState)
 
-	const handleClick = (e: MouseEvent<HTMLElement>) => {
+	const handleClick = useCallback((e: MouseEvent<HTMLDivElement>) => {
 		setState({
 			displayCard: true
 		})
-	}
-	
-	const SpeakerCards = (
-		<>
-			<div className={`animate-fade-in flex items-center justify-center bg-[#3C221B] font-serif font-black text-white desktop:h-[170px] desktop:text-[60px] desktop:leading-[86px]`}>各界大神直播分享</div>
-			<div className={`animate-fade-in grid grid-flow-row grid-cols-2 mx-auto desktop:mt-[63px] desktop:w-[1064px] desktop:h-[1529px] desktop:gap-x-[20px] desktop:gap-y-[52px]`}>
-				{
-					liveShares.map(
-						(speaker, index: number) => (
-							<ShareSpeakerCard {...speaker} key={`speaker-${index}`} />
-						)
-					)
-				}
-			</div>
-		</>
-	)
+	}, [])
 
-	const ClickBlock = (
-		<div onClick={handleClick} className={`font-serif font-black mx-auto text-center text-[#3C221B] desktop:leading-[103px] desktop:text-[72px] desktop:mt-[215px] desktop:w-[504px] desktop:h-[245px]`}>
-			意想不到的好康
-			<span className={`text-[#951205]`}>請點擊</span>
-		</div>
-	)
-	
 	return (
-		<section className={`w-full desktop:h-[1825px]`}>
-			{
-				state.displayCard
-					? SpeakerCards
-					: ClickBlock
-			}
-		</section>
+		state.displayCard ?
+			(
+				<>
+					<SectionTitle className={`animate-fade-in items-center desktop:h-[170px]`} title={`各界大神直播分享`} />
+					<div className={`mx-auto flex items-center justify-center desktop:w-[1280px] desktop:h-[1656px]`}>
+						<div className={`animate-fade-in grid grid-flow-row grid-cols-2 mx-auto  desktop:w-[1064px] desktop:h-[1529px] desktop:gap-x-[20px] desktop:gap-y-[52px]`}>
+							{
+								liveShares.map(
+									(speaker, index: number) => (
+										<ShareSpeakerCard {...speaker} key={`speaker-${index}`} />
+									)
+								)
+							}
+						</div>
+						{children}
+					</div>
+				</>
+			)
+			: (<ClickBlock handleClick={handleClick} />)
 	)
 }
