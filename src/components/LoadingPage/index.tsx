@@ -7,6 +7,7 @@ import LoadingBgImage1_5x from './images/LoadingBackgroundImage1_5x.png'
 
 export type PageProps = ComponentProps<"div"> & {
 	content?: ReactNode
+	extraInfo?: ReactNode
 }
 
 const Page: React.FC<PageProps> = styled.div`
@@ -24,11 +25,20 @@ const Page: React.FC<PageProps> = styled.div`
 }
 `
 
-export default function LoadingPage({ content, ...props }: PageProps) {
+export default function LoadingPage({ content, extraInfo, ...props }: PageProps) {
 	return (
 		<Page {...props} >
-			<MagicWand className={`absolute left-[50%] desktop:w-[200px] desktop:h-[200px] desktop:top-[138px] desktop:translate-x[-100px]`} />
-			{content}
+			<MagicWand className={`absolute inset-x-0 mx-auto desktop:w-[200px] desktop:h-[200px] desktop:top-[138px]`} />
+			{
+				content
+					? (<div className={`w-fit absolute inset-x-0 mx-auto font-julian text-[#38241B] desktop:text-[23px] desktop:top-[363px]`}>{content}</div>)
+					: '' 
+			}
+			{
+				extraInfo
+				? (<div className={`w-fit absolute inset-x-0 mx-auto font-sans text-[#38241B] desktop:text-[20px] desktop:top-[448px]`}>{extraInfo}</div>)
+				: ''
+			}
 		</Page>
 	)
 };

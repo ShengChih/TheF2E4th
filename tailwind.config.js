@@ -18,7 +18,8 @@ module.exports = {
       'sans': ['Noto Sans TC', ],
       'serif': ['Noto Serif TC'],
       'julian': ['AR JULIAN'],
-      'roboto': ['Roboto']
+      'roboto': ['Roboto'],
+      'ebgaramond': ['EB Garamond']
     },
     extend: {
       animation: {
@@ -37,21 +38,27 @@ module.exports = {
       const fonts = {
         '@font-face': [
           {
+            fontFamily: 'EB Garamond',
+            fontWeight: 800,
+            src: 'url("./fonts/EBGaramond/small-EBGaramond-Bold.otf") format("opentype");',
+            fontDisplay: 'swap',
+          },
+          {
             fontFamily: 'Roboto',
             fontWeight: 400,
-            src: 'url("./fonts/Roboto/small-Roboto-Regular.ttf") format("tff");',
+            src: 'url("./fonts/Roboto/small-Roboto-Regular.otf") format("opentype");',
             fontDisplay: 'swap',
           },
           {
             fontFamily: 'Roboto',
             fontWeight: 500,
-            src: 'url("./fonts/Roboto/small-Roboto-Medium.ttf") format("tff");',
+            src: 'url("./fonts/Roboto/small-Roboto-Medium.otf") format("opentype");',
             fontDisplay: 'swap',
           },
           {
             fontFamily: 'Roboto',
             fontWeight: 900,
-            src: 'url("./fonts/Roboto/small-Roboto-Black.ttf") format("tff");',
+            src: 'url("./fonts/Roboto/small-Roboto-Black.otf") format("opentype");',
             fontDisplay: 'swap',
           },
           {

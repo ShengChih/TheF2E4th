@@ -99,7 +99,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
     return !((easterEggBit & (1 << eggOffset)) > 0) ? 'opacity-100' : 'opacity-0'
   }
 
-  /** testing scroll postion */
+  /** testing scroll postion
   useEffect(() => {
     const handleScroll = (e: Event) => {
       console.log('window.scrollY', window.pageYOffset)
@@ -111,7 +111,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
       document.removeEventListener('scroll', handleScroll)
     }
   }, [])
-  /**/
+  */
 
   const addScheduleTaskRef = (ref: ElementRef<typeof TaskCard>) => {
     if (ref) {
@@ -385,14 +385,14 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
         >
           <MainBanner
             className={`inset-0 mx-auto desktop:mt-[101px] desktop:mb-[22px]`}
-            BannerImage={<Vendetta className={`tbg-[brown]`} ref={VendettaRef} />}
+            BannerImage={<Vendetta className={``} ref={VendettaRef} />}
             RewardTaskImage={
               <img
                 ref={RewardTaskRef}
                 style={{
                   backgroundImage: `url(${RewardTask})`
                 }}
-                className={`tbg-[black] absolute desktop:w-[373px] desktop:h-[225px]`}
+                className={`absolute desktop:w-[373px] desktop:h-[225px]`}
               />
             }
           />
@@ -482,24 +482,23 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
 
           <section className={`w-full relative desktop:h-[1825px]`}>
             <LazyLoad height={200} once >
-              <LiveShareVideo></LiveShareVideo>
-              <div
-                className={`${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit	h-fit desktop:translate-x-[-562px] desktop:translate-y-[973.42px]`}
-                onClick={handleEasterEggBit}
-                data-egg-offset={4}
-              >
-                <svg width="59" height="60" viewBox="0 0 59 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M33.0828 16.7714C31.1877 18.3816 29.0685 19.4861 26.6914 20.1041L26.6873 20.1087C22.4818 21.8723 16.8689 20.4894 12.4575 21.9361C9.86801 22.7805 8.22163 24.5329 7.20878 26.1192L6.37128 27.8473C6.27424 28.0548 6.1772 28.2623 6.09327 28.4735C6.09265 28.6287 6.00576 39.4925 21.1666 41.267C36.4361 43.0575 50.1153 35.6435 53.1758 29.1341C54.0662 25.421 53.2311 21.3401 50.5747 18.2062C46.1427 12.9789 38.3141 12.3349 33.0828 16.7714Z" fill="#603813"/>
-                  <path d="M21.1751 41.2667C6.01426 39.4921 6.10113 28.6283 6.10176 28.4732C3.02861 35.8236 7.80895 44.2174 15.843 45.1697C15.9299 45.1825 16.0208 45.1907 16.1077 45.2035C28.7125 46.6314 40.1352 43.3455 49.1484 35.6977C49.5777 35.3309 49.9758 34.9441 50.3426 34.5374C51.7613 32.9647 52.7125 31.1015 53.1842 29.1337C50.1238 35.6432 36.44 43.0532 21.1751 41.2667Z" fill="#42210B"/>
-                </svg>
-              </div>
+              <LiveShareVideo>
+                <div
+                  className={`${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit	h-fit desktop:translate-x-[-562px] desktop:translate-y-[973.42px]`}
+                  onClick={handleEasterEggBit}
+                  data-egg-offset={4}
+                >
+                  <svg width="59" height="60" viewBox="0 0 59 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M33.0828 16.7714C31.1877 18.3816 29.0685 19.4861 26.6914 20.1041L26.6873 20.1087C22.4818 21.8723 16.8689 20.4894 12.4575 21.9361C9.86801 22.7805 8.22163 24.5329 7.20878 26.1192L6.37128 27.8473C6.27424 28.0548 6.1772 28.2623 6.09327 28.4735C6.09265 28.6287 6.00576 39.4925 21.1666 41.267C36.4361 43.0575 50.1153 35.6435 53.1758 29.1341C54.0662 25.421 53.2311 21.3401 50.5747 18.2062C46.1427 12.9789 38.3141 12.3349 33.0828 16.7714Z" fill="#603813"/>
+                    <path d="M21.1751 41.2667C6.01426 39.4921 6.10113 28.6283 6.10176 28.4732C3.02861 35.8236 7.80895 44.2174 15.843 45.1697C15.9299 45.1825 16.0208 45.1907 16.1077 45.2035C28.7125 46.6314 40.1352 43.3455 49.1484 35.6977C49.5777 35.3309 49.9758 34.9441 50.3426 34.5374C51.7613 32.9647 52.7125 31.1015 53.1842 29.1337C50.1238 35.6432 36.44 43.0532 21.1751 41.2667Z" fill="#42210B"/>
+                  </svg>
+                </div>
+              </LiveShareVideo>
             </LazyLoad>
           </section>
 
           <div className={`bg-white w-full desktop:h-[96px]`}>
-            <LazyLoad height={200} offset={300}>
-              <PartnerInfo></PartnerInfo>
-            </LazyLoad>
+            <PartnerInfo></PartnerInfo>
           </div>
           
           <div className={`w-full relative desktop:h-[366px] bg-[#3C221B]`}>
@@ -531,14 +530,14 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
 				style={{
 					backgroundImage: `url(${RightBottomMasklv1})`
 				}}
-				className={`fixed tbg-[yellow] z-10 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv1}`}
+				className={`fixed z-10 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv1}`}
 			></div>
 			<div
 				ref={MaskLv2Ref}
 				style={{
 					backgroundImage: `url(${TopMasklv2})`
 				}}
-				className={`fixed tbg-[pink] z-20 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv2}`}
+				className={`fixed z-20 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv2}`}
 			></div>
 			<div
 				ref={MaskLv3Ref}
@@ -546,7 +545,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
 					backgroundImage: `url(${LeftBottomMasklv3})`,
 					overflow: 'auto'
 				}}
-				className={`fixed tbg-[purple] z-30 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv3}`}
+				className={`fixed z-30 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv3}`}
 			></div>
       <div ref={ScrollMouseTopRef} className={`fixed z-40 left-1/2 top-1/2 translate-x-[-32px] translate-y-[-50.05px]`}>
         <ScrollMouseIcon />

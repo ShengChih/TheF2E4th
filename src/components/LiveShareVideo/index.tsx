@@ -1,4 +1,5 @@
 import React, { useCallback, useState, MouseEvent, ReactNode } from 'react'
+import MagicWand from '@components/MagicWand'
 import SectionTitle from '@components/SectionTitle'
 import BackgroundImage from './images/BackgroundImage.svg'
 import BlockStudioSpeaker from './images/Speaker1.gif'
@@ -128,10 +129,11 @@ type ClickBlockProps = {
 const ClickBlock = React.memo(({ handleClick }: ClickBlockProps) => (
 	<div
 		onClick={handleClick}
-		className={`font-serif font-black mx-auto text-center text-[#3C221B] desktop:leading-[103px] desktop:text-[72px] desktop:mt-[215px] desktop:w-[504px] desktop:h-[245px]`}
+		className={`relative font-serif font-black mx-auto text-center text-[#3C221B] desktop:leading-[103px] desktop:text-[72px] desktop:mt-[215px] desktop:w-[504px] desktop:h-[245px]`}
 	>
 		意想不到的好康
 		<span className={`text-[#951205]`}>請點擊</span>
+		<MagicWand className={`absolute top-0 left-0 desktop:w-[200px] desktop:h-[200px] desktop:translate-y-[135px] desktop:translate-x-[316px]`} />
 	</div>
 ))
 
@@ -163,8 +165,8 @@ export default function LiveShareVideo({ children }: LiveShareVideoProps) {
 								)
 							}
 						</div>
-						{children}
 					</div>
+					{children}
 				</>
 			)
 			: (<ClickBlock handleClick={handleClick} />)

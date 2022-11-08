@@ -2,11 +2,6 @@ import { ComponentProps, ReactNode } from 'react'
 
 import ScrollMouseIcon from "@components/ScrollMouseIcon"
 import MainImage from './images/background.png'
-import MainTitle from './images/title.svg'
-import Attendee1158 from './images/1158.svg'
-import Attendee1052 from './images/1052.svg'
-import Attendee41 from './images/41.svg'
-
 
 type MainBannerProps = Pick<ComponentProps<"div">, "className"> & {
 	BannerImage?: ReactNode
@@ -30,31 +25,39 @@ export default function MainBanner({
 			<div className={`absolute font-black font-serif text-[#38241B] desktop:w-[343px] desktop:h-[180px] desktop:leading-[60.35px] desktop:text-[42px] desktop:left-[59px] desktop:top-[177px]`}>前端工程師和介面設計師，攜手合作拿獎金</div>
 			<div className={`absolute font-normal font-sans text-[#38241B] desktop:w-[283px] desktop:h-[140px] desktop:leading-[34.75px] desktop:text-[24px] desktop:left-[59px] desktop:top-[372px]`}>羨慕別人的酷酷網頁動畫？ 滿足不了同事的許願？ 動畫技能樹太雜無從下手？</div>
 			{ BannerImage }
-			<div
-				style={{
-					backgroundImage: `url(${MainTitle})`
-				}}
-				className={`absolute bg-no-repeat bg-center desktop:w-[554px] desktop:h-[79px] desktop:left-[366px] desktop:top-[498px]`}
-			></div>
 			{ RewardTaskImage }
 			<div
 				style={{
-					backgroundImage: `url(${Attendee1158})`
+					backgroundImage: '',//`url(${Attendee1158})`
 				}}
-				className={`absolute bg-no-repeat bg-left-top	 desktop:w-[302px] desktop:h-[56px] desktop:left-[845px] desktop:top-[207px]`}
-			></div>
-			<div
-				style={{
-					backgroundImage: `url(${Attendee1052})`
-				}}
-				className={`absolute bg-no-repeat bg-left-top	 desktop:w-[302px] desktop:h-[56px] desktop:left-[845px] desktop:top-[271px]`}
-			></div>
-			<div
-				style={{
-					backgroundImage: `url(${Attendee41})`
-				}}
-				className={`absolute bg-no-repeat bg-left-top	 desktop:w-[302px] desktop:h-[56px] desktop:left-[845px] desktop:top-[335px]`}
-			></div>
+				className={`flex items-center justify-center flex-wrap absolute text-[#38241B] desktop:w-[294px] desktop:h-[191px] desktop:left-[845px] desktop:top-[215px]`}
+			>
+				{
+					[
+						{
+							name: '報名總人數',
+							amount: '1158',
+							unit: '人'
+						},
+						{
+							name: '個人賽人數',
+							amount: '1052',
+							unit: '人'
+						},
+						{
+							name: '團體賽人數',
+							amount: '41',
+							unit: '人'
+						},
+					].map(({ name, amount, unit }, index: number) => (
+						<div className={`flex items-center`} key={`attendee-${index}`}>
+							<div className={`font-julian desktop:w-[140px] desktop:h-[31px] desktop:text-[28px]`}>{name}</div>
+							<div className={`font-ebgaramond text-right desktop:w-[109px] desktop:h-[65px] desktop:text-[50px]`}>{amount}</div>
+							<div className={`font-julian desktop:w-[28px] desktop:h-[31px] desktop:text-[28px]`}>{unit}</div>
+						</div>
+					))
+				}
+			</div>
 			<ScrollMouseIcon className={`absolute translate-x-[1085px] translate-y-[467px]`} />
 		</div>
 	)
