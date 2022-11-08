@@ -11,6 +11,7 @@ import { gsap } from "gsap"
 
 //import { px2mapping } from "@utils/converter"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { flatAndPrefixClassName } from '@utils/reduce';
 
 import pcStyles from "./styles/fullpage/pc.module.scss"
 import mobileStyles from "./styles/fullpage/mobile.module.scss"
@@ -31,18 +32,11 @@ import Footer from "@components/Footer"
 import Vendetta from '@components/Vendetta'
 
 import MainImage from './images/BannerBgImage.svg'
-import RightBottomMasklv1 from './images/RightBottomMasklv1@1x.png'
+import PcRightBottomMasklv1 from './images/RightBottomMasklv1@1x.png'
 import TopMasklv2 from './images/TopMasklv2@1x.png'
 import LeftBottomMasklv3 from './images/LeftBottomMasklv3@1x.png'
 import RewardTask from './images/reward_task.svg'
 import ContentBgImage from './images/ContentBgImage.svg'
-
-//const RightBottomMasklv1 = ''
-//const TopMasklv2 = ''
-//const LeftBottomMasklv3 = ''
-//const RewardTask = ''
-
-
 
 type VendettaHandle = ElementRef<typeof Vendetta>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
@@ -380,11 +374,23 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           style={{
             backgroundImage: `url(${MainImage})`
           }}
-          className={`flex bg-no-repeat bg-cover desktop:h-[720px]`}
+          className={
+            flatAndPrefixClassName({
+              common: `flex bg-no-repeat bg-cover`,
+              desktop: ['h-[720px]'],
+              tablet: ['h-[962px]'],
+            })
+          }
           ref={MainBannerRef}
         >
           <MainBanner
-            className={`inset-0 mx-auto desktop:mt-[101px] desktop:mb-[22px]`}
+            className={
+              flatAndPrefixClassName({
+                common: `inset-0 mx-auto`,
+                desktop: ['mt-[101px]', 'desktop:mb-[22px]'],
+                tablet: ['mt-[28px]', 'desktop:mb-[32px]'],
+              })
+            }
             BannerImage={<Vendetta className={``} ref={VendettaRef} />}
             RewardTaskImage={
               <img
@@ -392,7 +398,13 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
                 style={{
                   backgroundImage: `url(${RewardTask})`
                 }}
-                className={`absolute desktop:w-[373px] desktop:h-[225px]`}
+                className={
+                  flatAndPrefixClassName({
+                    common: `absolute`,
+                    desktop: ['w-[373px]', 'h-[225px]'],
+                    tablet: ['w-[314.24px]', 'h-[108.67px]'],
+                  })
+                }
               />
             }
           />
@@ -524,32 +536,39 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
 
         </div>
       </div>
+      
+      {
+        [
+          {
+            ref: MaskLv1Ref,
+            image: PcRightBottomMasklv1,
+            className: `fixed bg-no-repeat bg-cover desktop:left-0 desktop:top-0 z-10 ${pcStyles.masklv1}`
+          },
+          {
+            ref: MaskLv2Ref,
+            image: TopMasklv2,
+            className: `fixed bg-no-repeat bg-cover desktop:left-0 desktop:top-0 z-20 ${pcStyles.masklv2}`
+          },
+          {
+            ref: MaskLv1Ref,
+            image: LeftBottomMasklv3,
+            className: `fixed bg-no-repeat bg-cover desktop:left-0 desktop:top-0 z-30 ${pcStyles.masklv3}`
+          }
+        ].map(({ ref, image, className}) => (
+          <div
+            ref={MaskLv3Ref}
+            style={{
+              backgroundImage: `url(${image})`
+            }}
+            className={`${className}`}
+          ></div>
+        ))
+      }
 
-      <div
-				ref={MaskLv1Ref}
-				style={{
-					backgroundImage: `url(${RightBottomMasklv1})`
-				}}
-				className={`fixed z-10 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv1}`}
-			></div>
-			<div
-				ref={MaskLv2Ref}
-				style={{
-					backgroundImage: `url(${TopMasklv2})`
-				}}
-				className={`fixed z-20 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv2}`}
-			></div>
-			<div
-				ref={MaskLv3Ref}
-				style={{
-					backgroundImage: `url(${LeftBottomMasklv3})`,
-					overflow: 'auto'
-				}}
-				className={`fixed z-30 left-0 top-0 bg-no-repeat bg-cover ${pcStyles.masklv3}`}
-			></div>
       <div ref={ScrollMouseTopRef} className={`fixed z-40 left-1/2 top-1/2 translate-x-[-32px] translate-y-[-50.05px]`}>
         <ScrollMouseIcon />
       </div>
+
       <div className={`fixed flex items-center justify-center font-sans font-normal text-[#38241B] z-50 top-1/2 left-1/2 m-auto bg-white  desktop:w-[527px] desktop:h-[310px] desktop:translate-y-[-152px] ${easterEggBit === MaxEasterEggBit ? 'desktop:translate-x-[-263.5px] opacity-100': 'desktop:translate-x-[-100vw] opacity-0'}`}>
         <div className={`whitespace-pre-line flex flex-col items-center justify-center desktop:leading-[55px] desktop:text-[25px] desktop:w-[420px] desktop:h-[104px]`}>
           {'恭喜您！獲得六角課程專屬折扣碼\n'}<span className={`font-sans font-bold text-[#951205] desktop:leading-[55px] desktop:text-[40px]`}>【HEXSCHOOL2022】</span>
@@ -564,6 +583,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           </svg>
         </div>
       </div>
+
     </>
   );
 }
