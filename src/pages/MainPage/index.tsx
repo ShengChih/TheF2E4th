@@ -57,7 +57,6 @@ function MainPage() {
   const ScrollMouseTopRef = useRef<HTMLDivElement>(null)
   const FullPageRef = useRef<HTMLDivElement>(null)
   const MainBannerRef = useRef<HTMLDivElement>(null)
-  const MainContentRef = useRef<HTMLDivElement>(null)
 	const MaskLv1Ref = useRef<HTMLDivElement>(null)
 	const MaskLv2Ref = useRef<HTMLDivElement>(null)
 	const MaskLv3Ref = useRef<HTMLDivElement>(null)
@@ -403,13 +402,12 @@ function MainPage() {
         </div>
 
         <div
-          ref={MainContentRef}
           style={{
             backgroundImage: `url(${ContentBgImage})`
           }}
           className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative desktop:h-[6535px]`}
         >
-          <div className={`relative`} ref={hexSchoolAnchorRef}>
+          <div className={`relative desktop:w-[1200px] desktop:h-[386px]`} ref={hexSchoolAnchorRef}>
             <HostInfo />
           </div>
 
@@ -487,9 +485,14 @@ function MainPage() {
 
           <PartnerInfo></PartnerInfo>
 
-          <SponerInfo></SponerInfo>
-
-          <Footer></Footer>
+          <div className={`w-full desktop:h-[366px] bg-[#3C221B]`}>
+            <div className={`mt-[60px] mb-[36px]`}>
+              <SponerInfo></SponerInfo>
+            </div>
+            <div className={`desktop:mb-[8px]`}>
+              <Footer></Footer>
+            </div>
+          </div>
         </div>
       </div>
 
