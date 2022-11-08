@@ -1,7 +1,11 @@
 import {
   useRef, useState, useEffect, useLayoutEffect,
-  useCallback, ElementRef, MouseEvent
+  useCallback, ElementRef, MouseEvent,
+	forwardRef,
+	useImperativeHandle,
+	ForwardRefRenderFunction,
 } from "react"
+import { MainPageHandle } from './type'
 import LazyLoad from 'react-lazyload'
 import { gsap } from "gsap"
 
@@ -14,7 +18,6 @@ import tabletStyles from "./styles/fullpage/tablet.module.scss"
 
 import ScrollMouseIcon from "@components/ScrollMouseIcon"
 import MainBanner from "@components/MainBanner"
-import Header from '@components/Header'
 import HostInfo from "@components/HostInfo"
 import ScheduleTask from "@components/ScheduleTask"
 import TaskCard from "@components/TaskCard"
@@ -46,10 +49,8 @@ type AwardInfoHandle = ElementRef<typeof AwardInfo>
 
 /** 控制 & 顯示彩蛋 + 顯示折扣視窗 */
 const MaxEasterEggBit = 0b111110
-const MaxEasterEgg = 5
 
-
-function MainPage() {
+const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) => {
   gsap.registerPlugin(ScrollTrigger)
 
   const [easterEggBit, setEasterEggBit] = useState<number>(0)
@@ -78,6 +79,17 @@ function MainPage() {
     }
   }, [anchor])
 
+  useImperativeHandle(forwardref, () => {
+		return {
+			gotoHexSchoolAnchor(e: MouseEvent) {
+        setAnchor(hexSchoolAnchorRef.current)
+      },
+      gotoScheduleInfoAnchor(e: MouseEvent) {
+        setAnchor(scheduleInfoAnchorRef.current)
+      }
+		}
+	}, [])
+
   const handleEasterEggBit = useCallback<(e: MouseEvent) => void>((e: MouseEvent) => {
     const eggOffset = parseInt((e.currentTarget.getAttribute('data-egg-offset') ?? '0')) 
     setEasterEggBit((easterEggBit | 1 << eggOffset))
@@ -105,14 +117,6 @@ function MainPage() {
     if (ref) {
       ScheduleTaskRefs.current.push(ref);
     }    
-  }
-
-  const gotoHexSchoolAnchor = (e: MouseEvent) => {
-    setAnchor(hexSchoolAnchorRef.current)
-  }
-
-  const gotoScheduleInfoAnchor = (e: MouseEvent) => {
-    setAnchor(scheduleInfoAnchorRef.current)
   }
 
   useLayoutEffect(() => {
@@ -370,11 +374,7 @@ function MainPage() {
 
   return (
     <>
-      < Header
-        className={`fixed z-[5]`}
-        gotoHexSchoolAnchor={gotoHexSchoolAnchor}
-        gotoScheduleInfoAnchor={gotoScheduleInfoAnchor}
-      />
+      
       <div ref={FullPageRef}>  
         <div
           style={{
@@ -569,4 +569,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default forwardRef(MainPage);
