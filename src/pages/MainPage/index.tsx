@@ -412,32 +412,32 @@ function MainPage() {
           </div>
 
           <div className={`desktop:pt-[99px] desktop:pb-[175px] desktop:w-[1200px] desktop:h-[1942px]`}>
-            <LazyLoad height={300}>
-              <ScheduleTask>
-                {
-                  Tasks.map(({
-                    title, subtitle, content, tipUrl, contributeUrl,
-                    TaskLogo,
-                    EnterpriseLogo
-                  }: TaskType, index: number) => {
-                    const props = {
-                      className: `desktop:w-[1200px] desktop:h-[528px] `,
-                      title: title,
-                      subtitle: subtitle,
-                      content: content, 
-                      EnterpriseLogo: EnterpriseLogo,
-                      TaskLogo: TaskLogo,
-                      forwardTips: () => {
-                        window.open(tipUrl, "_blank")
-                      },
-                      forwardContribute: () => {
-                        window.open(contributeUrl, "_blank")
-                      }
+            <ScheduleTask>
+              {
+                Tasks.map(({
+                  title, subtitle, content, tipUrl, contributeUrl,
+                  TaskLogo,
+                  EnterpriseLogo
+                }: TaskType, index: number) => {
+                  const props = {
+                    className: `desktop:w-[1200px] desktop:h-[528px] `,
+                    title: title,
+                    subtitle: subtitle,
+                    content: content, 
+                    EnterpriseLogo: EnterpriseLogo,
+                    TaskLogo: TaskLogo,
+                    forwardTips: () => {
+                      window.open(tipUrl, "_blank")
+                    },
+                    forwardContribute: () => {
+                      window.open(contributeUrl, "_blank")
                     }
-                    return <TaskCard {...props} key={`task-grid-${index}`} ref={addScheduleTaskRef} />
-                  })
-                }
-              </ScheduleTask>
+                  }
+                  return <TaskCard {...props} key={`task-grid-${index}`} ref={addScheduleTaskRef} />
+                })
+              }
+            </ScheduleTask>
+            <LazyLoad height={300}>
               <div
                 className={`${appendDisplayEasterEggClassName(1)} relative w-fit	h-fit desktop:translate-x-[-29.4px] desktop:translate-y-[19.21px]`}
                 onClick={handleEasterEggBit}
