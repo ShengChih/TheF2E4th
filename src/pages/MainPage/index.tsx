@@ -43,13 +43,15 @@ import ContentBgImage from './images/ContentBgImage.svg'
 type VendettaHandle = ElementRef<typeof Vendetta>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
 
+/** 控制 & 顯示彩蛋 + 顯示折扣視窗 */
+const MaxEasterEggBit = 0b111110
 const MaxEasterEgg = 5
+
 
 function MainPage() {
   gsap.registerPlugin(ScrollTrigger)
 
-  const [isDisplayDiscount, setDisplayDiscount] = useState<boolean>(false)
-  const [easterEggCount, setEasterEggCount] = useState<number>(0)
+  const [easterEggBit, setEasterEggBit] = useState<number>(0)
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const hexSchoolAnchorRef = useRef<HTMLDivElement>(null)
   const scheduleInfoAnchorRef = useRef<HTMLElement>(null)
@@ -75,20 +77,14 @@ function MainPage() {
     }
   }, [anchor])
 
-  useEffect(() => {
-    if (easterEggCount === MaxEasterEgg) {
-      setDisplayDiscount(true)
-    }
-  }, [easterEggCount])
+  const handleEasterEggBit = useCallback<(e: MouseEvent) => void>((e: MouseEvent) => {
+    const eggOffset = parseInt((e.currentTarget.getAttribute('data-egg-offset') ?? '0')) 
+    setEasterEggBit((easterEggBit | 1 << eggOffset))
+  }, [easterEggBit])
 
-  const handleCloseDiscount = (e: MouseEvent) => {
-    setDisplayDiscount(false)
+  const appendDisplayEasterEggClassName = (eggOffset: number): string => {
+    return !((easterEggBit & (1 << eggOffset)) > 0) ? 'opacity-100' : 'opacity-0'
   }
-
-  const handleEasterEggCount = useCallback((e: MouseEvent) => {
-    setEasterEggCount(easterEggCount + 1)
-  }, [easterEggCount])
-
 
   /** testing scroll postion */
   useEffect(() => {
@@ -295,9 +291,9 @@ function MainPage() {
     )) as gsap.DOMTarget[]
 
     const cardEffects: gsap.TweenVars[][] = [
-      [{ xPercent: "-150"}, { xPercent: "0", duration: 0.8 }],
-      [{ xPercent: "150" }, { xPercent: "0", duration: 0.8 }],
-      [{ xPercent: "-150" }, { xPercent: "0", duration: 0.8 }],
+      [{ xPercent: "-150"}, { xPercent: "0", duration: 0.3 }],
+      [{ xPercent: "150" }, { xPercent: "0", duration: 0.3 }],
+      [{ xPercent: "-150" }, { xPercent: "0", duration: 0.3 }],
     ]
 
     for (let i = 0; i < cardEffects.length; i++) {
@@ -324,19 +320,19 @@ function MainPage() {
         {
           el: awardEl.getTeamAwardRef().current,
           from: { yPercent: "-100", visibility: 'hidden' },
-          to: { yPercent: "0", duration: 1.2, visibility: 'visible' },
+          to: { yPercent: "0", duration: 0.9, visibility: 'visible' },
           order: "<"
         },
         {
           el: awardEl.getPersonalAwardRef().current,
           from: { yPercent: "-100", visibility: 'hidden' },
-          to: { yPercent: "0", duration: 0.8, visibility: 'visible' },
+          to: { yPercent: "0", duration: 0.6, visibility: 'visible' },
           order: "<"
         },
         {
           el: awardEl.getShortListAwardRef().current,
           from: { yPercent: "-100", visibility: 'hidden' },
-          to: { yPercent: "0", duration: 0.6, visibility: 'visible' },
+          to: { yPercent: "0", duration: 0.3, visibility: 'visible' },
           order: "<"
         },
         {
@@ -437,7 +433,11 @@ function MainPage() {
                 })
               }
             </ScheduleTask>
-            <div className={`relative w-[52px] h-[56px] desktop:translate-x-[-29.4px] desktop:translate-y-[19.21px]`} onClick={handleEasterEggCount}>
+            <div
+              className={`${appendDisplayEasterEggClassName(1)} relative w-fit	h-fit desktop:translate-x-[-29.4px] desktop:translate-y-[19.21px]`}
+              onClick={handleEasterEggBit}
+              data-egg-offset={1}
+            >
               <svg width="52" height="56" viewBox="0 0 52 56" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16.3277 18.4826C16.8383 20.9163 16.7976 23.3058 16.2063 25.6897L16.2083 25.6954C15.7512 30.2328 11.8572 34.5053 11.0233 39.0724C10.5296 41.7509 11.2839 44.0341 12.1945 45.6811L13.3134 47.2418C13.4495 47.4261 13.5855 47.6104 13.731 47.785C13.8671 47.8596 23.3725 53.1204 32.1672 40.6443C41.0277 28.0803 41.0406 12.5211 36.7807 6.72514C33.9427 4.17071 29.958 2.95695 25.9362 3.79579C19.2275 5.1959 14.9256 11.7682 16.3277 18.4826Z" fill="#CEA809"/>
                 <path d="M32.1707 40.6361C23.376 53.1123 13.8706 47.8514 13.7345 47.7768C18.7273 53.9853 28.385 53.7902 33.0559 47.1845C33.1086 47.1142 33.1592 47.0383 33.2119 46.9681C40.4821 36.5726 43.0458 24.9665 40.6265 13.3961C40.509 12.8438 40.3591 12.3094 40.1767 11.7929C39.4717 9.79571 38.2883 8.07065 36.7842 6.71698C41.0441 12.5129 41.0255 28.0742 32.1707 40.6361Z" fill="#AA8900"/>
@@ -448,8 +448,9 @@ function MainPage() {
           <section className={`w-full desktop:h-[1040px]`} ref={scheduleInfoAnchorRef}>
             <ScheduleInfo>
               <div
-                className={`absolute top-0 left-0 w-[51px] h-[56px] desktop:translate-x-[904px] desktop:translate-y-[264px]`}
-                onClick={handleEasterEggCount}
+                className={`${appendDisplayEasterEggClassName(2)} absolute top-0 left-0 w-fit	h-fit desktop:translate-x-[904px] desktop:translate-y-[264px]`}
+                onClick={handleEasterEggBit}
+                data-egg-offset={2}
               >
                 <svg width="51" height="56" viewBox="0 0 51 56" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15.816 17.953C16.2747 20.397 16.1833 22.7852 15.5414 25.1559L15.5433 25.1617C14.9898 29.6883 11.006 33.8771 10.0752 38.4254C9.52461 41.0929 10.2302 43.3915 11.1056 45.0576L12.1911 46.6417C12.3232 46.8288 12.4554 47.016 12.5971 47.1936C12.7316 47.2711 22.123 52.7328 31.1809 40.4463C40.3064 28.0735 40.6499 12.5181 36.5142 6.6329C33.7312 4.01873 29.7731 2.72056 25.7344 3.47374C18.9975 4.73095 14.5569 11.2103 15.816 17.953Z" fill="#0A4891"/>
@@ -457,8 +458,9 @@ function MainPage() {
                 </svg>
               </div>
               <div
-                className={`absolute top-0 left-0 w-[60px] h-[60px] desktop:translate-x-[1135px] desktop:translate-y-[702.58px]`}
-                onClick={handleEasterEggCount}
+                className={`${appendDisplayEasterEggClassName(3)} absolute top-0 left-0 w-fit	h-fit desktop:translate-x-[1135px] desktop:translate-y-[702.58px]`}
+                onClick={handleEasterEggBit}
+                data-egg-offset={3}
               >
                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M24.7925 42.3084C26.8383 40.8947 29.0569 40.0064 31.4836 39.6279L31.4881 39.6238C35.8482 38.2872 41.2957 40.2214 45.8292 39.2206C48.4898 38.6379 50.3023 37.0579 51.4679 35.5802L52.4731 33.944C52.5903 33.7472 52.7075 33.5503 52.812 33.3485C52.828 33.1942 53.9949 22.3929 39.0857 19.1193C24.0701 15.8191 9.72127 21.836 6.02862 28.0088C4.77337 31.6149 5.19839 35.7586 7.53 39.1412C11.4201 44.7833 19.1459 46.2026 24.7925 42.3084Z" fill="#064928"/>
@@ -470,11 +472,12 @@ function MainPage() {
 
           <AwardInfo ref={AwardInfoSectionRef}></AwardInfo>
 
-          <section className={`w-full desktop:h-[1825px] mx-auto`}>
+          <section className={`w-full relative desktop:h-[1825px]`}>
             <LiveShareVideo></LiveShareVideo>
             <div
-              className={`absolute top-0 left-0 w-[59px] h-[60px] desktop:translate-x-[1135px] desktop:translate-y-[702.58px]`}
-              onClick={handleEasterEggCount}
+              className={`${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit	h-fit desktop:translate-x-[-562px] desktop:translate-y-[973.42px]`}
+              onClick={handleEasterEggBit}
+              data-egg-offset={4}
             >
               <svg width="59" height="60" viewBox="0 0 59 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M33.0828 16.7714C31.1877 18.3816 29.0685 19.4861 26.6914 20.1041L26.6873 20.1087C22.4818 21.8723 16.8689 20.4894 12.4575 21.9361C9.86801 22.7805 8.22163 24.5329 7.20878 26.1192L6.37128 27.8473C6.27424 28.0548 6.1772 28.2623 6.09327 28.4735C6.09265 28.6287 6.00576 39.4925 21.1666 41.267C36.4361 43.0575 50.1153 35.6435 53.1758 29.1341C54.0662 25.421 53.2311 21.3401 50.5747 18.2062C46.1427 12.9789 38.3141 12.3349 33.0828 16.7714Z" fill="#603813"/>
@@ -485,12 +488,22 @@ function MainPage() {
 
           <PartnerInfo></PartnerInfo>
 
-          <div className={`w-full desktop:h-[366px] bg-[#3C221B]`}>
+          <div className={`w-full relative desktop:h-[366px] bg-[#3C221B]`}>
             <div className={`mt-[60px] mb-[36px]`}>
               <SponerInfo></SponerInfo>
             </div>
             <div className={`desktop:mb-[8px]`}>
               <Footer></Footer>
+            </div>
+            <div
+              onClick={handleEasterEggBit}
+              className={`${appendDisplayEasterEggClassName(5)} absolute w-fit	h-fit	top-0 inset-x-0 mx-auto desktop:translate-y-[64px] desktop:translate-x-[658.91px]`}
+              data-egg-offset={5}
+            >
+              <svg width="46" height="38" viewBox="0 0 46 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M34.8607 13.1082C32.3958 12.7795 30.1561 11.9457 28.1051 10.5946H28.099C23.9726 8.65313 21.2399 3.55903 17.2109 1.25238C14.8495 -0.104833 12.4454 -0.153522 10.5892 0.156872L8.74506 0.692452C8.52596 0.7594 8.30686 0.826347 8.09385 0.905467C7.97821 1.00893 -0.146796 8.22101 8.69029 20.6672C17.5882 33.2046 32.2558 38.3961 39.1393 36.3086C42.4927 34.4827 44.9637 31.1293 45.5115 27.0576C46.4244 20.2655 41.6589 14.0211 34.8607 13.1082Z" fill="#AD0C18"/>
+                <path d="M8.69586 20.6733C-0.141221 8.22108 7.98378 1.009 8.09942 0.911621C0.583028 3.55301 -2.44787 12.7248 2.22629 19.3283C2.27498 19.4013 2.32976 19.4744 2.37844 19.5474C9.76094 29.8634 19.8518 36.1443 31.5676 37.7145C32.1275 37.7876 32.6814 37.8241 33.2291 37.8241C35.3471 37.8241 37.3677 37.2824 39.1448 36.3147C32.2614 38.4023 17.5938 33.2047 8.69586 20.6733Z" fill="#870818"/>
+              </svg>
             </div>
           </div>
         </div>
@@ -521,13 +534,14 @@ function MainPage() {
       <div ref={ScrollMouseTopRef} className={`fixed z-40 left-1/2 top-1/2 translate-x-[-32px] translate-y-[-50.05px]`}>
         <ScrollMouseIcon />
       </div>
-      <div className={`fixed flex items-center justify-center font-sans font-normal text-[#38241B] z-50 top-1/2 left-1/2 m-auto bg-white  desktop:w-[527px] desktop:h-[310px] desktop:translate-y-[-152px] ${isDisplayDiscount? 'desktop:translate-x-[-263.5px] opacity-100': 'desktop:translate-x-[-100vw] opacity-0'}`}>
+      <div className={`fixed flex items-center justify-center font-sans font-normal text-[#38241B] z-50 top-1/2 left-1/2 m-auto bg-white  desktop:w-[527px] desktop:h-[310px] desktop:translate-y-[-152px] ${easterEggBit === MaxEasterEggBit ? 'desktop:translate-x-[-263.5px] opacity-100': 'desktop:translate-x-[-100vw] opacity-0'}`}>
         <div className={`whitespace-pre-line flex flex-col items-center justify-center desktop:leading-[55px] desktop:text-[25px] desktop:w-[420px] desktop:h-[104px]`}>
           {'恭喜您！獲得六角課程專屬折扣碼\n'}<span className={`font-sans font-bold text-[#951205] desktop:leading-[55px] desktop:text-[40px]`}>【HEXSCHOOL2022】</span>
         </div>
         <div 
-          onClick={handleCloseDiscount}
+          onClick={handleEasterEggBit}
           className={`absolute bg-[#38241B] top-0 right-0 flex items-center justify-center desktop:rounded-[50px] desktop:w-[72px] desktop:h-[72px] desktop:translate-x-[36px] desktop:translate-y-[-36px]`}
+          data-egg-id={0}
         >
           <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18.0418 12.9994L24.4553 6.58506C25.8482 5.19188 25.8482 2.93807 24.4553 1.54489C23.0623 0.151705 20.804 0.151705 19.411 1.54489L12.9976 7.95447L6.58895 1.54489C5.19597 0.151705 2.93772 0.151705 1.54474 1.54489C0.151754 2.93807 0.151754 5.19188 1.54474 6.58506L7.95816 12.9994L1.54474 19.4137C0.151754 20.8069 0.151754 23.0607 1.54474 24.4539C2.24361 25.1529 3.15641 25.5 4.06922 25.5C4.97728 25.5 5.89008 25.1529 6.58895 24.4539L12.9976 18.0443L19.411 24.4539C20.1099 25.1529 21.018 25.5 21.9308 25.5C22.8436 25.5 23.7564 25.1529 24.4553 24.4539C25.8482 23.0607 25.8482 20.8069 24.4553 19.4137L18.0418 12.9994Z" fill="white"/>
