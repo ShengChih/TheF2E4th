@@ -12,7 +12,7 @@ import PersonalAward from './images/PersonalAward.svg'
 import ShortListAward from './images/ShortListAward.svg'
 
 type AwardInfoHandle = {
-	getSectionTitleRef: () => RefObject<HTMLDivElement>
+	getSectionRef: () => RefObject<HTMLElement>
 	getTeamAwardRef: () => RefObject<HTMLDivElement>
 	getPersonalAwardRef: () => RefObject<HTMLDivElement>
 	getShortListAwardRef: () => RefObject<HTMLDivElement>
@@ -22,7 +22,7 @@ type AwardInfoHandle = {
 type AwardInfoProps = ComponentProps<"section"> 
 
 const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> = (props, forwardref) => {
-	const sectionTitleRef = useRef<HTMLDivElement>(null)
+	const sectionRef = useRef<HTMLElement>(null)
 	const teamAwardRef = useRef<HTMLDivElement>(null)
 	const personalAwardRef = useRef<HTMLDivElement>(null)
 	const shortListAwardRef = useRef<HTMLDivElement>(null)
@@ -30,8 +30,8 @@ const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> =
 
 	useImperativeHandle(forwardref, () => {
 		return {
-			getSectionTitleRef: () => {
-				return sectionTitleRef ?? {}
+			getSectionRef: () => {
+				return sectionRef ?? {}
 			},
 			getTeamAwardRef: () => {
 				return teamAwardRef ?? {}
@@ -49,8 +49,8 @@ const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> =
 	}, [])
 
 	return (
-		<section className={`w-full desktop:h-[879px]`}>
-			<div ref={sectionTitleRef} className={`flex items-center justify-center bg-[#3C221B] font-serif font-black text-white desktop:h-[170px] desktop:text-[60px] desktop:leading-[86px]`}>獎項</div>
+		<section ref={sectionRef}  className={`w-full desktop:h-[879px]`}>
+			<div className={`flex items-center justify-center bg-[#3C221B] font-serif font-black text-white desktop:h-[170px] desktop:text-[60px] desktop:leading-[86px]`}>獎項</div>
 			<div className={`grid grid-flow-col mx-auto desktop:mt-[92px] desktop:w-[1198px] desktop:h-[461px] desktop:gap-x-[20px]`}>
 				<div className={`desktop:w-[386px] desktop:h-[461px]`}>
 					<div

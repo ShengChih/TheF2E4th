@@ -154,7 +154,7 @@ function MainPage() {
           end: `+=948`,//`+=948`, /** 滾完第一頁動畫，要很順接第二頁，230 + 364 + 354 */
           pin: FullPageRef.current,
           pinSpacing: false,
-          markers: true,
+          // markers: true,
         })
       }, MainBannerRef)
     )
@@ -174,15 +174,15 @@ function MainPage() {
         scrub: true,
         start: 'top top',
         end: `+=230`,
-        //markers: true,
-        onEnterBack: ({ start, end, progress, direction, isActive }) => {
-          /** scroll trigger 有時候回捲不一定會觸發 */
-          console.debug('step0 onEnterBack:', start, end, progress, direction, isActive)
-        },
-        onLeaveBack: ({ start, end, progress, direction, isActive }) => {
-          /** scroll trigger 有時候回捲不會觸發  */
-          console.debug('step0 onLeaveBack:', start, end, progress, direction, isActive)
-        }
+        // markers: true,
+        // onEnterBack: ({ start, end, progress, direction, isActive }) => {
+        //   /** scroll trigger 有時候回捲不一定會觸發 */
+        //   console.debug('step0 onEnterBack:', start, end, progress, direction, isActive)
+        // },
+        // onLeaveBack: ({ start, end, progress, direction, isActive }) => {
+        //   /** scroll trigger 有時候回捲不會觸發  */
+        //   console.debug('step0 onLeaveBack:', start, end, progress, direction, isActive)
+        // }
       },
     })
     step1Tl.fromTo(
@@ -213,13 +213,13 @@ function MainPage() {
           scrub: true,
           start: `230 top`,
           end: `+=364`,
-          //markers: true,
-          //onEnter: ({ scroller, start, end, trigger, progress, direction, isActive }) => {
-          //  console.log('step2Timeline:', scroller, trigger, start, end)
-          //},
-          //onUpdate: ({ scroller, trigger, progress, direction, isActive }) => {
-          //  console.log(`step2Timeline:`, trigger?.getBoundingClientRect())
-          //}
+          // markers: true,
+          // onEnter: ({ scroller, start, end, trigger, progress, direction, isActive }) => {
+          //   console.log('step2Timeline:', scroller, trigger, start, end)
+          // },
+          // onUpdate: ({ scroller, trigger, progress, direction, isActive }) => {
+          //   console.log(`step2Timeline:`, trigger?.getBoundingClientRect())
+          // }
         },
       })
 
@@ -268,18 +268,6 @@ function MainPage() {
           start: 'top+=333 top', /** > (第一次滾動軸)230px + (第二次滾動軸偏移量 364 - 261) 103px */
           end: `+=354`,
           //markers: true,
-          //onEnter: ({ scroller, start, end, trigger, progress, direction, isActive }) => {
-          //  console.log('step3Timeline:', start, end, scroller, trigger, start, end)
-          //},
-          //onUpdate: ({ scroller, start, end, trigger, progress, direction, isActive }) => {
-          //  console.log(`step3Timeline:`, start, end, trigger?.getBoundingClientRect())
-          //}
-          onEnterBack: ({ start, end, progress, direction, isActive }) => {
-            console.debug('step3 onEnterBack:', start, end, progress, direction, isActive)
-          },
-          onLeaveBack: ({ start, end, progress, direction, isActive }) => {
-            console.debug('step3 onLeaveBack:', start, end, progress, direction, isActive)
-          }
         },
       })
     
@@ -308,30 +296,31 @@ function MainPage() {
     )) as gsap.DOMTarget[]
 
     const cardEffects: gsap.TweenVars[][] = [
-      [{ xPercent: "-110" }, { xPercent: "0", duration: 0.8 }],
-      [{ xPercent: "110" }, { xPercent: "0", duration: 0.8 }],
-      [{ xPercent: "-110" }, { xPercent: "0", duration: 0.8 }],
+      [{ xPercent: "-150"}, { xPercent: "0", duration: 0.8 }],
+      [{ xPercent: "150" }, { xPercent: "0", duration: 0.8 }],
+      [{ xPercent: "-150" }, { xPercent: "0", duration: 0.8 }],
     ]
 
     for (let i = 0; i < cardEffects.length; i++) {
       const [from, to] = cardEffects[i]
       let el = cardTriggers[i]
-      animations.push(
-        gsap.context(() => {
-          ScrollTrigger.create({
-            once: true,
-            trigger: el,
-            start: "top-=5% bottom",
-            onEnter: () => {
-              gsap.fromTo(el, from, to)
-            }
-          })
-        }, [el])
-      )
+      let cardtimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: el,
+          start: "center+=948 center",
+          id: `card_${i}`,
+          once: true,
+          // markers: true,
+        }
+      })
+      cardtimeline.fromTo(el, from, to)
+
+      animations.push(cardtimeline)
     }
 
     if (AwardInfoSectionRef.current) {
       const awardEl = AwardInfoSectionRef.current
+      const awardAnimationTrigger = awardEl.getSectionRef().current
       const rewardTrigger = [
         {
           el: awardEl.getTeamAwardRef().current,
@@ -361,15 +350,18 @@ function MainPage() {
 
       const rewardTimeline = gsap.timeline({
         scrollTrigger: {
+          id: `reward`,
+          trigger: awardAnimationTrigger,
+          start: 'center+=948 center',
           once: true,
-          trigger: (awardEl.getSectionTitleRef().current as gsap.DOMTarget),
-          start: 'top top',
+          // markers: true,
         }
       })
 
       rewardTrigger.map(({ el, from, to, order }) => {
         rewardTimeline.fromTo(el, from, to, order)
       })
+
       animations.push(rewardTimeline)
     }
 
