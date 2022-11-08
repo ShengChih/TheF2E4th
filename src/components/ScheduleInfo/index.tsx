@@ -6,7 +6,7 @@ interface SchedulePointProps {
 	title: string
 	RectangleStyle: string
 	PeriodStyle: string
-	ActivityPeriods: ReactNode | ReactNode[]
+	ActivityPeriods: string[]
 }
 
 function SchedulePoint({
@@ -23,7 +23,11 @@ function SchedulePoint({
 				<div className={`rotate-45 bg-[#3C221B] desktop:w-[48.53px] desktop:h-[48.53px] ${RectangleStyle}`}></div>
 			</div>
 			<div className={`relative grid font-sans font-normal text-[#38241B] desktop:leading-[35px] desktop:text-[24px] ${PeriodStyle}`}>
-				{ActivityPeriods}
+				{
+					ActivityPeriods.map((text: string, index: number) => {
+						return <div key={`${index}`}>{text}</div>
+					})
+				}
 			</div>
 		</div>
 	)
@@ -35,7 +39,7 @@ const ProgressPoints = [
 		title: `開始報名`,
 		RectangleStyle: ``,
 		PeriodStyle: `content-between desktop:mt-[32.37px] desktop:h-[82px] `,
-		ActivityPeriods: [<div>10/13(四) 早上 11:00</div>, <div>至 11/6(日) 晚上 23:59</div>],
+		ActivityPeriods: ['10/13(四) 早上 11:00', '至 11/6(日) 晚上 23:59'],
 		starttime: +new Date("2022-10-13T11:00:00.000+08:00"),
 		endtime: +new Date("2022-11-06T23:59:59.000+08:00")
 	},
@@ -44,7 +48,7 @@ const ProgressPoints = [
 		title: `開賽`,
 		RectangleStyle: ``,
 		PeriodStyle: `content-between desktop:mt-[32.37px] desktop:h-[82px]`,
-		ActivityPeriods: [<div>UI組、團體組開賽 10/31</div>, <div>前端組開賽 11 /7</div>],
+		ActivityPeriods: ['UI組、團體組開賽 10/31', '前端組開賽 11 /7'],
 		starttime: +new Date("2022-10-31T00:00:00.000+08:00"),
 		endtime: +new Date("2022-11-07T23:59:59.000+08:00")
 	},
@@ -53,7 +57,7 @@ const ProgressPoints = [
 		title: `投稿作品`,
 		RectangleStyle: ``,
 		PeriodStyle: `content-between desktop:mt-[32.37px] desktop:h-[82px]`,
-		ActivityPeriods: [<div>10/31(一) 中午 12:00</div>, <div>至11/28(一) 中午 12:00</div>],
+		ActivityPeriods: ['10/31(一) 中午 12:00', '至11/28(一) 中午 12:00'],
 		starttime: +new Date("2022-10-31T12:00:00.000+08:00"),
 		endtime: +new Date("2022-11-28T12:00:00.000+08:00")
 	},
@@ -62,7 +66,7 @@ const ProgressPoints = [
 		title: `線上直播`,
 		RectangleStyle: ``,
 		PeriodStyle: `content-center desktop:mt-[48.37px] desktop:h-[35px]`,
-		ActivityPeriods: [<div>11/3 至 11/24(每週四)</div>],
+		ActivityPeriods: ['11/3 至 11/24(每週四)'],
 		starttime: +new Date("2022-11-03T00:00:00.000+08:00"),
 		endtime: +new Date("2022-11-24T23:59:59.000+08:00")
 	}
@@ -74,7 +78,7 @@ const FinalPoints = [
 		title: `初選`,
 		RectangleStyle: ``,
 		PeriodStyle: `desktop:mt-[48.37px]`,
-		ActivityPeriods: [<div>12/05(五)</div>],
+		ActivityPeriods: ['12/05(五)'],
 		starttime: +new Date("2022-12-05T00:00:00.000+08:00"),
 		endtime: +new Date("2022-12-05T23:59:59.000+08:00")
 	},
@@ -83,7 +87,7 @@ const FinalPoints = [
 		title: `決選`,
 		RectangleStyle: ``,
 		PeriodStyle: `desktop:mt-[48.37px]`,
-		ActivityPeriods: [<div>12/05(五)</div>],
+		ActivityPeriods: ['12/05(五)'],
 		starttime: +new Date("2022-12-05T00:00:00.000+08:00"),
 		endtime: +new Date("2022-12-05T23:59:59.000+08:00")
 	}				
