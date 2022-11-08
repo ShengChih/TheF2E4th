@@ -57,6 +57,12 @@ module.exports = {
           },
           {
             fontFamily: 'Roboto',
+            fontWeight: 700,
+            src: 'url("./fonts/Roboto/small-Roboto-Bold.otf") format("opentype");',
+            fontDisplay: 'swap',
+          },
+          {
+            fontFamily: 'Roboto',
             fontWeight: 900,
             src: 'url("./fonts/Roboto/small-Roboto-Black.otf") format("opentype");',
             fontDisplay: 'swap',
