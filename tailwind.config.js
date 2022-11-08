@@ -39,62 +39,74 @@ module.exports = {
           {
             fontFamily: 'Roboto',
             fontWeight: 400,
-            src: 'url("./fonts/Roboto/Roboto-Regular.ttf") format("tff");'
+            src: 'url("./fonts/Roboto/small-Roboto-Regular.ttf") format("tff");',
+            fontDisplay: 'swap',
           },
           {
             fontFamily: 'Roboto',
             fontWeight: 500,
-            src: 'url("./fonts/Roboto/Roboto-Medium.ttf") format("tff");'
+            src: 'url("./fonts/Roboto/small-Roboto-Medium.ttf") format("tff");',
+            fontDisplay: 'swap',
           },
           {
             fontFamily: 'Roboto',
             fontWeight: 900,
-            src: 'url("./fonts/Roboto/Roboto-Black.ttf") format("tff");'
+            src: 'url("./fonts/Roboto/small-Roboto-Black.ttf") format("tff");',
+            fontDisplay: 'swap',
           },
           {
             fontFamily: 'AR JULIAN',
             fontWeight: 400,
-            src: 'url("./fonts/ar-julian.woff") format("woff");'
+            src: 'url("./fonts/small-ar-julian.woff") format("woff");',
+            fontDisplay: 'swap',
           },
           {
             fontFamily: 'Noto Sans TC',
             fontWeight: 400,
-            src: 'url("./fonts/Noto_Sans_TC/NotoSansTC-Regular.otf") format("opentype");'
+            src: 'url("./fonts/Noto_Sans_TC/small-NotoSansTC-Regular.otf") format("opentype");',
+            fontDisplay: 'swap',
           },
           {
             fontFamily: 'Noto Sans TC',
             fontWeight: 500,
-            src: 'url("./fonts/Noto_Sans_TC/NotoSansTC-Medium.otf") format("opentype");'
+            src: 'url("./fonts/Noto_Sans_TC/small-NotoSansTC-Medium.otf") format("opentype");',
+            fontDisplay: 'swap',
           },
           {
             fontFamily: 'Noto Sans TC',
             fontWeight: 700,
-            src: 'url("./fonts/Noto_Sans_TC/NotoSansTC-Bold.otf") format("opentype");'
+            src: 'url("./fonts/Noto_Sans_TC/small-NotoSansTC-Bold.otf") format("opentype");',
+            fontDisplay: 'swap',
           },
           {
             fontFamily: 'Noto Sans TC',
             fontWeight: 900,
-            src: 'url("./fonts/Noto_Sans_TC/NotoSansTC-Black.otf") format("opentype");'
+            src: 'url("./fonts/Noto_Sans_TC/small-NotoSansTC-Black.otf") format("opentype");',
+            fontDisplay: 'swap',
           },
           {
             fontFamily: 'Noto Serif TC',
             fontWeight: 400,
-            src: 'url("./fonts/Noto_Serif_TC/NotoSerifTC-Regular.otf") format("opentype");'
+            src: 'url("./fonts/Noto_Serif_TC/small-NotoSerifTC-Regular.otf") format("opentype");',
+            fontDisplay: 'swap',
           },
           {
             fontFamily: 'Noto Serif TC',
             fontWeight: 500,
-            src: 'url("./fonts/Noto_Sans_TC/NotoSerifTC-Medium.otf") format("opentype");'
+            src: 'url("./fonts/Noto_Sans_TC/small-NotoSerifTC-Medium.otf") format("opentype");',
+            fontDisplay: 'swap',
           },
           {
             fontFamily: 'Noto Serif TC',
             fontWeight: 700,
-            src: 'url("./fonts/Noto_Sans_TC/NotoSerifTC-Bold.otf") format("opentype");'
+            src: 'url("./fonts/Noto_Sans_TC/small-NotoSerifTC-Bold.otf") format("opentype");',
+            fontDisplay: 'swap',
           },
           {
             fontFamily: 'Noto Serif TC',
             fontWeight: 900,
-            src: 'url("./fonts/Noto_Serif_TC/NotoSerifTC-Black.otf") format("opentype");'
+            src: 'url("./fonts/Noto_Serif_TC/small-NotoSerifTC-Black.otf") format("opentype");',
+            fontDisplay: 'swap',
           }
         ]
       }

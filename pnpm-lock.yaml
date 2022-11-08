@@ -8,6 +8,7 @@ specifiers:
   '@types/qs': ^6.9.7
   '@types/react': ^18.0.24
   '@types/react-dom': ^18.0.8
+  '@types/react-lazyload': ^3.2.0
   '@types/styled-components': ^5.1.26
   '@typescript-eslint/eslint-plugin': ^5.41.0
   '@typescript-eslint/parser': ^5.41.0
@@ -41,6 +42,7 @@ specifiers:
   react-device-detect: ^2.2.2
   react-dom: ^18.2.0
   react-is: ^18.2.0
+  react-lazyload: ^3.2.0
   react-redux: ^8.0.4
   react-router-dom: ^6.4.2
   redux-saga: ^1.2.1
@@ -58,6 +60,7 @@ dependencies:
   '@reduxjs/toolkit': 1.8.6_kuo2ie247izvzll3jejufdtq3q
   '@types/lodash': 4.14.187
   '@types/qs': 6.9.7
+  '@types/react-lazyload': 3.2.0
   axios: 1.1.3
   classnames: 2.3.2
   gsap: 3.11.3
@@ -67,6 +70,7 @@ dependencies:
   react: 18.2.0
   react-device-detect: 2.2.2_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
+  react-lazyload: 3.2.0_biqbaboplfbrettd7655fr4n2y
   react-redux: 8.0.4_nsgh7lqw2e2kb5wanadocemtdi
   react-router-dom: 6.4.2_biqbaboplfbrettd7655fr4n2y
   redux-saga: 1.2.1
@@ -680,6 +684,12 @@ packages:
     resolution: {integrity: sha512-C3GYO0HLaOkk9dDAz3Dl4sbe4AKUGTCfFIZsz3n/82dPNN8Du533HzKatDxeUYWu24wJgMP1xICqkWk1YOLOIw==}
     dependencies:
       '@types/react': 18.0.24
+
+  /@types/react-lazyload/3.2.0:
+    resolution: {integrity: sha512-4+r+z8Cf7L/mgxA1vl5uHx5GS/8gY2jqq2p5r5WCm+nUsg9KilwQ+8uaJA3EUlLj57AOzOfGGwwRJ5LOVl8fwA==}
+    dependencies:
+      '@types/react': 18.0.24
+    dev: false
 
   /@types/react/18.0.24:
     resolution: {integrity: sha512-wRJWT6ouziGUy+9uX0aW4YOJxAY0bG6/AOk5AW5QSvZqI7dk6VBIbXvcVgIw/W5Jrl24f77df98GEKTJGOLx7Q==}
@@ -2922,6 +2932,16 @@ packages:
 
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+
+  /react-lazyload/3.2.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-zJlrG8QyVZz4+xkYZH5v1w3YaP5wEFaYSUWC4CT9UXfK75IfRAIEdnyIUF+dXr3kX2MOtL1lUaZmaQZqrETwgw==}
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+      react-dom: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react-redux/8.0.4_nsgh7lqw2e2kb5wanadocemtdi:
     resolution: {integrity: sha512-yMfQ7mX6bWuicz2fids6cR1YT59VTuT8MKyyE310wJQlINKENCeT1UcPdEiX6znI5tF8zXyJ/VYvDgeGuaaNwQ==}
