@@ -103,7 +103,6 @@ const VendettaLocations =  [
 ]
 
 const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) => {
-  const pageRef = useRef<HTMLElement>(null)
   const [easterEggBit, setEasterEggBit] = useState<number>(0)
   const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
   
@@ -153,7 +152,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
     return !((easterEggBit & (1 << eggOffset)) > 0) ? 'opacity-100' : 'opacity-0'
   }
 
-  /** testing scroll postion
+  /** testing scroll postion */
   useEffect(() => {
     const handleScroll = (e: Event) => {
       console.log('window.scrollY', window.pageYOffset)
@@ -165,7 +164,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
       document.removeEventListener('scroll', handleScroll)
     }
   }, [])
-  */
+  /**/
 
   const addScheduleTaskRef = (ref: ElementRef<typeof TaskCard>) => {
     if (ref) {
@@ -205,6 +204,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
       animation1.timelineScroller(MaskLv2Ref.current.getRefObject().current, {
         start: 'top top',
         end: `+=230`,
+        scrub: true,
       }).fromTo(
         MaskLv2Ref.current.getRefObject().current,
         { x: 0, y: 0 },
@@ -213,8 +213,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
         ScrollMouseTopRef.current,
         { visibility: 'hidden' },
       )
-      animations.push(animation1)
     }
+    animations.push(animation1)
 
     /**
      * 接著第二步一起移動
@@ -225,41 +225,21 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
      * 4. 人頭 + 獎金: 往 y 移動，上移至 0 + 360px
      * 
      * */
+    const [pcLocation, tabletLocation, mobileLocation] = VendettaLocations
+    const vendettaLocation = isMobile ? mobileLocation : isTablet ? tabletLocation : pcLocation
     if (VendettaRef.current && MaskLv2Ref.current && MaskLv1Ref.current && MaskLv3Ref.current) {
-      let step2Timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: MaskLv2Ref.current.getRefObject().current,
-          scrub: true,
-          start: `230 top`,
-          end: `+=364`,
-          // markers: true,
-          // onEnter: ({ scroller, start, end, trigger, progress, direction, isActive }) => {
-          //   console.log('step2Timeline:', scroller, trigger, start, end)
-          // },
-          // onUpdate: ({ scroller, trigger, progress, direction, isActive }) => {
-          //   console.log(`step2Timeline:`, trigger?.getBoundingClientRect())
-          // }
-        },
-      })
-
-      step2Timeline.to(
-        MaskLv2Ref.current.getRefObject().current,
-        {
-          x: 0, yPercent: '-100'
-        },
-      )
-
-      const [pcLocation, tabletLocation, mobileLocation] = VendettaLocations
-      const vendettaLocation = isMobile ? mobileLocation : isTablet ? tabletLocation : pcLocation
-
-      step2Timeline.fromTo(
+      const animation2 = gsap.effects.timelineScroller(MaskLv2Ref.current.getRefObject().current, {
+        start: `230 top`,
+        end: `+=364`,
+        scrub: true
+      }).to(MaskLv2Ref.current.getRefObject().current, {
+        x: 0, yPercent: '-100'
+      }).fromTo(
         VendettaRef.current.getRef().current,
         vendettaLocation.from, 
         vendettaLocation.to, // 動畫結束後，暫停至新的相對位置
         "<"
-      )
-
-      step2Timeline.fromTo(
+      ).fromTo(
         MaskLv1Ref.current.getRefObject().current,
         { x: 462, y: 287 },
         {
@@ -267,48 +247,34 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           yPercent: '50',
         },
         "<"
-      )
-
-      step2Timeline.fromTo(
+      ).fromTo(
         MaskLv3Ref.current.getRefObject().current,
         { x: -248, y: 261 },
         { x: -248, y: 364 },
         "<"
       )
-
-      animations.push(step2Timeline)
+      animations.push(animation2)
     }
 
     if (VendettaRef.current && MaskLv3Ref.current) {
       const NewsPaperMask3 = MaskLv3Ref.current.getRefObject().current
-      let step3Timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: NewsPaperMask3,
-          scrub: true,
-          start: 'top+=333 top', /** > (第一次滾動軸)230px + (第二次滾動軸偏移量 364 - 261) 103px */
-          end: `+=354`,
-          //markers: true,
-        },
-      })
-    
-      step3Timeline.to(
+      const animation3 = gsap.effects.timelineScroller(NewsPaperMask3, {
+        start: 'top+=333 top', /** > (第一次滾動軸)230px + (第二次滾動軸偏移量 364 - 261) 103px */
+        end: `+=354`,
+        scrub: true,
+      }).to(
         NewsPaperMask3,
         { x: -248, y: 718, opacity: 0 }
-      )
-    
-      step3Timeline.to(
+      ).to(
         VendettaRef.current.getRef().current,
         { x: 314, y: 36 },
         "<"
-      )
-
-      step3Timeline.fromTo(
+      ).fromTo(
         RewardTaskRef.current,
         { x: 856, y: -25, opacity: 0 },
         { x: 856, y: -25, opacity: 1 },
       )
-
-      animations.push(step3Timeline)
+      animations.push(animation3)
     }
 
     const cardTriggers = (ScheduleTaskRefs.current.map(
@@ -321,21 +287,16 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
       [{ xPercent: "-150" }, { xPercent: "0", duration: 0.3 }],
     ]
 
-    for (let i = 0; i < cardEffects.length; i++) {
-      const [from, to] = cardEffects[i]
-      let el = cardTriggers[i]
-      let cardtimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: el,
-          start: "center+=948 center",
-          id: `card_${i}`,
-          once: true,
-          // markers: true,
-        }
-      })
-      cardtimeline.fromTo(el, from, to)
+    for (const [index, cardEffect] of cardEffects.entries()) {
+      const [from, to] = cardEffect
+      const el = cardTriggers[index]
+      const animation = gsap.effects.timelineScroller(el, {
+        start: "center+=948 center",
+        id: `card_${index}`,
+        once: true,
+      }).fromTo(el, from, to)
 
-      animations.push(cardtimeline)
+      animations.push(animation)
     }
 
     if (AwardInfoSectionRef.current) {
@@ -368,21 +329,17 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
         }
       ]
 
-      const rewardTimeline = gsap.timeline({
-        scrollTrigger: {
-          id: `reward`,
-          trigger: awardAnimationTrigger,
-          start: 'center+=948 center',
-          once: true,
-          // markers: true,
-        }
+      const animation = gsap.effects.timelineScroller(awardAnimationTrigger, {
+        id: `reward`,
+        start: 'center+=948 center',
+        once: true,
       })
 
       rewardTrigger.map(({ el, from, to, order }) => {
-        rewardTimeline.fromTo(el, from, to, order)
+        animation.fromTo(el, from, to, order)
       })
 
-      animations.push(rewardTimeline)
+      animations.push(animation)
     }
 
     console.log(animations.length)
