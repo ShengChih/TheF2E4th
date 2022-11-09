@@ -2,7 +2,7 @@ import {
 	ComponentProps, ForwardRefRenderFunction,
 	useRef, useImperativeHandle, forwardRef, RefObject
 } from 'react'
-import { flatAndPrefixClassName } from '@utils/reduce'
+import { flatClassName } from '@utils/reduce'
 import EntireImage from './images/entire.svg'
 
 //const EntireImage = ''
@@ -30,7 +30,7 @@ const Vendetta: ForwardRefRenderFunction<VendettaHandle, VendettaProps> = ({ cla
 				backgroundImage: `url(${EntireImage})`
 			}}
 			className={
-				flatAndPrefixClassName({
+				flatClassName({
 					common: `absolute bg-no-repeat bg-center bg-cover w-[672.27px] h-[562px]`
 				}) + `${className}`
 			}

@@ -1,36 +1,53 @@
 import { ComponentProps, ReactNode } from 'react'
-import { isDesktop, isTablet } from 'react-device-detect';
-import { flatAndPrefixClassName } from '@utils/reduce';
+import styled from 'styled-components'
+import useCheckScreen from '@hooks/useCheckScreen'
+import { flatClassName } from '@utils/reduce'
 
 import ScrollMouseIcon from "@components/ScrollMouseIcon"
-import MainImage from './images/background.png'
+import PcMainImage from './images/pc/background.png'
+import TabletMainImage from './images/tablet/background.png'
+
 
 type MainBannerProps = Pick<ComponentProps<"div">, "className"> & {
 	BannerImage?: ReactNode
 	RewardTaskImage?: ReactNode
 }
 
+const BaseBanner: React.FC<ComponentProps<"div">> = styled.div`
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	@media (min-width: 768px) {
+		background-image: url(${TabletMainImage});
+	}
+
+	@media (min-width: 1280px) {
+		background-image: url(${PcMainImage});
+	}
+}
+`
+
 export default function MainBanner({
 	BannerImage,
 	RewardTaskImage,
 	className
 }: MainBannerProps) {
+	const [ignore, isMobile, isTablet, isDesktop] = useCheckScreen([375, 768, 1280])
+
 	return (
-		<div
-			style={{
-				backgroundImage: `url(${MainImage})`
-			}}
+		<BaseBanner
 			className={
-				flatAndPrefixClassName({
+				flatClassName({
 					common: ['relative bg-no-repeat bg-center bg-cover'],
 					desktop: ['xl:w-[1200px]', 'xl:h-[597px]'],
-					tablet: ['md:w-[902px]', 'md:h-[732px]'],
+					tablet: ['md:w-[736px]', 'md:h-[902px]'],
 					mobile: []
 				}) + `${className ?? ''}`
 			}
 		>
 			<div className={
-				flatAndPrefixClassName({
+				flatClassName({
 					common: ['absolute font-ebgaramond font-bold text-[#38241B] leading-[104px] w-[320px] h-[104px]'],
 					desktop: ['xl:translate-x-[56px]', 'xl:translate-y-[51px]', 'xl:text-[76px]'],
 					tablet: ['md:translate-x-[39px]', 'md:translate-y-[93px]', 'md:text-[76px]'],
@@ -38,7 +55,7 @@ export default function MainBanner({
 				})
 			}>THE F2E</div>
 			<div className={
-				flatAndPrefixClassName({
+				flatClassName({
 					common: ['rounded-[14px] w-[109px] h-[46px] flex justify-center items-center absolute font-roboto font-bold text-white leading-[40px] text-[34px] bg-[#951205] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]'],
 					desktop: ['xl:translate-x-[385px]', 'xl:translate-y-[76px]' ],
 					tablet: ['md:translate-x-[368px]', 'md:translate-y-[118px]'],
@@ -46,7 +63,7 @@ export default function MainBanner({
 				})
 			}>4th</div>
 			<div className={
-				flatAndPrefixClassName({
+				flatClassName({
 					common: ['absolute font-black font-serif text-[#38241B]'],
 					desktop: ['xl:w-[343px]', 'xl:h-[180px]', 'xl:leading-[60px]', 'xl:text-[42px]', 'xl:translate-x-[59px]', 'xl:translate-y-[177px]'],
 					tablet: ['md:w-[607px]', 'md:h-[144px]', 'md:leading-[72px]', 'md:text-[50px]', 'md:translate-x-[39px]', 'md:translate-y-[183px]'],
@@ -99,7 +116,6 @@ export default function MainBanner({
 					? <ScrollMouseIcon className={`absolute translate-x-[1085px] translate-y-[467px]`} />
 					: <ScrollMouseIcon className={`absolute flex justify-center md:top-[848px] md:left-[353px] md:w-[64px] md:h-[68px]`} />
 			}
-			
-		</div>
+		</BaseBanner>
 	)
 }
