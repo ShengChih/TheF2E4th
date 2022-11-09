@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
 
-interface useCheckScreenProps {
-  minDeviceWidthInterval: number[]
-}
 
-const useCheckScreen = ({ minDeviceWidthInterval }: useCheckScreenProps) => {
-  const [width, setWidth] = useState(window.innerWidth);
-  const [devicesWidth, setDevicesWidth] = useState<boolean[]>([]);
-
+const useCheckScreen = (minDeviceWidthInterval: number[]) => {
+  const [maxWidth, setMaxWidth] = useState(window.innerWidth);
   const maxIntervalIndex = minDeviceWidthInterval.length - 1
-  const handleWindowSizeChange = () => {
+
+  const detectDevices = (width: number) => {
     let devices: boolean[] = []
-    const width = window.innerWidth
 
     for (const [index, deviceWidth] of minDeviceWidthInterval.entries()) {
       if (0 === index) {
@@ -23,8 +18,16 @@ const useCheckScreen = ({ minDeviceWidthInterval }: useCheckScreenProps) => {
       }
     }
 
-    setDevicesWidth(devicesWidth)
-    setWidth(width)
+    return devices
+  }
+
+  const handleWindowSizeChange = () => {
+    const width = window.innerWidth
+    setMaxWidth(width)
+    //if (width > maxWidth) {
+    //  setMaxWidth(width)
+    //  console.debug(`trigger maxWidth`)
+    //}
   }
 
   useEffect(() => {
@@ -34,7 +37,9 @@ const useCheckScreen = ({ minDeviceWidthInterval }: useCheckScreenProps) => {
     }
   }, []);
 
-  return [width, devicesWidth]
+  console.log(`useCheckScreen`)
+
+  return detectDevices(maxWidth)
 }
 
 export default useCheckScreen

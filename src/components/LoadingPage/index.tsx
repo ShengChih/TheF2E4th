@@ -15,15 +15,15 @@ const Page: React.FC<PageProps> = styled.div`
 	background-repeat: no-repeat;
 	background-size: cover;
 
-	@media (max-width: 768px) {
+	@media (min-width: 768px) {
 		background-image: url(${TabletLoadingBgImage1x});
 	}
 
-	@media (max-width: 1280px) {
+	@media (min-width: 1280px) {
 		background-image: url(${PcLoadingBgImage1x});
 	}
 
-	@media (max-width: 1921px) {
+	@media (min-width: 1921px) {
 		background-image: url(${PcLoadingBgImage1x});
 	}
 }

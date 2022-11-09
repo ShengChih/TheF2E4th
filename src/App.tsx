@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useRef, MouseEvent } from 'react'
-
+import { deviceWidth } from '@utils/config'
+import useCheckScreen from '@hooks/useCheckScreen'
 import Header from '@components/Header'
 import LoadingPage from "@components/LoadingPage"
 // import SparkleMouse from "@components/SparkleMouse"
@@ -11,7 +12,7 @@ const MainPage = lazy(() => import("@pages/MainPage"))
 
 const App = () => {
   const MainPageRef = useRef<MainPageHandle>(null)
-
+  const [ignore, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
   const gotoHexSchoolAnchor = (e: MouseEvent) => {
     if (MainPageRef.current) {
       MainPageRef.current.gotoHexSchoolAnchor(e)
@@ -32,7 +33,7 @@ const App = () => {
       className={`relative`}
     >
       <Header
-        className={`fixed z-[5]`}
+        className={`${isDesktop ? 'fixed z-[5]': ''}`}
         gotoHexSchoolAnchor={gotoHexSchoolAnchor}
         gotoScheduleInfoAnchor={gotoScheduleInfoAnchor}
       />

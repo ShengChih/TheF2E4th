@@ -1,11 +1,14 @@
 import { ComponentProps } from 'react'
+import { deviceWidth } from '@utils/config'
+import useCheckScreen from '@hooks/useCheckScreen'
 import baseStyles from './styles/base.module.scss'
-import { isDesktop, isTablet } from 'react-device-detect';
 
 
 type ScrollMouseIconProps = ComponentProps<"div">
 
 export default function ScrollMouseIcon(props: ScrollMouseIconProps) {
+	const [ignore, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
+
 	const Icon = (
 		isDesktop
 		? (
