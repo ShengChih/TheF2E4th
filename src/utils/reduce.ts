@@ -5,7 +5,7 @@ interface IflatClassName {
 	mobile?: string[] | string
 }
 
-export function flatAndPrefixClassName({ common, desktop, tablet, mobile }: IflatClassName) {
+export function flatClassName({ common, desktop, tablet, mobile }: IflatClassName) {
   return [
     '',
     Array.isArray(common) ? common.join(' ') : (common ?? ''),
