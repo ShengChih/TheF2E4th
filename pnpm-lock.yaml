@@ -32,6 +32,7 @@ specifiers:
   lottie-react: ^2.3.1
   mockjs: ^1.1.0
   postcss: ^8.4.18
+  postcss-focus: ^5.0.1
   postcss-import: ^14.1.0
   postcss-mixins: ^9.0.4
   postcss-nested: ^6.0.0
@@ -103,6 +104,7 @@ devDependencies:
   eslint-plugin-simple-import-sort: 7.0.0_eslint@8.26.0
   mockjs: 1.1.0
   postcss: 8.4.18
+  postcss-focus: 5.0.1_postcss@8.4.18
   postcss-import: 14.1.0_postcss@8.4.18
   postcss-mixins: 9.0.4_postcss@8.4.18
   postcss-pxtorem: 6.0.0_postcss@8.4.18
@@ -2776,6 +2778,15 @@ packages:
   /pify/2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
+
+  /postcss-focus/5.0.1_postcss@8.4.18:
+    resolution: {integrity: sha512-iVP+4VLenlI0tHHJD+7HyE+7pQ6Hlg3+Zm/xTwNE1LT7OgmYC4r1ale6AnEkABGNKKE3j1LkF/BNcv89lDoICw==}
+    engines: {node: '>=10.0'}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      postcss: 8.4.18
+    dev: true
 
   /postcss-import/14.1.0_postcss@8.4.18:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}

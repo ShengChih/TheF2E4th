@@ -9,10 +9,10 @@ module.exports = {
       'mobile': '375px',
       'tablet': '768px',
       'desktop': '1280px',
-      sm: '480px',
+      sm: '375px',
       md: '768px',
-      lg: '976px',
-      xl: '1440px',
+      lg: '1024px',
+      xl: '1280px',
     },
     fontFamily: {
       'sans': ['Noto Sans TC', ],
@@ -23,12 +23,17 @@ module.exports = {
     },
     extend: {
       animation: {
-        'fade-in': 'fadeIn 1s linear'
+        'fade-in': 'fadeIn 1s linear',
+        'swipe-up-infinite': 'swipeUp 1.5s infinite'
       },
       keyframes: {
         'fadeIn': {
           '0%': { opacity: 0 },
           '100%': { opacity: 1 }
+        },
+        'swipeUp': {
+          '0%': { translateY: '100%' },
+          '100%' : { translateY: '0%' },
         }
       }
     },

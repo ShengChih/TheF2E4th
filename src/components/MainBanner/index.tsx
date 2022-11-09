@@ -20,29 +20,36 @@ export default function MainBanner({
 			style={{
 				backgroundImage: `url(${MainImage})`
 			}}
-			className={`relative bg-no-repeat bg-center bg-cover desktop:w-[1200px] desktop:h-[597px] desktop:w-[902px] desktop:h-[732px] ${className ?? ''}`}
+			className={
+				flatAndPrefixClassName({
+					common: ['relative bg-no-repeat bg-center bg-cover'],
+					desktop: ['xl:w-[1200px]', 'xl:h-[597px]'],
+					tablet: ['md:w-[902px]', 'md:h-[732px]'],
+					mobile: []
+				}) + `${className ?? ''}`
+			}
 		>
 			<div className={
 				flatAndPrefixClassName({
-					common: ['absolute font-ebgaramond font-bold text-[#38241B] leading-[104px] text-[80px]'],
-					desktop: ['w-[313px]', 'h-[90px]', 'left-[56px]', 'top-[51px]'],
-					tablet: ['w-[320px]', 'h-[104px]', 'left-[39px]', 'top-[93px]'],
+					common: ['absolute font-ebgaramond font-bold text-[#38241B] leading-[104px] w-[320px] h-[104px]'],
+					desktop: ['xl:translate-x-[56px]', 'xl:translate-y-[51px]', 'xl:text-[76px]'],
+					tablet: ['md:translate-x-[39px]', 'md:translate-y-[93px]', 'md:text-[76px]'],
 					mobile: []
 				})
 			}>THE F2E</div>
 			<div className={
 				flatAndPrefixClassName({
 					common: ['rounded-[14px] w-[109px] h-[46px] flex justify-center items-center absolute font-roboto font-bold text-white leading-[40px] text-[34px] bg-[#951205] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]'],
-					desktop: ['left-[385px]', 'top-[76px]' ],
-					tablet: ['left-[368px]', 'top-[118px]'],
+					desktop: ['xl:translate-x-[385px]', 'xl:translate-y-[76px]' ],
+					tablet: ['md:translate-x-[368px]', 'md:translate-y-[118px]'],
 					mobile: []
 				})
 			}>4th</div>
 			<div className={
 				flatAndPrefixClassName({
 					common: ['absolute font-black font-serif text-[#38241B]'],
-					desktop: ['w-[343px]', 'h-[180px]', 'leading-[60px]', 'text-[42px]', 'left-[59px]', 'top-[177px]'],
-					tablet: ['w-[607px]', 'h-[144px]', 'leading-[72px]', 'text-[50px]', 'left-[39px]', 'top-[183px]'],
+					desktop: ['xl:w-[343px]', 'xl:h-[180px]', 'xl:leading-[60px]', 'xl:text-[42px]', 'xl:translate-x-[59px]', 'xl:translate-y-[177px]'],
+					tablet: ['md:w-[607px]', 'md:h-[144px]', 'md:leading-[72px]', 'md:text-[50px]', 'md:translate-x-[39px]', 'md:translate-y-[183px]'],
 					mobile: []
 				})
 			}>前端工程師和介面設計師，攜手合作拿獎金</div>
@@ -53,12 +60,9 @@ export default function MainBanner({
 			{
 				isDesktop
 					? (<>
-					<div className={`absolute font-normal font-sans text-[#38241B] desktop:w-[283px] desktop:h-[140px] desktop:leading-[34.75px] desktop:text-[24px] desktop:left-[59px] desktop:top-[372px]`}>羨慕別人的酷酷網頁動畫？ 滿足不了同事的許願？ 動畫技能樹太雜無從下手？</div>
+					<div className={`absolute font-normal font-sans text-[#38241B] xl:w-[283px] xl:h-[140px] xl:leading-[34.75px] xl:text-[24px] xl:left-[59px] xl:top-[372px]`}>羨慕別人的酷酷網頁動畫？ 滿足不了同事的許願？ 動畫技能樹太雜無從下手？</div>
 					<div
-						style={{
-							backgroundImage: '',//`url(${Attendee1158})`
-						}}
-						className={`flex items-center justify-center flex-wrap absolute text-[#38241B] desktop:w-[294px] desktop:h-[191px] desktop:left-[845px] desktop:top-[215px]`}
+						className={`flex items-center justify-center flex-wrap absolute text-[#38241B] xl:w-[294px] xl:h-[191px] xl:left-[845px] xl:top-[215px]`}
 					>
 						{
 							[
@@ -79,9 +83,9 @@ export default function MainBanner({
 								},
 							].map(({ name, amount, unit }, index: number) => (
 								<div className={`flex items-center`} key={`attendee-${index}`}>
-									<div className={`font-julian desktop:w-[140px] desktop:h-[31px] desktop:text-[28px]`}>{name}</div>
-									<div className={`font-ebgaramond text-right desktop:w-[109px] desktop:h-[65px] desktop:text-[50px]`}>{amount}</div>
-									<div className={`font-julian desktop:w-[28px] desktop:h-[31px] desktop:text-[28px]`}>{unit}</div>
+									<div className={`font-julian xl:w-[140px] xl:h-[31px] xl:text-[28px]`}>{name}</div>
+									<div className={`font-ebgaramond text-right xl:w-[109px] xl:h-[65px] xl:text-[50px]`}>{amount}</div>
+									<div className={`font-julian xl:w-[28px] xl:h-[31px] xl:text-[28px]`}>{unit}</div>
 								</div>
 							))
 						}
@@ -90,7 +94,12 @@ export default function MainBanner({
 				: ''
 			}
 			
-			<ScrollMouseIcon className={`absolute translate-x-[1085px] translate-y-[467px]`} />
+			{
+				isDesktop
+					? <ScrollMouseIcon className={`absolute translate-x-[1085px] translate-y-[467px]`} />
+					: <ScrollMouseIcon className={`absolute flex justify-center md:top-[848px] md:left-[353px] md:w-[64px] md:h-[68px]`} />
+			}
+			
 		</div>
 	)
 }

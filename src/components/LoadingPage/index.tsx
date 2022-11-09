@@ -2,8 +2,8 @@ import { ReactNode, ComponentProps } from 'react'
 import styled from 'styled-components'
 
 import MagicWand from '@components/MagicWand'
-import LoadingBgImage1x from './images/LoadingBackgroundImage1x.png'
-import LoadingBgImage1_5x from './images/LoadingBackgroundImage1_5x.png'
+import TabletLoadingBgImage1x from './images/tablet/LoadingBackgroundImage@1x.png'
+import PcLoadingBgImage1x from './images/pc/LoadingBackgroundImage1x.jpg'
 
 export type PageProps = ComponentProps<"div"> & {
 	content?: ReactNode
@@ -15,12 +15,16 @@ const Page: React.FC<PageProps> = styled.div`
 	background-repeat: no-repeat;
 	background-size: cover;
 
+	@media (max-width: 768px) {
+		background-image: url(${TabletLoadingBgImage1x});
+	}
+
 	@media (max-width: 1280px) {
-		background-image: url(${LoadingBgImage1x});
+		background-image: url(${PcLoadingBgImage1x});
 	}
 
 	@media (max-width: 1921px) {
-		background-image: url(${LoadingBgImage1_5x});
+		background-image: url(${PcLoadingBgImage1x});
 	}
 }
 `
@@ -28,15 +32,15 @@ const Page: React.FC<PageProps> = styled.div`
 export default function LoadingPage({ content, extraInfo, ...props }: PageProps) {
 	return (
 		<Page {...props} >
-			<MagicWand className={`absolute inset-x-0 mx-auto desktop:w-[200px] desktop:h-[200px] desktop:top-[138px]`} />
+			<MagicWand className={`absolute inset-x-0 mx-auto xl:w-[200px] xl:h-[200px] xl:top-[138px]`} />
 			{
 				content
-					? (<div className={`w-fit absolute inset-x-0 mx-auto font-julian text-[#38241B] desktop:text-[23px] desktop:top-[363px]`}>{content}</div>)
+					? (<div className={`w-fit absolute inset-x-0 mx-auto font-julian text-[#38241B] xl:text-[23px] xl:top-[363px]`}>{content}</div>)
 					: '' 
 			}
 			{
 				extraInfo
-				? (<div className={`w-fit absolute inset-x-0 mx-auto font-sans text-[#38241B] desktop:text-[20px] desktop:top-[448px]`}>{extraInfo}</div>)
+				? (<div className={`w-fit absolute inset-x-0 mx-auto font-sans text-[#38241B] xl:text-[20px] xl:top-[448px]`}>{extraInfo}</div>)
 				: ''
 			}
 		</Page>

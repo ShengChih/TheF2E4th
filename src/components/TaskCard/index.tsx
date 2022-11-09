@@ -47,15 +47,15 @@ const TaskCardComponent: ForwardRefRenderFunction<TaskCardHandle, TaskCardProps>
 			}}
 			className={`relative bg-no-repeat bg-center ${className ?? ''}`}
 		>
-			<div className={`font-sans font-bold absolute text-white desktop:w-[684.78px] desktop:h-[64px] desktop:left-[40px] desktop:top-[19px] desktop:leading-[64px] desktop:text-[44px]`}>{title}</div>
-			<div className={`font-serif font-black absolute text-[#38241B] desktop:w-[592px] desktop:h-[63px] desktop:left-[506px] desktop:top-[142px] desktop:leading-[63px] desktop:text-[44px]`}>{subtitle}</div>
-			<div className={`font-sans font-medium absolute text-[#38241B] desktop:w-[592px] desktop:h-[70px] desktop:left-[506px] desktop:top-[219px] desktop:leading-[35px] desktop:text-[24px]`}>{content}</div>
+			<div className={`font-sans font-bold absolute text-white xl:w-[684.78px] xl:h-[64px] xl:left-[40px] xl:top-[19px] xl:leading-[64px] xl:text-[44px]`}>{title}</div>
+			<div className={`font-serif font-black absolute text-[#38241B] xl:w-[592px] xl:h-[63px] xl:left-[506px] xl:top-[142px] xl:leading-[63px] xl:text-[44px]`}>{subtitle}</div>
+			<div className={`font-sans font-medium absolute text-[#38241B] xl:w-[592px] xl:h-[70px] xl:left-[506px] xl:top-[219px] xl:leading-[35px] xl:text-[24px]`}>{content}</div>
 			<div
-				className={`border-[#38241B] border-solid border-[3px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] text-[#38241B] fount-sans font-normal flex items-center justify-center absolute desktop:w-[184px] desktop:h-[70px] desktop:left-[508px] desktop:top-[369px] desktop:rounded-[40px] desktop:text-[28px]`}
+				className={`border-[#38241B] border-solid border-[3px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] text-[#38241B] fount-sans font-normal flex items-center justify-center absolute xl:w-[184px] xl:h-[70px] xl:left-[508px] xl:top-[369px] xl:rounded-[40px] xl:text-[28px]`}
 				onClick={forwardTips}
 			>關卡攻略</div>
 			<div
-				className={`drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-[#951205] text-white fount-sans font-normal flex items-center justify-center absolute desktop:w-[183px] desktop:h-[70px] desktop:left-[712px] desktop:top-[369px] desktop:rounded-[40px] desktop:text-[28px]`}
+				className={`drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-[#951205] text-white fount-sans font-normal flex items-center justify-center absolute xl:w-[183px] xl:h-[70px] xl:left-[712px] xl:top-[369px] xl:rounded-[40px] xl:text-[28px]`}
 				onClick={forwardContribute}
 			>投稿</div>
 			{EnterpriseLogo}

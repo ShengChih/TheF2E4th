@@ -37,6 +37,7 @@ import TopMasklv2 from './images/TopMasklv2@1x.png'
 import LeftBottomMasklv3 from './images/LeftBottomMasklv3@1x.png'
 import RewardTask from './images/reward_task.svg'
 import ContentBgImage from './images/ContentBgImage.svg'
+import { isMobile, isTablet, isDesktop } from "react-device-detect"
 
 type VendettaHandle = ElementRef<typeof Vendetta>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
@@ -223,11 +224,29 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           x: 0, yPercent: '-100'
         },
       )
+      
+      const VendettaLocations =  [
+        {
+          from: { x: 314, y: 597 },
+          to: { x: 314, y: 259 }
+        },
+        {
+          from: { y: 974 },
+          to: { y: 337 }
+        },
+        {
+          from: { x: 314, y: 597 },
+          to: { x: 314, y: 259 }
+        }
+      ]
+
+      const [pcLocation, tabletLocation, mobileLocation] = VendettaLocations
+      const vendettaLocation = isMobile ? mobileLocation : isTablet ? tabletLocation : pcLocation
 
       step2Timeline.fromTo(
         VendettaRef.current.getRef().current,
-        { x: 314, y: 597 }, 
-        { x: 314, y: 259 }, // 動畫結束後，暫停至新的相對位置
+        vendettaLocation.from, 
+        vendettaLocation.to, // 動畫結束後，暫停至新的相對位置
         "<"
       )
 
@@ -377,8 +396,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           className={
             flatAndPrefixClassName({
               common: `flex bg-no-repeat bg-cover`,
-              desktop: ['h-[720px]'],
-              tablet: ['h-[962px]'],
+              desktop: ['xl:h-[720px]'],
+              tablet: ['md:h-[962px]'],
             })
           }
           ref={MainBannerRef}
@@ -387,8 +406,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             className={
               flatAndPrefixClassName({
                 common: `inset-0 mx-auto`,
-                desktop: ['mt-[101px]', 'desktop:mb-[22px]'],
-                tablet: ['mt-[28px]', 'desktop:mb-[32px]'],
+                desktop: ['xl:mt-[101px]', 'xl:mb-[22px]'],
+                tablet: ['md:mt-[28px]', 'md:mb-[32px]'],
               })
             }
             BannerImage={<Vendetta className={``} ref={VendettaRef} />}
@@ -401,8 +420,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
                 className={
                   flatAndPrefixClassName({
                     common: `absolute`,
-                    desktop: ['w-[373px]', 'h-[225px]'],
-                    tablet: ['w-[314.24px]', 'h-[108.67px]'],
+                    desktop: ['xl:w-[373px]', 'xl:h-[225px]'],
+                    tablet: ['md:w-[314.24px]', 'md:h-[108.67px]'],
                   })
                 }
               />
@@ -414,16 +433,16 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           style={{
             backgroundImage: `url(${ContentBgImage})`
           }}
-          className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative desktop:h-[6535px]`}
+          className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative xl:h-[6535px]`}
         >
 
-          <div className={`relative desktop:w-[1200px] desktop:h-[386px]`} ref={hexSchoolAnchorRef}>
+          <div className={`relative xl:w-[1200px] xl:h-[386px]`} ref={hexSchoolAnchorRef}>
             <LazyLoad height={300}>
               <HostInfo />
             </LazyLoad>
           </div>
 
-          <div className={`desktop:pt-[99px] desktop:pb-[175px] desktop:w-[1200px] desktop:h-[1942px]`}>
+          <div className={`xl:pt-[99px] xl:pb-[175px] xl:w-[1200px] xl:h-[1942px]`}>
             <ScheduleTask>
               {
                 Tasks.map(({
@@ -432,7 +451,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
                   EnterpriseLogo
                 }: TaskType, index: number) => {
                   const props = {
-                    className: `desktop:w-[1200px] desktop:h-[528px] `,
+                    className: `xl:w-[1200px] xl:h-[528px] `,
                     title: title,
                     subtitle: subtitle,
                     content: content, 
@@ -451,7 +470,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             </ScheduleTask>
             <LazyLoad height={300}>
               <div
-                className={`${appendDisplayEasterEggClassName(1)} relative w-fit	h-fit desktop:translate-x-[-29.4px] desktop:translate-y-[19.21px]`}
+                className={`${appendDisplayEasterEggClassName(1)} relative w-fit	h-fit xl:translate-x-[-29.4px] xl:translate-y-[19.21px]`}
                 onClick={handleEasterEggBit}
                 data-egg-offset={1}
               >
@@ -463,11 +482,11 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
              </LazyLoad> 
           </div>
 
-          <section className={`w-full desktop:h-[1040px]`} ref={scheduleInfoAnchorRef}>
+          <section className={`w-full xl:h-[1040px]`} ref={scheduleInfoAnchorRef}>
             <LazyLoad height={200} once >
               <ScheduleInfo>
                 <div
-                  className={`${appendDisplayEasterEggClassName(2)} absolute top-0 left-0 w-fit	h-fit desktop:translate-x-[904px] desktop:translate-y-[264px]`}
+                  className={`${appendDisplayEasterEggClassName(2)} absolute top-0 left-0 w-fit	h-fit xl:translate-x-[904px] xl:translate-y-[264px]`}
                   onClick={handleEasterEggBit}
                   data-egg-offset={2}
                 >
@@ -477,7 +496,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
                   </svg>
                 </div>
                 <div
-                  className={`${appendDisplayEasterEggClassName(3)} absolute top-0 left-0 w-fit	h-fit desktop:translate-x-[1135px] desktop:translate-y-[702.58px]`}
+                  className={`${appendDisplayEasterEggClassName(3)} absolute top-0 left-0 w-fit	h-fit xl:translate-x-[1135px] xl:translate-y-[702.58px]`}
                   onClick={handleEasterEggBit}
                   data-egg-offset={3}
                 >
@@ -492,11 +511,11 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
 
           <AwardInfo ref={AwardInfoSectionRef}></AwardInfo>
 
-          <section className={`w-full relative desktop:h-[1825px]`}>
+          <section className={`w-full relative xl:h-[1825px]`}>
             <LazyLoad height={200} once >
               <LiveShareVideo>
                 <div
-                  className={`${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit	h-fit desktop:translate-x-[-562px] desktop:translate-y-[973.42px]`}
+                  className={`${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit	h-fit xl:translate-x-[-562px] xl:translate-y-[973.42px]`}
                   onClick={handleEasterEggBit}
                   data-egg-offset={4}
                 >
@@ -509,21 +528,21 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             </LazyLoad>
           </section>
 
-          <div className={`bg-white w-full desktop:h-[96px]`}>
+          <div className={`bg-white w-full xl:h-[96px]`}>
             <PartnerInfo></PartnerInfo>
           </div>
           
-          <div className={`w-full relative desktop:h-[366px] bg-[#3C221B]`}>
+          <div className={`w-full relative xl:h-[366px] bg-[#3C221B]`}>
             <LazyLoad height={200} offset={300}>
               <div className={`mt-[60px] mb-[36px]`}>
                 <SponerInfo></SponerInfo>
               </div>
-              <div className={`desktop:mb-[8px]`}>
+              <div className={`xl:mb-[8px]`}>
                 <Footer></Footer>
               </div>
               <div
                 onClick={handleEasterEggBit}
-                className={`${appendDisplayEasterEggClassName(5)} absolute w-fit	h-fit	top-0 inset-x-0 mx-auto desktop:translate-y-[64px] desktop:translate-x-[658.91px]`}
+                className={`${appendDisplayEasterEggClassName(5)} absolute w-fit	h-fit	top-0 inset-x-0 mx-auto xl:translate-y-[64px] xl:translate-x-[658.91px]`}
                 data-egg-offset={5}
               >
                 <svg width="46" height="38" viewBox="0 0 46 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -542,25 +561,26 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           {
             ref: MaskLv1Ref,
             image: PcRightBottomMasklv1,
-            className: `fixed bg-no-repeat bg-cover desktop:left-0 desktop:top-0 z-10 ${pcStyles.masklv1}`
+            className: `fixed bg-no-repeat bg-cover xl:left-0 xl:top-0 z-10 ${pcStyles.masklv1}`
           },
           {
             ref: MaskLv2Ref,
             image: TopMasklv2,
-            className: `fixed bg-no-repeat bg-cover desktop:left-0 desktop:top-0 z-20 ${pcStyles.masklv2}`
+            className: `fixed bg-no-repeat bg-cover xl:left-0 xl:top-0 z-20 ${pcStyles.masklv2}`
           },
           {
-            ref: MaskLv1Ref,
+            ref: MaskLv3Ref,
             image: LeftBottomMasklv3,
-            className: `fixed bg-no-repeat bg-cover desktop:left-0 desktop:top-0 z-30 ${pcStyles.masklv3}`
+            className: `fixed bg-no-repeat bg-cover xl:left-0 xl:top-0 z-30 ${pcStyles.masklv3}`
           }
-        ].map(({ ref, image, className}) => (
+        ].map(({ ref, image, className}, index: number) => (
           <div
-            ref={MaskLv3Ref}
+            ref={ref}
             style={{
               backgroundImage: `url(${image})`
             }}
             className={`${className}`}
+            key={`mask-${index}`}
           ></div>
         ))
       }
@@ -569,13 +589,13 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
         <ScrollMouseIcon />
       </div>
 
-      <div className={`fixed flex items-center justify-center font-sans font-normal text-[#38241B] z-50 top-1/2 left-1/2 m-auto bg-white  desktop:w-[527px] desktop:h-[310px] desktop:translate-y-[-152px] ${easterEggBit === MaxEasterEggBit ? 'desktop:translate-x-[-263.5px] opacity-100': 'desktop:translate-x-[-100vw] opacity-0'}`}>
-        <div className={`whitespace-pre-line flex flex-col items-center justify-center desktop:leading-[55px] desktop:text-[25px] desktop:w-[420px] desktop:h-[104px]`}>
-          {'恭喜您！獲得六角課程專屬折扣碼\n'}<span className={`font-sans font-bold text-[#951205] desktop:leading-[55px] desktop:text-[40px]`}>【HEXSCHOOL2022】</span>
+      <div className={`fixed flex items-center justify-center font-sans font-normal text-[#38241B] z-50 top-1/2 left-1/2 m-auto bg-white  xl:w-[527px] xl:h-[310px] xl:translate-y-[-152px] ${easterEggBit === MaxEasterEggBit ? 'xl:translate-x-[-263.5px] opacity-100': 'xl:translate-x-[-100vw] opacity-0'}`}>
+        <div className={`whitespace-pre-line flex flex-col items-center justify-center xl:leading-[55px] xl:text-[25px] xl:w-[420px] xl:h-[104px]`}>
+          {'恭喜您！獲得六角課程專屬折扣碼\n'}<span className={`font-sans font-bold text-[#951205] xl:leading-[55px] xl:text-[40px]`}>【HEXSCHOOL2022】</span>
         </div>
         <div 
           onClick={handleEasterEggBit}
-          className={`absolute bg-[#38241B] top-0 right-0 flex items-center justify-center desktop:rounded-[50px] desktop:w-[72px] desktop:h-[72px] desktop:translate-x-[36px] desktop:translate-y-[-36px]`}
+          className={`absolute bg-[#38241B] top-0 right-0 flex items-center justify-center xl:rounded-[50px] xl:w-[72px] xl:h-[72px] xl:translate-x-[36px] xl:translate-y-[-36px]`}
           data-egg-id={0}
         >
           <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">

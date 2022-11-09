@@ -10,7 +10,7 @@ type ImageProps = ComponentProps<"img">
 
 function ImageContainer(props: ImageProps) {
 	return (
-		<img {...props} className={`absolute desktop:right-[34px] desktop:top-[16px] ${props.className}`} />
+		<img {...props} className={`absolute xl:right-[34px] xl:top-[16px] ${props.className}`} />
 	)
 }
 
@@ -18,11 +18,11 @@ export function BlockStudioLogo() {
 	return {
 		TaskLogo: <ImageContainer
 			src={BlockStudioImage}
-			className={`desktop:w-[327px] desktop:h-[69px]`}
+			className={`xl:w-[327px] xl:h-[69px]`}
 		/>,
 		EnterpriseLogo: <ImageContainer
 			src={ParallaxScrolling}
-			className={`desktop:w-[313.38px] desktop:h-[290px] desktop:left-[105.97px] desktop:top-[149px]`}
+			className={`xl:w-[313.38px] xl:h-[290px] xl:left-[105.97px] xl:top-[149px]`}
 		/>
 	}
 }
@@ -31,11 +31,11 @@ export function KdanLogo() {
 	return {
 		TaskLogo: <ImageContainer
 			src={KdanImage}
-			className={`desktop:w-[160px] desktop:h-[70px]`}
+			className={`xl:w-[160px] xl:h-[70px]`}
 		/>,
 		EnterpriseLogo: <ImageContainer
 			src={PdfSign}
-			className={`desktop:w-[259px] desktop:h-[312px] desktop:left-[160px] desktop:top-[138px]`}
+			className={`xl:w-[259px] xl:h-[312px] xl:left-[160px] xl:top-[138px]`}
 		/>
 	}
 }
@@ -44,11 +44,11 @@ export function TitansoftLogo() {
 	return {
 		TaskLogo: <ImageContainer
 			src={TitansoftImage}
-			className={`desktop:w-[299px] desktop:h-[56px]`}
+			className={`xl:w-[299px] xl:h-[56px]`}
 		/>,
 		EnterpriseLogo: <ImageContainer
 			src={Scrum}
-			className={`desktop:w-[297px] desktop:h-[245px] desktop:left-[103px] desktop:top-[172px]`}
+			className={`xl:w-[297px] xl:h-[245px] xl:left-[103px] xl:top-[172px]`}
 		/>
 	}
 }
