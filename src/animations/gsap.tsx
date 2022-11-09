@@ -1,22 +1,30 @@
 import {
-	useLayoutEffect, useEffect, useRef, forwardRef, ReactNode,
+	useMemo, useLayoutEffect, useEffect, useRef, forwardRef, ReactNode,
   RefObject, ForwardedRef
 } from 'react'
+
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 gsap.registerPlugin(ScrollTrigger)
 
 gsap.registerEffect({
-  name: "slideOut",
-  effect(targets: gsap.TweenTarget) {
-    return gsap.timeline({
+  name: "timelineScroller",
+  extendTimeline: true,
+  effect: (target: gsap.DOMTarget, config: ScrollTrigger.Vars) => {
+    const tl = gsap.timeline({
       scrollTrigger: {
-
+        trigger: target,
+        scrub: true,
+        ...config
       }
-    })
+    }) 
+    return tl
   }
 })
+
+export * from "gsap";
+export * from "gsap/ScrollTrigger";
 
 interface GsapEffectProps {
 	children: ReactNode | ReactNode[]
@@ -52,3 +60,8 @@ const GsapEffect = ({
 }
 
 export const GsapEffectComponent = forwardRef(GsapEffect)
+
+export function useGsapContext(scope: RefObject<HTMLElement>) {
+  const ctx = useMemo(() => gsap.context(() => {}, scope), [scope]);
+  return ctx;
+}
