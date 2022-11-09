@@ -85,6 +85,10 @@ export default defineConfig(({ command }: ConfigEnv) => {
           find: '@images',
           replacement: '/src/images'
         },
+        {
+          find: '@animations',
+          replacement: '/src/animations'
+        }
       ]
     },
     server: {
