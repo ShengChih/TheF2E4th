@@ -4,19 +4,22 @@ import {
 	forwardRef,
 	useImperativeHandle,
 	ForwardRefRenderFunction,
+  ComponentProps
 } from "react"
+import { deviceWidth } from '@utils/config'
 import { MainPageHandle } from './type'
 import LazyLoad from 'react-lazyload'
-import { gsap } from "gsap"
+import { gsap, useGsapContext, ScrollTrigger } from "@animations/gsap"
 
 //import { px2mapping } from "@utils/converter"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { flatAndPrefixClassName } from '@utils/reduce';
+import { flatClassName } from '@utils/reduce'
+import useCheckScreen from '@hooks/useCheckScreen' 
 
 import pcStyles from "./styles/fullpage/pc.module.scss"
 import mobileStyles from "./styles/fullpage/mobile.module.scss"
 import tabletStyles from "./styles/fullpage/tablet.module.scss"
 
+import NewsPaperMask from "@components/NewsPaperMask"
 import ScrollMouseIcon from "@components/ScrollMouseIcon"
 import MainBanner from "@components/MainBanner"
 import HostInfo from "@components/HostInfo"
@@ -32,23 +35,79 @@ import Footer from "@components/Footer"
 import Vendetta from '@components/Vendetta'
 
 import MainImage from './images/BannerBgImage.svg'
-import PcRightBottomMasklv1 from './images/RightBottomMasklv1@1x.png'
-import TopMasklv2 from './images/TopMasklv2@1x.png'
-import LeftBottomMasklv3 from './images/LeftBottomMasklv3@1x.png'
+import PcNewspaper1 from './images/pc/Newspaper1.png'
+import PcNewspaper1_1_5x from './images/pc/Newspaper1@1_5x.png'
+import PcNewspaper2 from './images/pc/Newspaper2.png'
+import PcNewspaper2_1_5x from './images/pc/Newspaper2@1_5x.png'
+import PcNewspaper3 from './images/pc/Newspaper3.png'
+import PcNewspaper3_1_5x from './images/pc/Newspaper3@1_5x.png'
+import TabletNewspaper1 from './images/tablet/Newspaper1.png'
+import TabletNewspaper2 from './images/tablet/Newspaper2.png'
+import TabletNewspaper3 from './images/tablet/Newspaper3.png'
 import RewardTask from './images/reward_task.svg'
 import ContentBgImage from './images/ContentBgImage.svg'
-import { isMobile, isTablet, isDesktop } from "react-device-detect"
 
 type VendettaHandle = ElementRef<typeof Vendetta>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
+type NewsPaperHandle = ElementRef<typeof NewsPaperMask>
+type TaskCardHandle = ElementRef<typeof TaskCard>
+
 
 /** 控制 & 顯示彩蛋 + 顯示折扣視窗 */
 const MaxEasterEggBit = 0b111110
 
-const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) => {
-  gsap.registerPlugin(ScrollTrigger)
+const MaxStep1ScrollOffset = [948, ]
+const MaskAnimation1 = {
+  mask1: [
+    {
+      from: { x: 0, y: 0 },
+      to: { x: 0, y: -230 }
+    },
+    {
+      from: { x: -144, y: -62 },
+      to: { x: -161, y: -290 }
+    },
+    {}
+  ],
+  mask2: [
+    {},
+    {
+      from: { x: -143, y: 149 },
+      to: { x:-398, y: 341 }
+    },
+    {}
+  ],
+  mask3: [
+    {},
+    {
+      from: { x: 230, y: 169 },
+      to: { x: 288, y: 508 }
+    },
+    {}
+  ]
+}
 
+const VendettaLocations =  [
+  {
+    from: { x: 314, y: 597 },
+    to: { x: 314, y: 259 }
+  },
+  {
+    from: { y: 974 },
+    to: { y: 337 }
+  },
+  {
+    from: { x: 314, y: 597 },
+    to: { x: 314, y: 259 }
+  }
+]
+
+const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) => {
+  const pageRef = useRef<HTMLElement>(null)
   const [easterEggBit, setEasterEggBit] = useState<number>(0)
+  const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
+  
+
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const hexSchoolAnchorRef = useRef<HTMLDivElement>(null)
   const scheduleInfoAnchorRef = useRef<HTMLElement>(null)
@@ -56,14 +115,14 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
   const ScrollMouseTopRef = useRef<HTMLDivElement>(null)
   const FullPageRef = useRef<HTMLDivElement>(null)
   const MainBannerRef = useRef<HTMLDivElement>(null)
-	const MaskLv1Ref = useRef<HTMLDivElement>(null)
-	const MaskLv2Ref = useRef<HTMLDivElement>(null)
-	const MaskLv3Ref = useRef<HTMLDivElement>(null)
+	const MaskLv1Ref = useRef<NewsPaperHandle>(null)
+	const MaskLv2Ref = useRef<NewsPaperHandle>(null)
+	const MaskLv3Ref = useRef<NewsPaperHandle>(null)
 	const VendettaRef = useRef<VendettaHandle>(null)
   const RewardTaskRef = useRef<HTMLImageElement>(null)
 
   const AwardInfoSectionRef = useRef<AwardInfoHandle>(null)
-  const ScheduleTaskRefs = useRef<Array<ElementRef<typeof TaskCard>>>([])
+  const ScheduleTaskRefs = useRef<Array<TaskCardHandle>>([])
 
   ScheduleTaskRefs.current = []
 
@@ -114,45 +173,23 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
     }    
   }
 
-  useLayoutEffect(() => {
-    /**
-     * [實作想法]:
-     * 
-     * 用不用 pin 在於 pin 會對 trigger DOM 加上 postion: fixed
-     * 如果 trigger selector 是目標本身而不是 container，
-     * 且我的圖片起始位置是相對於 container 位置，那麼要注意位置會錯。
-     * 
-     * 另外設計圖是前景動畫移動，不是背景動畫移動
-     * 目前只想到的實作是：
-     * 因此一開始先對 Banner fixed
-     * 之後滾動完這一頁動畫後，Banner 要可以被下一頁滾動
-     * 1. 需要將 Banner 變成從 fixed 變回 relative 之類 ? (可能會突然位置跳動很大？)
-     * 2. 偽裝自己滾動，一樣 fixed 只是位置變動假裝滾動 ？ (這可能比較好做)
-     * 
-     * 嗯~ 又想到一個更好的做法，用 pin 的話：
-     * 塞一頁空白 100% 的頁面，空白頁用來滾動動畫，讓 scroll trigger 自動將 header & banner fixed 起來
-     * 進來 pin 的機制，會把 fixed 拿掉，自然就被第二頁滾走?
-     * (這好像比較好，跟上面 1. 方法差在要自己手動處理，scroll 結束的 callback 不用自己寫 function)
-     * */
-
-    /** 讓第一頁的空白頁滾動，置頂第二頁 */
+  useEffect(() => {
     let animations: ReturnType<typeof gsap.context | typeof gsap.timeline | typeof gsap.fromTo>[] = []
 
-    animations.push(
-      gsap.context(() => {
-        /** 置頂 Banner 後，滾動動畫效果 */
-        ScrollTrigger.create({
-          id: 'fullpin',
-          trigger: MainBannerRef.current,
-          scrub: true,
-          start: `top top`, /** 滾動軸還未滾之前就要將 banner 透過 pin fixed 起來，滾動才不會滾到 banner，因此填 0 */
-          end: `+=948`,//`+=948`, /** 滾完第一頁動畫，要很順接第二頁，230 + 364 + 354 */
-          pin: FullPageRef.current,
-          pinSpacing: false,
-          // markers: true,
-        })
-      }, MainBannerRef)
-    )
+    /** 讓第一頁的空白頁滾動，置頂第二頁 */
+    animations.push(gsap.context(() => {
+      /** 置頂 Banner 後，滾動動畫效果 */
+      ScrollTrigger.create({
+        id: 'fullpin',
+        trigger: MainBannerRef.current,
+        scrub: true,
+        start: `top top`, /** 滾動軸還未滾之前就要將 banner 透過 pin fixed 起來，滾動才不會滾到 banner，因此填 0 */
+        end: `+=948`,//`+=948`, /** 滾完第一頁動畫，要很順接第二頁，230 + 364 + 354 */
+        pin: FullPageRef.current,
+        pinSpacing: false,
+        // markers: true,
+      })
+    }))
 
     /**
      * 先移上方圖 往 y 方向 -230px，滾動軸也卷動 1:1 的 230px
@@ -163,34 +200,21 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
      * 錯誤用法: 一個 timeline, 塞很多不同的 scrollTrigger，官方建議獨立 scrollTrigger 事件
      * */
 
-    const step1Tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: MaskLv2Ref.current,
-        scrub: true,
+    const animation1 = gsap.timeline()
+    if (MaskLv2Ref.current && MaskLv3Ref.current) {
+      animation1.timelineScroller(MaskLv2Ref.current.getRefObject().current, {
         start: 'top top',
         end: `+=230`,
-        // markers: true,
-        // onEnterBack: ({ start, end, progress, direction, isActive }) => {
-        //   /** scroll trigger 有時候回捲不一定會觸發 */
-        //   console.debug('step0 onEnterBack:', start, end, progress, direction, isActive)
-        // },
-        // onLeaveBack: ({ start, end, progress, direction, isActive }) => {
-        //   /** scroll trigger 有時候回捲不會觸發  */
-        //   console.debug('step0 onLeaveBack:', start, end, progress, direction, isActive)
-        // }
-      },
-    })
-    step1Tl.fromTo(
-      MaskLv2Ref.current,
-      { x: 0, y: 0 },
-      { x: 0, y: -230 },
-    )
-
-    step1Tl.to(
-      ScrollMouseTopRef.current,
-      { visibility: 'hidden' },
-    )
-    animations.push(step1Tl)
+      }).fromTo(
+        MaskLv2Ref.current.getRefObject().current,
+        { x: 0, y: 0 },
+        { x: 0, y: -230 },
+      ).to(
+        ScrollMouseTopRef.current,
+        { visibility: 'hidden' },
+      )
+      animations.push(animation1)
+    }
 
     /**
      * 接著第二步一起移動
@@ -201,10 +225,10 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
      * 4. 人頭 + 獎金: 往 y 移動，上移至 0 + 360px
      * 
      * */
-    if (VendettaRef.current) {
+    if (VendettaRef.current && MaskLv2Ref.current && MaskLv1Ref.current && MaskLv3Ref.current) {
       let step2Timeline = gsap.timeline({
         scrollTrigger: {
-          trigger: MaskLv2Ref.current,
+          trigger: MaskLv2Ref.current.getRefObject().current,
           scrub: true,
           start: `230 top`,
           end: `+=364`,
@@ -219,26 +243,11 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
       })
 
       step2Timeline.to(
-        MaskLv2Ref.current,
+        MaskLv2Ref.current.getRefObject().current,
         {
           x: 0, yPercent: '-100'
         },
       )
-      
-      const VendettaLocations =  [
-        {
-          from: { x: 314, y: 597 },
-          to: { x: 314, y: 259 }
-        },
-        {
-          from: { y: 974 },
-          to: { y: 337 }
-        },
-        {
-          from: { x: 314, y: 597 },
-          to: { x: 314, y: 259 }
-        }
-      ]
 
       const [pcLocation, tabletLocation, mobileLocation] = VendettaLocations
       const vendettaLocation = isMobile ? mobileLocation : isTablet ? tabletLocation : pcLocation
@@ -251,7 +260,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
       )
 
       step2Timeline.fromTo(
-        MaskLv1Ref.current,
+        MaskLv1Ref.current.getRefObject().current,
         { x: 462, y: 287 },
         {
           x: 462,
@@ -264,7 +273,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
       )
 
       step2Timeline.fromTo(
-        MaskLv3Ref.current,
+        MaskLv3Ref.current.getRefObject().current,
         { x: -248, y: 261 },
         { x: -248, y: 364 },
         "<"
@@ -273,10 +282,11 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
       animations.push(step2Timeline)
     }
 
-    if (VendettaRef.current) {
+    if (VendettaRef.current && MaskLv3Ref.current) {
+      const NewsPaperMask3 = MaskLv3Ref.current.getRefObject().current
       let step3Timeline = gsap.timeline({
         scrollTrigger: {
-          trigger: MaskLv3Ref.current,
+          trigger: NewsPaperMask3,
           scrub: true,
           start: 'top+=333 top', /** > (第一次滾動軸)230px + (第二次滾動軸偏移量 364 - 261) 103px */
           end: `+=354`,
@@ -285,7 +295,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
       })
     
       step3Timeline.to(
-        MaskLv3Ref.current,
+        NewsPaperMask3,
         { x: -248, y: 718, opacity: 0 }
       )
     
@@ -394,7 +404,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             backgroundImage: `url(${MainImage})`
           }}
           className={
-            flatAndPrefixClassName({
+            flatClassName({
               common: `flex bg-no-repeat bg-cover`,
               desktop: ['xl:h-[720px]'],
               tablet: ['md:h-[962px]'],
@@ -404,7 +414,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
         >
           <MainBanner
             className={
-              flatAndPrefixClassName({
+              flatClassName({
                 common: `inset-0 mx-auto`,
                 desktop: ['xl:mt-[101px]', 'xl:mb-[22px]'],
                 tablet: ['md:mt-[28px]', 'md:mb-[32px]'],
@@ -418,7 +428,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
                   backgroundImage: `url(${RewardTask})`
                 }}
                 className={
-                  flatAndPrefixClassName({
+                  flatClassName({
                     common: `absolute`,
                     desktop: ['xl:w-[373px]', 'xl:h-[225px]'],
                     tablet: ['md:w-[314.24px]', 'md:h-[108.67px]'],
@@ -555,33 +565,100 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
 
         </div>
       </div>
-      
       {
         [
           {
             ref: MaskLv1Ref,
-            image: PcRightBottomMasklv1,
-            className: `fixed bg-no-repeat bg-cover xl:left-0 xl:top-0 z-10 ${pcStyles.masklv1}`
+            aliasName: "newspaper1",
+            mediaImages: [
+              {
+                minWidth: 768,
+                imageSrc: TabletNewspaper1
+              },
+              {
+                minWidth: 1280,
+                imageSrc: PcNewspaper1
+              },
+              {
+                minWidth: 1920,
+                imageSrc: PcNewspaper1_1_5x
+              }
+            ],
+            imageElementProps: {
+              src: TabletNewspaper1,
+              className: 'w-full h-full object-cover',
+              srcSet: `${TabletNewspaper1} 750w, ${PcNewspaper1} 1280w, ${PcNewspaper1_1_5x} 1920w`,
+              sizes: `(min-width: 768px) 983px, (min-width: 1280px) 1218px`
+            },
+            className: flatClassName({
+              common: `fixed z-10`,
+              desktop: `xl:left-0 xl:top-0`,
+              tablet: `md:left-[230px] md:top-[169px]`,
+              mobile: []
+            }) + `${pcStyles.masklv1}`
           },
           {
             ref: MaskLv2Ref,
-            image: TopMasklv2,
-            className: `fixed bg-no-repeat bg-cover xl:left-0 xl:top-0 z-20 ${pcStyles.masklv2}`
+            aliasName: "newspaper2",
+            mediaImages: [
+              {
+                minWidth: 768,
+                imageSrc: TabletNewspaper2
+              },
+              {
+                minWidth: 1280,
+                imageSrc: PcNewspaper2
+              },
+              {
+                minWidth: 1920,
+                imageSrc: PcNewspaper2_1_5x
+              }
+            ],
+            imageElementProps: {
+              src: TabletNewspaper2,
+              className: 'w-full h-full object-cover',
+              srcSet: `${TabletNewspaper2} 750w, ${PcNewspaper2} 1280w, ${PcNewspaper2_1_5x} 1920w`,
+              sizes: `(min-width: 768px) 768px, (min-width: 1280px) 1280px, (min-width: 1920px) 1920px`
+            },
+            className: flatClassName({
+              common: `fixed z-20`,
+              desktop: `xl:left-0 xl:top-0`,
+              tablet: `md:left-[-144px] md:top-[-62px]`,
+              mobile: []
+            }) + `${pcStyles.masklv2}`
           },
           {
             ref: MaskLv3Ref,
-            image: LeftBottomMasklv3,
-            className: `fixed bg-no-repeat bg-cover xl:left-0 xl:top-0 z-30 ${pcStyles.masklv3}`
+            aliasName: "newspaper3",
+            mediaImages: [
+              {
+                minWidth: 768,
+                imageSrc: TabletNewspaper3
+              },
+              {
+                minWidth: 1280,
+                imageSrc: PcNewspaper3
+              },
+              {
+                minWidth: 1920,
+                imageSrc: PcNewspaper3_1_5x
+              }
+            ],
+            imageElementProps: {
+              src: TabletNewspaper3,
+              className: 'w-full h-full object-cover',
+              srcSet: `${TabletNewspaper3} 750w, ${PcNewspaper3} 1280w, ${PcNewspaper3_1_5x} 1920w`,
+              sizes: `(min-width: 768px) 760px, (min-width: 1280px) 942px`
+            },
+            className: flatClassName({
+              common: `fixed z-30`,
+              desktop: `xl:left-0 xl:top-0`,
+              tablet: [],
+              mobile: []
+            }) + `${pcStyles.masklv3}`
           }
-        ].map(({ ref, image, className}, index: number) => (
-          <div
-            ref={ref}
-            style={{
-              backgroundImage: `url(${image})`
-            }}
-            className={`${className}`}
-            key={`mask-${index}`}
-          ></div>
+        ].map((props, index: number) => (
+          <NewsPaperMask {...props} key={`mask-${index}`} />
         ))
       }
 
