@@ -264,10 +264,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
         { x: 462, y: 287 },
         {
           x: 462,
-          y: function (index, target, targets) { //function-based value
-            const { top } = target.getBoundingClientRect()
-            return top + (window.innerHeight - top);
-          },
+          yPercent: '50',
         },
         "<"
       )
