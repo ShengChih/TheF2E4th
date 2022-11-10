@@ -10,7 +10,6 @@ gsap.registerPlugin(ScrollTrigger)
 
 gsap.registerEffect({
   name: "timelineScroller",
-  extendTimeline: true, /** somecases, the animations without `scrub: true` is abnomral, please replace it to pure `gsap.timeline` "  */
   effect: (target: gsap.DOMTarget, config: ScrollTrigger.Vars) => {
     const tl = gsap.timeline({
       scrollTrigger: {

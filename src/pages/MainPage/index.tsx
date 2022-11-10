@@ -199,9 +199,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
      * 錯誤用法: 一個 timeline, 塞很多不同的 scrollTrigger，官方建議獨立 scrollTrigger 事件
      * */
 
-    const animation1 = gsap.timeline()
     if (MaskLv2Ref.current && MaskLv3Ref.current) {
-      animation1.timelineScroller(MaskLv2Ref.current.getRefObject().current, {
+      const animation1 = gsap.effects.timelineScroller(MaskLv2Ref.current.getRefObject().current, {
         start: 'top top',
         end: `+=230`,
         scrub: true,
@@ -213,8 +212,9 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
         ScrollMouseTopRef.current,
         { visibility: 'hidden' },
       )
+      animations.push(animation1)
     }
-    animations.push(animation1)
+    
 
     /**
      * 接著第二步一起移動
