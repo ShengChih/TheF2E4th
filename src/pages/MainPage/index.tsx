@@ -431,7 +431,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           }}
           className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative md:h-[5135px] xl:h-[6535px]`}
         >
-          <div className={`md:mt-[60px] md:mb-[104px] md:h-[1292px] xl:mb-[175px] xl:h-[2328px]`}>
+          <div className={`md:mt-[60px] md:h-[1292px] xl:mb-[175px] xl:h-[2328px]`}>
             <div className={`grid md:grid-cols-2 md:gap-[22px] xl:grid-cols-1 xl:gap-y-[42px] md:w-[712px] md:h-[1126px] xl:w-[1200px] xl:h-[2328px]`}>
               <div className={`relative flex flex-wrap items-ceneter justify-center md:w-[343px] md:h-[552px] xl:w-[1200px] xl:h-[386px] xl:mb-[57px]`} ref={hexSchoolAnchorRef}>
                 <HostInfo />
@@ -503,7 +503,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
 
           <AwardInfo ref={AwardInfoSectionRef}></AwardInfo>
 
-          <section className={`w-full relative xl:h-[1825px]`}>
+          <section className={`w-full relative md:h-[1216.52px] xl:h-[1825px]`}>
             <LazyLoad height={200} once >
               <LiveShareVideo>
                 <div
@@ -520,11 +520,11 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             </LazyLoad>
           </section>
 
-          <div className={`bg-white w-full xl:h-[96px]`}>
+          <div className={`bg-white w-full md:h-[192px] xl:h-[96px]`}>
             <PartnerInfo></PartnerInfo>
           </div>
           
-          <div className={`w-full relative xl:h-[366px] bg-[#3C221B]`}>
+          <div className={`w-full relative md:h-[543px] xl:h-[366px] bg-[#3C221B]`}>
             <LazyLoad height={200} offset={300}>
               <div className={`mt-[60px] mb-[36px]`}>
                 <SponerInfo></SponerInfo>

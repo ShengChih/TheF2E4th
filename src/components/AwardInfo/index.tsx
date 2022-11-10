@@ -10,6 +10,8 @@ import {
 import TeamAward from './images/TeamAward.svg'
 import PersonalAward from './images/PersonalAward.svg'
 import ShortListAward from './images/ShortListAward.svg'
+import SectionTitle from '@components/SectionTitle'
+
 
 type AwardInfoHandle = {
 	getSectionRef: () => RefObject<HTMLElement>
@@ -49,8 +51,8 @@ const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> =
 	}, [])
 
 	return (
-		<section ref={sectionRef}  className={`w-full xl:h-[879px]`}>
-			<div className={`flex items-center justify-center bg-[#3C221B] font-serif font-black text-white xl:h-[170px] xl:text-[60px] xl:leading-[86px]`}>獎項</div>
+		<section ref={sectionRef}  className={`w-full md:h-[1160px] xl:h-[879px]`}>
+			<SectionTitle className={`animate-fade-in items-center md:h-[114px] xl:h-[170px]`} title={`獎項`} />
 			<div className={`xl:h-[645px] flex items-center justify-center`}>
 				<div className={`grid grid-flow-col xl:w-[1198px] xl:h-[461px] xl:gap-x-[20px]`}>
 					<div>

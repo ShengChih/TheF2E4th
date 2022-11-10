@@ -154,7 +154,7 @@ export default function LiveShareVideo({ children }: LiveShareVideoProps) {
 		state.displayCard ?
 			(
 				<>
-					<SectionTitle className={`animate-fade-in items-center xl:h-[170px]`} title={`各界大神直播分享`} />
+					<SectionTitle className={`animate-fade-in items-center md:h-[114px] xl:h-[170px]`} title={`各界大神直播分享`} />
 					<div className={`mx-auto flex items-center justify-center xl:w-[1280px] xl:h-[1656px]`}>
 						<div className={`animate-fade-in grid grid-flow-row grid-cols-2 mx-auto  xl:w-[1064px] xl:h-[1529px] xl:gap-x-[20px] xl:gap-y-[52px]`}>
 							{

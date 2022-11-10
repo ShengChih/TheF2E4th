@@ -1,4 +1,7 @@
 import React from 'react'
+import { flatClassName } from '@utils/reduce'
+import useCheckScreen from '@hooks/useCheckScreen'
+import { deviceWidth } from '@utils/config'
 
 type SectionTitleProps = {
 	className?: string
@@ -10,7 +13,12 @@ const SectionTitle = ({
 	title
 }: SectionTitleProps) => {
 	return (
-		<div className={`flex justify-center bg-[#3C221B] font-serif font-black text-white xl:text-[60px] xl:leading-[86px] ${className}`}>{title}</div>
+		<div className={flatClassName({
+			common: `flex justify-center bg-[#3C221B] font-serif font-black text-white ${className}`,
+			desktop: `xl:text-[60px] xl:leading-[86px]`,
+			tablet: `md:text-[40px] md:leading-[57px]`,
+			mobile: ``
+		})}>{title}</div>
 	)
 }
 

@@ -98,7 +98,7 @@ type ScheduleInfoProps = Pick<ComponentProps<"div">, "children">
 export default function ScheduleInfo({ children }: ScheduleInfoProps) {
 	return (
 		<>
-			<SectionTitle className={`items-center xl:h-[170px]`} title={`賽程時間`} />
+			<SectionTitle className={`items-center md:h-[114px] xl:h-[170px]`} title={`賽程時間`} />
 			<div className={`relative flex items-center justify-center h-[870px]`}>
 				<div className={`relative w-[1280px] h-[686px]`}>
 					<div className={`relative flex xl:w-[1280px]  xl:h-[246px]`}>

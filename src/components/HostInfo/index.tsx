@@ -15,8 +15,7 @@ export default function HostInfo() {
 					desktop: `xl:mt-[86px] xl:w-[590px] xl:h-[146.83px]`,
 					tablet: `md:w-[319.51px] md:h-[79.51px] md:top-[169px] md:absolute`,
 					mobile: ``
-				})}
-			>
+			})}>
 				<MultipleImageSources
 					aliasName={"hexschool_wording"}
 					mediaImages={[
