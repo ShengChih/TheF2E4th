@@ -4,7 +4,7 @@ import {
 	useImperativeHandle,
 	ForwardRefRenderFunction,
 } from "react"
-import { NewsPaperProps, NewsPaperHandle, MediaImage } from './type.d'
+import { MediaImageProps as NewsPaperProps, NewsPaperHandle, MediaImage } from './type.d'
 
 const NewsPaper: ForwardRefRenderFunction<NewsPaperHandle, NewsPaperProps> = ({
 	aliasName,
