@@ -31,7 +31,7 @@ export function KdanLogo() {
 	return {
 		EnterpriseLogo: <ImageContainer
 			src={KdanImage}
-			className={`md:top-[17px] md:w-[160px] md:h-[70px] xl:w-[160px] xl:h-[70px]`}
+			className={`md:right-[10px] md:top-[17px] md:w-[160px] md:h-[70px] xl:w-[160px] xl:h-[70px]`}
 		/>,
 		TaskLogo: <ImageContainer
 			src={PdfSign}

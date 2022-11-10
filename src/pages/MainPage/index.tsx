@@ -1,17 +1,15 @@
 import {
-  useRef, useState, useEffect, useLayoutEffect,
+  useRef, useState, useEffect,
   useCallback, ElementRef, MouseEvent,
 	forwardRef,
 	useImperativeHandle,
 	ForwardRefRenderFunction,
-  ComponentProps
 } from "react"
 import { deviceWidth } from '@utils/config'
 import { MainPageHandle, AnimationReturn } from './type.d'
 import LazyLoad from 'react-lazyload'
 import { gsap, ScrollTrigger } from "@animations/gsap"
 
-//import { px2mapping } from "@utils/converter"
 import { flatClassName } from '@utils/reduce'
 import useCheckScreen from '@hooks/useCheckScreen' 
 
@@ -23,7 +21,6 @@ import NewsPaperMask from "@components/NewsPaperMask"
 import ScrollMouseIcon from "@components/ScrollMouseIcon"
 import MainBanner from "@components/MainBanner"
 import HostInfo from "@components/HostInfo"
-import ScheduleTask from "@components/ScheduleTask"
 import TaskCard from "@components/TaskCard"
 import { TaskType, Tasks } from "@components/TaskCard/constants"
 import ScheduleInfo from "@components/ScheduleInfo"
@@ -55,37 +52,6 @@ type TaskCardHandle = ElementRef<typeof TaskCard>
 
 /** 控制 & 顯示彩蛋 + 顯示折扣視窗 */
 const MaxEasterEggBit = 0b111110
-
-const MaxStep1ScrollOffset = [948, ]
-const MaskAnimation1 = {
-  mask1: [
-    {
-      from: { x: 0, y: 0 },
-      to: { x: 0, y: -230 }
-    },
-    {
-      from: { x: -144, y: -62 },
-      to: { x: -161, y: -290 }
-    },
-    {}
-  ],
-  mask2: [
-    {},
-    {
-      from: { x: -143, y: 149 },
-      to: { x:-398, y: 341 }
-    },
-    {}
-  ],
-  mask3: [
-    {},
-    {
-      from: { x: 230, y: 169 },
-      to: { x: 288, y: 508 }
-    },
-    {}
-  ]
-}
 
 const VendettaLocations =  [
   {
@@ -465,12 +431,10 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           }}
           className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative md:h-[5135px] xl:h-[6535px]`}
         >
-          <div className={`xl:mb-[175px] xl:w-[1200px] xl:h-[2328px]`}>
-            <div className={`grid md:grid-cols-2 md:gap-[22px] xl:grid-cols-1 xl:gap-y-[42px]`}>
-              <div className={`relative flex items-ceneter justify-center md:w-[343.03px] md:h-[552px] xl:w-[1200px] xl:h-[386px] xl:mb-[57px]`} ref={hexSchoolAnchorRef}>
-              <LazyLoad height={300}>
+          <div className={`md:mt-[60px] md:mb-[104px] md:h-[1292px] xl:mb-[175px] xl:h-[2328px]`}>
+            <div className={`grid md:grid-cols-2 md:gap-[22px] xl:grid-cols-1 xl:gap-y-[42px] md:w-[712px] md:h-[1126px] xl:w-[1200px] xl:h-[2328px]`}>
+              <div className={`relative flex flex-wrap items-ceneter justify-center md:w-[343px] md:h-[552px] xl:w-[1200px] xl:h-[386px] xl:mb-[57px]`} ref={hexSchoolAnchorRef}>
                 <HostInfo />
-              </LazyLoad>
               </div>
               {
                 Tasks.map(({
@@ -590,16 +554,16 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             aliasName: "newspaper1",
             mediaImages: [
               {
-                minWidth: 768,
-                imageSrc: TabletNewspaper1
+                minWidth: 1920,
+                imageSrc: PcNewspaper1_1_5x
               },
               {
                 minWidth: 1280,
                 imageSrc: PcNewspaper1
               },
               {
-                minWidth: 1920,
-                imageSrc: PcNewspaper1_1_5x
+                minWidth: 768,
+                imageSrc: TabletNewspaper1
               }
             ],
             imageElementProps: {
@@ -620,16 +584,16 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             aliasName: "newspaper2",
             mediaImages: [
               {
-                minWidth: 768,
-                imageSrc: TabletNewspaper2
+                minWidth: 1920,
+                imageSrc: PcNewspaper2_1_5x
               },
               {
                 minWidth: 1280,
                 imageSrc: PcNewspaper2
               },
               {
-                minWidth: 1920,
-                imageSrc: PcNewspaper2_1_5x
+                minWidth: 768,
+                imageSrc: TabletNewspaper2
               }
             ],
             imageElementProps: {
@@ -650,16 +614,16 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             aliasName: "newspaper3",
             mediaImages: [
               {
-                minWidth: 768,
-                imageSrc: TabletNewspaper3
+                minWidth: 1920,
+                imageSrc: PcNewspaper3_1_5x
               },
               {
                 minWidth: 1280,
                 imageSrc: PcNewspaper3
               },
               {
-                minWidth: 1920,
-                imageSrc: PcNewspaper3_1_5x
+                minWidth: 768,
+                imageSrc: TabletNewspaper3
               }
             ],
             imageElementProps: {
