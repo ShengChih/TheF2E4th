@@ -5,6 +5,7 @@ import {
 	ForwardRefRenderFunction,
 } from "react"
 import { MediaImageProps as NewsPaperProps, NewsPaperHandle, MediaImage } from './type.d'
+import { gsap, ScrollTrigger } from "@animations/gsap"
 
 const NewsPaper: ForwardRefRenderFunction<NewsPaperHandle, NewsPaperProps> = ({
 	aliasName,
@@ -21,9 +22,15 @@ const NewsPaper: ForwardRefRenderFunction<NewsPaperHandle, NewsPaperProps> = ({
 
 	useImperativeHandle(forwardref, () => {
 		return {
-			getRefObject: () => {
-				return NewsPaperRef ?? {}
-			}
+			initTimelineScroller: (config: ScrollTrigger.Vars) => {
+				return gsap.effects.timelineScroller(NewsPaperRef.current, config)
+			},
+			initTimelineLocation: (tl: gsap.core.Timeline, vars: gsap.TweenVars, position?: gsap.Position) => {
+				return tl.set(NewsPaperRef.current, vars, position).to(NewsPaperRef.current, vars)
+			},
+			moveAnimation: (tl: gsap.core.Timeline, fromVars: gsap.TweenVars, toVars: gsap.TweenVars, position?: gsap.Position) => {
+				return tl.fromTo(NewsPaperRef.current, fromVars, toVars, position)
+			},
 		}
 	}, [])
 

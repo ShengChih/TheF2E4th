@@ -9,7 +9,7 @@ import {
 import { deviceWidth } from '@utils/config'
 import { MainPageHandle } from './type'
 import LazyLoad from 'react-lazyload'
-import { gsap, useGsapContext, ScrollTrigger } from "@animations/gsap"
+import { gsap, ScrollTrigger } from "@animations/gsap"
 
 //import { px2mapping } from "@utils/converter"
 import { flatClassName } from '@utils/reduce'
@@ -199,16 +199,13 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
      * 錯誤用法: 一個 timeline, 塞很多不同的 scrollTrigger，官方建議獨立 scrollTrigger 事件
      * */
 
-    if (MaskLv2Ref.current && MaskLv3Ref.current) {
-      const animation1 = gsap.effects.timelineScroller(MaskLv2Ref.current.getRefObject().current, {
-        start: 'top top',
+    if (MaskLv1Ref.current && MaskLv2Ref.current && MaskLv3Ref.current) {
+      let animation1 = MaskLv2Ref.current.initTimelineScroller({
+        start: `top top`,
         end: `+=230`,
-        scrub: true,
-      }).fromTo(
-        MaskLv2Ref.current.getRefObject().current,
-        { x: 0, y: 0 },
-        { x: 0, y: -230 },
-      ).to(
+        scrub: true
+      })
+      animation1 = MaskLv2Ref.current.moveAnimation(animation1, { x: 0, y: 0 }, { x: 0, y: -230 }).to(
         ScrollMouseTopRef.current,
         { visibility: 'hidden' },
       )
@@ -228,44 +225,34 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
     const [pcLocation, tabletLocation, mobileLocation] = VendettaLocations
     const vendettaLocation = isMobile ? mobileLocation : isTablet ? tabletLocation : pcLocation
     if (VendettaRef.current && MaskLv2Ref.current && MaskLv1Ref.current && MaskLv3Ref.current) {
-      const animation2 = gsap.effects.timelineScroller(MaskLv2Ref.current.getRefObject().current, {
-        start: `230 top`,
-        end: `+=364`,
-        scrub: true
-      }).to(MaskLv2Ref.current.getRefObject().current, {
-        x: 0, yPercent: '-100'
-      }).fromTo(
+      let animation = gsap.timeline({
+        scrollTrigger: {
+          start: `230 top`,
+          end: `+=364`,
+          scrub: true,
+        }
+      }).to(
+        ScrollMouseTopRef.current,
+        { visibility: 'hidden' },
+      )
+      animation = MaskLv2Ref.current.moveAnimation(animation, { x: 0, y: -230 }, { x: 0, yPercent: '-100' }).fromTo(
         VendettaRef.current.getRef().current,
         vendettaLocation.from, 
         vendettaLocation.to, // 動畫結束後，暫停至新的相對位置
         "<"
-      ).fromTo(
-        MaskLv1Ref.current.getRefObject().current,
-        { x: 462, y: 287 },
-        {
-          x: 462,
-          yPercent: '50',
-        },
-        "<"
-      ).fromTo(
-        MaskLv3Ref.current.getRefObject().current,
-        { x: -248, y: 261 },
-        { x: -248, y: 364 },
-        "<"
       )
-      animations.push(animation2)
+      animation = MaskLv1Ref.current.moveAnimation(animation, { x: 462, y: 287 }, { x: 462, yPercent: '40', opacity: 0 }, "<")
+      animation = MaskLv3Ref.current.moveAnimation(animation, { x: -248, y: 261 }, { x: -248, y: 364 }, "<")
+      animations.push(animation)
     }
 
     if (VendettaRef.current && MaskLv3Ref.current) {
-      const NewsPaperMask3 = MaskLv3Ref.current.getRefObject().current
-      const animation3 = gsap.effects.timelineScroller(NewsPaperMask3, {
+      let animation = MaskLv3Ref.current.initTimelineScroller({
         start: 'top+=333 top', /** > (第一次滾動軸)230px + (第二次滾動軸偏移量 364 - 261) 103px */
         end: `+=354`,
-        scrub: true,
-      }).to(
-        NewsPaperMask3,
-        { x: -248, y: 718, opacity: 0 }
-      ).to(
+        scrub: true
+      })
+      animation = MaskLv3Ref.current.moveAnimation(animation, { x: -248, y: 364 }, { x: -248, y: 718, opacity: 0 }).to(
         VendettaRef.current.getRef().current,
         { x: 314, y: 36 },
         "<"
@@ -274,7 +261,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
         { x: 856, y: -25, opacity: 0 },
         { x: 856, y: -25, opacity: 1 },
       )
-      animations.push(animation3)
+      animations.push(animation)
     }
 
     const cardTriggers = (ScheduleTaskRefs.current.map(
@@ -546,7 +533,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             },
             className: flatClassName({
               common: `fixed z-10`,
-              desktop: `xl:left-0 xl:top-0`,
+              desktop: `xl:left-0 xl:top-0 xl:translate-x-[462px] xl:translate-y-[287px]`,
               tablet: `md:left-[230px] md:top-[169px]`,
               mobile: []
             }) + `${pcStyles.masklv1}`
@@ -576,7 +563,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             },
             className: flatClassName({
               common: `fixed z-20`,
-              desktop: `xl:left-0 xl:top-0`,
+              desktop: `xl:left-0 xl:top-0 xl:translate-x-0 xl:translate-y-0`,
               tablet: `md:left-[-144px] md:top-[-62px]`,
               mobile: []
             }) + `${pcStyles.masklv2}`
@@ -606,7 +593,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             },
             className: flatClassName({
               common: `fixed z-30`,
-              desktop: `xl:left-0 xl:top-0`,
+              desktop: `xl:left-0 xl:top-0 xl:translate-x-[-248px] xl:translate-y-[261px]`,
               tablet: [],
               mobile: []
             }) + `${pcStyles.masklv3}`
