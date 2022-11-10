@@ -37,7 +37,7 @@ const App = () => {
       className={`relative`}
     >
       <Header
-        className={`fixed z-[5]`}
+        className={`w-screen fixed z-[5]`}
         gotoHexSchoolAnchor={gotoHexSchoolAnchor}
         gotoScheduleInfoAnchor={gotoScheduleInfoAnchor}
       />

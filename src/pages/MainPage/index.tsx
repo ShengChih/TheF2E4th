@@ -334,12 +334,10 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
 
   const initTabletAnimations = () => {
     let animations: AnimationReturn[] = []
-    animations.push(gsap.context(() => {
-      /** 置頂 Banner 後，滾動動畫效果 */
-      ScrollTrigger.create({
+    let fullAnimations = gsap.timeline({
+      scrollTrigger: {
         id: 'fullpin',
         trigger: MainBannerRef.current,
-        start: 'top-=62 top',
         end: '+=1042',
         scrub: true,
         pin: FullPageRef.current,
@@ -356,31 +354,12 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
         onLeaveBack: (self) => {
           console.log('fullpin onLeaveBack')
         }
-      })
-    }))
-
+      }
+    })
     if (VendettaRef.current && MaskLv1Ref.current && MaskLv2Ref.current && MaskLv3Ref.current) {
-      let animation = MaskLv2Ref.current.initTimelineScroller({
-        start: 'top+=62 top',
-        end: '+=334',
-        scrub: true,
-        id: 'first',
-        onEnter: (self) => {
-          console.log('a1 onEnter')
-        },
-        onEnterBack: (self) => {
-          console.log('a1 onEnterBack')
-        },
-        onLeave: (self) => {
-          console.log('a1 onLeave')
-        },
-        onLeaveBack: (self) => {
-          console.log('a1 onLeaveBack')
-        }
-      })
-      animation = MaskLv2Ref.current.moveAnimation(animation, { x: -144, y: -62 }, { x: -144, y: -290 })
-      animation = MaskLv3Ref.current.moveAnimation(animation, { x: -343, y: 149 }, { x: -381, y: 369 }, "<")
-      animation = MaskLv1Ref.current.moveAnimation(animation, { x: 230, y: 169 }, { x: 305, y: 536 }, "<")
+      fullAnimations = MaskLv2Ref.current.moveAnimation(fullAnimations, { x: -144, y: -62 }, { x: -144, y: -290 })
+      fullAnimations = MaskLv3Ref.current.moveAnimation(fullAnimations, { x: -343, y: 149 }, { x: -381, y: 369 }, "<")
+      fullAnimations = MaskLv1Ref.current.moveAnimation(fullAnimations, { x: 230, y: 169 }, { x: 305, y: 536 }, "<")
         .fromTo(
           VendettaRef.current.getRef().current,
           { y: 974, opacity: 0 },
@@ -391,28 +370,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           { x: 408, y: -18, opacity: 1 },
         )
 
-      animations.push(animation)
-
-      let animation1 = MaskLv2Ref.current.initTimelineScroller({
-        start: 'top+=396 top',
-        end: '+=366',
-        scrub: true,
-        id: 'second',
-        onEnter: (self) => {
-          console.log('a2 onEnter')
-        },
-        onEnterBack: (self) => {
-          console.log('a2 onEnterBack')
-        },
-        onLeave: (self) => {
-          console.log('a2 onLeave')
-        },
-        onLeaveBack: (self) => {
-          console.log('a2 onLeaveBack')
-        }
-      })
-      animation1 = MaskLv2Ref.current.moveAnimation(animation1, { x: -144, y: -290 }, { x: -144, y: -542 })
-      animation1 = MaskLv1Ref.current.moveAnimation(animation1, { x: 305, y: 536 }, { x: 404, y: 856, opacity: 0 }, "<")
+      fullAnimations = MaskLv2Ref.current.moveAnimation(fullAnimations, { x: -144, y: -290 }, { x: -144, y: -542 })
+      fullAnimations = MaskLv1Ref.current.moveAnimation(fullAnimations, { x: 305, y: 536 }, { x: 404, y: 856, opacity: 0 }, "<")
         .fromTo(
           VendettaRef.current.getRef().current,
           { y: 721, opacity: 1 },
@@ -420,34 +379,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           "<"
       )
 
-      animations.push(animation1)
-
-      let animation2 = MaskLv3Ref.current.initTimelineScroller({
-        start: ({ trigger }) => {
-          console.log(trigger?.getBoundingClientRect())
-          const top = trigger?.getBoundingClientRect().top ?? 0
-          return `top+=100 top+=432`;
-        },
-        id: 'test',
-        end: '-=100',
-        scrub: true,
-        markers: {
-          indent: 500
-        },
-        onEnter: (self) => {
-          console.log('a3 onEnter')
-        },
-        onEnterBack: (self) => {
-          console.log('a3 onEnterBack')
-        },
-        onLeave: (self) => {
-          console.log('a3 onLeave')
-        },
-        onLeaveBack: (self) => {
-          console.log('a3 onLeaveBack')
-        }
-      })
-      animation2 = MaskLv3Ref.current.moveAnimation(animation2, { x: -381, y: 369 }, { x: -669, y: 801, opacity: 0 })
+      fullAnimations = MaskLv3Ref.current.moveAnimation(fullAnimations, { x: -381, y: 369 }, { x: -669, y: 801, opacity: 0 })
         .fromTo(
           VendettaRef.current.getRef().current,
           { y: 539 },
@@ -455,7 +387,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           "<"
       )
 
-      animations.push(animation2)
+      animations.push(fullAnimations)
     }
 
     return animations
@@ -504,21 +436,19 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
               flatClassName({
                 common: `inset-0 mx-auto`,
                 desktop: ['xl:mt-[101px]', 'xl:mb-[22px]'],
-                tablet: ['md:mt-[28px]', 'md:mb-[32px]'],
+                tablet: ['md:mt-[91px]', 'md:mb-[32px]'],
               })
             }
-            BannerImage={<Vendetta className={``} ref={VendettaRef} />}
+            BannerImage={<Vendetta className={`left-0 right-0 mx-auto`} ref={VendettaRef} />}
             RewardTaskImage={
               <img
                 ref={RewardTaskRef}
-                style={{
-                  backgroundImage: `url(${RewardTask})`
-                }}
+                src={RewardTask}
                 className={
                   flatClassName({
-                    common: `absolute`,
+                    common: `absolute object-contain`,
                     desktop: ['xl:w-[373px]', 'xl:h-[225px]'],
-                    tablet: ['md:w-[314.24px]', 'md:h-[108.67px]'],
+                    tablet: ['md:w-[331.44px]', 'md:h-[200.29px]'],
                   })
                 }
               />
