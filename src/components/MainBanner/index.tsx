@@ -114,7 +114,7 @@ export default function MainBanner({
 			{
 				isDesktop
 					? <ScrollMouseIcon className={`absolute translate-x-[1085px] translate-y-[467px]`} />
-					: <ScrollMouseIcon className={`absolute flex justify-center md:top-[848px] md:left-[353px] md:w-[64px] md:h-[68px]`} />
+					: ''
 			}
 		</BaseBanner>
 	)

@@ -38,8 +38,8 @@ export default function ScrollMouseIcon(props: ScrollMouseIconProps) {
 								<svg width="23" height="14" viewBox="0 0 23 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M21 12L11.5 2L2 12" stroke="black" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
 								</svg>
-								</div>
-							<p className={`absolute w-full md:top-[45px] md:h-[23px]`}>往上移動</p>
+							</div>
+							<p className={`absolute w-full md:top-[45px] md:h-[23px] md:w-[64px] md:h-[23px]`}>往上移動</p>
 						</>
 					)
 					: (

@@ -385,6 +385,9 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           { y: 539 },
           { y: 337 },
           "<"
+      ).to(
+        ScrollMouseTopRef.current,
+        { visibility: 'hidden' },
       )
 
       animations.push(fullAnimations)
@@ -439,7 +442,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
                 tablet: ['md:mt-[91px]', 'md:mb-[32px]'],
               })
             }
-            BannerImage={<Vendetta className={`left-0 right-0 mx-auto`} ref={VendettaRef} />}
+            BannerImage={<Vendetta className={`md:left-0 md:right-0 md:mx-auto `} ref={VendettaRef} />}
             RewardTaskImage={
               <img
                 ref={RewardTaskRef}
@@ -460,17 +463,15 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
           style={{
             backgroundImage: `url(${ContentBgImage})`
           }}
-          className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative xl:h-[6535px]`}
+          className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative md:h-[5135px] xl:h-[6535px]`}
         >
-
-          <div className={`relative xl:w-[1200px] xl:h-[386px]`} ref={hexSchoolAnchorRef}>
-            <LazyLoad height={300}>
-              <HostInfo />
-            </LazyLoad>
-          </div>
-
-          <div className={`xl:pt-[99px] xl:pb-[175px] xl:w-[1200px] xl:h-[1942px]`}>
-            <ScheduleTask>
+          <div className={`xl:mb-[175px] xl:w-[1200px] xl:h-[2328px]`}>
+            <div className={`grid md:grid-cols-2 md:gap-[22px] xl:grid-cols-1 xl:gap-y-[42px]`}>
+              <div className={`relative flex items-ceneter justify-center md:w-[343.03px] md:h-[552px] xl:w-[1200px] xl:h-[386px] xl:mb-[57px]`} ref={hexSchoolAnchorRef}>
+              <LazyLoad height={300}>
+                <HostInfo />
+              </LazyLoad>
+              </div>
               {
                 Tasks.map(({
                   title, subtitle, content, tipUrl, contributeUrl,
@@ -478,7 +479,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
                   EnterpriseLogo
                 }: TaskType, index: number) => {
                   const props = {
-                    className: `xl:w-[1200px] xl:h-[528px] `,
+                    className: `md:w-[343.03px] md:h-[552.02px] xl:w-[1200px] xl:h-[528px] `,
                     title: title,
                     subtitle: subtitle,
                     content: content, 
@@ -494,7 +495,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
                   return <TaskCard {...props} key={`task-grid-${index}`} ref={addScheduleTaskRef} />
                 })
               }
-            </ScheduleTask>
+            </div>
             <LazyLoad height={300}>
               <div
                 className={`${appendDisplayEasterEggClassName(1)} relative w-fit	h-fit xl:translate-x-[-29.4px] xl:translate-y-[19.21px]`}
@@ -679,8 +680,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
         ))
       }
 
-      <div ref={ScrollMouseTopRef} className={`fixed z-40 left-1/2 top-1/2 translate-x-[-32px] translate-y-[-50.05px]`}>
-        <ScrollMouseIcon />
+      <div ref={ScrollMouseTopRef} className={`fixed w-fit h-fit z-40 left-1/2 top-1/2 translate-x-[-32px] translate-y-[-50.05px]`}>
+        <ScrollMouseIcon className={`w-fit h-fit absolute flex justify-center`}  />
       </div>
 
       <div className={`fixed flex items-center justify-center font-sans font-normal text-[#38241B] z-50 top-1/2 left-1/2 m-auto bg-white  xl:w-[527px] xl:h-[310px] xl:translate-y-[-152px] ${easterEggBit === MaxEasterEggBit ? 'xl:translate-x-[-263.5px] opacity-100': 'xl:translate-x-[-100vw] opacity-0'}`}>
