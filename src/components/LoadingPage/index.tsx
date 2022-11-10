@@ -1,5 +1,6 @@
 import { ReactNode, Fragment } from 'react'
 import { LoadingPageProps, MediaImage } from './type.d'
+import MultipleImageSources from '@components/ResponsiveImageContainer/MultipleImageSources'
 
 export default function LoadingPage({
 	content,
@@ -21,10 +22,12 @@ export default function LoadingPage({
 		<div
 			{...props}
 		>
-			<picture { ...pictureElementProps }>
-				{ SourceElements }
-				<img { ...imageElementProps } />
-			</picture>
+			<MultipleImageSources
+				aliasName={aliasName}
+				mediaImages={mediaImages}
+				imageElementProps={imageElementProps}
+				pictureElementProps={pictureElementProps}
+			/>
 			{ loadingImg }
 			{
 				content

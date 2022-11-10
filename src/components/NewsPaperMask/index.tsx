@@ -6,11 +6,14 @@ import {
 } from "react"
 import { MediaImageProps as NewsPaperProps, NewsPaperHandle, MediaImage } from './type.d'
 import { gsap, ScrollTrigger } from "@animations/gsap"
+import MultipleImageSources from '@components/ResponsiveImageContainer/MultipleImageSources'
+
 
 const NewsPaper: ForwardRefRenderFunction<NewsPaperHandle, NewsPaperProps> = ({
 	aliasName,
 	mediaImages,
 	imageElementProps,
+	pictureElementProps,
 	...props
 }, forwardref) => {
 	const NewsPaperRef = useRef<HTMLDivElement>(null)
@@ -39,10 +42,12 @@ const NewsPaper: ForwardRefRenderFunction<NewsPaperHandle, NewsPaperProps> = ({
 			ref={NewsPaperRef}
 			{...props}
 		>
-			<picture>
-				{ SourceElements }
-				<img { ...imageElementProps } />
-			</picture>
+			<MultipleImageSources
+				aliasName={aliasName}
+				mediaImages={mediaImages}
+				imageElementProps={imageElementProps}
+				pictureElementProps={pictureElementProps}
+			/>
 		</div>
 	)
 }

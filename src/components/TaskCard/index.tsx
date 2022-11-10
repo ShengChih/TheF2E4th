@@ -2,7 +2,13 @@ import {
 	MouseEvent, ReactNode, useRef, RefObject,
 	forwardRef, ForwardRefRenderFunction, useImperativeHandle
 } from 'react'
-import CardBackground from './images/card_background.svg'
+import MultipleImageSources from '@components/ResponsiveImageContainer/MultipleImageSources'
+import TabletBackground from './images/tablet/card_background.png'
+import PcCardBackground from './images/card_background.svg'
+import { flatClassName } from '@utils/reduce'
+import { deviceWidth } from '@utils/config'
+import useCheckScreen from '@hooks/useCheckScreen' 
+
 
 interface TaskCardProps {
 	className?: string
@@ -30,6 +36,7 @@ const TaskCardComponent: ForwardRefRenderFunction<TaskCardHandle, TaskCardProps>
 	forwardContribute
 }, forwardref) => {
 	const TaskCardRef = useRef<HTMLDivElement>(null)
+	const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
 
 	useImperativeHandle(forwardref, () => {
 		return {
@@ -42,24 +49,77 @@ const TaskCardComponent: ForwardRefRenderFunction<TaskCardHandle, TaskCardProps>
 	return (
 		<div
 			ref={TaskCardRef}
-			style={{
-				backgroundImage: `url(${CardBackground})`
-			}}
-			className={`relative bg-no-repeat bg-center ${className ?? ''}`}
+			className={flatClassName({
+				common: `relative ${className ?? ''}`,
+				desktop: ``,
+				tablet: `md:flex md:flex-wrap md:justify-center`,
+				mobile: ``
+			})}
 		>
-			<div className={`font-sans font-bold absolute text-white xl:w-[684.78px] xl:h-[64px] xl:left-[40px] xl:top-[19px] xl:leading-[64px] xl:text-[44px]`}>{title}</div>
-			<div className={`font-serif font-black absolute text-[#38241B] xl:w-[592px] xl:h-[63px] xl:left-[506px] xl:top-[142px] xl:leading-[63px] xl:text-[44px]`}>{subtitle}</div>
-			<div className={`font-sans font-medium absolute text-[#38241B] xl:w-[592px] xl:h-[70px] xl:left-[506px] xl:top-[219px] xl:leading-[35px] xl:text-[24px]`}>{content}</div>
+			<MultipleImageSources
+				aliasName={"card_background"}
+				mediaImages={[
+					{
+						minWidth: 1280,
+						imageSrc: PcCardBackground
+					},
+					{
+						minWidth: 768,
+						imageSrc: TabletBackground
+					}
+				]}
+				imageElementProps={{
+					src: PcCardBackground,
+					className: 'w-full h-full object-contain',
+					srcSet: `${TabletBackground} 750w, ${PcCardBackground} 1200w`,
+					sizes: `(min-width: 768px) 343px, (min-width: 1280px) 1200px`
+				}}
+			/>
+			{
+				isDesktop
+					? (
+						<div className={flatClassName({
+							common: `font-sans font-bold  text-white`,
+							desktop: `xl:absolute xl:w-[684.78px] xl:h-[64px] xl:left-[40px] xl:top-[19px] xl:leading-[64px] xl:text-[44px] `,
+						})}>{title}</div>
+					): ''
+			}
+			<div className={flatClassName({
+				common: `font-serif font-black text-[#38241B] leading-[63px] text-[44px] absolute`,
+				desktop: `xl:w-[592px] xl:h-[63px] xl:left-[506px] xl:top-[142px] `,
+				tablet: `md:w-[266px] md:h-[126px] md:top-[118px]`,
+				mobile: ``
+			})}>{subtitle}</div>
+			<div className={flatClassName({
+				common: `font-sans font-medium absolute text-[#38241B] leading-[35px] text-[24px]`,
+				desktop: `xl:absolute xl:w-[592px] xl:h-[70px] xl:left-[506px] xl:top-[219px] `,
+				tablet: `md:w-[280px] md:h-[105px] md:top-[256px]`,
+				mobile: ``,
+			})}>{content}</div>
 			<div
-				className={`border-[#38241B] border-solid border-[3px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] text-[#38241B] fount-sans font-normal flex items-center justify-center absolute xl:w-[184px] xl:h-[70px] xl:left-[508px] xl:top-[369px] xl:rounded-[40px] xl:text-[28px]`}
+				className={flatClassName({
+					common: `border-[#38241B] border-solid border-[3px] shadow-[0_4px_4px_rgba(0,0,0,0.25)] text-[#38241B] font-sans font-normal flex items-center justify-center absolute rounded-[40px]`,
+					desktop: `xl:w-[184px] xl:h-[70px] xl:left-[508px] xl:top-[369px] xl:rounded-[40px] xl:text-[28px]`,
+					tablet: `md:w-[129px] md:h-[52.71px] md:left-[32px] md:top-[437px] md:text-[18px]`,
+					mobile: ``,
+				})}
 				onClick={forwardTips}
 			>關卡攻略</div>
 			<div
-				className={`drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-[#951205] text-white fount-sans font-normal flex items-center justify-center absolute xl:w-[183px] xl:h-[70px] xl:left-[712px] xl:top-[369px] xl:rounded-[40px] xl:text-[28px]`}
+				className={flatClassName({
+					common: `drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-[#951205] text-white font-sans font-normal flex items-center justify-center absolute rounded-[40px]`,
+					desktop: `xl:w-[183px] xl:h-[70px] xl:left-[712px] xl:top-[369px] xl:text-[28px]`,
+					tablet: `md:w-[129px] md:h-[52.71px] md:left-[171px] md:top-[437px] md:text-[18px]`,
+					mobile: ``,
+				})}
 				onClick={forwardContribute}
 			>投稿</div>
 			{EnterpriseLogo}
-			{TaskLogo}
+			{
+				isDesktop
+					? TaskLogo
+					: ''
+			}
 		</div>
 	)
 }

@@ -8,9 +8,11 @@ export type MediaImage = {
 	imageSrc: string
 }
 
-export type MediaImageProps = ComponentProps<"div"> & {
+export type MultipleImageSourcesProps = {
 	aliasName?: string
 	mediaImages: MediaImage[]
 	imageElementProps?: ComponentProps<"img">
 	pictureElementProps?: ComponentProps<"picture">
 }
+
+export type MediaImageProps = ComponentProps<"div"> & MultipleImageSourcesProps
