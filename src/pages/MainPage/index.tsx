@@ -7,7 +7,7 @@ import {
   ComponentProps
 } from "react"
 import { deviceWidth } from '@utils/config'
-import { MainPageHandle } from './type'
+import { MainPageHandle, AnimationReturn } from './type.d'
 import LazyLoad from 'react-lazyload'
 import { gsap, ScrollTrigger } from "@animations/gsap"
 
@@ -172,7 +172,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
     }    
   }
 
-  useEffect(() => {
+  const initDesktopAnimations = () => {
     let animations: ReturnType<typeof gsap.context | typeof gsap.timeline | typeof gsap.fromTo>[] = []
 
     /** 讓第一頁的空白頁滾動，置頂第二頁 */
@@ -329,7 +329,153 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
       animations.push(animation)
     }
 
-    console.log(animations.length)
+    return animations
+  }
+
+  const initTabletAnimations = () => {
+    let animations: AnimationReturn[] = []
+    animations.push(gsap.context(() => {
+      /** 置頂 Banner 後，滾動動畫效果 */
+      ScrollTrigger.create({
+        id: 'fullpin',
+        trigger: MainBannerRef.current,
+        start: 'top-=62 top',
+        end: '+=1042',
+        scrub: true,
+        pin: FullPageRef.current,
+        pinSpacing: false,
+        onEnter: (self) => {
+          console.log('fullpin onEnter')
+        },
+        onEnterBack: (self) => {
+          console.log('fullpin onEnterBack')
+        },
+        onLeave: (self) => {
+          console.log('fullpin onLeave')
+        },
+        onLeaveBack: (self) => {
+          console.log('fullpin onLeaveBack')
+        }
+      })
+    }))
+
+    if (VendettaRef.current && MaskLv1Ref.current && MaskLv2Ref.current && MaskLv3Ref.current) {
+      let animation = MaskLv2Ref.current.initTimelineScroller({
+        start: 'top+=62 top',
+        end: '+=334',
+        scrub: true,
+        id: 'first',
+        onEnter: (self) => {
+          console.log('a1 onEnter')
+        },
+        onEnterBack: (self) => {
+          console.log('a1 onEnterBack')
+        },
+        onLeave: (self) => {
+          console.log('a1 onLeave')
+        },
+        onLeaveBack: (self) => {
+          console.log('a1 onLeaveBack')
+        }
+      })
+      animation = MaskLv2Ref.current.moveAnimation(animation, { x: -144, y: -62 }, { x: -144, y: -290 })
+      animation = MaskLv3Ref.current.moveAnimation(animation, { x: -343, y: 149 }, { x: -381, y: 369 }, "<")
+      animation = MaskLv1Ref.current.moveAnimation(animation, { x: 230, y: 169 }, { x: 305, y: 536 }, "<")
+        .fromTo(
+          VendettaRef.current.getRef().current,
+          { y: 974, opacity: 0 },
+          { y: 721, opacity: 1 }
+        ).fromTo(
+          RewardTaskRef.current,
+          { x: 408, y: -18, opacity: 0 },
+          { x: 408, y: -18, opacity: 1 },
+        )
+
+      animations.push(animation)
+
+      let animation1 = MaskLv2Ref.current.initTimelineScroller({
+        start: 'top+=396 top',
+        end: '+=366',
+        scrub: true,
+        id: 'second',
+        onEnter: (self) => {
+          console.log('a2 onEnter')
+        },
+        onEnterBack: (self) => {
+          console.log('a2 onEnterBack')
+        },
+        onLeave: (self) => {
+          console.log('a2 onLeave')
+        },
+        onLeaveBack: (self) => {
+          console.log('a2 onLeaveBack')
+        }
+      })
+      animation1 = MaskLv2Ref.current.moveAnimation(animation1, { x: -144, y: -290 }, { x: -144, y: -542 })
+      animation1 = MaskLv1Ref.current.moveAnimation(animation1, { x: 305, y: 536 }, { x: 404, y: 856, opacity: 0 }, "<")
+        .fromTo(
+          VendettaRef.current.getRef().current,
+          { y: 721, opacity: 1 },
+          { y: 539 },
+          "<"
+      )
+
+      animations.push(animation1)
+
+      let animation2 = MaskLv3Ref.current.initTimelineScroller({
+        start: ({ trigger }) => {
+          console.log(trigger?.getBoundingClientRect())
+          const top = trigger?.getBoundingClientRect().top ?? 0
+          return `top+=100 top+=432`;
+        },
+        id: 'test',
+        end: '-=100',
+        scrub: true,
+        markers: {
+          indent: 500
+        },
+        onEnter: (self) => {
+          console.log('a3 onEnter')
+        },
+        onEnterBack: (self) => {
+          console.log('a3 onEnterBack')
+        },
+        onLeave: (self) => {
+          console.log('a3 onLeave')
+        },
+        onLeaveBack: (self) => {
+          console.log('a3 onLeaveBack')
+        }
+      })
+      animation2 = MaskLv3Ref.current.moveAnimation(animation2, { x: -381, y: 369 }, { x: -669, y: 801, opacity: 0 })
+        .fromTo(
+          VendettaRef.current.getRef().current,
+          { y: 539 },
+          { y: 337 },
+          "<"
+      )
+
+      animations.push(animation2)
+    }
+
+    return animations
+  }
+
+  const initMobileAnimations = () => {
+    let animations: AnimationReturn[] = []
+    return animations
+  }
+
+  useEffect(() => {
+    let animations: AnimationReturn[] = []
+    
+    if (isDesktop) {
+      animations = initDesktopAnimations()
+    } else if (isMobile) {
+      animations = initMobileAnimations()
+    } else if (isTablet) {
+      animations = initTabletAnimations()
+    }
 
 		return () => {
       animations.map((animation) => animation.revert())
@@ -348,7 +494,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
             flatClassName({
               common: `flex bg-no-repeat bg-cover`,
               desktop: ['xl:h-[720px]'],
-              tablet: ['md:h-[962px]'],
+              tablet: ['md:h-[1024px]'],
             })
           }
           ref={MainBannerRef}
@@ -532,11 +678,11 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
               sizes: `(min-width: 768px) 983px, (min-width: 1280px) 1218px`
             },
             className: flatClassName({
-              common: `fixed z-10`,
-              desktop: `xl:left-0 xl:top-0 xl:translate-x-[462px] xl:translate-y-[287px]`,
-              tablet: `md:left-[230px] md:top-[169px]`,
+              common: `fixed z-10 left-0 top-0`,
+              desktop: `xl:translate-x-[462px] xl:translate-y-[287px] ${pcStyles.masklv1}`,
+              tablet: `md:translate-x-[230px] md:translate-y-[169px] ${tabletStyles.masklv1}`,
               mobile: []
-            }) + `${pcStyles.masklv1}`
+            })
           },
           {
             ref: MaskLv2Ref,
@@ -562,11 +708,11 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
               sizes: `(min-width: 768px) 768px, (min-width: 1280px) 1280px, (min-width: 1920px) 1920px`
             },
             className: flatClassName({
-              common: `fixed z-20`,
-              desktop: `xl:left-0 xl:top-0 xl:translate-x-0 xl:translate-y-0`,
-              tablet: `md:left-[-144px] md:top-[-62px]`,
+              common: `fixed z-20 left-0 top-0`,
+              desktop: `xl:translate-x-0 xl:translate-y-0 ${pcStyles.masklv2}`,
+              tablet: `md:translate-x-[-144px] md:translate-y-[-62px] ${tabletStyles.masklv2}`,
               mobile: []
-            }) + `${pcStyles.masklv2}`
+            })
           },
           {
             ref: MaskLv3Ref,
@@ -592,11 +738,11 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
               sizes: `(min-width: 768px) 760px, (min-width: 1280px) 942px`
             },
             className: flatClassName({
-              common: `fixed z-30`,
-              desktop: `xl:left-0 xl:top-0 xl:translate-x-[-248px] xl:translate-y-[261px]`,
-              tablet: [],
+              common: `fixed z-30 left-0 top-0`,
+              desktop: `xl:translate-x-[-248px] xl:translate-y-[261px] ${pcStyles.masklv3}`,
+              tablet: `md:translate-x-[-343px] md:translate-y-[149px] ${tabletStyles.masklv3}`,
               mobile: []
-            }) + `${pcStyles.masklv3}`
+            })
           }
         ].map((props, index: number) => (
           <NewsPaperMask {...props} key={`mask-${index}`} />

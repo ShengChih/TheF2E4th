@@ -10,7 +10,7 @@ import MagicWand from '@components/MagicWand'
 import WandCursor from '@images/WandCursor.png'
 import LoadingBg from './images/loading_bg.jpg'
 
-import { MainPageHandle } from '@pages/MainPage/type'
+import { MainPageHandle } from '@pages/MainPage/type.d'
 const MainPage = lazy(() => import("@pages/MainPage"))
 
 
@@ -37,7 +37,7 @@ const App = () => {
       className={`relative`}
     >
       <Header
-        className={`${isDesktop ? 'fixed z-[5]': ''}`}
+        className={`fixed z-[5]`}
         gotoHexSchoolAnchor={gotoHexSchoolAnchor}
         gotoScheduleInfoAnchor={gotoScheduleInfoAnchor}
       />
