@@ -68,7 +68,7 @@ const ShareSpeakerCard = React.memo(({
 					className={flatClassName({
 						common: `absolute flex items-center`,
 						desktop: `xl:w-[259px] xl:h-[66px] xl:top-[583px]`,
-						tablet: `md:w-[170.19px] md:h-[43.37px] md:top-[383.08px]`,
+						tablet: `md:w-[170.19px] md:h-[43.37px] md:top-[383.08px] md:justify-center`,
 						mobile: ``
 					})}
 				>
@@ -97,9 +97,9 @@ const liveShares = [
 		SpeakerImage: BlockStudioSpeaker,
 		SpeakerInfo: `李明-版塊設計創辦人兼總監`,
 		SpeakerTitleStyle: flatClassName({
-			common: `text-[20px] leading-[26px]`,
-			desktop: `xl:w-[200px] xl:h-[52px] xl:left-[35px]`,
-			tablet: `md:text-[13px] md:leading-[16px] md:w-[142.59px] md:h-[34.17px] md:left-[17.74px]`,
+			common: ``,
+			desktop: `xl:w-[200px] xl:h-[52px] xl:left-[35px] xl:text-[20px] xl:leading-[26px]`,
+			tablet: `md:text-[13px] md:leading-[16px] md:w-[142.59px] md:h-[34.17px]`,
 			mobile: ``
 		}),
 		SpeakerTitle: '李明\n版塊設計創辦人兼總監',
@@ -121,15 +121,15 @@ const liveShares = [
 		SpeakerImage: LeoSpeaker,
 		SpeakerInfo: `Leo-Angular Taiwan 傳教士`,
 		SpeakerTitleStyle: flatClassName({
-			common: `text-[20px] leading-[26px]`,
-			desktop: `xl:w-[217px] xl:h-[52px] xl:left-[27px]`,
-			tablet: ``,
+			common: ``,
+			desktop: `xl:w-[217px] xl:h-[52px] xl:left-[27px] xl:text-[20px] xl:leading-[26px]`,
+			tablet: ` md:text-[13px] md:leading-[16px]`,
 			mobile: ``
 		}),
 		SpeakerTitle: 'Leo\nAngular Taiwan 傳教士',
 		ActivityPeriodsStyle: flatClassName({
-			common: `text-[20px] leading-[26px]`,
-			desktop: `xl:w-[402.39px] xl:h-[58.74px] xl:top-[652px]`,
+			common: ``,
+			desktop: `xl:w-[402.39px] xl:h-[58.74px] xl:top-[652px] xl:text-[35px] xl:leading-[67px]`,
 			tablet: `md:text-[24px] md:leading-[42px] md:w-[259px] md:h-[42px] md:top-[433px]`,
 			mobile: ``
 		}),
@@ -145,9 +145,9 @@ const liveShares = [
 		SpeakerImage: DraggableSpeaker,
 		SpeakerInfo: `邱繼緯-前端工程師`,
 		SpeakerTitleStyle: flatClassName({
-			common: `text-[20px] leading-[26px]`,
-			desktop: `xl:w-[100px] xl:h-[52px] xl:left-[85px]`,
-			tablet: `md:left-[17.74px]`,
+			common: ``,
+			desktop: `xl:w-[100px] xl:h-[52px] xl:left-[85px] xl:text-[20px] xl:leading-[26px]`,
+			tablet: `md:text-[13px] md:leading-[16px]`,
 		}),
 		SpeakerTitle: '邱繼緯\n前端工程師',
 		ActivityPeriodsStyle: flatClassName({
@@ -165,7 +165,11 @@ const liveShares = [
 		SubjectTitle: `互動式網頁設計工程師該具備哪些技能？`,
 		SpeakerImage: CreativeSpeaker,
 		SpeakerInfo: `吳哲宇-墨雨互動設計 創辦人`,
-		SpeakerTitleStyle: `xl:text-[20px] xl:leading-[26px] xl:w-[185px] xl:h-[52px] xl:left-[43px]`,
+		SpeakerTitleStyle: flatClassName({
+			desktop: `xl:text-[20px] xl:leading-[26px] xl:w-[185px] xl:h-[52px] xl:left-[43px]`,
+			tablet: `md:text-[13px] md:leading-[16px]`,
+			mobile: ``
+		}),
 		SpeakerTitle: '吳哲宇\n墨雨互動設計 創辦人',
 		ActivityPeriodsStyle: flatClassName({
 			common: `xl:text-[35px] xl:leading-[67px] xl:w-[402.39px] xl:h-[58.74px] xl:top-[652px]`,

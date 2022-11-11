@@ -585,7 +585,12 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             </LazyLoad> 
           </div>
 
-          <section className={`w-full xl:h-[1040px]`} ref={scheduleInfoAnchorRef}>
+          <section className={flatClassName({
+            common: `w-full`,
+            desktop: `xl:h-[1040px]`,
+            tablet: `md:h-[617px]`,
+            mobile: ``
+          })} ref={scheduleInfoAnchorRef}>
             <LazyLoad height={200} once >
               <ScheduleInfo>
                 <div
@@ -620,58 +625,68 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             tablet: `md:h-[1216.52px]`,
             mobile: ``
           })}>
-            <LazyLoad height={200} once >
-              <Suspense fallback={<div>loading...</div>}>
-                <LiveShareVideo>
-                  <div
-                    className={flatClassName({
-                      common: `${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit  h-fit`,
-                      desktop: `xl:translate-x-[-562px] xl:translate-y-[973.42px]`,
-                      tablet: `md:translate-x-[-333px] md:translate-y-[630px]`,
-                      mobile: ``
-                    })}
-                    onClick={handleEasterEggBit}
-                    data-egg-offset={4}
-                  >
-                    <svg width="59" height="60" viewBox="0 0 59 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M33.0828 16.7714C31.1877 18.3816 29.0685 19.4861 26.6914 20.1041L26.6873 20.1087C22.4818 21.8723 16.8689 20.4894 12.4575 21.9361C9.86801 22.7805 8.22163 24.5329 7.20878 26.1192L6.37128 27.8473C6.27424 28.0548 6.1772 28.2623 6.09327 28.4735C6.09265 28.6287 6.00576 39.4925 21.1666 41.267C36.4361 43.0575 50.1153 35.6435 53.1758 29.1341C54.0662 25.421 53.2311 21.3401 50.5747 18.2062C46.1427 12.9789 38.3141 12.3349 33.0828 16.7714Z" fill="#603813"/>
-                      <path d="M21.1751 41.2667C6.01426 39.4921 6.10113 28.6283 6.10176 28.4732C3.02861 35.8236 7.80895 44.2174 15.843 45.1697C15.9299 45.1825 16.0208 45.1907 16.1077 45.2035C28.7125 46.6314 40.1352 43.3455 49.1484 35.6977C49.5777 35.3309 49.9758 34.9441 50.3426 34.5374C51.7613 32.9647 52.7125 31.1015 53.1842 29.1337C50.1238 35.6432 36.44 43.0532 21.1751 41.2667Z" fill="#42210B"/>
-                    </svg>
-                  </div>
-                </LiveShareVideo>
-              </Suspense>
-            </LazyLoad>
+            <Suspense fallback={<div>loading...</div>}>
+              <LiveShareVideo>
+                <div
+                  className={flatClassName({
+                    common: `${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit  h-fit`,
+                    desktop: `xl:translate-x-[-562px] xl:translate-y-[973.42px]`,
+                    tablet: `md:translate-x-[-333px] md:translate-y-[630px]`,
+                    mobile: ``
+                  })}
+                  onClick={handleEasterEggBit}
+                  data-egg-offset={4}
+                >
+                  <svg width="59" height="60" viewBox="0 0 59 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M33.0828 16.7714C31.1877 18.3816 29.0685 19.4861 26.6914 20.1041L26.6873 20.1087C22.4818 21.8723 16.8689 20.4894 12.4575 21.9361C9.86801 22.7805 8.22163 24.5329 7.20878 26.1192L6.37128 27.8473C6.27424 28.0548 6.1772 28.2623 6.09327 28.4735C6.09265 28.6287 6.00576 39.4925 21.1666 41.267C36.4361 43.0575 50.1153 35.6435 53.1758 29.1341C54.0662 25.421 53.2311 21.3401 50.5747 18.2062C46.1427 12.9789 38.3141 12.3349 33.0828 16.7714Z" fill="#603813"/>
+                    <path d="M21.1751 41.2667C6.01426 39.4921 6.10113 28.6283 6.10176 28.4732C3.02861 35.8236 7.80895 44.2174 15.843 45.1697C15.9299 45.1825 16.0208 45.1907 16.1077 45.2035C28.7125 46.6314 40.1352 43.3455 49.1484 35.6977C49.5777 35.3309 49.9758 34.9441 50.3426 34.5374C51.7613 32.9647 52.7125 31.1015 53.1842 29.1337C50.1238 35.6432 36.44 43.0532 21.1751 41.2667Z" fill="#42210B"/>
+                  </svg>
+                </div>
+              </LiveShareVideo>
+            </Suspense>
           </section>
 
-          <div className={`bg-white w-full md:h-[192px] xl:h-[96px]`}>
+          <div className={flatClassName({
+            common: `bg-white w-full`,
+            desktop: `xl:h-[96px]`,
+            tablet: `md:h-[192px]`,
+            mobile: ``
+          })}>
             <Suspense fallback={(<div>loading...</div>)}>
               <PartnerInfo></PartnerInfo>
             </Suspense>
           </div>
           
           <div className={`w-full relative md:h-[543px] xl:h-[366px] bg-[#3C221B]`}>
-            <LazyLoad height={200} offset={300}>
-              <div className={`mt-[60px] mb-[36px]`}>
-                <Suspense fallback={(<div>loading...</div>)}>
-                  <SponerInfo></SponerInfo>
-                </Suspense>
-              </div>
-              <div className={`xl:mb-[8px]`}>
-                <Suspense fallback={(<div>loading...</div>)}>
-                  <Footer></Footer>
-                </Suspense>
-              </div>
-              <div
-                onClick={handleEasterEggBit}
-                className={`${appendDisplayEasterEggClassName(5)} absolute w-fit  h-fit  top-0 inset-x-0 mx-auto xl:translate-y-[64px] xl:translate-x-[658.91px]`}
-                data-egg-offset={5}
-              >
-                <svg width="46" height="38" viewBox="0 0 46 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M34.8607 13.1082C32.3958 12.7795 30.1561 11.9457 28.1051 10.5946H28.099C23.9726 8.65313 21.2399 3.55903 17.2109 1.25238C14.8495 -0.104833 12.4454 -0.153522 10.5892 0.156872L8.74506 0.692452C8.52596 0.7594 8.30686 0.826347 8.09385 0.905467C7.97821 1.00893 -0.146796 8.22101 8.69029 20.6672C17.5882 33.2046 32.2558 38.3961 39.1393 36.3086C42.4927 34.4827 44.9637 31.1293 45.5115 27.0576C46.4244 20.2655 41.6589 14.0211 34.8607 13.1082Z" fill="#AD0C18"/>
-                  <path d="M8.69586 20.6733C-0.141221 8.22108 7.98378 1.009 8.09942 0.911621C0.583028 3.55301 -2.44787 12.7248 2.22629 19.3283C2.27498 19.4013 2.32976 19.4744 2.37844 19.5474C9.76094 29.8634 19.8518 36.1443 31.5676 37.7145C32.1275 37.7876 32.6814 37.8241 33.2291 37.8241C35.3471 37.8241 37.3677 37.2824 39.1448 36.3147C32.2614 38.4023 17.5938 33.2047 8.69586 20.6733Z" fill="#870818"/>
-                </svg>
-              </div>
-            </LazyLoad>
+            <div className={flatClassName({
+              desktop: `xl:mt-[60px] xl:mb-[36px]`,
+              tablet: `md:mt-[52px] md:mb-[50px]`,
+              mobile: ``
+            })}>
+              <Suspense fallback={(<div>loading...</div>)}>
+                <SponerInfo></SponerInfo>
+              </Suspense>
+            </div>
+            <div className={`xl:mb-[8px]`}>
+              <Suspense fallback={(<div>loading...</div>)}>
+                <Footer></Footer>
+              </Suspense>
+            </div>
+            <div
+              onClick={handleEasterEggBit}
+              className={flatClassName({
+                common: `${appendDisplayEasterEggClassName(5)} absolute w-fit  h-fit  top-0 inset-x-0 mx-auto`,
+                desktop: `xl:translate-y-[64px] xl:translate-x-[458.91px]`,
+                tablet: `md:translate-y-[64px] md:translate-x-[230px]`,
+                mobile: ``
+              })}
+              data-egg-offset={5}
+            >
+              <svg width="46" height="38" viewBox="0 0 46 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M34.8607 13.1082C32.3958 12.7795 30.1561 11.9457 28.1051 10.5946H28.099C23.9726 8.65313 21.2399 3.55903 17.2109 1.25238C14.8495 -0.104833 12.4454 -0.153522 10.5892 0.156872L8.74506 0.692452C8.52596 0.7594 8.30686 0.826347 8.09385 0.905467C7.97821 1.00893 -0.146796 8.22101 8.69029 20.6672C17.5882 33.2046 32.2558 38.3961 39.1393 36.3086C42.4927 34.4827 44.9637 31.1293 45.5115 27.0576C46.4244 20.2655 41.6589 14.0211 34.8607 13.1082Z" fill="#AD0C18"/>
+                <path d="M8.69586 20.6733C-0.141221 8.22108 7.98378 1.009 8.09942 0.911621C0.583028 3.55301 -2.44787 12.7248 2.22629 19.3283C2.27498 19.4013 2.32976 19.4744 2.37844 19.5474C9.76094 29.8634 19.8518 36.1443 31.5676 37.7145C32.1275 37.7876 32.6814 37.8241 33.2291 37.8241C35.3471 37.8241 37.3677 37.2824 39.1448 36.3147C32.2614 38.4023 17.5938 33.2047 8.69586 20.6733Z" fill="#870818"/>
+              </svg>
+            </div>
           </div>
 
         </div>
