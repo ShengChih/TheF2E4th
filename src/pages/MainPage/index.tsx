@@ -535,7 +535,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
           }}
           className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative md:h-[5135px] xl:h-[6535px]`}
         >
-          <div className={`md:mt-[60px] md:h-[1292px] xl:mb-[175px] xl:h-[2328px]`}>
+          <div className={`md:mt-[60px] md:mb-[103.98px] md:h-[1127.02px] xl:mb-[175px] xl:h-[2328px]`}>
             <div className={`grid md:grid-cols-2 md:gap-[22px] xl:grid-cols-1 xl:gap-y-[42px] md:w-[712px] md:h-[1126px] xl:w-[1200px] xl:h-[2328px]`}>
               <div className={`relative flex flex-wrap items-ceneter justify-center md:w-[343px] md:h-[552px] xl:w-[1200px] xl:h-[386px] xl:mb-[57px]`} ref={hexSchoolAnchorRef}>
                 <Suspense fallback={(<div>loading...</div>)}>
@@ -588,7 +588,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
           <section className={flatClassName({
             common: `w-full`,
             desktop: `xl:h-[1040px]`,
-            tablet: `md:h-[617px]`,
+            tablet: `md:h-[731px]`,
             mobile: ``
           })} ref={scheduleInfoAnchorRef}>
             <LazyLoad height={200} once >
