@@ -4,6 +4,7 @@ import {
   forwardRef,
   useImperativeHandle,
   ForwardRefRenderFunction,
+  lazy, Suspense
 } from "react"
 import { deviceWidth } from '@utils/config'
 import { BasePageProps, MainPageHandle, AnimationReturn } from './type.d'
@@ -19,17 +20,14 @@ import mobileStyles from "./styles/fullpage/mobile.module.scss"
 import tabletStyles from "./styles/fullpage/tablet.module.scss"
 
 import NewsPaperMask from "@components/NewsPaperMask"
-import ScrollMouseIcon from "@components/ScrollMouseIcon"
+
 import MainBanner from "@components/MainBanner"
-import HostInfo from "@components/HostInfo"
 import TaskCard from "@components/TaskCard"
 import { TaskType, Tasks } from "@components/TaskCard/constants"
 import ScheduleInfo from "@components/ScheduleInfo"
 import AwardInfo from "@components/AwardInfo"
-import LiveShareVideo from "@components/LiveShareVideo"
-import SponerInfo from "@components/SponerInfo"
-import PartnerInfo from "@components/PartnerInfo"
-import Footer from "@components/Footer"
+
+
 import Vendetta from '@components/Vendetta'
 
 import MainImage from './images/BannerBgImage.svg'
@@ -43,7 +41,14 @@ import TabletNewspaper1 from './images/tablet/Newspaper1.png'
 import TabletNewspaper2 from './images/tablet/Newspaper2.png'
 import TabletNewspaper3 from './images/tablet/Newspaper3.png'
 import RewardTask from './images/reward_task.svg'
-import ContentBgImage from '@images/loading_bg.jpg'//'./images/ContentBgImage.svg'
+import ContentBgImage from '@images/loading_bg.jpg'
+
+const LiveShareVideo = lazy(() =>  import("@components/LiveShareVideo"))
+const ScrollMouseIcon = lazy(() =>  import("@components/ScrollMouseIcon"))
+const HostInfo = lazy(() => import("@components/HostInfo"))
+const PartnerInfo = lazy(() => import("@components/PartnerInfo"))
+const SponerInfo = lazy(() => import("@components/SponerInfo"))
+const Footer = lazy(() => import("@components/Footer"))
 
 type VendettaHandle = ElementRef<typeof Vendetta>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
@@ -478,7 +483,9 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       }
 
       <div ref={ScrollMouseTopRef} className={`fixed z-10 w-fit h-fit left-1/2 top-1/2 translate-x-[-32px] translate-y-[-50.05px]`}>
-        <ScrollMouseIcon className={`w-fit h-fit absolute flex justify-center`}  />
+        <Suspense fallback={(<div>loading...</div>)}>
+          <ScrollMouseIcon className={`w-fit h-fit absolute flex justify-center`}  />
+        </Suspense>
       </div>
 
       { isReadyPage ? '': LoadingPage }
@@ -531,7 +538,9 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
           <div className={`md:mt-[60px] md:h-[1292px] xl:mb-[175px] xl:h-[2328px]`}>
             <div className={`grid md:grid-cols-2 md:gap-[22px] xl:grid-cols-1 xl:gap-y-[42px] md:w-[712px] md:h-[1126px] xl:w-[1200px] xl:h-[2328px]`}>
               <div className={`relative flex flex-wrap items-ceneter justify-center md:w-[343px] md:h-[552px] xl:w-[1200px] xl:h-[386px] xl:mb-[57px]`} ref={hexSchoolAnchorRef}>
-                <HostInfo />
+                <Suspense fallback={(<div>loading...</div>)}>
+                  <HostInfo />
+                </Suspense>
               </div>
               {
                 Tasks.map(({
@@ -600,34 +609,47 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
 
           <AwardInfo ref={AwardInfoSectionRef}></AwardInfo>
 
-          <section className={`w-full relative md:h-[1216.52px] xl:h-[1825px]`}>
+          <section className={flatClassName({
+            common: `w-full relative`,
+            desktop: `xl:h-[1825px]`,
+            tablet: `md:h-[1216.52px]`,
+            mobile: ``
+          })}>
             <LazyLoad height={200} once >
-              <LiveShareVideo>
-                <div
-                  className={`${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit  h-fit xl:translate-x-[-562px] xl:translate-y-[973.42px]`}
-                  onClick={handleEasterEggBit}
-                  data-egg-offset={4}
-                >
-                  <svg width="59" height="60" viewBox="0 0 59 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M33.0828 16.7714C31.1877 18.3816 29.0685 19.4861 26.6914 20.1041L26.6873 20.1087C22.4818 21.8723 16.8689 20.4894 12.4575 21.9361C9.86801 22.7805 8.22163 24.5329 7.20878 26.1192L6.37128 27.8473C6.27424 28.0548 6.1772 28.2623 6.09327 28.4735C6.09265 28.6287 6.00576 39.4925 21.1666 41.267C36.4361 43.0575 50.1153 35.6435 53.1758 29.1341C54.0662 25.421 53.2311 21.3401 50.5747 18.2062C46.1427 12.9789 38.3141 12.3349 33.0828 16.7714Z" fill="#603813"/>
-                    <path d="M21.1751 41.2667C6.01426 39.4921 6.10113 28.6283 6.10176 28.4732C3.02861 35.8236 7.80895 44.2174 15.843 45.1697C15.9299 45.1825 16.0208 45.1907 16.1077 45.2035C28.7125 46.6314 40.1352 43.3455 49.1484 35.6977C49.5777 35.3309 49.9758 34.9441 50.3426 34.5374C51.7613 32.9647 52.7125 31.1015 53.1842 29.1337C50.1238 35.6432 36.44 43.0532 21.1751 41.2667Z" fill="#42210B"/>
-                  </svg>
-                </div>
-              </LiveShareVideo>
+              <Suspense fallback={<div>loading...</div>}>
+                <LiveShareVideo>
+                  <div
+                    className={`${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit  h-fit xl:translate-x-[-562px] xl:translate-y-[973.42px]`}
+                    onClick={handleEasterEggBit}
+                    data-egg-offset={4}
+                  >
+                    <svg width="59" height="60" viewBox="0 0 59 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M33.0828 16.7714C31.1877 18.3816 29.0685 19.4861 26.6914 20.1041L26.6873 20.1087C22.4818 21.8723 16.8689 20.4894 12.4575 21.9361C9.86801 22.7805 8.22163 24.5329 7.20878 26.1192L6.37128 27.8473C6.27424 28.0548 6.1772 28.2623 6.09327 28.4735C6.09265 28.6287 6.00576 39.4925 21.1666 41.267C36.4361 43.0575 50.1153 35.6435 53.1758 29.1341C54.0662 25.421 53.2311 21.3401 50.5747 18.2062C46.1427 12.9789 38.3141 12.3349 33.0828 16.7714Z" fill="#603813"/>
+                      <path d="M21.1751 41.2667C6.01426 39.4921 6.10113 28.6283 6.10176 28.4732C3.02861 35.8236 7.80895 44.2174 15.843 45.1697C15.9299 45.1825 16.0208 45.1907 16.1077 45.2035C28.7125 46.6314 40.1352 43.3455 49.1484 35.6977C49.5777 35.3309 49.9758 34.9441 50.3426 34.5374C51.7613 32.9647 52.7125 31.1015 53.1842 29.1337C50.1238 35.6432 36.44 43.0532 21.1751 41.2667Z" fill="#42210B"/>
+                    </svg>
+                  </div>
+                </LiveShareVideo>
+              </Suspense>
             </LazyLoad>
           </section>
 
           <div className={`bg-white w-full md:h-[192px] xl:h-[96px]`}>
-            <PartnerInfo></PartnerInfo>
+            <Suspense fallback={(<div>loading...</div>)}>
+              <PartnerInfo></PartnerInfo>
+            </Suspense>
           </div>
           
           <div className={`w-full relative md:h-[543px] xl:h-[366px] bg-[#3C221B]`}>
             <LazyLoad height={200} offset={300}>
               <div className={`mt-[60px] mb-[36px]`}>
-                <SponerInfo></SponerInfo>
+                <Suspense fallback={(<div>loading...</div>)}>
+                  <SponerInfo></SponerInfo>
+                </Suspense>
               </div>
               <div className={`xl:mb-[8px]`}>
-                <Footer></Footer>
+                <Suspense fallback={(<div>loading...</div>)}>
+                  <Footer></Footer>
+                </Suspense>
               </div>
               <div
                 onClick={handleEasterEggBit}
