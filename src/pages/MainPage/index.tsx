@@ -286,9 +286,9 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       }
     })
     if (VendettaRef.current && MaskLv1Ref.current && MaskLv2Ref.current && MaskLv3Ref.current) {
-      fullAnimations = MaskLv2Ref.current.moveAnimation(fullAnimations, { x: -144, y: -62 }, { x: -144, y: -290 })
-      fullAnimations = MaskLv3Ref.current.moveAnimation(fullAnimations, { x: -343, y: 149 }, { x: -381, y: 369 }, "<")
-      fullAnimations = MaskLv1Ref.current.moveAnimation(fullAnimations, { x: 230, y: 169 }, { x: 305, y: 536 }, "<")
+      fullAnimations = MaskLv2Ref.current.moveAnimation(fullAnimations, { x: -144, y: 0 }, { x: -144, y: -200 })
+      fullAnimations = MaskLv3Ref.current.moveAnimation(fullAnimations, { x: -343, y: 211 }, { x: -381, y: 431 }, "<")
+      fullAnimations = MaskLv1Ref.current.moveAnimation(fullAnimations, { x: 230, y: 221 }, { x: 305, y: 598 }, "<")
         .fromTo(
           VendettaRef.current.getRef().current,
           { y: 974, opacity: 0 },
@@ -299,8 +299,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
           { x: 408, y: -18, opacity: 1 },
         )
 
-      fullAnimations = MaskLv2Ref.current.moveAnimation(fullAnimations, { x: -144, y: -290 }, { x: -144, y: -542 })
-      fullAnimations = MaskLv1Ref.current.moveAnimation(fullAnimations, { x: 305, y: 536 }, { x: 404, y: 856, opacity: 0 }, "<")
+      fullAnimations = MaskLv2Ref.current.moveAnimation(fullAnimations, { x: -144, y: -200 }, { x: -144, y: -480 })
+      fullAnimations = MaskLv1Ref.current.moveAnimation(fullAnimations, { x: 305, y: 536 }, { x: 404, y: 918, opacity: 0 }, "<")
         .fromTo(
           VendettaRef.current.getRef().current,
           { y: 721, opacity: 1 },
@@ -308,7 +308,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
           "<"
       )
 
-      fullAnimations = MaskLv3Ref.current.moveAnimation(fullAnimations, { x: -381, y: 369 }, { x: -669, y: 801, opacity: 0 })
+      fullAnimations = MaskLv3Ref.current.moveAnimation(fullAnimations, { x: -381, y: 431 }, { x: -669, y: 863, opacity: 0 })
         .fromTo(
           VendettaRef.current.getRef().current,
           { y: 539 },
