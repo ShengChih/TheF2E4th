@@ -343,7 +343,6 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       const animation = gsap.effects.timelineScroller(el, {
         start: "center+=1024 center",
         id: `card_${index}`,
-        markers: true
       }).fromTo(el, from, to)
 
       animations.push(animation)

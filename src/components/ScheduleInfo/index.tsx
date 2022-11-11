@@ -1,5 +1,6 @@
 import { ReactNode, ComponentProps } from 'react'
 import SectionTitle from '@components/SectionTitle'
+import { flatClassName } from '@utils/reduce'
 
 interface SchedulePointProps {
 	CardStyle: string
@@ -20,7 +21,7 @@ function SchedulePoint({
 		<div className={`relative flex items-center flex-col ${CardStyle}`}>
 			<div className={`relative font-sans text-[#38241B] xl:leading-[43px] xl:text-[30px]`}>{title}</div>
 			<div className={`flex items-center justify-center xl:mt-[20px] xl:w-[68.37px] xl:h-[68.37px]`}>
-				<div className={`rotate-45 bg-[#3C221B] xl:w-[48.53px] xl:h-[48.53px] ${RectangleStyle}`}></div>
+				<div className={`rotate-45 xl:w-[48.53px] xl:h-[48.53px] ${RectangleStyle}`}></div>
 			</div>
 			<div className={`relative grid font-sans font-normal text-[#38241B] xl:leading-[35px] xl:text-[24px] ${PeriodStyle}`}>
 				{
@@ -98,12 +99,41 @@ type ScheduleInfoProps = Pick<ComponentProps<"div">, "children">
 export default function ScheduleInfo({ children }: ScheduleInfoProps) {
 	return (
 		<>
-			<SectionTitle className={`items-center md:h-[114px] xl:h-[170px]`} title={`賽程時間`} />
-			<div className={`relative flex items-center justify-center h-[870px]`}>
-				<div className={`relative w-[1280px] h-[686px]`}>
-					<div className={`relative flex xl:w-[1280px]  xl:h-[246px]`}>
-						<div className={`absolute inset-x-0 flex items-center mx-auto xl:mt-[63px] xl:w-[960px] xl:h-[68.37px]`}>
-							<div className={`absolute inset-x-0 mx-auto border-[5px] border-solid border-[#951205]`}></div>
+			<SectionTitle className={flatClassName({
+				common: `items-center`,
+				desktop: `xl:h-[170px]`,
+				tablet: `md:h-[114px]`,
+				mobile: ``
+			})} title={`賽程時間`} />
+			<div className={flatClassName({
+				common: `relative`,
+				desktop: `xl:flex xl:items-center xl:items-center xl:justify-center xl:h-[870px]`,
+				tablet: `h-[114px]`,
+				mobile: ``
+			})}>
+				<div className={flatClassName({
+					common: `relative `,
+					desktop: `xl:w-[1280px] xl:h-[686px]`,
+					tablet: ``,
+					mobile: ``
+				})}>
+					<div className={flatClassName({
+						common: `relative flex xl:w-[1280px]  xl:h-[246px]`,
+						desktop: ``,
+						tablet: ``,
+					})}>
+						<div className={flatClassName({
+							common: `absolute inset-x-0 flex items-center mx-auto`,
+							desktop: `xl:mt-[63px] xl:w-[960px] xl:h-[68.37px]`,
+							tablet: ``,
+							mobile: ``,
+						})}>
+							<div className={flatClassName({
+								common: `absolute inset-x-0 mx-auto border-[5px] border-solid border-[#951205]`,
+								desktop: ``,
+								tablet: ``,
+								mobile: ``
+							})}></div>
 						</div>
 						{
 							ProgressPoints.map(
@@ -112,7 +142,7 @@ export default function ScheduleInfo({ children }: ScheduleInfoProps) {
 									const rectangleStyle = RectangleStyle + (
 										now >= starttime
 										? `bg-[#951205]`
-										: ``
+										: `bg-[#3C221B]`
 									)
 									return (
 										<SchedulePoint
@@ -125,9 +155,21 @@ export default function ScheduleInfo({ children }: ScheduleInfoProps) {
 							)
 						}
 					</div>
-					<div className={`relative mx-auto flex xl:w-[640px] xl:mt-[92px] xl:h-[215px]`}>
-						<div className={`absolute inset-x-0 flex items-center mx-auto xl:mt-[63px] xl:w-[320px] xl:h-[68.37px]`}>
-							<div className={`absolute inset-x-0 mx-auto border-[5px] border-solid ${+new Date() >= +new Date("2022-12-05T00:00:00.000+08:00") ? 'border-[#951205]':'border-[#3C221B]'}`}></div>
+					<div className={flatClassName({
+						common: `relative mx-auto flex`,
+						desktop: `xl:w-[640px] xl:mt-[92px] xl:h-[215px]`,
+						tablet: ``,
+						mobile: ``
+					})}>
+						<div className={flatClassName({
+							common: `absolute inset-x-0 flex items-center mx-auto xl:mt-[63px] xl:w-[320px] xl:h-[68.37px]`,
+							desktop: ``,
+							tablet: ``,
+							mobile: ``,
+						})}>
+							<div className={flatClassName({
+								common: `absolute inset-x-0 mx-auto border-[5px] border-solid ${+new Date() >= +new Date("2022-12-05T00:00:00.000+08:00") ? 'border-[#951205]' : 'border-[#3C221B]'}`,
+							})}></div>
 						</div>
 						{
 							FinalPoints.map(({ starttime, endtime, RectangleStyle, ...point }, index: number) => {
@@ -135,7 +177,7 @@ export default function ScheduleInfo({ children }: ScheduleInfoProps) {
 								const rectangleStyle = RectangleStyle + (
 									now >= starttime
 									? `bg-[#951205]`
-									: ``
+									: `bg-[#3C221B]`
 								)
 								return (
 									<SchedulePoint
@@ -147,7 +189,12 @@ export default function ScheduleInfo({ children }: ScheduleInfoProps) {
 							})
 						}
 					</div>
-					<div className={`font-sans mx-auto whitespace-pre-line text-[#3C221B] xl:text-[28px]  xl:w-[1198px] xl:h-[89px] xl:mt-[44px]`}>
+					<div className={flatClassName({
+						common: `font-sans mx-auto whitespace-pre-line text-[#3C221B] `,
+						desktop: `xl:text-[28px]  xl:w-[1198px] xl:h-[89px] xl:mt-[44px]`,
+						tablet: ``,
+						mobile: ``
+					})}>
 						{
 							"初選：將由六角學院前端、UI 評審進行第一波篩選，並於 12/5（五）公布初選佳作名單。\n\
 							決選：由三大企業針對該企業主題進行入圍獎最後篩選，並於 12/23（五）公布企業得獎名單。"
