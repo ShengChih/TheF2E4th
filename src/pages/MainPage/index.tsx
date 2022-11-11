@@ -1,9 +1,9 @@
 import {
   useRef, useState, useEffect,
   useCallback, ElementRef, MouseEvent,
-	forwardRef,
-	useImperativeHandle,
-	ForwardRefRenderFunction,
+  forwardRef,
+  useImperativeHandle,
+  ForwardRefRenderFunction,
 } from "react"
 import { deviceWidth } from '@utils/config'
 import { BasePageProps, MainPageHandle, AnimationReturn } from './type.d'
@@ -11,7 +11,8 @@ import LazyLoad from 'react-lazyload'
 import { gsap } from "@animations/gsap"
 
 import { flatClassName } from '@utils/reduce'
-import useCheckScreen from '@hooks/useCheckScreen' 
+import useCheckScreen from '@hooks/useCheckScreen'
+import useImagePreloader from "@hooks/useImagePreloader"
 
 import pcStyles from "./styles/fullpage/pc.module.scss"
 import mobileStyles from "./styles/fullpage/mobile.module.scss"
@@ -42,7 +43,7 @@ import TabletNewspaper1 from './images/tablet/Newspaper1.png'
 import TabletNewspaper2 from './images/tablet/Newspaper2.png'
 import TabletNewspaper3 from './images/tablet/Newspaper3.png'
 import RewardTask from './images/reward_task.svg'
-import ContentBgImage from './images/ContentBgImage.svg'
+import ContentBgImage from '@images/loading_bg.jpg'//'./images/ContentBgImage.svg'
 
 type VendettaHandle = ElementRef<typeof Vendetta>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
@@ -52,12 +53,28 @@ type TaskCardHandle = ElementRef<typeof TaskCard>
 
 /** 控制 & 顯示彩蛋 + 顯示折扣視窗 */
 const MaxEasterEggBit = 0b111110
+const DeviceRequiredImageList = [
+  [MainImage, RewardTask, ContentBgImage],
+  [], // mobile
+  [TabletNewspaper1, TabletNewspaper2, TabletNewspaper3], // tablet
+  [PcNewspaper1, PcNewspaper2, PcNewspaper3], // 1280 Desktop
+  [PcNewspaper1_1_5x, PcNewspaper2_1_5x, PcNewspaper3_1_5x] // 1920 Desktop
+]
 
 const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Header, LoadingPage }, forwardref) => {
-  const [isReadyPage, setReadyPage] = useState<boolean>(true)
+  const [isReadyPage, setReadyPage] = useState<boolean>(false)
   const [easterEggBit, setEasterEggBit] = useState<number>(0)
-  const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
-  
+  let [notDefined, isMobile, isTablet, isDesktop, isDesktop1920] = useCheckScreen([...deviceWidth, 1920])
+  const [commonResources, mobileResoures, tabletResources, desktopResoures, biggerDesktopResources] = DeviceRequiredImageList
+  const deivceResources = isDesktop ? desktopResoures : (
+    isDesktop1920 ? biggerDesktopResources : (
+      isTablet ? tabletResources : (
+        isMobile ? mobileResoures : []
+      )
+    )
+  )
+  isDesktop = isDesktop || isDesktop1920
+  const { imagesPreloaded } = useImagePreloader([...commonResources, ...deivceResources])
 
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const hexSchoolAnchorRef = useRef<HTMLDivElement>(null)
@@ -66,10 +83,10 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   const ScrollMouseTopRef = useRef<HTMLDivElement>(null)
   const FullPageRef = useRef<HTMLDivElement>(null)
   const MainBannerRef = useRef<HTMLDivElement>(null)
-	const MaskLv1Ref = useRef<NewsPaperHandle>(null)
-	const MaskLv2Ref = useRef<NewsPaperHandle>(null)
-	const MaskLv3Ref = useRef<NewsPaperHandle>(null)
-	const VendettaRef = useRef<VendettaHandle>(null)
+  const MaskLv1Ref = useRef<NewsPaperHandle>(null)
+  const MaskLv2Ref = useRef<NewsPaperHandle>(null)
+  const MaskLv3Ref = useRef<NewsPaperHandle>(null)
+  const VendettaRef = useRef<VendettaHandle>(null)
   const RewardTaskRef = useRef<HTMLImageElement>(null)
 
   const AwardInfoSectionRef = useRef<AwardInfoHandle>(null)
@@ -85,15 +102,15 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   }, [anchor])
 
   useImperativeHandle(forwardref, () => {
-		return {
-			gotoHexSchoolAnchor(e: MouseEvent) {
+    return {
+      gotoHexSchoolAnchor(e: MouseEvent) {
         setAnchor(hexSchoolAnchorRef.current)
       },
       gotoScheduleInfoAnchor(e: MouseEvent) {
         setAnchor(scheduleInfoAnchorRef.current)
       }
-		}
-	}, [])
+    }
+  }, [])
 
   const handleEasterEggBit = useCallback<(e: MouseEvent) => void>((e: MouseEvent) => {
     const eggOffset = parseInt((e.currentTarget.getAttribute('data-egg-offset') ?? '0')) 
@@ -314,20 +331,32 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   }
 
   useEffect(() => {
+    if (imagesPreloaded) {
+      setReadyPage(true)
+    }
+  }, [imagesPreloaded])
+
+  useEffect(() => {
     let animations: AnimationReturn[] = []
     
-    if (isDesktop) {
-      animations = initDesktopAnimations()
-    } else if (isMobile) {
-      animations = initMobileAnimations()
-    } else if (isTablet) {
-      animations = initTabletAnimations()
+    if (isReadyPage) {
+      if (isDesktop && isDesktop1920) {
+        animations = initDesktopAnimations()
+      } else if (isMobile) {
+        animations = initMobileAnimations()
+      } else if (isTablet) {
+        animations = initTabletAnimations()
+      }
     }
 
-		return () => {
+    return () => {
       animations.map((animation) => animation.revert())
-		}
-	}, [])
+    }
+  }, [isReadyPage])
+
+  if (!isReadyPage || !imagesPreloaded) {
+    return <>{LoadingPage}</>
+  }
 
   return (
     <>
@@ -530,7 +559,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             </div>
             <LazyLoad height={300}>
               <div
-                className={`${appendDisplayEasterEggClassName(1)} relative w-fit	h-fit xl:translate-x-[-29.4px] xl:translate-y-[19.21px]`}
+                className={`${appendDisplayEasterEggClassName(1)} relative w-fit  h-fit xl:translate-x-[-29.4px] xl:translate-y-[19.21px]`}
                 onClick={handleEasterEggBit}
                 data-egg-offset={1}
               >
@@ -546,7 +575,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             <LazyLoad height={200} once >
               <ScheduleInfo>
                 <div
-                  className={`${appendDisplayEasterEggClassName(2)} absolute top-0 left-0 w-fit	h-fit xl:translate-x-[904px] xl:translate-y-[264px]`}
+                  className={`${appendDisplayEasterEggClassName(2)} absolute top-0 left-0 w-fit  h-fit xl:translate-x-[904px] xl:translate-y-[264px]`}
                   onClick={handleEasterEggBit}
                   data-egg-offset={2}
                 >
@@ -556,7 +585,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
                   </svg>
                 </div>
                 <div
-                  className={`${appendDisplayEasterEggClassName(3)} absolute top-0 left-0 w-fit	h-fit xl:translate-x-[1135px] xl:translate-y-[702.58px]`}
+                  className={`${appendDisplayEasterEggClassName(3)} absolute top-0 left-0 w-fit  h-fit xl:translate-x-[1135px] xl:translate-y-[702.58px]`}
                   onClick={handleEasterEggBit}
                   data-egg-offset={3}
                 >
@@ -575,7 +604,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             <LazyLoad height={200} once >
               <LiveShareVideo>
                 <div
-                  className={`${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit	h-fit xl:translate-x-[-562px] xl:translate-y-[973.42px]`}
+                  className={`${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit  h-fit xl:translate-x-[-562px] xl:translate-y-[973.42px]`}
                   onClick={handleEasterEggBit}
                   data-egg-offset={4}
                 >
@@ -602,7 +631,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               </div>
               <div
                 onClick={handleEasterEggBit}
-                className={`${appendDisplayEasterEggClassName(5)} absolute w-fit	h-fit	top-0 inset-x-0 mx-auto xl:translate-y-[64px] xl:translate-x-[658.91px]`}
+                className={`${appendDisplayEasterEggClassName(5)} absolute w-fit  h-fit  top-0 inset-x-0 mx-auto xl:translate-y-[64px] xl:translate-x-[658.91px]`}
                 data-egg-offset={5}
               >
                 <svg width="46" height="38" viewBox="0 0 46 38" fill="none" xmlns="http://www.w3.org/2000/svg">
