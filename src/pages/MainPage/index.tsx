@@ -118,7 +118,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
     return !((easterEggBit & (1 << eggOffset)) > 0) ? 'opacity-100' : 'opacity-0'
   }
 
-  /** testing scroll postion */
+  /** testing scroll postion*/
   useEffect(() => {
     const handleScroll = (e: Event) => {
       console.log('window.scrollY', window.pageYOffset)
@@ -141,84 +141,44 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
   const initDesktopAnimations = () => {
     let animations: ReturnType<typeof gsap.context | typeof gsap.timeline | typeof gsap.fromTo>[] = []
 
-    /** 讓第一頁的空白頁滾動，置頂第二頁 */
-    animations.push(gsap.context(() => {
-      /** 置頂 Banner 後，滾動動畫效果 */
-      ScrollTrigger.create({
+    let mainVisualAnimations = gsap.timeline({
+      scrollTrigger: {
         id: 'fullpin',
         trigger: MainBannerRef.current,
         scrub: true,
-        start: `top top`, /** 滾動軸還未滾之前就要將 banner 透過 pin fixed 起來，滾動才不會滾到 banner，因此填 0 */
-        end: `+=948`,//`+=948`, /** 滾完第一頁動畫，要很順接第二頁，230 + 364 + 354 */
         pin: FullPageRef.current,
         pinSpacing: false,
-        // markers: true,
-      })
-    }))
-
-    /**
-     * 先移上方圖 往 y 方向 -230px，滾動軸也卷動 1:1 的 230px
-     * 
-     * 移動 px 跟滾動 px 1:1 好處理，不用映射距離範圍
-     * 若要映射或裝置要算，可用 gsap.mapRanges 映射，就是滾動 1px 圖要移動多少 px 概念。
-     * 
-     * 錯誤用法: 一個 timeline, 塞很多不同的 scrollTrigger，官方建議獨立 scrollTrigger 事件
-     * */
-
-    if (MaskLv1Ref.current && MaskLv2Ref.current && MaskLv3Ref.current) {
-      let animation1 = MaskLv2Ref.current.initTimelineScroller({
-        start: `top top`,
-        end: `+=230`,
-        scrub: true
-      })
-      animation1 = MaskLv2Ref.current.moveAnimation(animation1, { x: 0, y: 0 }, { x: 0, y: -230 }).to(
-        ScrollMouseTopRef.current,
-        { visibility: 'hidden' },
-      )
-      animations.push(animation1)
-    }
-    
-
-    /**
-     * 接著第二步一起移動
-     * 1280 * 720
-     * 1. 上方圖: 往 y 方向移動 -364px (已看不到圖)
-     * 2. 左下圖: 往 y 方向移動 103px
-     * 3. 右下圖: 往 y 方向移動 413px (已看不到圖)
-     * 4. 人頭 + 獎金: 往 y 移動，上移至 0 + 360px
-     * 
-     * */
-    const [pcLocation, tabletLocation, mobileLocation] = VendettaLocations
-    const vendettaLocation = isMobile ? mobileLocation : isTablet ? tabletLocation : pcLocation
-    if (VendettaRef.current && MaskLv2Ref.current && MaskLv1Ref.current && MaskLv3Ref.current) {
-      let animation = gsap.timeline({
-        scrollTrigger: {
-          start: `230 top`,
-          end: `+=364`,
-          scrub: true,
+        onEnter: (self) => {
+          console.log('fullpin onEnter')
+        },
+        onEnterBack: (self) => {
+          console.log('fullpin onEnterBack')
+        },
+        onLeave: (self) => {
+          console.log('fullpin onLeave')
+        },
+        onLeaveBack: (self) => {
+          console.log('fullpin onLeaveBack')
         }
-      }).to(
+      }
+    })
+
+    if (MaskLv1Ref.current && MaskLv2Ref.current && MaskLv3Ref.current && VendettaRef.current) {
+      mainVisualAnimations = MaskLv2Ref.current.moveAnimation(mainVisualAnimations, { x: 0, y: 0 }, { x: 0, y: -230 }).to(
         ScrollMouseTopRef.current,
         { visibility: 'hidden' },
       )
-      animation = MaskLv2Ref.current.moveAnimation(animation, { x: 0, y: -230 }, { x: 0, yPercent: '-100' }).fromTo(
+
+      mainVisualAnimations = MaskLv2Ref.current.moveAnimation(mainVisualAnimations, { x: 0, y: -230 }, { x: 0, yPercent: '-100' }).fromTo(
         VendettaRef.current.getRef().current,
-        vendettaLocation.from, 
-        vendettaLocation.to, // 動畫結束後，暫停至新的相對位置
+        { x: 314, y: 597 }, 
+        { x: 314, y: 259 },
         "<"
       )
-      animation = MaskLv1Ref.current.moveAnimation(animation, { x: 462, y: 287 }, { x: 462, yPercent: '40', opacity: 0 }, "<")
-      animation = MaskLv3Ref.current.moveAnimation(animation, { x: -248, y: 261 }, { x: -248, y: 364 }, "<")
-      animations.push(animation)
-    }
-
-    if (VendettaRef.current && MaskLv3Ref.current) {
-      let animation = MaskLv3Ref.current.initTimelineScroller({
-        start: 'top+=333 top', /** > (第一次滾動軸)230px + (第二次滾動軸偏移量 364 - 261) 103px */
-        end: `+=354`,
-        scrub: true
-      })
-      animation = MaskLv3Ref.current.moveAnimation(animation, { x: -248, y: 364 }, { x: -248, y: 718, opacity: 0 }).to(
+      mainVisualAnimations = MaskLv1Ref.current.moveAnimation(mainVisualAnimations, { x: 462, y: 287 }, { x: 462, yPercent: '40', opacity: 0 }, "<")
+      mainVisualAnimations = MaskLv3Ref.current.moveAnimation(mainVisualAnimations, { x: -248, y: 261 }, { x: -248, y: 364 }, "<")
+      
+      mainVisualAnimations = MaskLv3Ref.current.moveAnimation(mainVisualAnimations, { x: -248, y: 364 }, { x: -248, y: 718, opacity: 0 }).to(
         VendettaRef.current.getRef().current,
         { x: 314, y: 36 },
         "<"
@@ -227,8 +187,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
         { x: 856, y: -25, opacity: 0 },
         { x: 856, y: -25, opacity: 1 },
       )
-      animations.push(animation)
     }
+    animations.push(mainVisualAnimations)
 
     const cardTriggers = (ScheduleTaskRefs.current.map(
       (ref: ElementRef<typeof TaskCard>) => ref.getRef().current
@@ -244,7 +204,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
       const [from, to] = cardEffect
       const el = cardTriggers[index]
       const animation = gsap.effects.timelineScroller(el, {
-        start: "center+=948 center",
+        start: "center+=700 center",
         id: `card_${index}`,
         once: true,
       }).fromTo(el, from, to)
@@ -284,7 +244,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle> = (props, forwardref) =
 
       const animation = gsap.effects.timelineScroller(awardAnimationTrigger, {
         id: `reward`,
-        start: 'center+=948 center',
+        start: 'center+=700 center',
         once: true,
       })
 

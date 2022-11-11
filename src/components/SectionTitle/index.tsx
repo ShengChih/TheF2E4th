@@ -1,7 +1,5 @@
 import React from 'react'
 import { flatClassName } from '@utils/reduce'
-import useCheckScreen from '@hooks/useCheckScreen'
-import { deviceWidth } from '@utils/config'
 
 type SectionTitleProps = {
 	className?: string

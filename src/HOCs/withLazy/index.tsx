@@ -16,7 +16,7 @@ export default function withPageLoading<T = {}>(asyncModule: any): React.FC<Lazy
   }) => {
     return (
       <React.Suspense
-        fallback={<LoadingPage content={`努力加載中…`} />}
+        fallback={<LoadingPage mediaImages={[]} content={`努力加載中…`} />}
       >
         <WrappedComponent {...props} />
       </React.Suspense>

@@ -9,7 +9,6 @@ import './styles/base.scss';
 import './styles/pc.scss';
 import './styles/tablet.scss';
 
-import { isTablet, isMobile } from 'react-device-detect';
 import useTouchDetector from '@hooks/useTouchDetector';
 
 
@@ -18,7 +17,7 @@ export default function Selection({ defaultText, dropdownId, selectOptions }: Se
   const [selected, setSelected] = useState<Array<any>>();
 
   let touchEventGroup = {}
-  if (isTablet || isMobile) {
+  if (true) {
     const findCurrentTouchedElement = (element: HTMLElement) => {
       return element.tagName.toLowerCase() === 'li'
     }

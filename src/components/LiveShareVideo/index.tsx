@@ -1,7 +1,7 @@
 import React, { useCallback, useState, MouseEvent, ReactNode } from 'react'
 import MagicWand from '@components/MagicWand'
 import SectionTitle from '@components/SectionTitle'
-import BackgroundImage from './images/BackgroundImage.svg'
+import { flatClassName } from '@utils/reduce'
 import BlockStudioSpeaker from './images/Speaker1.gif'
 import LeoSpeaker from './images/Speaker2.gif'
 import DraggableSpeaker from './images/FakeSpeaker3.gif'
@@ -47,28 +47,55 @@ const ShareSpeakerCard = React.memo(({
 	return (
 		<div 
 			style={{
-				backgroundImage: `url(${BackgroundImage})`
+				backgroundImage: `url(${SpeakerImage})`
 			}}
-			className={`relative flex flex-col xl:w-[522px] h-[738.5px]`}
+			className={flatClassName({
+				common: `relative flex flex-col`,
+				desktop: `xl:w-[522px] h-[738.5px]`,
+				tablet: `md:w-[343.px] md:[485.26px]`,
+				mobile: ``
+			})}
 		>
-			<div className={`text-center font-serif font-black mx-auto ${SubjectStyle}`}>{SubjectTitle}</div>
+			<div className={flatClassName({
+				common: `text-center font-serif font-black mx-auto ${SubjectStyle}`,
+				tablet: `md:absolute`
+			})}>{SubjectTitle}</div>
 			<div
 				onClick={go2Link}
-				className={`relative mx-auto xl:w-[341.48px] xl:h-[468.35px]`}
+				className={flatClassName({
+					common: `relative mx-auto`,
+					desktop: `xl:w-[341.48px] xl:h-[468.35px]`,
+					tablet: ``,
+					mobile: ``
+				})}
 			>
-				<img src={SpeakerImage} alt={SpeakerInfo} />
 				<div
 					style={{
 						backgroundImage: `url(${PlayAction})`
 					}}
-					className={`bg-no-repeat bg-center absolute border-white bg-[#38241B]/[.6] xl:w-[107.03px] xl:h-[107.03px] xl:border-4 xl:rounded-[97px] xl:left-[120px] xl:top-[180px]`}
+					className={flatClassName({
+						common: `bg-no-repeat bg-center absolute border-white bg-[#38241B]/[.6]`,
+						desktop: `xl:w-[107.03px] xl:h-[107.03px] xl:border-4 xl:rounded-[97px] xl:left-[120px] xl:top-[180px]`,
+						tablet: ``,
+						mobile: ``
+					})}
 				></div>
-				<div className={`font-roboto flex items-center justify-center absolute bg-[#951205] text-white xl:text-[28px] xl:w-[104px] xl:h-[53px] xl:font-medium xl:left-[229px] xl:top-[25px] xl:leading-[67px]`}>LIVE</div>
+				<div className={flatClassName({
+						common: `font-roboto flex items-center justify-center absolute bg-[#951205] text-white`,
+						desktop: `xl:text-[28px] xl:w-[104px] xl:h-[53px] xl:font-medium xl:left-[229px] xl:top-[25px] xl:leading-[67px]`,
+						tablet: ``,
+						mobile: ``
+					})}>LIVE</div>
 				<div
 					style={{
 						backgroundImage: `url(${NameBgImage})`
 					}}
-					className={`absolute flex items-center xl:w-[259px] xl:h-[66px] xl:top-[428px] xl:left-[41px]`}
+					className={flatClassName({
+						common: `absolute flex items-center`,
+						desktop: `xl:w-[259px] xl:h-[66px] xl:top-[428px] xl:left-[41px]`,
+						tablet: `md:w-[170.19px] md:h-[43.37px]`,
+						mobile: ``
+					})}
 				>
 					<div className={`relative whitespace-pre text-center text-white font-sans font-bold ${SpeakerTitleStyle}`}>{SpeakerTitle}</div>
 				</div>
@@ -80,18 +107,30 @@ const ShareSpeakerCard = React.memo(({
 
 const liveShares = [
 	{
-		SubjectStyle: `xl:text-[57px] xl:leading-[62px] xl:mt-[47.68px] xl:mb-[45.32px] xl:w-[402.39px] xl:h-[62px]`,
+		SubjectStyle: flatClassName({
+			desktop: `xl:text-[57px] xl:leading-[62px] xl:mt-[47.68px] xl:mb-[45.32px] xl:w-[402.39px] xl:h-[62px]`,
+			tablet: `md:text-[37px] md:leading-[36px] md:absolute md:inset-x-0 md:mx-auto md:top-[13.59px] md:w-[264.4px] md:h-[77.19px]`,
+			mobile: ``
+		}),
 		SubjectTitle: `網站的動態趨勢`,
 		SpeakerImage: BlockStudioSpeaker,
 		SpeakerInfo: `李明-版塊設計創辦人兼總監`,
 		SpeakerTitleStyle: `xl:text-[20px] xl:leading-[26px] xl:w-[200px] xl:h-[52px] xl:left-[35px]`,
 		SpeakerTitle: '李明\n版塊設計創辦人兼總監',
-		ActivityPeriodsStyle: `xl:text-[35px] xl:leading-[67px] xl:ml-[57px] xl:mt-[28.65px] xl:w-[402.39px] xl:h-[58.74px]`,
+		ActivityPeriodsStyle: flatClassName({
+			desktop: `xl:text-[35px] xl:leading-[67px] xl:ml-[57px] xl:mt-[28.65px] xl:w-[402.39px] xl:h-[58.74px]`,
+			tablet: `md:text-[24px] md:leading-[67px] md:w-[259px] md:h-[42px] md:top-[433px]`,
+			mobile: ``
+		}),
 		ActivityInfo: `11/03(四)20:00 ~ 21:30`,
 		VideoLink: `https://www.youtube.com/watch?v=9gzDFKTIFB4`
 	},
 	{
-		SubjectStyle: `xl:text-[49px] xl:leading-[62px] xl:mt-[20.68px] xl:mb-[16.84px] xl:w-[402.39px] xl:h-[117.47px]`,
+		SubjectStyle: flatClassName({
+			desktop: `xl:text-[49px] xl:leading-[62px] xl:mt-[20.68px] xl:mb-[16.84px] xl:w-[402.39px] xl:h-[117.47px]`,
+			tablet: `md:text-[30px] md:leading-[36px] `,
+			mobile: ``
+		}),
 		SubjectTitle: `jQuery 也可以做到的互動效果`,
 		SpeakerImage: LeoSpeaker,
 		SpeakerInfo: `Leo-Angular Taiwan 傳教士`,
@@ -99,6 +138,7 @@ const liveShares = [
 		SpeakerTitle: 'Leo\nAngular Taiwan 傳教士',
 		ActivityPeriodsStyle: `xl:text-[35px] xl:leading-[67px] xl:ml-[57px] xl:mt-[28.65px] xl:mb-[45.32px] xl:w-[402.39px] xl:h-[58.74px]`,
 		ActivityInfo: `11/10(四)20:00 ~ 21:30`,
+		VideoLink: `https://www.youtube.com/watch?v=ywPkqeXYVAU&ab_channel=%E5%85%AD%E8%A7%92%E5%AD%B8%E9%99%A2`
 	},
 	{
 		SubjectStyle: `xl:text-[46px] xl:leading-[62px] xl:mt-[20.68px] xl:mb-[16.84px] xl:w-[402.39px] xl:h-[117.47px]`,
