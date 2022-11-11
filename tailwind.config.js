@@ -10,7 +10,7 @@ module.exports = {
       'tablet': '768px',
       'desktop': '1280px',
       sm: '375px',
-      md: {'min': '768px', 'max': '1280px'},
+      md: {'min': '768px', 'max': '1279px'},
       xl: '1280px',
     },
     fontFamily: {
