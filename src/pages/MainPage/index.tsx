@@ -568,7 +568,12 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             </div>
             <LazyLoad height={300}>
               <div
-                className={`${appendDisplayEasterEggClassName(1)} relative w-fit  h-fit xl:translate-x-[-29.4px] xl:translate-y-[19.21px]`}
+                className={flatClassName({
+                  common: `${appendDisplayEasterEggClassName(1)} relative w-fit  h-fit`,
+                  desktop: `xl:translate-x-[-29.4px] xl:translate-y-[19.21px]`,
+                  tablet: ``,
+                  mobile: ``
+                })}
                 onClick={handleEasterEggBit}
                 data-egg-offset={1}
               >
@@ -619,7 +624,12 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               <Suspense fallback={<div>loading...</div>}>
                 <LiveShareVideo>
                   <div
-                    className={`${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit  h-fit xl:translate-x-[-562px] xl:translate-y-[973.42px]`}
+                    className={flatClassName({
+                      common: `${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit  h-fit`,
+                      desktop: `xl:translate-x-[-562px] xl:translate-y-[973.42px]`,
+                      tablet: `md:translate-x-[-333px] md:translate-y-[630px]`,
+                      mobile: ``
+                    })}
                     onClick={handleEasterEggBit}
                     data-egg-offset={4}
                   >

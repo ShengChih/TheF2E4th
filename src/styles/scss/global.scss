@@ -1,0 +1,23 @@
+$small: 367px;
+$medium: 768px;
+$xlarge: 1280px;
+
+* {
+  //outline: solid 1px red;
+  //outline-color: transparent;
+}
+  
+
+body {
+  background-color: #f6f7fb;
+  overflow-x: hidden;
+}
+
+
+@media (min-width: 768px) and (max-width:1279px) {
+  #root {
+    overflow-x: hidden;
+  }
+}
+    
+  
