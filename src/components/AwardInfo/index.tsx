@@ -89,9 +89,9 @@ const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> =
 						>
 							<div className={
 								flatClassName({
-									common: `relative mx-auto shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-bold font-sans bg-[#951205] text-white flex items-center justify-center`,
-									desktop: `xl:w-[232.41px] xl:h-[61.67px] xl:rounded-[9px] xl:top-[298.25px] xl:text-[30px]`,
-									tablet: ``
+									common: `rounded-[9px] relative mx-auto shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-bold font-sans bg-[#951205] text-white flex items-center justify-center`,
+									desktop: `xl:w-[232.41px] xl:h-[61.67px] xl:top-[298.25px] xl:text-[30px] xl:leading-[43px]`,
+									tablet: `md:w-[206.52px] md:h-[54.8px] md:top-[265.02px] md:text-[26px] md:leading-[38px]`,
 								})}
 							>$10,000 (3名)</div>
 						</div>
@@ -122,9 +122,9 @@ const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> =
 							})}
 						>
 							<div className={flatClassName({
-								common: `relative mx-auto shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-bold font-sans bg-[#951205] text-white flex items-center justify-center`,
-								desktop: `xl:w-[232.41px] xl:h-[61.5px] xl:rounded-[9px] xl:top-[292.37px] xl:text-[30px] xl:leading-[43.44px]`,
-								tablet: ``,
+								common: `rounded-[9px] relative mx-auto shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-bold font-sans bg-[#951205] text-white flex items-center justify-center`,
+								desktop: `xl:w-[232.41px] xl:h-[61.5px] xl:top-[292.37px] xl:text-[30px] xl:leading-[43.44px]`,
+								tablet: `md:w-[206.52px] md:h-[54.8px] md:top-[265.02px] md:text-[26px] md:leading-[38px]`,
 								mobile: ``
 							})}>$3000 (6名)</div>
 						</div>
@@ -155,9 +155,9 @@ const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> =
 							})}
 						>
 							<div className={flatClassName({
-								common: `relative mx-auto shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-bold font-sans bg-[#951205] text-white flex items-center justify-center`,
-								desktop: `xl:w-[233.02px] xl:h-[61.67px] xl:rounded-[9px] xl:top-[292.18px] xl:text-[30px]`,
-								tablet: ``,
+								common: `rounded-[9px] relative mx-auto shadow-[0_4px_4px_rgba(0,0,0,0.25)] font-bold font-sans bg-[#951205] text-white flex items-center justify-center`,
+								desktop: `xl:w-[233.02px] xl:h-[61.67px] xl:top-[292.18px] xl:text-[30px]`,
+								tablet: `md:w-[206.52px] md:h-[54.8px] md:top-[265.02px] md:text-[26px] md:leading-[38px]`,
 								mobile: ``
 							})}>數位獎狀(60名)</div>
 						</div>
