@@ -345,7 +345,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
     let animations: AnimationReturn[] = []
     
     if (isReadyPage) {
-      if (isDesktop && isDesktop1920) {
+      if (isDesktop) {
         animations = initDesktopAnimations()
       } else if (isMobile) {
         animations = initMobileAnimations()
@@ -577,7 +577,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
                   <path d="M32.1707 40.6361C23.376 53.1123 13.8706 47.8514 13.7345 47.7768C18.7273 53.9853 28.385 53.7902 33.0559 47.1845C33.1086 47.1142 33.1592 47.0383 33.2119 46.9681C40.4821 36.5726 43.0458 24.9665 40.6265 13.3961C40.509 12.8438 40.3591 12.3094 40.1767 11.7929C39.4717 9.79571 38.2883 8.07065 36.7842 6.71698C41.0441 12.5129 41.0255 28.0742 32.1707 40.6361Z" fill="#AA8900"/>
                 </svg>
               </div>
-             </LazyLoad> 
+            </LazyLoad> 
           </div>
 
           <section className={`w-full xl:h-[1040px]`} ref={scheduleInfoAnchorRef}>

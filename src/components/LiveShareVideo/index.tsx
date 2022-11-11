@@ -169,11 +169,18 @@ type ClickBlockProps = {
 const ClickBlock = React.memo(({ handleClick }: ClickBlockProps) => (
 	<div
 		onClick={handleClick}
-		className={`relative font-serif font-black mx-auto text-center text-[#3C221B] xl:leading-[103px] xl:text-[72px] xl:mt-[215px] xl:w-[504px] xl:h-[245px]`}
+		className={flatClassName({
+			common: `relative w-[504px] h-[245px] font-serif font-black text-[72px] leading-[103px] mx-auto text-center text-[#3C221B]`,
+			desktop: `xl:mt-[215px]`,
+			tablet: `md:mt-[132px]`,
+			mobile: ``
+		})}
 	>
 		意想不到的好康
 		<span className={`text-[#951205]`}>請點擊</span>
-		<MagicWand className={`absolute top-0 left-0 xl:w-[200px] xl:h-[200px] xl:translate-y-[135px] xl:translate-x-[316px]`} />
+		<MagicWand className={flatClassName({
+			common: `absolute top-0 left-0 w-[200px] h-[200px] translate-y-[135px] translate-x-[316px]`
+		})} />
 	</div>
 ))
 
