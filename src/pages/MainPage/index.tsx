@@ -268,14 +268,12 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
 
   const initTabletAnimations = () => {
     let animations: AnimationReturn[] = []
-    let fullAnimations = gsap.timeline({
+    let mainVisualAnimations = gsap.timeline({
       scrollTrigger: {
         id: 'fullpin',
         trigger: MainBannerRef.current,
-        end: '+=1042',
         scrub: true,
         pin: FullPageRef.current,
-        pinSpacing: false,
         onEnter: (self) => {
           console.log('fullpin onEnter')
         },
@@ -291,9 +289,9 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       }
     })
     if (VendettaRef.current && MaskLv1Ref.current && MaskLv2Ref.current && MaskLv3Ref.current) {
-      fullAnimations = MaskLv2Ref.current.moveAnimation(fullAnimations, { x: -144, y: 0 }, { x: -144, y: -200 })
-      fullAnimations = MaskLv3Ref.current.moveAnimation(fullAnimations, { x: -343, y: 211 }, { x: -381, y: 431 }, "<")
-      fullAnimations = MaskLv1Ref.current.moveAnimation(fullAnimations, { x: 230, y: 221 }, { x: 305, y: 598 }, "<")
+      mainVisualAnimations = MaskLv2Ref.current.moveAnimation(mainVisualAnimations, { x: -144, y: 0 }, { x: -144, y: -200 })
+      mainVisualAnimations = MaskLv3Ref.current.moveAnimation(mainVisualAnimations, { x: -343, y: 211 }, { x: -381, y: 431 }, "<")
+      mainVisualAnimations = MaskLv1Ref.current.moveAnimation(mainVisualAnimations, { x: 230, y: 221 }, { x: 305, y: 598 }, "<")
         .fromTo(
           VendettaRef.current.getRef().current,
           { y: 974, opacity: 0 },
@@ -304,8 +302,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
           { x: 408, y: -18, opacity: 1 },
         )
 
-      fullAnimations = MaskLv2Ref.current.moveAnimation(fullAnimations, { x: -144, y: -200 }, { x: -144, y: -480 })
-      fullAnimations = MaskLv1Ref.current.moveAnimation(fullAnimations, { x: 305, y: 536 }, { x: 404, y: 918, opacity: 0 }, "<")
+      mainVisualAnimations = MaskLv2Ref.current.moveAnimation(mainVisualAnimations, { x: -144, y: -200 }, { x: -144, y: -480 })
+      mainVisualAnimations = MaskLv1Ref.current.moveAnimation(mainVisualAnimations, { x: 305, y: 536 }, { x: 404, y: 918, opacity: 0 }, "<")
         .fromTo(
           VendettaRef.current.getRef().current,
           { y: 721, opacity: 1 },
@@ -313,7 +311,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
           "<"
       )
 
-      fullAnimations = MaskLv3Ref.current.moveAnimation(fullAnimations, { x: -381, y: 431 }, { x: -669, y: 863, opacity: 0 })
+      mainVisualAnimations = MaskLv3Ref.current.moveAnimation(mainVisualAnimations, { x: -381, y: 431 }, { x: -669, y: 863, opacity: 0 })
         .fromTo(
           VendettaRef.current.getRef().current,
           { y: 539 },
@@ -324,7 +322,72 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         { visibility: 'hidden' },
       )
 
-      animations.push(fullAnimations)
+      animations.push(mainVisualAnimations)
+    }
+
+    let cardTriggers = (ScheduleTaskRefs.current.map(
+      (ref: ElementRef<typeof TaskCard>) => ref.getRef().current
+    )) as gsap.DOMTarget[]
+    cardTriggers.splice(0, 0, hexSchoolAnchorRef.current)
+
+    const cardEffects: gsap.TweenVars[][] = [
+      [{ xPercent: "-150"}, { xPercent: "0", duration: 0.3 }],
+      [{ xPercent: "150" }, { xPercent: "0", duration: 0.3 }],
+      [{ xPercent: "-150" }, { xPercent: "0", duration: 0.3 }],
+      [{ xPercent: "150" }, { xPercent: "0", duration: 0.3 }],
+    ]
+
+    for (const [index, cardEffect] of cardEffects.entries()) {
+      const [from, to] = cardEffect
+      const el = cardTriggers[index]
+      const animation = gsap.effects.timelineScroller(el, {
+        start: "center+=1024 center",
+        id: `card_${index}`,
+        markers: true
+      }).fromTo(el, from, to)
+
+      animations.push(animation)
+    }
+
+    if (AwardInfoSectionRef.current) {
+      const awardEl = AwardInfoSectionRef.current
+      const awardAnimationTrigger = awardEl.getSectionRef().current
+      const rewardTrigger = [
+        {
+          el: awardEl.getTeamAwardRef().current,
+          from: { yPercent: "-100", visibility: 'hidden' },
+          to: { yPercent: "0", duration: 0.9, visibility: 'visible' },
+          order: "<"
+        },
+        {
+          el: awardEl.getPersonalAwardRef().current,
+          from: { yPercent: "-100", visibility: 'hidden' },
+          to: { yPercent: "0", duration: 0.6, visibility: 'visible' },
+          order: "<"
+        },
+        {
+          el: awardEl.getShortListAwardRef().current,
+          from: { yPercent: "-100", visibility: 'hidden' },
+          to: { yPercent: "0", duration: 0.3, visibility: 'visible' },
+          order: "<"
+        },
+        {
+          el: awardEl.getBottomTextRef().current,
+          from: { opacity: 0 },
+          to: { duration: 2, opacity: 1, delay: 2 },
+          order: ""
+        }
+      ]
+
+      const animation = gsap.effects.timelineScroller(awardAnimationTrigger, {
+        id: `reward`,
+        start: 'center+=700 center',
+        once: true,
+      })
+
+      rewardTrigger.map(({ el, from, to, order }) => {
+        animation.fromTo(el, from, to, order)
+      })
     }
 
     return animations
