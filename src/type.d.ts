@@ -1,6 +1,7 @@
 import {
 	RefObject,
-  ComponentProps
+	ComponentProps,
+	ReactNode
 } from "react"
 
 export type MediaImage = {
@@ -16,3 +17,10 @@ export type MultipleImageSourcesProps = {
 }
 
 export type MediaImageProps = ComponentProps<"div"> & MultipleImageSourcesProps
+
+export type CallbackFunctionVariadicAnyReturn = (...args: any[]) => any;
+
+export type BasePageProps = {
+	Header?: ReactNode
+	LoadingPage?: ReactNode
+}

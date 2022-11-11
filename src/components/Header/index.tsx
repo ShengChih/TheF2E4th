@@ -8,7 +8,7 @@ type HeaderProps = ComponentProps<"header"> & {
 
 export default function Header({ className, gotoHexSchoolAnchor, gotoScheduleInfoAnchor }: HeaderProps) {
 	return (
-		<header className={`inset-0 z-10 flex overflow-hidden	items-center justify-between bg-[#38241B] h-[62px] px-[40px] ${className}`}>
+		<header className={`z-10 translate-x-0 translate-y-0 w-screen fixed flex overflow-hidden	items-center justify-between bg-[#38241B] h-[62px] px-[40px] ${className}`}>
 			<img src={HexSchoolLogo} className={`bg-no-repeat flex items-center w-[145px] h-[35px]`} />
 			<nav className={`flex w-[386px] h-[42px] inset-y-[10px]`}>
 				<ul className={`h-full flex items-center justify-between px-[8px] w-[196px]`}>

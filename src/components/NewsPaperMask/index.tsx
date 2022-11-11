@@ -5,7 +5,7 @@ import {
 	ForwardRefRenderFunction,
 } from "react"
 import { MediaImageProps as NewsPaperProps, NewsPaperHandle, MediaImage } from './type.d'
-import { gsap, ScrollTrigger } from "@animations/gsap"
+import { gsap } from "@animations/gsap"
 import MultipleImageSources from '@components/ResponsiveImageContainer/MultipleImageSources'
 
 

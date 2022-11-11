@@ -1,8 +1,7 @@
+import { CallbackFunctionVariadicAnyReturn } from '@type.d'
 import {
 	TouchEvent,
 } from "react";
-
-type CallbackFunctionVariadicAnyReturn = (...args: any[]) => any;
 
 interface TouchDetectorProps {
 	findFunc?: (taret: HTMLElement) => void;

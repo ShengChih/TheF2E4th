@@ -12,12 +12,6 @@ export default function LoadingPage({
 	pictureElementProps,
 	...props
 }: LoadingPageProps) {
-	const SourceElements = mediaImages.map(({
-		minWidth, imageSrc
-	}: MediaImage, index: number) => (
-		<source key={`${aliasName ?? ''}${index}`} media={`(min-width: ${minWidth}px)`} srcSet={`${imageSrc}`}></source>
-	))
-
 	return (
 		<div
 			{...props}
