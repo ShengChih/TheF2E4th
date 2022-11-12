@@ -47,7 +47,7 @@ import TabletNewspaper3 from './images/tablet/Newspaper3.png'
 
 import MobileNewpaper1 from './images/mobile/Newspaper1.png'
 import MobileNewpaper2 from './images/mobile/Newspaper2.png'
-import MobileNewpaper3 from './images/mobile/Newspaper2.png'
+import MobileNewpaper3 from './images/mobile/Newspaper3.png'
 import MobileBgImage from './images/mobile/full_bg.png'
 
 
@@ -624,7 +624,6 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         </div>
         </div>
       </div>
-
       {
         [
           {
@@ -658,7 +657,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               common: `fixed z-10`,
               desktop: `xl:translate-x-[462px] xl:translate-y-[287px] ${pcStyles.masklv1}`,
               tablet: `md:translate-x-[230px] md:translate-y-[169px] ${tabletStyles.masklv1}`,
-              mobile: []
+              mobile: `sm:translate-x-[96px] sm:translate-y-[147px] ${mobileStyles.masklv1}`
             })
           },
           {
@@ -692,7 +691,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               common: `fixed z-10`,
               desktop: `xl:translate-x-0 xl:translate-y-0 ${pcStyles.masklv2}`,
               tablet: `md:translate-x-[-144px] md:translate-y-[-62px] ${tabletStyles.masklv2}`,
-              mobile: []
+              mobile: `sm:translate-x-[-150px] sm:translate-y-[-5px] ${mobileStyles.masklv2}`
             })
           },
           {
@@ -726,7 +725,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               common: `fixed z-10`,
               desktop: `xl:translate-x-[-248px] xl:translate-y-[261px] ${pcStyles.masklv3}`,
               tablet: `md:translate-x-[-343px] md:translate-y-[149px] ${tabletStyles.masklv3}`,
-              mobile: []
+              mobile: `md:translate-x-[-283px] md:translate-y-[135px] ${mobileStyles.masklv3}`
             })
           }
         ].map((props, index: number) => (
