@@ -53,7 +53,12 @@ const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> =
 
 	return (
 		<section ref={sectionRef}  className={`w-full md:h-[1160px] xl:h-[879px]`}>
-			<SectionTitle className={`animate-fade-in items-center md:h-[114px] xl:h-[170px]`} title={`獎項`} />
+			<SectionTitle className={flatClassName({
+				common: `animate-fade-in items-center`,
+				desktop: `xl:h-[170px]`,
+				tablet: `md:h-[114px]`,
+				mobile: `sm:h-[114px]`
+			})} title={`獎項`} />
 			<div className={flatClassName({
 				common: `flex items-center justify-center`,
 				desktop: `xl:h-[709px]`,

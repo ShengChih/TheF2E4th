@@ -6,7 +6,9 @@ import {
 	useRef,
 } from 'react'
 import SectionTitle from '@components/SectionTitle'
+import { deviceWidth } from '@utils/config'
 import { flatClassName } from '@utils/reduce'
+import useCheckScreen from '@hooks/useCheckScreen'
 
 interface SchedulePointProps {
 	CardStyle: string
@@ -149,12 +151,14 @@ type ScheduleInfoHandle = {
 
 const ScheduleInfo:ForwardRefRenderFunction<ScheduleInfoHandle, ScheduleInfoProps> = ({ children }, forwardref) => {
 	const tabletAnimationContainer = useRef<HTMLDivElement>(null)
+	const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
 
+	const movement = isTablet ? 375 : 1200
 	useImperativeHandle(forwardref, () => {
 		return {
 			movePointAnimation: (tl: gsap.core.Timeline) => {
 				return tl.to(tabletAnimationContainer.current, {
-					x: () => `${-375 - window.innerWidth}`,
+					x: () => `${- movement - window.innerWidth}`,
 				})
 			}
 		}
@@ -163,26 +167,27 @@ const ScheduleInfo:ForwardRefRenderFunction<ScheduleInfoHandle, ScheduleInfoProp
 	return (
 		<>
 			<SectionTitle className={flatClassName({
-				common: `items-center`,
+				common: `animate-fade-in items-center`,
 				desktop: `xl:h-[170px]`,
 				tablet: `md:h-[114px]`,
-				mobile: ``
+				mobile: `sm:h-[114px]`
 			})} title={`賽程時間`} />
 			<div className={flatClassName({
 				common: `relative`,
 				desktop: `xl:flex xl:items-center xl:justify-center xl:h-[870px]`,
 				tablet: `md:h-[617px]`,
-				mobile: ``
+				mobile: `sm:h-[360px]`
 			})}>
 				<div className={flatClassName({
 					common: `relative `,
 					desktop: `xl:w-[1280px] xl:h-[686px]`,
 					tablet: `md:h-[487px]`,
-					mobile: ``
+					mobile: `sm:h-[360px] sm:flex sm:items-center`
 				})}>
 					<div
 						className={flatClassName({
-							tablet: `md:flex md:flex-nowrap md:my-[66px] md:w-[1667px] md:h-[246px]`
+							tablet: `md:flex md:flex-nowrap md:my-[66px] md:w-[1667px] md:h-[246px]`,
+							mobile: `sm:flex sm:flex-nowrap sm:w-[1667px] sm:h-[246px]`
 						})}
 						ref={tabletAnimationContainer}
 					>
@@ -238,7 +243,8 @@ const ScheduleInfo:ForwardRefRenderFunction<ScheduleInfoHandle, ScheduleInfoProp
 							})}>
 								<div className={flatClassName({
 									common: `absolute inset-x-0 mx-auto border-[5px] border-solid ${+new Date() >= +new Date("2022-12-05T00:00:00.000+08:00") ? 'border-[#951205]' : 'border-[#3C221B]'}`,
-									tablet: `md:w-[320px]`
+									tablet: `md:w-[320px]`,
+									mobile: `sm:w-[320px]`,
 								})}></div>
 							</div>
 							{
@@ -260,17 +266,22 @@ const ScheduleInfo:ForwardRefRenderFunction<ScheduleInfoHandle, ScheduleInfoProp
 							}
 						</div>
 					</div>
-					<div className={flatClassName({
-						common: `font-sans mx-auto whitespace-pre-line text-[#3C221B] `,
-						desktop: `text-[28px]  xl:w-[1198px] xl:h-[89px] xl:mt-[44px]`,
-						tablet: `md:w-[736px] md:h-[175px] md:mb-[64px]`,
-						mobile: ``
-					})}>
-						{
-							"初選：將由六角學院前端、UI 評審進行第一波篩選，並於 12/5（五）公布初選佳作名單。\n\
-							決選：由三大企業針對該企業主題進行入圍獎最後篩選，並於 12/23（五）公布企業得獎名單。"
-						}
-					</div>
+					{
+						isMobile
+							? ''
+							: (
+								<div className={flatClassName({
+									common: `font-sans mx-auto whitespace-pre-line text-[#3C221B] `,
+									desktop: `text-[28px]  xl:w-[1198px] xl:h-[89px] xl:mt-[44px]`,
+									tablet: `md:w-[736px] md:h-[175px] md:mb-[64px]`,
+								})}>
+									{
+										"初選：將由六角學院前端、UI 評審進行第一波篩選，並於 12/5（五）公布初選佳作名單。\n\
+										決選：由三大企業針對該企業主題進行入圍獎最後篩選，並於 12/23（五）公布企業得獎名單。"
+									}
+								</div>
+							)
+					}
 					{ children }
 				</div>
 			</div>

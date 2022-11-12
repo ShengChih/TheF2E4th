@@ -219,7 +219,12 @@ export default function LiveShareVideo({ children }: LiveShareVideoProps) {
 		state.displayCard ?
 			(
 				<>
-					<SectionTitle className={`animate-fade-in items-center md:h-[114px] xl:h-[170px]`} title={`各界大神直播分享`} />
+					<SectionTitle className={flatClassName({
+						common: `animate-fade-in items-center`,
+						desktop: `xl:h-[170px]`,
+						tablet: `md:h-[114px]`,
+						mobile: `sm:h-[114px]`
+					})} title={`各界大神直播分享`} />
 					<div className={flatClassName({
 						common: `mx-auto flex items-center justify-center`,
 						desktop: `xl:w-[1280px] xl:h-[1656px]`,

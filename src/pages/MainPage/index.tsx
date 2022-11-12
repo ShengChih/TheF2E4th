@@ -413,6 +413,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         pin: FullPageRef.current,
       }
     })
+
     if (VendettaRef.current && MaskLv1Ref.current && MaskLv2Ref.current && MaskLv3Ref.current) {
       mainVisualAnimations = MaskLv2Ref.current.moveAnimation(mainVisualAnimations, { x: -150, y: -5 }, { x: -150, y: -140 })
       mainVisualAnimations = MaskLv3Ref.current.moveAnimation(mainVisualAnimations, { x: -283, y: 135 }, { x: -345, y: 248 }, "<")
@@ -451,40 +452,46 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       animations.push(mainVisualAnimations)
     }
 
-    //let cardTriggers = (ScheduleTaskRefs.current.map(
-    //  (ref: ElementRef<typeof TaskCard>) => ref.getRef().current
-    //)) as gsap.DOMTarget[]
-    //cardTriggers.splice(0, 0, hexSchoolAnchorRef.current)
+    let cardTriggers = (ScheduleTaskRefs.current.map(
+      (ref: ElementRef<typeof TaskCard>) => ref.getRef().current
+    )) as gsap.DOMTarget[]
 
-    //const cardEffects: gsap.TweenVars[][] = [
-    //  [{ xPercent: "-150"}, { xPercent: "0", duration: 0.3 }],
-    //  [{ xPercent: "150" }, { xPercent: "0", duration: 0.3 }],
-    //  [{ xPercent: "-150" }, { xPercent: "0", duration: 0.3 }],
-    //  [{ xPercent: "150" }, { xPercent: "0", duration: 0.3 }],
-    //]
+    const cardEffects: gsap.TweenVars[][] = [
+      [{ xPercent: "-110"}, { xPercent: "0", duration: 0.3 }],
+      [{ xPercent: "110" }, { xPercent: "0", duration: 0.3 }],
+      [{ xPercent: "-110" }, { xPercent: "0", duration: 0.3 }],
+    ]
 
-    //for (const [index, cardEffect] of cardEffects.entries()) {
-    //  const [from, to] = cardEffect
-    //  const el = cardTriggers[index]
-    //  const animation = gsap.effects.timelineScroller(el, {
-    //    start: "center+=1024 center",
-    //    id: `card_${index}`,
-    //  }).fromTo(el, from, to)
+    for (const [index, cardEffect] of cardEffects.entries()) {
+      const [from, to] = cardEffect
+      const el = cardTriggers[index]
+      const animation = gsap.effects.timelineScroller(el, {
+        start: "center+=800 center",
+        id: `card_${index}`,
+        markers: true,
+        onEnter: (self: ScrollTrigger) => {
+          console.log(`card_${index}`)
+        }
+      }).fromTo(el, from, to)
 
-    //  animations.push(animation)
-    //}
+      animations.push(animation)
+    }
 
-    //if (scheduleInfoAnchorRef.current && scheduleInfoRef.current) {
-    //  const scheduleInfoSectionElement = scheduleInfoRef.current
-    //  let scheduleInfoSilder = gsap.effects.timelineScroller(scheduleInfoAnchorRef.current, {
-    //    id: `schedule_info`,
-    //    pin: FullPageRef.current,
-    //    start: 'center+=1070 center',
-    //    end: `+=400`,
-    //    scrub: true,
-    //  })
-    //  scheduleInfoSilder = scheduleInfoSectionElement.movePointAnimation(scheduleInfoSilder)
-    //}
+    if (scheduleInfoAnchorRef.current && scheduleInfoRef.current) {
+      const scheduleInfoSectionElement = scheduleInfoRef.current
+      let scheduleInfoSilder = gsap.effects.timelineScroller(scheduleInfoAnchorRef.current, {
+        id: `schedule_info`,
+        pin: FullPageRef.current,
+        start: 'center+=1000 center',
+        end: `+=800`,
+        scrub: true,
+        markers: true,
+        onEnter: (self: ScrollTrigger) => {
+          console.log(`card`)
+        }
+      })
+      scheduleInfoSilder = scheduleInfoSectionElement.movePointAnimation(scheduleInfoSilder)
+    }
 
     //if (AwardInfoSectionRef.current) {
     //  const awardEl = AwardInfoSectionRef.current

@@ -11,6 +11,7 @@ import WandCursor from '@images/WandCursor.png'
 import LoadingBg from './images/loading_bg.jpg'
 
 import { MainPageHandle } from '@pages/MainPage/type.d'
+import { flatClassName } from '@utils/reduce'
 const MainPage = lazy(() => import("@pages/MainPage"))
 
 
@@ -42,10 +43,16 @@ const App = () => {
     <>
       <LoadingPage
         className={`w-screen h-screen fixed z-10`}
-        loadingImg={<MagicWand className={`absolute inset-x-0 mx-auto w-[200px] h-[200px] xl:translate-y-[138px] md:translate-y-[76px]`} />}
+        loadingImg={<MagicWand className={flatClassName({
+          common: `absolute inset-x-0 mx-auto w-[200px] h-[200px] translate-y-[138px]`,
+        })} />}
         content={`${isDesktop ? '努力加載中...' : ''}`}
         extraInfo={(isDesktop ? ['網站中收集', <span className={`text-[#951205]`}>五顆</span>, '散落的柏蒂豆，即可獲得驚喜唷。'] : '')}
         mediaImages={[
+          {
+            minWidth: 375,
+            imageSrc: LoadingBg
+          },
           {
             minWidth: 768,
             imageSrc: LoadingBg
@@ -57,8 +64,8 @@ const App = () => {
         ]}
         imageElementProps={{
           src: LoadingBg,
-          className: 'w-screen h-full object-cover',
-          srcSet: `${LoadingBg} 768w, ${LoadingBg} 1280w`,
+          className: 'w-screen h-screen object-cover',
+          srcSet: `${LoadingBg} 375w, ${LoadingBg} 768w, ${LoadingBg} 1280w`,
           sizes: `100vw`
         }}
         pictureElementProps={{
