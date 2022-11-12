@@ -411,18 +411,6 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         trigger: MainBannerRef.current,
         scrub: true,
         pin: FullPageRef.current,
-        onEnter: (self) => {
-          console.log('fullpin onEnter')
-        },
-        onEnterBack: (self) => {
-          console.log('fullpin onEnterBack')
-        },
-        onLeave: (self) => {
-          console.log('fullpin onLeave')
-        },
-        onLeaveBack: (self) => {
-          console.log('fullpin onLeaveBack')
-        }
       }
     })
     if (VendettaRef.current && MaskLv1Ref.current && MaskLv2Ref.current && MaskLv3Ref.current) {
@@ -436,8 +424,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         )
 
       mainVisualAnimations = MaskLv3Ref.current.moveAnimation(mainVisualAnimations, { x: -345, y: 248 }, { x: -365, y: 413})
-      mainVisualAnimations = MaskLv2Ref.current.moveAnimation(mainVisualAnimations, { x: -150, y: -140 }, { x: -150, y: -330, opacity: 0}, "<")
-      mainVisualAnimations = MaskLv1Ref.current.moveAnimation(mainVisualAnimations, { x: 96, y: 318 }, { x: 96, y: 616, opacity: 0 }, "<")
+      mainVisualAnimations = MaskLv2Ref.current.moveAnimation(mainVisualAnimations, { x: -150, y: -140 }, { x: -150, y: -330, visibility: 'hidden'}, "<")
+      mainVisualAnimations = MaskLv1Ref.current.moveAnimation(mainVisualAnimations, { x: 96, y: 318 }, { x: 96, y: 616, visibility: 'hidden' }, "<")
         .fromTo(
           VendettaRef.current.getRef().current,
           { y: 464, opacity: 1 },
@@ -452,7 +440,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       mainVisualAnimations = MaskLv3Ref.current.moveAnimation(
         mainVisualAnimations,
         { x: -365, y: 413 },
-        { x: -375, y: 667, opacity: 0 }
+        { x: -375, y: 667, visibility: 'hidden' }
       ).fromTo(
         VendettaRef.current.getRef().current,
         { y: 331 },
@@ -793,11 +781,30 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
           style={{
             backgroundImage: `url(${ContentBgImage})`
           }}
-          className={`bg-no-repeat bg-center bg-cover flex flex-col items-center relative md:h-[5135px] xl:h-[6535px]`}
+          className={flatClassName({
+            common: `bg-no-repeat bg-center bg-cover flex flex-col items-center relative  `,
+            desktop: `xl:h-[6535px]`,
+            tablet: `md:h-[5135px]`,
+            mobile: `sm:[7461px]`
+          })}
         >
-          <div className={`md:mt-[60px] md:mb-[103.98px] md:h-[1127.02px] xl:mb-[175px] xl:h-[2328px]`}>
-            <div className={`grid md:grid-cols-2 md:gap-[22px] xl:grid-cols-1 xl:gap-y-[42px] md:w-[712px] md:h-[1126px] xl:w-[1200px] xl:h-[2328px]`}>
-              <div className={`relative flex flex-wrap items-ceneter justify-center md:w-[343px] md:h-[552px] xl:w-[1200px] xl:h-[386px] xl:mb-[57px]`} ref={hexSchoolAnchorRef}>
+          <div className={flatClassName({
+            desktop: `xl:mb-[175px] xl:h-[2328px]`,
+            tablet: `md:mt-[60px] md:mb-[103.98px] md:h-[1127.02px] `,
+            mobile: `sm:mb-[85.98px] sm:mt-[45px] sm:h-[2133px]`,
+          })}>
+            <div className={flatClassName({
+              common: `grid`,
+              desktop: `xl:grid-cols-1 xl:gap-y-[42px] xl:w-[1200px] xl:h-[2328px]`,
+              tablet: `md:grid-cols-2 md:gap-[22px] md:w-[712px] md:h-[1126px]`,
+              mobile: `sm:grid-cols-1 sm:w-[343px] sm:h-[2002.02px]`
+            })}>
+              <div className={flatClassName({
+                common: `relative flex flex-wrap items-ceneter justify-center`,
+                desktop: `xl:w-[1200px] xl:h-[386px] xl:mb-[57px]`,
+                tablet: `md:w-[343px] md:h-[552px]`,
+                mobile: `sm:w-[338px] sm:h-[231px]`
+              })} ref={hexSchoolAnchorRef}>
                 <Suspense fallback={(<div>loading...</div>)}>
                   <HostInfo />
                 </Suspense>
@@ -809,7 +816,11 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
                   EnterpriseLogo
                 }: TaskType, index: number) => {
                   const props = {
-                    className: `md:w-[343.03px] md:h-[552.02px] xl:w-[1200px] xl:h-[528px] `,
+                    className: flatClassName({
+                      desktop: `xl:w-[1200px] xl:h-[528px]`,
+                      tablet: `md:w-[343.03px] md:h-[552.02px]`,
+                      mobile: `sm:w-[343.03px] sm:h-[552.02px]`
+                    }),
                     title: title,
                     subtitle: subtitle,
                     content: content, 
