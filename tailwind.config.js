@@ -9,7 +9,7 @@ module.exports = {
       'mobile': '375px',
       'tablet': '768px',
       'desktop': '1280px',
-      sm: '375px',
+      sm: {'min': '375px', 'max': '767px'},
       md: {'min': '768px', 'max': '1279px'},
       xl: '1280px',
     },
@@ -43,8 +43,26 @@ module.exports = {
         '@font-face': [
           {
             fontFamily: 'EB Garamond',
-            fontWeight: 800,
+            fontWeight: 400,
+            src: 'url("./fonts/Roboto/small-EBGaramond-Regular.otf") format("opentype");',
+            fontDisplay: 'swap',
+          },
+          {
+            fontFamily: 'EB Garamond',
+            fontWeight: 600,
+            src: 'url("./fonts/Roboto/small-EBGaramond-SemiBold.otf") format("opentype");',
+            fontDisplay: 'swap',
+          },
+          {
+            fontFamily: 'EB Garamond',
+            fontWeight: 700,
             src: 'url("./fonts/EBGaramond/small-EBGaramond-Bold.otf") format("opentype");',
+            fontDisplay: 'swap',
+          },
+          {
+            fontFamily: 'EB Garamond',
+            fontWeight: 800,
+            src: 'url("./fonts/EBGaramond/small-EBGaramond-ExtraBold.otf") format("opentype");',
             fontDisplay: 'swap',
           },
           {
