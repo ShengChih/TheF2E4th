@@ -1,4 +1,5 @@
 import {
+  ReactNode,
   useRef, useState, useEffect,
   useCallback, ElementRef, MouseEvent,
   forwardRef,
@@ -8,7 +9,6 @@ import {
 } from "react"
 import { deviceWidth } from '@utils/config'
 import { BasePageProps, MainPageHandle } from './type.d'
-import LazyLoad from 'react-lazyload'
 import { gsap, AnimationReturn } from "@animations/gsap"
 
 import { flatClassName } from '@utils/reduce'
@@ -31,17 +31,25 @@ import AwardInfo from "@components/AwardInfo"
 import Vendetta from '@components/Vendetta'
 
 import MainImage from './images/BannerBgImage.svg'
+import RewardTask from './images/reward_task.svg'
+import ContentBgImage from '@images/loading_bg.jpg'
+
 import PcNewspaper1 from './images/pc/Newspaper1.png'
 import PcNewspaper1_1_5x from './images/pc/Newspaper1@1_5x.png'
 import PcNewspaper2 from './images/pc/Newspaper2.png'
 import PcNewspaper2_1_5x from './images/pc/Newspaper2@1_5x.png'
 import PcNewspaper3 from './images/pc/Newspaper3.png'
 import PcNewspaper3_1_5x from './images/pc/Newspaper3@1_5x.png'
+
 import TabletNewspaper1 from './images/tablet/Newspaper1.png'
 import TabletNewspaper2 from './images/tablet/Newspaper2.png'
 import TabletNewspaper3 from './images/tablet/Newspaper3.png'
-import RewardTask from './images/reward_task.svg'
-import ContentBgImage from '@images/loading_bg.jpg'
+
+import MobileNewpaper1 from './images/mobile/Newspaper1.png'
+import MobileNewpaper2 from './images/mobile/Newspaper2.png'
+import MobileNewpaper3 from './images/mobile/Newspaper2.png'
+import MobileBgImage from './images/mobile/full_bg.png'
+
 
 const LiveShareVideo = lazy(() =>  import("@components/LiveShareVideo"))
 const ScrollMouseIcon = lazy(() =>  import("@components/ScrollMouseIcon"))
@@ -60,11 +68,11 @@ type TaskCardHandle = ElementRef<typeof TaskCard>
 /** 控制 & 顯示彩蛋 + 顯示折扣視窗 */
 const MaxEasterEggBit = 0b111110
 const DeviceRequiredImageList = [
-  [MainImage, RewardTask, ContentBgImage],
-  [], // mobile
-  [TabletNewspaper1, TabletNewspaper2, TabletNewspaper3], // tablet
-  [PcNewspaper1, PcNewspaper2, PcNewspaper3], // 1280 Desktop
-  [PcNewspaper1_1_5x, PcNewspaper2_1_5x, PcNewspaper3_1_5x] // 1920 Desktop
+  [ContentBgImage],
+  [MobileBgImage, MobileNewpaper1, MobileNewpaper2, MobileNewpaper3], // mobile
+  [TabletNewspaper1, TabletNewspaper2, TabletNewspaper3, MainImage, RewardTask, ], // tablet
+  [PcNewspaper1, PcNewspaper2, PcNewspaper3, MainImage, RewardTask], // 1280 Desktop
+  [PcNewspaper1_1_5x, PcNewspaper2_1_5x, PcNewspaper3_1_5x, MainImage, RewardTask] // 1920 Desktop
 ]
 
 const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Header, LoadingPage }, forwardref) => {
@@ -79,7 +87,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       )
     )
   )
-  isDesktop = isDesktop || isDesktop1920
+
   const { imagesPreloaded } = useImagePreloader([...commonResources, ...deivceResources])
 
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
@@ -100,6 +108,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   const ScheduleTaskRefs = useRef<Array<TaskCardHandle>>([])
 
   ScheduleTaskRefs.current = []
+  isDesktop = isDesktop || isDesktop1920
 
   useEffect(() => {
     if (anchor) {
@@ -276,18 +285,6 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         trigger: MainBannerRef.current,
         scrub: true,
         pin: FullPageRef.current,
-        onEnter: (self) => {
-          console.log('fullpin onEnter')
-        },
-        onEnterBack: (self) => {
-          console.log('fullpin onEnterBack')
-        },
-        onLeave: (self) => {
-          console.log('fullpin onLeave')
-        },
-        onLeaveBack: (self) => {
-          console.log('fullpin onLeaveBack')
-        }
       }
     })
     if (VendettaRef.current && MaskLv1Ref.current && MaskLv2Ref.current && MaskLv3Ref.current) {
@@ -408,6 +405,140 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
 
   const initMobileAnimations = () => {
     let animations: AnimationReturn[] = []
+    let mainVisualAnimations = gsap.timeline({
+      scrollTrigger: {
+        id: 'fullpin',
+        trigger: MainBannerRef.current,
+        scrub: true,
+        pin: FullPageRef.current,
+        onEnter: (self) => {
+          console.log('fullpin onEnter')
+        },
+        onEnterBack: (self) => {
+          console.log('fullpin onEnterBack')
+        },
+        onLeave: (self) => {
+          console.log('fullpin onLeave')
+        },
+        onLeaveBack: (self) => {
+          console.log('fullpin onLeaveBack')
+        }
+      }
+    })
+    if (VendettaRef.current && MaskLv1Ref.current && MaskLv2Ref.current && MaskLv3Ref.current) {
+      mainVisualAnimations = MaskLv2Ref.current.moveAnimation(mainVisualAnimations, { x: -150, y: -5 }, { x: -150, y: -140 })
+      mainVisualAnimations = MaskLv3Ref.current.moveAnimation(mainVisualAnimations, { x: -283, y: 135 }, { x: -345, y: 248 }, "<")
+      mainVisualAnimations = MaskLv1Ref.current.moveAnimation(mainVisualAnimations, { x: 96, y: 147 }, { x: 96, y: 318 }, "<")
+        .fromTo(
+          VendettaRef.current.getRef().current,
+          { y: 683, opacity: 0 },
+          { y: 464, opacity: 1 }
+        )
+
+      mainVisualAnimations = MaskLv3Ref.current.moveAnimation(mainVisualAnimations, { x: -345, y: 248 }, { x: -365, y: 413})
+      mainVisualAnimations = MaskLv2Ref.current.moveAnimation(mainVisualAnimations, { x: -150, y: -140 }, { x: -150, y: -330, opacity: 0}, "<")
+      mainVisualAnimations = MaskLv1Ref.current.moveAnimation(mainVisualAnimations, { x: 96, y: 318 }, { x: 96, y: 616, opacity: 0 }, "<")
+        .fromTo(
+          VendettaRef.current.getRef().current,
+          { y: 464, opacity: 1 },
+          { y: 331, opacity: 1 },
+          "<"
+        ).to(
+          ScrollMouseTopRef.current,
+          { visibility: 'hidden' },
+          "<"
+        )
+
+      mainVisualAnimations = MaskLv3Ref.current.moveAnimation(
+        mainVisualAnimations,
+        { x: -365, y: 413 },
+        { x: -375, y: 667, opacity: 0 }
+      ).fromTo(
+        VendettaRef.current.getRef().current,
+        { y: 331 },
+        { y: 125 },
+        "<"
+      )
+
+      animations.push(mainVisualAnimations)
+    }
+
+    //let cardTriggers = (ScheduleTaskRefs.current.map(
+    //  (ref: ElementRef<typeof TaskCard>) => ref.getRef().current
+    //)) as gsap.DOMTarget[]
+    //cardTriggers.splice(0, 0, hexSchoolAnchorRef.current)
+
+    //const cardEffects: gsap.TweenVars[][] = [
+    //  [{ xPercent: "-150"}, { xPercent: "0", duration: 0.3 }],
+    //  [{ xPercent: "150" }, { xPercent: "0", duration: 0.3 }],
+    //  [{ xPercent: "-150" }, { xPercent: "0", duration: 0.3 }],
+    //  [{ xPercent: "150" }, { xPercent: "0", duration: 0.3 }],
+    //]
+
+    //for (const [index, cardEffect] of cardEffects.entries()) {
+    //  const [from, to] = cardEffect
+    //  const el = cardTriggers[index]
+    //  const animation = gsap.effects.timelineScroller(el, {
+    //    start: "center+=1024 center",
+    //    id: `card_${index}`,
+    //  }).fromTo(el, from, to)
+
+    //  animations.push(animation)
+    //}
+
+    //if (scheduleInfoAnchorRef.current && scheduleInfoRef.current) {
+    //  const scheduleInfoSectionElement = scheduleInfoRef.current
+    //  let scheduleInfoSilder = gsap.effects.timelineScroller(scheduleInfoAnchorRef.current, {
+    //    id: `schedule_info`,
+    //    pin: FullPageRef.current,
+    //    start: 'center+=1070 center',
+    //    end: `+=400`,
+    //    scrub: true,
+    //  })
+    //  scheduleInfoSilder = scheduleInfoSectionElement.movePointAnimation(scheduleInfoSilder)
+    //}
+
+    //if (AwardInfoSectionRef.current) {
+    //  const awardEl = AwardInfoSectionRef.current
+    //  const awardAnimationTrigger = awardEl.getSectionRef().current
+    //  const rewardTrigger = [
+    //    {
+    //      el: awardEl.getTeamAwardRef().current,
+    //      from: { yPercent: "-100", visibility: 'hidden' },
+    //      to: { yPercent: "0", duration: 0.9, visibility: 'visible' },
+    //      order: "<"
+    //    },
+    //    {
+    //      el: awardEl.getPersonalAwardRef().current,
+    //      from: { yPercent: "-100", visibility: 'hidden' },
+    //      to: { yPercent: "0", duration: 0.6, visibility: 'visible' },
+    //      order: "<"
+    //    },
+    //    {
+    //      el: awardEl.getShortListAwardRef().current,
+    //      from: { yPercent: "-100", visibility: 'hidden' },
+    //      to: { yPercent: "0", duration: 0.3, visibility: 'visible' },
+    //      order: "<"
+    //    },
+    //    {
+    //      el: awardEl.getBottomTextRef().current,
+    //      from: { opacity: 0 },
+    //      to: { duration: 2, opacity: 1, delay: 2 },
+    //      order: ""
+    //    }
+    //  ]
+
+    //  const animation = gsap.effects.timelineScroller(awardAnimationTrigger, {
+    //    id: `reward`,
+    //    start: 'center+=1350 center',
+    //    once: true
+    //  })
+
+    //  rewardTrigger.map(({ el, from, to, order }) => {
+    //    animation.fromTo(el, from, to, order)
+    //  })
+    //}
+
     return animations
   }
 
@@ -435,12 +566,28 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
     }
   }, [isReadyPage])
 
+  const FullPageContent = ({ children }: { children: ReactNode }) => {
+    return isMobile
+      ? <div style={{
+        backgroundImage: `url(${MobileBgImage})`
+      }}>
+        {children}
+      </div>
+      : <>{children}</>
+  }
+
+  if (notDefined) {
+    return <FullPageContent>
+      <div className={`w-screen h-screen flex items-center justify-center`}>不支援此裝置</div>
+    </FullPageContent>
+  }
+
   if (!isReadyPage || !imagesPreloaded) {
-    return <>{LoadingPage}</>
+    return <FullPageContent>{LoadingPage}</FullPageContent>
   }
 
   return (
-    <>
+    <FullPageContent>
       {/** postion:fixed element */ ''}
       { isReadyPage ? Header : '' }
 
@@ -495,13 +642,17 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               {
                 minWidth: 768,
                 imageSrc: TabletNewspaper1
+              },
+              {
+                minWidth: 375,
+                imageSrc: MobileNewpaper1
               }
             ],
             imageElementProps: {
               src: TabletNewspaper1,
               className: 'w-full h-full object-cover',
-              srcSet: `${TabletNewspaper1} 750w, ${PcNewspaper1} 1280w, ${PcNewspaper1_1_5x} 1920w`,
-              sizes: `(min-width: 768px) 983px, (min-width: 1280px) 1218px`
+              srcSet: `${MobileNewpaper1} 375w ${TabletNewspaper1} 750w, ${PcNewspaper1} 1280w, ${PcNewspaper1_1_5x} 1920w`,
+              sizes: `(min-width:375px) 650px, (min-width: 768px) 983px, (min-width: 1280px) 1218px`
             },
             className: flatClassName({
               common: `fixed z-10`,
@@ -525,13 +676,17 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               {
                 minWidth: 768,
                 imageSrc: TabletNewspaper2
+              },
+              {
+                minWidth: 375,
+                imageSrc: MobileNewpaper2
               }
             ],
             imageElementProps: {
               src: TabletNewspaper2,
               className: 'w-full h-full object-cover',
-              srcSet: `${TabletNewspaper2} 750w, ${PcNewspaper2} 1280w, ${PcNewspaper2_1_5x} 1920w`,
-              sizes: `(min-width: 768px) 768px, (min-width: 1280px) 1280px, (min-width: 1920px) 1920px`
+              srcSet: `${MobileNewpaper2} 375w ${TabletNewspaper2} 750w, ${PcNewspaper2} 1280w, ${PcNewspaper2_1_5x} 1920w`,
+              sizes: `(min-width:375px) 683px, (min-width: 768px) 768px, (min-width: 1280px) 1280px, (min-width: 1920px) 1920px`
             },
             className: flatClassName({
               common: `fixed z-10`,
@@ -555,13 +710,17 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               {
                 minWidth: 768,
                 imageSrc: TabletNewspaper3
+              },
+              {
+                minWidth: 375,
+                imageSrc: MobileNewpaper3
               }
             ],
             imageElementProps: {
               src: TabletNewspaper3,
               className: 'w-full h-full object-cover',
-              srcSet: `${TabletNewspaper3} 750w, ${PcNewspaper3} 1280w, ${PcNewspaper3_1_5x} 1920w`,
-              sizes: `(min-width: 768px) 760px, (min-width: 1280px) 942px`
+              srcSet: `${MobileNewpaper3} 375px, ${TabletNewspaper3} 750w, ${PcNewspaper3} 1280w, ${PcNewspaper3_1_5x} 1920w`,
+              sizes: `(min-width:375px) 503px, (min-width: 768px) 760px, (min-width: 1280px) 942px`
             },
             className: flatClassName({
               common: `fixed z-10`,
@@ -575,7 +734,9 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         ))
       }
 
-      <div ref={ScrollMouseTopRef} className={`fixed z-10 w-fit h-fit left-1/2 top-1/2 translate-x-[-32px] translate-y-[-50.05px]`}>
+      <div ref={ScrollMouseTopRef} className={flatClassName({
+        common: `fixed z-10 w-fit h-fit left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]`,
+      })}>
         <Suspense fallback={(<div>loading...</div>)}>
           <ScrollMouseIcon className={`w-fit h-fit absolute flex justify-center`}  />
         </Suspense>
@@ -585,14 +746,15 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       
       <div ref={FullPageRef}>  
         <div
-          style={{
-            backgroundImage: `url(${MainImage})`
+          style={isMobile ? {} : {
+            backgroundImage: `url(${MainImage })`
           }}
           className={
             flatClassName({
               common: `flex bg-no-repeat bg-cover`,
               desktop: ['xl:h-[720px]'],
               tablet: ['md:h-[1024px]'],
+              mobile: ['sm:h-[864px]']
             })
           }
           ref={MainBannerRef}
@@ -603,21 +765,27 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
                 common: `inset-0 mx-auto`,
                 desktop: ['xl:mt-[101px]', 'xl:mb-[22px]'],
                 tablet: ['md:mt-[91px]', 'md:mb-[32px]'],
+                mobile: ['sm:mt-[74px]']
               })
             }
-            BannerImage={<Vendetta className={`md:left-0 md:right-0 md:mx-auto `} ref={VendettaRef} />}
+            BannerImage={<Vendetta className={flatClassName({
+              tablet: `md:left-0 md:right-0 md:mx-auto`,
+              mobile: ``
+            })} ref={VendettaRef} />}
             RewardTaskImage={
-              <img
-                ref={RewardTaskRef}
-                src={RewardTask}
-                className={
-                  flatClassName({
-                    common: `absolute object-contain`,
-                    desktop: ['xl:w-[373px]', 'xl:h-[225px]'],
-                    tablet: ['md:w-[331.44px]', 'md:h-[200.29px]'],
-                  })
-                }
-              />
+              isMobile ? '' : (
+                <img
+                  ref={RewardTaskRef}
+                  src={RewardTask}
+                  className={
+                    flatClassName({
+                      common: `absolute object-contain`,
+                      desktop: ['xl:w-[373px]', 'xl:h-[225px]'],
+                      tablet: ['md:w-[331.44px]', 'md:h-[200.29px]'],
+                    })
+                  }
+                />
+              )
             }
           />
         </div>
@@ -791,7 +959,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         </div>
       </div>
       
-    </>
+    </FullPageContent>
   );
 }
 
