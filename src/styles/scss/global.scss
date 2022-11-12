@@ -3,7 +3,7 @@ $medium: 768px;
 $xlarge: 1280px;
 
 * {
-  //outline: solid 1px red;
+  // outline: solid 1px red;
   //outline-color: transparent;
 }
   
@@ -11,6 +11,7 @@ $xlarge: 1280px;
 body {
   background-color: #f6f7fb;
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 

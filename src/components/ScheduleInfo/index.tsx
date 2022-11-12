@@ -1,4 +1,10 @@
-import { ReactNode, ComponentProps } from 'react'
+import {
+	forwardRef,
+	ForwardRefRenderFunction,
+	useImperativeHandle,
+	ComponentProps,
+	useRef,
+} from 'react'
 import SectionTitle from '@components/SectionTitle'
 import { flatClassName } from '@utils/reduce'
 
@@ -10,18 +16,20 @@ interface SchedulePointProps {
 	ActivityPeriods: string[]
 }
 
-function SchedulePoint({
+const SchedulePoint = ({
 	CardStyle,
 	title,
 	RectangleStyle,
 	PeriodStyle,
 	ActivityPeriods
-}: SchedulePointProps) {
+}: SchedulePointProps) => {
 	return (
-		<div className={flatClassName({
-			common: `relative flex items-center flex-col ${CardStyle}`,
+		<div
+			className={flatClassName({
+				common: `relative flex items-center flex-col ${CardStyle}`,
 
-		})}>
+			})}
+		>
 			<div className={flatClassName({
 				common: `relative font-sans text-[#38241B] leading-[43px] text-[30px]`,
 				desktop: ``
@@ -109,7 +117,9 @@ const FinalPoints = [
 		title: `初選`,
 		RectangleStyle: ``,
 		PeriodStyle: flatClassName({
-			common: `xl:mt-[48.37px]`
+			common: ``,
+			desktop: `xl:mt-[48.37px]`,
+			tablet: `md:mt-[48.37px] md:h-[35px]`,
 		}),
 		ActivityPeriods: ['12/05(五)'],
 		starttime: +new Date("2022-12-05T00:00:00.000+08:00"),
@@ -122,7 +132,9 @@ const FinalPoints = [
 		title: `決選`,
 		RectangleStyle: ``,
 		PeriodStyle: flatClassName({
-			common: `xl:mt-[48.37px]`
+			common: ``,
+			desktop: `xl:mt-[48.37px]`,
+			tablet: `md:mt-[48.37px] md:h-[35px]`,
 		}),
 		ActivityPeriods: ['12/05(五)'],
 		starttime: +new Date("2022-12-05T00:00:00.000+08:00"),
@@ -131,8 +143,23 @@ const FinalPoints = [
 ]
 
 type ScheduleInfoProps = Pick<ComponentProps<"div">, "children">
+type ScheduleInfoHandle = {
+	movePointAnimation: (tl: gsap.core.Timeline) => gsap.core.Timeline
+}
 
-export default function ScheduleInfo({ children }: ScheduleInfoProps) {
+const ScheduleInfo:ForwardRefRenderFunction<ScheduleInfoHandle, ScheduleInfoProps> = ({ children }, forwardref) => {
+	const tabletAnimationContainer = useRef<HTMLDivElement>(null)
+
+	useImperativeHandle(forwardref, () => {
+		return {
+			movePointAnimation: (tl: gsap.core.Timeline) => {
+				return tl.to(tabletAnimationContainer.current, {
+					x: () => `${-375 - window.innerWidth}`,
+				})
+			}
+		}
+	}, [])
+
 	return (
 		<>
 			<SectionTitle className={flatClassName({
@@ -153,9 +180,12 @@ export default function ScheduleInfo({ children }: ScheduleInfoProps) {
 					tablet: `md:h-[487px]`,
 					mobile: ``
 				})}>
-					<div className={flatClassName({
-						tablet: `md:flex md:flex-nowrap md:my-[66px] md:w-[1667px] md:h-[246px]`
-					})}>
+					<div
+						className={flatClassName({
+							tablet: `md:flex md:flex-nowrap md:my-[66px] md:w-[1667px] md:h-[246px]`
+						})}
+						ref={tabletAnimationContainer}
+					>
 						<div className={flatClassName({
 							common: `relative flex w-[1280px]  h-[246px]`,
 							desktop: ``,
@@ -201,13 +231,14 @@ export default function ScheduleInfo({ children }: ScheduleInfoProps) {
 							mobile: ``
 						})}>
 							<div className={flatClassName({
-								common: `absolute inset-x-0 flex items-center mx-auto xl:mt-[63px] xl:w-[320px] xl:h-[68.37px]`,
+								common: `absolute inset-x-0 flex items-center mx-auto mt-[63px] w-[320px] h-[68.37px]`,
 								desktop: ``,
 								tablet: ``,
 								mobile: ``,
 							})}>
 								<div className={flatClassName({
 									common: `absolute inset-x-0 mx-auto border-[5px] border-solid ${+new Date() >= +new Date("2022-12-05T00:00:00.000+08:00") ? 'border-[#951205]' : 'border-[#3C221B]'}`,
+									tablet: `md:w-[320px]`
 								})}></div>
 							</div>
 							{
@@ -246,3 +277,5 @@ export default function ScheduleInfo({ children }: ScheduleInfoProps) {
 		</>
 	)
 }
+
+export default forwardRef(ScheduleInfo)

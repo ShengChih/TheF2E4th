@@ -63,3 +63,4 @@ export function useGsapContext(scope: RefObject<HTMLElement>) {
   const ctx = useMemo(() => gsap.context(() => {}, scope), [scope]);
   return ctx;
 }
+export type AnimationReturn = ReturnType<typeof gsap.context | typeof gsap.timeline | typeof gsap.fromTo>

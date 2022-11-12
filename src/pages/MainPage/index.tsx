@@ -7,9 +7,9 @@ import {
   lazy, Suspense
 } from "react"
 import { deviceWidth } from '@utils/config'
-import { BasePageProps, MainPageHandle, AnimationReturn } from './type.d'
+import { BasePageProps, MainPageHandle } from './type.d'
 import LazyLoad from 'react-lazyload'
-import { gsap } from "@animations/gsap"
+import { gsap, AnimationReturn } from "@animations/gsap"
 
 import { flatClassName } from '@utils/reduce'
 import useCheckScreen from '@hooks/useCheckScreen'
@@ -50,6 +50,7 @@ const PartnerInfo = lazy(() => import("@components/PartnerInfo"))
 const SponerInfo = lazy(() => import("@components/SponerInfo"))
 const Footer = lazy(() => import("@components/Footer"))
 
+type ScheduleInfoHandle = ElementRef<typeof ScheduleInfo>
 type VendettaHandle = ElementRef<typeof Vendetta>
 type AwardInfoHandle = ElementRef<typeof AwardInfo>
 type NewsPaperHandle = ElementRef<typeof NewsPaperMask>
@@ -84,6 +85,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const hexSchoolAnchorRef = useRef<HTMLDivElement>(null)
   const scheduleInfoAnchorRef = useRef<HTMLElement>(null)
+  const scheduleInfoRef = useRef<ScheduleInfoHandle>(null)
 
   const ScrollMouseTopRef = useRef<HTMLDivElement>(null)
   const FullPageRef = useRef<HTMLDivElement>(null)
@@ -348,6 +350,18 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       animations.push(animation)
     }
 
+    if (scheduleInfoAnchorRef.current && scheduleInfoRef.current) {
+      const scheduleInfoSectionElement = scheduleInfoRef.current
+      let scheduleInfoSilder = gsap.effects.timelineScroller(scheduleInfoAnchorRef.current, {
+        id: `schedule_info`,
+        pin: FullPageRef.current,
+        start: 'center+=1070 center',
+        end: `+=400`,
+        scrub: true,
+      })
+      scheduleInfoSilder = scheduleInfoSectionElement.movePointAnimation(scheduleInfoSilder)
+    }
+
     if (AwardInfoSectionRef.current) {
       const awardEl = AwardInfoSectionRef.current
       const awardAnimationTrigger = awardEl.getSectionRef().current
@@ -380,8 +394,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
 
       const animation = gsap.effects.timelineScroller(awardAnimationTrigger, {
         id: `reward`,
-        start: 'center+=700 center',
-        once: true,
+        start: 'center+=1350 center',
+        once: true
       })
 
       rewardTrigger.map(({ el, from, to, order }) => {
@@ -430,14 +444,31 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       {/** postion:fixed element */ ''}
       { isReadyPage ? Header : '' }
 
-      <div className={`fixed w-fit h-fit m-auto inset-0 z-10 ${easterEggBit === MaxEasterEggBit ? 'opacity-100': 'xl:translate-x-[-100vw] opacity-0'}`}>
+      <div className={flatClassName({
+        common: `fixed w-fit h-fit m-auto inset-0 z-10 ${easterEggBit === MaxEasterEggBit ? 'opacity-100': 'translate-x-[-100vw] opacity-0'}`,
+      })}>
         <div className={`flex items-center justify-center font-sans font-normal text-[#38241B] m-auto bg-white xl:w-[527px] xl:h-[310px]`}>
-        <div className={`whitespace-pre-line flex flex-col items-center justify-center xl:leading-[55px] xl:text-[25px] xl:w-[420px] xl:h-[104px]`}>
-          {'恭喜您！獲得六角課程專屬折扣碼\n'}<span className={`font-sans font-bold text-[#951205] xl:leading-[55px] xl:text-[40px]`}>【HEXSCHOOL2022】</span>
+          <div className={flatClassName({
+            common: `whitespace-pre-line flex flex-col items-center justify-center`,
+            desktop: `xl:leading-[55px] xl:text-[25px] xl:w-[420px] xl:h-[104px]`,
+            tablet: `md:leading-[55px] md:text-[20px] md:w-[370px] xl:h-[104px]`,
+            mobile: ``
+          })}>{'恭喜您！獲得六角課程專屬折扣碼\n'}
+            <span className={flatClassName({
+              common: `font-sans font-bold text-[#951205]`,
+              desktop: `xl:leading-[55px] xl:text-[40px]`,
+              tablet: `md:leading-[55px] md:text-[20px]`,
+              mobile: ``
+            })}>【HEXSCHOOL2022】</span>
         </div>
         <div 
           onClick={handleEasterEggBit}
-          className={`absolute bg-[#38241B] top-0 right-0 flex items-center justify-center xl:rounded-[50px] xl:w-[72px] xl:h-[72px] xl:translate-x-[36px] xl:translate-y-[-36px]`}
+          className={flatClassName({
+            common: `absolute bg-[#38241B] top-0 right-0 flex items-center justify-center rounded-[50px] `,
+            desktop: `xl:w-[72px] xl:h-[72px] xl:translate-x-[36px] xl:translate-y-[-36px]`,
+            tablet: `md:w-[36px] md:h-[36px] md:translate-x-[18px] md:translate-y-[-18px]`,
+            mobile: ``
+          })}
           data-egg-id={0}
         >
           <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -628,23 +659,21 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
                 })
               }
             </div>
-            <LazyLoad height={300}>
-              <div
-                className={flatClassName({
-                  common: `${appendDisplayEasterEggClassName(1)} relative w-fit  h-fit`,
-                  desktop: `xl:translate-x-[-29.4px] xl:translate-y-[19.21px]`,
-                  tablet: ``,
-                  mobile: ``
-                })}
-                onClick={handleEasterEggBit}
-                data-egg-offset={1}
-              >
-                <svg width="52" height="56" viewBox="0 0 52 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16.3277 18.4826C16.8383 20.9163 16.7976 23.3058 16.2063 25.6897L16.2083 25.6954C15.7512 30.2328 11.8572 34.5053 11.0233 39.0724C10.5296 41.7509 11.2839 44.0341 12.1945 45.6811L13.3134 47.2418C13.4495 47.4261 13.5855 47.6104 13.731 47.785C13.8671 47.8596 23.3725 53.1204 32.1672 40.6443C41.0277 28.0803 41.0406 12.5211 36.7807 6.72514C33.9427 4.17071 29.958 2.95695 25.9362 3.79579C19.2275 5.1959 14.9256 11.7682 16.3277 18.4826Z" fill="#CEA809"/>
-                  <path d="M32.1707 40.6361C23.376 53.1123 13.8706 47.8514 13.7345 47.7768C18.7273 53.9853 28.385 53.7902 33.0559 47.1845C33.1086 47.1142 33.1592 47.0383 33.2119 46.9681C40.4821 36.5726 43.0458 24.9665 40.6265 13.3961C40.509 12.8438 40.3591 12.3094 40.1767 11.7929C39.4717 9.79571 38.2883 8.07065 36.7842 6.71698C41.0441 12.5129 41.0255 28.0742 32.1707 40.6361Z" fill="#AA8900"/>
-                </svg>
-              </div>
-            </LazyLoad> 
+            <div
+              className={flatClassName({
+                common: `${appendDisplayEasterEggClassName(1)} relative w-fit  h-fit`,
+                desktop: `xl:translate-x-[-29.4px] xl:translate-y-[19.21px]`,
+                tablet: `md:translate-x-[-27.4px] md:translate-y-[20px]`,
+                mobile: ``
+              })}
+              onClick={handleEasterEggBit}
+              data-egg-offset={1}
+            >
+              <svg width="52" height="56" viewBox="0 0 52 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.3277 18.4826C16.8383 20.9163 16.7976 23.3058 16.2063 25.6897L16.2083 25.6954C15.7512 30.2328 11.8572 34.5053 11.0233 39.0724C10.5296 41.7509 11.2839 44.0341 12.1945 45.6811L13.3134 47.2418C13.4495 47.4261 13.5855 47.6104 13.731 47.785C13.8671 47.8596 23.3725 53.1204 32.1672 40.6443C41.0277 28.0803 41.0406 12.5211 36.7807 6.72514C33.9427 4.17071 29.958 2.95695 25.9362 3.79579C19.2275 5.1959 14.9256 11.7682 16.3277 18.4826Z" fill="#CEA809"/>
+                <path d="M32.1707 40.6361C23.376 53.1123 13.8706 47.8514 13.7345 47.7768C18.7273 53.9853 28.385 53.7902 33.0559 47.1845C33.1086 47.1142 33.1592 47.0383 33.2119 46.9681C40.4821 36.5726 43.0458 24.9665 40.6265 13.3961C40.509 12.8438 40.3591 12.3094 40.1767 11.7929C39.4717 9.79571 38.2883 8.07065 36.7842 6.71698C41.0441 12.5129 41.0255 28.0742 32.1707 40.6361Z" fill="#AA8900"/>
+              </svg>
+            </div>
           </div>
 
           <section className={flatClassName({
@@ -653,30 +682,38 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             tablet: `md:h-[731px]`,
             mobile: ``
           })} ref={scheduleInfoAnchorRef}>
-            <LazyLoad height={200} once >
-              <ScheduleInfo>
-                <div
-                  className={`${appendDisplayEasterEggClassName(2)} absolute top-0 left-0 w-fit  h-fit xl:translate-x-[904px] xl:translate-y-[264px]`}
-                  onClick={handleEasterEggBit}
-                  data-egg-offset={2}
-                >
-                  <svg width="51" height="56" viewBox="0 0 51 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15.816 17.953C16.2747 20.397 16.1833 22.7852 15.5414 25.1559L15.5433 25.1617C14.9898 29.6883 11.006 33.8771 10.0752 38.4254C9.52461 41.0929 10.2302 43.3915 11.1056 45.0576L12.1911 46.6417C12.3232 46.8288 12.4554 47.016 12.5971 47.1936C12.7316 47.2711 22.123 52.7328 31.1809 40.4463C40.3064 28.0735 40.6499 12.5181 36.5142 6.6329C33.7312 4.01873 29.7731 2.72056 25.7344 3.47374C18.9975 4.73095 14.5569 11.2103 15.816 17.953Z" fill="#0A4891"/>
-                    <path d="M31.1853 40.4381C22.1275 52.7245 12.736 47.2628 12.6016 47.1853C17.4613 53.4985 27.1209 53.5087 31.9312 47.0038C31.9853 46.9347 32.0376 46.8598 32.0917 46.7907C39.5812 36.5521 42.391 25.0031 40.2182 13.384C40.1124 12.8293 39.9739 12.2918 39.8026 11.7715C39.1401 9.75981 37.9937 8.00999 36.5187 6.62466C40.6544 12.5098 40.3051 28.0672 31.1853 40.4381Z" fill="#05396D"/>
-                  </svg>
-                </div>
-                <div
-                  className={`${appendDisplayEasterEggClassName(3)} absolute top-0 left-0 w-fit  h-fit xl:translate-x-[1135px] xl:translate-y-[702.58px]`}
-                  onClick={handleEasterEggBit}
-                  data-egg-offset={3}
-                >
-                  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24.7925 42.3084C26.8383 40.8947 29.0569 40.0064 31.4836 39.6279L31.4881 39.6238C35.8482 38.2872 41.2957 40.2214 45.8292 39.2206C48.4898 38.6379 50.3023 37.0579 51.4679 35.5802L52.4731 33.944C52.5903 33.7472 52.7075 33.5503 52.812 33.3485C52.828 33.1942 53.9949 22.3929 39.0857 19.1193C24.0701 15.8191 9.72127 21.836 6.02862 28.0088C4.77337 31.6149 5.19839 35.7586 7.53 39.1412C11.4201 44.7833 19.1459 46.2026 24.7925 42.3084Z" fill="#064928"/>
-                    <path d="M39.0763 19.1192C53.9855 22.3927 52.8187 33.194 52.8026 33.3484C56.5915 26.34 52.6738 17.5169 44.7701 15.7658C44.685 15.7445 44.5953 15.7272 44.5102 15.7059C32.1098 13.0315 20.417 15.1651 10.6879 21.8785C10.2242 22.2008 9.78967 22.5461 9.38415 22.9144C7.81615 24.3382 6.68437 26.0975 6.01923 28.0086C9.71188 21.8358 24.0648 15.8234 39.0763 19.1192Z" fill="#0A3820"/>
-                  </svg>
-                </div>
-              </ScheduleInfo>
-            </LazyLoad>
+            <ScheduleInfo ref={scheduleInfoRef}>
+              <div
+                className={flatClassName({
+                  common: `${appendDisplayEasterEggClassName(2)} absolute top-0 left-0 w-fit  h-fit`,
+                  desktop: `xl:translate-x-[904px] xl:translate-y-[264px]`,
+                  tablet: `md:translate-x-[500px] md:translate-y-[264px]`,
+                  mobile: ``
+                })}
+                onClick={handleEasterEggBit}
+                data-egg-offset={2}
+              >
+                <svg width="51" height="56" viewBox="0 0 51 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15.816 17.953C16.2747 20.397 16.1833 22.7852 15.5414 25.1559L15.5433 25.1617C14.9898 29.6883 11.006 33.8771 10.0752 38.4254C9.52461 41.0929 10.2302 43.3915 11.1056 45.0576L12.1911 46.6417C12.3232 46.8288 12.4554 47.016 12.5971 47.1936C12.7316 47.2711 22.123 52.7328 31.1809 40.4463C40.3064 28.0735 40.6499 12.5181 36.5142 6.6329C33.7312 4.01873 29.7731 2.72056 25.7344 3.47374C18.9975 4.73095 14.5569 11.2103 15.816 17.953Z" fill="#0A4891"/>
+                  <path d="M31.1853 40.4381C22.1275 52.7245 12.736 47.2628 12.6016 47.1853C17.4613 53.4985 27.1209 53.5087 31.9312 47.0038C31.9853 46.9347 32.0376 46.8598 32.0917 46.7907C39.5812 36.5521 42.391 25.0031 40.2182 13.384C40.1124 12.8293 39.9739 12.2918 39.8026 11.7715C39.1401 9.75981 37.9937 8.00999 36.5187 6.62466C40.6544 12.5098 40.3051 28.0672 31.1853 40.4381Z" fill="#05396D"/>
+                </svg>
+              </div>
+              <div
+                className={flatClassName({
+                  common: `${appendDisplayEasterEggClassName(3)} absolute top-0 left-0 w-fit  h-fit `,
+                  desktop: `xl:translate-x-[1135px] xl:translate-y-[702.58px]`,
+                  tablet: `md:translate-x-[620px] md:translate-y-[430px]`,
+                  mobile:``
+                })}
+                onClick={handleEasterEggBit}
+                data-egg-offset={3}
+              >
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M24.7925 42.3084C26.8383 40.8947 29.0569 40.0064 31.4836 39.6279L31.4881 39.6238C35.8482 38.2872 41.2957 40.2214 45.8292 39.2206C48.4898 38.6379 50.3023 37.0579 51.4679 35.5802L52.4731 33.944C52.5903 33.7472 52.7075 33.5503 52.812 33.3485C52.828 33.1942 53.9949 22.3929 39.0857 19.1193C24.0701 15.8191 9.72127 21.836 6.02862 28.0088C4.77337 31.6149 5.19839 35.7586 7.53 39.1412C11.4201 44.7833 19.1459 46.2026 24.7925 42.3084Z" fill="#064928"/>
+                  <path d="M39.0763 19.1192C53.9855 22.3927 52.8187 33.194 52.8026 33.3484C56.5915 26.34 52.6738 17.5169 44.7701 15.7658C44.685 15.7445 44.5953 15.7272 44.5102 15.7059C32.1098 13.0315 20.417 15.1651 10.6879 21.8785C10.2242 22.2008 9.78967 22.5461 9.38415 22.9144C7.81615 24.3382 6.68437 26.0975 6.01923 28.0086C9.71188 21.8358 24.0648 15.8234 39.0763 19.1192Z" fill="#0A3820"/>
+                </svg>
+              </div>
+            </ScheduleInfo>
           </section>
 
           <AwardInfo ref={AwardInfoSectionRef}></AwardInfo>
