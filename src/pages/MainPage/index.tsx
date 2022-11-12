@@ -797,13 +797,13 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               common: `grid`,
               desktop: `xl:grid-cols-1 xl:gap-y-[42px] xl:w-[1200px] xl:h-[2328px]`,
               tablet: `md:grid-cols-2 md:gap-[22px] md:w-[712px] md:h-[1126px]`,
-              mobile: `sm:grid-cols-1 sm:w-[343px] sm:h-[2002.02px]`
+              mobile: `sm:grid-cols-1 sm:w-[343px] sm:h-[2002.02px] sm:content-start`
             })}>
               <div className={flatClassName({
                 common: `relative flex flex-wrap items-ceneter justify-center`,
                 desktop: `xl:w-[1200px] xl:h-[386px] xl:mb-[57px]`,
                 tablet: `md:w-[343px] md:h-[552px]`,
-                mobile: `sm:w-[338px] sm:h-[231px]`
+                mobile: `sm:w-[338px] sm:h-[231px] sm:mb-[7.02px]`
               })} ref={hexSchoolAnchorRef}>
                 <Suspense fallback={(<div>loading...</div>)}>
                   <HostInfo />
@@ -819,7 +819,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
                     className: flatClassName({
                       desktop: `xl:w-[1200px] xl:h-[528px]`,
                       tablet: `md:w-[343.03px] md:h-[552.02px]`,
-                      mobile: `sm:w-[343.03px] sm:h-[552.02px]`
+                      mobile: `sm:w-[343.03px] sm:h-[552.02px] sm:mt-[35.98px]`
                     }),
                     title: title,
                     subtitle: subtitle,
