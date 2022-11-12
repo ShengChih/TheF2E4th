@@ -638,7 +638,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             imageElementProps: {
               src: TabletNewspaper1,
               className: 'w-full h-full object-cover',
-              srcSet: `${MobileNewpaper1} 375w ${TabletNewspaper1} 750w, ${PcNewspaper1} 1280w, ${PcNewspaper1_1_5x} 1920w`,
+              srcSet: `${MobileNewpaper1} 375w, ${TabletNewspaper1} 750w, ${PcNewspaper1} 1280w, ${PcNewspaper1_1_5x} 1920w`,
               sizes: `(min-width:375px) 650px, (min-width: 768px) 983px, (min-width: 1280px) 1218px`
             },
             className: flatClassName({
@@ -672,7 +672,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             imageElementProps: {
               src: TabletNewspaper2,
               className: 'w-full h-full object-cover',
-              srcSet: `${MobileNewpaper2} 375w ${TabletNewspaper2} 750w, ${PcNewspaper2} 1280w, ${PcNewspaper2_1_5x} 1920w`,
+              srcSet: `${MobileNewpaper2} 375w, ${TabletNewspaper2} 750w, ${PcNewspaper2} 1280w, ${PcNewspaper2_1_5x} 1920w`,
               sizes: `(min-width:375px) 683px, (min-width: 768px) 768px, (min-width: 1280px) 1280px, (min-width: 1920px) 1920px`
             },
             className: flatClassName({
@@ -706,7 +706,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             imageElementProps: {
               src: TabletNewspaper3,
               className: 'w-full h-full object-cover',
-              srcSet: `${MobileNewpaper3} 375px, ${TabletNewspaper3} 750w, ${PcNewspaper3} 1280w, ${PcNewspaper3_1_5x} 1920w`,
+              srcSet: `${MobileNewpaper3} 375w, ${TabletNewspaper3} 750w, ${PcNewspaper3} 1280w, ${PcNewspaper3_1_5x} 1920w`,
               sizes: `(min-width:375px) 503px, (min-width: 768px) 760px, (min-width: 1280px) 942px`
             },
             className: flatClassName({
@@ -791,7 +791,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
           <div className={flatClassName({
             desktop: `xl:mb-[175px] xl:h-[2328px]`,
             tablet: `md:mt-[60px] md:mb-[103.98px] md:h-[1127.02px] `,
-            mobile: `sm:mb-[85.98px] sm:mt-[45px] sm:h-[2133px]`,
+            mobile: `sm:mb-[85.98px] sm:mt-[45px] sm:h-[2002.02px]`,
           })}>
             <div className={flatClassName({
               common: `grid`,
