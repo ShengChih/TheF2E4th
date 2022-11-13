@@ -9,12 +9,10 @@ import Header from '@components/Header'
 import WandCursor from '@images/WandCursor.png'
 import MobileBgImage from './images/mobile/full_bg.png'
 
-import { MainPageHandle } from '@pages/MainPage/type.d'
 const MainPage = lazy(() => import("@pages/MainPage"))
 
 
 const App = () => {
-  const MainPageRef = useRef<MainPageHandle>(null)
   const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
 
   if (notDefined) {
@@ -33,7 +31,7 @@ const App = () => {
           <div style={isMobile ? {
             backgroundImage: `url(${MobileBgImage})`
           } : {}}>
-            <MainPage ref={MainPageRef} />
+            <MainPage />
           </div>
         </Suspense>
       </>
