@@ -588,12 +588,17 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       <div className={flatClassName({
         common: `fixed w-fit h-fit m-auto inset-0 z-10 ${easterEggBit === MaxEasterEggBit ? 'opacity-100': 'translate-x-[-100vw] opacity-0'}`,
       })}>
-        <div className={`flex items-center justify-center font-sans font-normal text-[#38241B] m-auto bg-white xl:w-[527px] xl:h-[310px]`}>
+        <div className={flatClassName({
+          common: `flex items-center justify-center font-sans font-normal text-[#38241B] m-auto bg-white`,
+          desktop: `xl:w-[527px] xl:h-[310px]`,
+          tablet: `md:w-[420px] md:h-[230px]`,
+          mobile: `sm:w-[300px] sm:h-[150px]`
+        })}>
           <div className={flatClassName({
             common: `whitespace-pre-line flex flex-col items-center justify-center`,
             desktop: `xl:leading-[55px] xl:text-[25px] xl:w-[420px] xl:h-[104px]`,
-            tablet: `md:leading-[55px] md:text-[20px] md:w-[370px] xl:h-[104px]`,
-            mobile: ``
+            tablet: `md:leading-[55px] md:text-[22px] md:w-[370px] xl:h-[104px]`,
+            mobile: `sm:leading-[55px] sm:text-[16px]`
           })}>{'恭喜您！獲得六角課程專屬折扣碼\n'}
             <span className={flatClassName({
               common: `font-sans font-bold text-[#951205]`,
@@ -608,9 +613,9 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             common: `absolute bg-[#38241B] top-0 right-0 flex items-center justify-center rounded-[50px] `,
             desktop: `xl:w-[72px] xl:h-[72px] xl:translate-x-[36px] xl:translate-y-[-36px]`,
             tablet: `md:w-[36px] md:h-[36px] md:translate-x-[18px] md:translate-y-[-18px]`,
-            mobile: ``
+            mobile: `sm:w-[30px] sm:h-[30px] sm:translate-x-[15px] sm:translate-y-[-15px]`
           })}
-          data-egg-id={0}
+          data-egg-offset={0}
         >
           <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18.0418 12.9994L24.4553 6.58506C25.8482 5.19188 25.8482 2.93807 24.4553 1.54489C23.0623 0.151705 20.804 0.151705 19.411 1.54489L12.9976 7.95447L6.58895 1.54489C5.19597 0.151705 2.93772 0.151705 1.54474 1.54489C0.151754 2.93807 0.151754 5.19188 1.54474 6.58506L7.95816 12.9994L1.54474 19.4137C0.151754 20.8069 0.151754 23.0607 1.54474 24.4539C2.24361 25.1529 3.15641 25.5 4.06922 25.5C4.97728 25.5 5.89008 25.1529 6.58895 24.4539L12.9976 18.0443L19.411 24.4539C20.1099 25.1529 21.018 25.5 21.9308 25.5C22.8436 25.5 23.7564 25.1529 24.4553 24.4539C25.8482 23.0607 25.8482 20.8069 24.4553 19.4137L18.0418 12.9994Z" fill="white"/>
@@ -887,7 +892,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
                   common: `${appendDisplayEasterEggClassName(3)} absolute top-0 left-0 w-fit  h-fit `,
                   desktop: `xl:translate-x-[1135px] xl:translate-y-[702.58px]`,
                   tablet: `md:translate-x-[620px] md:translate-y-[430px]`,
-                  mobile:``
+                  mobile:`sm:translate-x-[310px] sm:translate-y-[280px]`
                 })}
                 onClick={handleEasterEggBit}
                 data-egg-offset={3}
@@ -915,7 +920,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
                     common: `${appendDisplayEasterEggClassName(4)} mx-auto absolute top-0 inset-x-0 w-fit  h-fit`,
                     desktop: `xl:translate-x-[-562px] xl:translate-y-[973.42px]`,
                     tablet: `md:translate-x-[-333px] md:translate-y-[630px]`,
-                    mobile: ``
+                    mobile: `sm:translate-x-[100px] sm:translate-y-[60px]`
                   })}
                   onClick={handleEasterEggBit}
                   data-egg-offset={4}
@@ -961,7 +966,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
                 common: `${appendDisplayEasterEggClassName(5)} absolute w-fit  h-fit  top-0 inset-x-0 mx-auto`,
                 desktop: `xl:translate-y-[64px] xl:translate-x-[458.91px]`,
                 tablet: `md:translate-y-[64px] md:translate-x-[230px]`,
-                mobile: ``
+                mobile: `sm:translate-y-[128px] sm:translate-y-[-100px]`
               })}
               data-egg-offset={5}
             >
