@@ -24,10 +24,6 @@ const useCheckScreen = (minDeviceWidthInterval: number[]) => {
   const handleWindowSizeChange = () => {
     const width = window.innerWidth
     setMaxWidth(width)
-    //if (width > maxWidth) {
-    //  setMaxWidth(width)
-    //  console.debug(`trigger maxWidth`)
-    //}
   }
 
   useEffect(() => {
@@ -37,7 +33,7 @@ const useCheckScreen = (minDeviceWidthInterval: number[]) => {
     }
   }, []);
 
-  console.log(`useCheckScreen`)
+  console.info(`device Width: ${maxWidth}`)
 
   return detectDevices(maxWidth)
 }

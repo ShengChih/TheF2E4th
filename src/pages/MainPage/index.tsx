@@ -223,7 +223,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       const [from, to] = cardEffect
       const el = cardTriggers[index]
       const animation = gsap.effects.timelineScroller(el, {
-        start: "center+=700 center",
+        start: "center center",
         id: `card_${index}`,
         once: true,
       }).fromTo(el, from, to)
@@ -263,7 +263,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
 
       const animation = gsap.effects.timelineScroller(awardAnimationTrigger, {
         id: `reward`,
-        start: 'center+=700 center',
+        start: 'center center',
         once: true,
       })
 
@@ -468,10 +468,6 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       const animation = gsap.effects.timelineScroller(el, {
         start: "center+=800 center",
         id: `card_${index}`,
-        markers: true,
-        onEnter: (self: ScrollTrigger) => {
-          console.log(`card_${index}`)
-        }
       }).fromTo(el, from, to)
 
       animations.push(animation)
@@ -484,11 +480,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         pin: FullPageRef.current,
         start: 'center+=1000 center',
         end: `+=800`,
-        scrub: true,
-        markers: true,
-        onEnter: (self: ScrollTrigger) => {
-          console.log(`card`)
-        }
+        scrub: true
       })
       scheduleInfoSilder = scheduleInfoSectionElement.movePointAnimation(scheduleInfoSilder)
     }
@@ -522,13 +514,14 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
     //      order: ""
     //    }
     //  ]
-
+//
     //  const animation = gsap.effects.timelineScroller(awardAnimationTrigger, {
     //    id: `reward`,
-    //    start: 'center+=1350 center',
+    //    start: 'center center',
+    //    markers:true,
     //    once: true
     //  })
-
+//
     //  rewardTrigger.map(({ el, from, to, order }) => {
     //    animation.fromTo(el, from, to, order)
     //  })

@@ -44,13 +44,13 @@ module.exports = {
           {
             fontFamily: 'EB Garamond',
             fontWeight: 400,
-            src: 'url("./fonts/Roboto/small-EBGaramond-Regular.otf") format("opentype");',
+            src: 'url("./fonts/EBGaramond/small-EBGaramond-Regular.otf") format("opentype");',
             fontDisplay: 'swap',
           },
           {
             fontFamily: 'EB Garamond',
             fontWeight: 600,
-            src: 'url("./fonts/Roboto/small-EBGaramond-SemiBold.otf") format("opentype");',
+            src: 'url("./fonts/EBGaramond/small-EBGaramond-SemiBold.otf") format("opentype");',
             fontDisplay: 'swap',
           },
           {
