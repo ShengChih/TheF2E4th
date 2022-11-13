@@ -5,7 +5,7 @@ import {
   useEffect,
   useCallback,
   ElementRef, MouseEvent,
-  lazy, Suspense, useLayoutEffect
+  lazy, Suspense, useLayoutEffect, ChangeEvent
 } from "react"
 
 import { deviceWidth } from '@utils/config'
@@ -49,6 +49,8 @@ const CustomLoadingPage = memo(({ text }: { text: string }) => {
 
 const GNSign = () => {
 	const [isReadyPage, setReadyPage] = useState<boolean>(false)
+	const [selectedFile, setSelectedFile] = useState<HTMLInputElement | null>(null)
+	const inputFileRef = useRef<HTMLInputElement>(null)
 	const { imagesPreloaded } = useImagePreloader([
 		MB_Logo,
 		MB_Watermark,
@@ -59,6 +61,16 @@ const GNSign = () => {
 		MB_People3,
 		MB_Plant
 	])
+
+	const handleSelectedFileButton = (e: MouseEvent<HTMLButtonElement>) => {
+		if (inputFileRef.current) {
+			inputFileRef.current.click()
+		}
+	}
+
+	const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
+		console.log(e.target.files)
+	}
 
 	useEffect(() => {
     if (imagesPreloaded) {
@@ -101,8 +113,8 @@ const GNSign = () => {
 					</Suspense>
 				</div>
 				<div className={flatClassName({
-					common: `self-end font-normal font-sans color-gnsign-green underline`,
-					mobile: `sm:text-[22px] sm:leading-[32px]`
+					common: `self-end font-normal font-sans text-gnsign-black underline`,
+					mobile: `sm:text-[18px] sm:leading-[32px] sm:leading-[26px]`
 				})}>歷史記錄</div>
 			</div>
 			<div className={flatClassName({
@@ -135,10 +147,19 @@ const GNSign = () => {
 					common: `flex flex-col absolute bg-white`,
 					mobile: `sm:w-[209px] sm:h-[95px] sm:gap-y-[15px] sm:translate-y-[178.5px]`
 				})}>
-					<button className={flatClassName({
-						common: `font-sans font-normal text-white flex items-center justify-center w-full bg-gradient-to-b	from-gnsign-greenl to-gnsign-greenh rounded-[16px]`,
-						mobile: `sm:text-[18px] sm:leading-[26px] sm:w-[209px] sm:h-[60px]`
-					})}>選擇檔案</button>
+					<input
+						ref={inputFileRef}
+						type="file"
+						className="hidden"
+						onChange={handleChangeFile}
+					/>
+					<button
+						onClick={handleSelectedFileButton}
+						className={flatClassName({
+							common: `font-sans font-normal text-white flex items-center justify-center w-full bg-gradient-to-b	from-gnsign-greenl to-gnsign-greenh rounded-[16px]`,
+							mobile: `sm:text-[18px] sm:leading-[26px] sm:w-[209px] sm:h-[60px]`
+						})}
+					>選擇檔案</button>
 					<p className={flatClassName({
 						common: `flex justify-center font-sans font-normal bg-clip-text bg-gradient-to-b	from-gnsign-greenl to-gnsign-greenh text-fill-transparent`,
 						mobile: `sm:text-[14px] sm:leading-[20px]`
