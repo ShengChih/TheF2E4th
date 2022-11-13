@@ -574,8 +574,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   }, [])
 
 
-  if (!isReadyPage || !imagesPreloaded) {
-    return LoadingPage
+  if ((!isReadyPage || !imagesPreloaded) && LoadingPage) {
+    return <>{LoadingPage}</>
   }
 
   console.log(`MainPage render`)
@@ -583,7 +583,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   return (
     <>
       {/** postion:fixed element */ ''}
-      { isReadyPage ? Header : '' }
+      { isReadyPage ? (Header ?? '') : '' }
 
       <div className={flatClassName({
         common: `fixed w-fit h-fit m-auto inset-0 z-10 ${easterEggBit === MaxEasterEggBit ? 'opacity-100': 'translate-x-[-100vw] opacity-0'}`,
