@@ -1,0 +1,33 @@
+.dropdown_click {
+	@apply w-full flex items-center bg-white;
+}
+
+.dropdown_text {
+	color: #0d0b0c;
+	font-family: "Noto Sans TC";
+	font-style: normal;
+	font-weight: 400;
+	text-align-last: justify;
+	@apply text-justify;
+}
+
+.dropdown_action {
+	@apply absolute;
+}
+
+.dropdown_options {
+	li {
+		@apply bg-white;
+	}
+
+	a {
+		@apply flex items-center;
+	}
+
+	p {
+		text-align-last: justify;
+		@apply text-justify;
+	}
+
+	@apply absolute w-full z-10;
+}

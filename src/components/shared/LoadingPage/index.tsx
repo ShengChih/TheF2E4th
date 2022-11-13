@@ -1,6 +1,6 @@
 import { ReactNode, Fragment } from 'react'
-import { LoadingPageProps } from './type.d'
-import MultipleImageSources from '@components/ResponsiveImageContainer/MultipleImageSources'
+import { LoadingPageProps } from './type'
+import MultipleImageSources from '@components/shared/ResponsiveImageContainer/MultipleImageSources'
 import { flatClassName } from '@utils/reduce'
 
 export default function LoadingPage({
