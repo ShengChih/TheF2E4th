@@ -486,47 +486,46 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       scheduleInfoSilder = scheduleInfoSectionElement.movePointAnimation(scheduleInfoSilder)
     }
 
-    //if (AwardInfoSectionRef.current) {
-    //  const awardEl = AwardInfoSectionRef.current
-    //  const awardAnimationTrigger = awardEl.getSectionRef().current
-    //  const rewardTrigger = [
-    //    {
-    //      el: awardEl.getTeamAwardRef().current,
-    //      from: { yPercent: "-100", visibility: 'hidden' },
-    //      to: { yPercent: "0", duration: 0.9, visibility: 'visible' },
-    //      order: "<"
-    //    },
-    //    {
-    //      el: awardEl.getPersonalAwardRef().current,
-    //      from: { yPercent: "-100", visibility: 'hidden' },
-    //      to: { yPercent: "0", duration: 0.6, visibility: 'visible' },
-    //      order: "<"
-    //    },
-    //    {
-    //      el: awardEl.getShortListAwardRef().current,
-    //      from: { yPercent: "-100", visibility: 'hidden' },
-    //      to: { yPercent: "0", duration: 0.3, visibility: 'visible' },
-    //      order: "<"
-    //    },
-    //    {
-    //      el: awardEl.getBottomTextRef().current,
-    //      from: { opacity: 0 },
-    //      to: { duration: 2, opacity: 1, delay: 2 },
-    //      order: ""
-    //    }
-    //  ]
-//
-    //  const animation = gsap.effects.timelineScroller(awardAnimationTrigger, {
-    //    id: `reward`,
-    //    start: 'center center',
-    //    markers:true,
-    //    once: true
-    //  })
-//
-    //  rewardTrigger.map(({ el, from, to, order }) => {
-    //    animation.fromTo(el, from, to, order)
-    //  })
-    //}
+    if (AwardInfoSectionRef.current) {
+      const awardEl = AwardInfoSectionRef.current
+      const awardAnimationTrigger = awardEl.getSectionRef().current
+      const rewardTrigger = [
+        {
+          el: awardEl.getTeamAwardRef().current,
+          from: { yPercent: "-100", visibility: 'hidden' },
+          to: { yPercent: "0", duration: 0.9, visibility: 'visible' },
+          order: "<"
+        },
+        {
+          el: awardEl.getPersonalAwardRef().current,
+          from: { yPercent: "-100", visibility: 'hidden' },
+          to: { yPercent: "0", duration: 0.6, visibility: 'visible' },
+          order: "<"
+        },
+        {
+          el: awardEl.getShortListAwardRef().current,
+          from: { yPercent: "-100", visibility: 'hidden' },
+          to: { yPercent: "0", duration: 0.3, visibility: 'visible' },
+          order: "<"
+        },
+        {
+          el: awardEl.getBottomTextRef().current,
+          from: { opacity: 0 },
+          to: { duration: 2, opacity: 1, delay: 2 },
+          order: ""
+        }
+      ]
+
+      const animation = gsap.effects.timelineScroller(awardAnimationTrigger, {
+        id: `reward`,
+        start: 'center+=1187 center',
+        once: true
+      })
+
+      rewardTrigger.map(({ el, from, to, order }) => {
+        animation.fromTo(el, from, to, order)
+      })
+    }
 
     return animations
   }
