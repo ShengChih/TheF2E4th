@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useRef, MouseEvent } from 'react'
+import React, { ReactNode, lazy, Suspense, useRef, MouseEvent } from 'react'
 import { deviceWidth } from '@utils/config'
 import useCheckScreen from '@hooks/useCheckScreen'
 
@@ -9,6 +9,7 @@ import MagicWand from '@components/MagicWand'
 // import SparkleMouse from "@components/SparkleMouse"
 import WandCursor from '@images/WandCursor.png'
 import LoadingBg from './images/loading_bg.jpg'
+import MobileBgImage from './images/mobile/full_bg.png'
 
 import { MainPageHandle } from '@pages/MainPage/type.d'
 import { flatClassName } from '@utils/reduce'
@@ -17,7 +18,7 @@ const MainPage = lazy(() => import("@pages/MainPage"))
 
 const App = () => {
   const MainPageRef = useRef<MainPageHandle>(null)
-  const [ignore, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
+  const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
 
   const gotoHexSchoolAnchor = (e: MouseEvent) => {
     if (MainPageRef.current) {
@@ -29,6 +30,16 @@ const App = () => {
     if (MainPageRef.current) {
       MainPageRef.current.gotoScheduleInfoAnchor(e)
     }
+  }
+
+  const FullPageContent = ({ children }: { children: ReactNode }) => {
+    return isMobile
+      ? <div style={{
+        backgroundImage: `url(${MobileBgImage})`
+      }}>
+        {children}
+      </div>
+      : <>{children}</>
   }
 
   const NewHeader = ({ className }: { className?: string }) => (
@@ -76,6 +87,12 @@ const App = () => {
     </>
   )
 
+  if (notDefined) {
+    return <FullPageContent>
+      <div className={`w-screen h-screen flex items-center justify-center`}>不支援此裝置</div>
+    </FullPageContent>
+  }
+
   return (
     <div
       style={{
@@ -85,7 +102,9 @@ const App = () => {
     >
       <>
         <Suspense fallback={(<LoadingMask />)}>
-          <MainPage ref={MainPageRef} Header={<NewHeader />} LoadingPage={<LoadingMask />} />
+          <FullPageContent>
+            <MainPage ref={MainPageRef} Header={<NewHeader />} LoadingPage={<LoadingMask />} />
+          </FullPageContent>
         </Suspense>
       </>
     </div>

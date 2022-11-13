@@ -49,7 +49,6 @@ import TabletNewspaper3 from './images/tablet/Newspaper3.png'
 import MobileNewpaper1 from './images/mobile/Newspaper1.png'
 import MobileNewpaper2 from './images/mobile/Newspaper2.png'
 import MobileNewpaper3 from './images/mobile/Newspaper3.png'
-import MobileBgImage from './images/mobile/full_bg.png'
 
 
 const LiveShareVideo = lazy(() =>  import("@components/LiveShareVideo"))
@@ -70,7 +69,7 @@ type TaskCardHandle = ElementRef<typeof TaskCard>
 const MaxEasterEggBit = 0b111110
 const DeviceRequiredImageList = [
   [ContentBgImage],
-  [MobileBgImage, MobileNewpaper1, MobileNewpaper2, MobileNewpaper3], // mobile
+  [MobileNewpaper1, MobileNewpaper2, MobileNewpaper3], // mobile
   [TabletNewspaper1, TabletNewspaper2, TabletNewspaper3, MainImage, RewardTask, ], // tablet
   [PcNewspaper1, PcNewspaper2, PcNewspaper3, MainImage, RewardTask], // 1280 Desktop
   [PcNewspaper1_1_5x, PcNewspaper2_1_5x, PcNewspaper3_1_5x, MainImage, RewardTask] // 1920 Desktop
@@ -574,30 +573,15 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
     }
   }, [])
 
-  const FullPageContent = ({ children }: { children: ReactNode }) => {
-    return isMobile
-      ? <div style={{
-        backgroundImage: `url(${MobileBgImage})`
-      }}>
-        {children}
-      </div>
-      : <>{children}</>
-  }
-
-  if (notDefined) {
-    return <FullPageContent>
-      <div className={`w-screen h-screen flex items-center justify-center`}>不支援此裝置</div>
-    </FullPageContent>
-  }
 
   if (!isReadyPage || !imagesPreloaded) {
-    return <FullPageContent>{LoadingPage}</FullPageContent>
+    return LoadingPage
   }
 
   console.log(`MainPage render`)
 
   return (
-    <FullPageContent>
+    <>
       {/** postion:fixed element */ ''}
       { isReadyPage ? Header : '' }
 
@@ -991,7 +975,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         </div>
       </div>
       
-    </FullPageContent>
+    </>
   );
 }
 
