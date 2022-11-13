@@ -1,15 +1,14 @@
 import {
-  ReactNode,
-  useRef, useState, useEffect,
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
   ElementRef, MouseEvent,
-  forwardRef,
-  useImperativeHandle,
-  ForwardRefRenderFunction,
   lazy, Suspense, useLayoutEffect
 } from "react"
 import _ from 'lodash'
 import { deviceWidth } from '@utils/config'
-import { BasePageProps, MainPageHandle } from './type.d'
+import { BasePageProps } from './type.d'
 import { gsap, AnimationReturn } from "@animations/gsap"
 
 import { flatClassName } from '@utils/reduce'
@@ -20,8 +19,9 @@ import pcStyles from "./styles/fullpage/pc.module.scss"
 import mobileStyles from "./styles/fullpage/mobile.module.scss"
 import tabletStyles from "./styles/fullpage/tablet.module.scss"
 
+import F2E4thWeek1LoadingPage from '@components/F2E4thWeek1LoadingPage'
+import Header from '@components/Header'
 import NewsPaperMask from "@components/NewsPaperMask"
-
 import MainBanner from "@components/MainBanner"
 import TaskCard from "@components/TaskCard"
 import { TaskType, Tasks } from "@components/TaskCard/constants"
@@ -75,9 +75,10 @@ const DeviceRequiredImageList = [
   [PcNewspaper1_1_5x, PcNewspaper2_1_5x, PcNewspaper3_1_5x, MainImage, RewardTask] // 1920 Desktop
 ]
 
-const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Header, LoadingPage }, forwardref) => {
+const MainPage = ({ }: BasePageProps) => {
   const [isReadyPage, setReadyPage] = useState<boolean>(false)
   const [easterEggBit, setEasterEggBit] = useState<number>(0)
+  const [anchor, setAnchor] = useState<string>('')
   let [notDefined, isMobile, isTablet, isDesktop, isDesktop1920] = useCheckScreen([...deviceWidth, 1920])
 
   const [commonResources, mobileResoures, tabletResources, desktopResoures, biggerDesktopResources] = DeviceRequiredImageList
@@ -90,8 +91,6 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   )
 
   const { imagesPreloaded } = useImagePreloader([...commonResources, ...deivceResources])
-
-  const [anchor, setAnchor] = useState<HTMLElement | null>(null)
   const hexSchoolAnchorRef = useRef<HTMLDivElement>(null)
   const scheduleInfoAnchorRef = useRef<HTMLElement>(null)
   const scheduleInfoRef = useRef<ScheduleInfoHandle>(null)
@@ -112,21 +111,25 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   isDesktop = isDesktop || isDesktop1920
 
   useEffect(() => {
-    if (anchor) {
-      const y = anchor.getBoundingClientRect().top + window.pageYOffset - 10;
+    let y = null
+    if ('hexschool' === anchor && hexSchoolAnchorRef.current) {
+      y = hexSchoolAnchorRef.current.getBoundingClientRect().top 
+    } else if ('schedule info' === anchor && scheduleInfoAnchorRef.current) {
+      y = scheduleInfoAnchorRef.current.getBoundingClientRect().top
+    }
+
+    if (typeof y === 'number') {
+      y = y + window.pageYOffset - 10;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   }, [anchor])
 
-  useImperativeHandle(forwardref, () => {
-    return {
-      gotoHexSchoolAnchor(e: MouseEvent) {
-        setAnchor(hexSchoolAnchorRef.current)
-      },
-      gotoScheduleInfoAnchor(e: MouseEvent) {
-        setAnchor(scheduleInfoAnchorRef.current)
-      }
-    }
+  const scrollToHexSchoolAnchor = useCallback((e: MouseEvent) => {
+    setAnchor('hexschool')
+  }, [])
+
+  const scrollToScheduleInfoAnchor = useCallback((e: MouseEvent) => {
+    setAnchor('schedule info')
   }, [])
 
   const handleEasterEggBit = (e: MouseEvent) => {
@@ -565,8 +568,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   }, [])
 
 
-  if ((!isReadyPage || !imagesPreloaded) && LoadingPage) {
-    return <>{LoadingPage}</>
+  if ((!isReadyPage || !imagesPreloaded)) {
+    return <><F2E4thWeek1LoadingPage /><Header /></>
   }
 
   console.log(`MainPage render`)
@@ -574,7 +577,13 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   return (
     <>
       {/** postion:fixed element */ ''}
-      { isReadyPage ? (Header ?? '') : '' }
+      {
+        isReadyPage ? (
+          <Header
+            gotoHexSchoolAnchor={scrollToHexSchoolAnchor}
+            gotoScheduleInfoAnchor={scrollToScheduleInfoAnchor} />
+          ) : ''
+      }
 
       <div className={flatClassName({
         common: `fixed w-fit h-fit m-auto inset-0 z-10 ${easterEggBit === MaxEasterEggBit ? 'opacity-100': 'translate-x-[-100vw] opacity-0'}`,
@@ -731,7 +740,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         </Suspense>
       </div>
 
-      { isReadyPage ? '': LoadingPage }
+      { isReadyPage ? '': <><F2E4thWeek1LoadingPage /><Header /></> }
       
       <div ref={FullPageRef}>  
         <div
@@ -975,4 +984,4 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   );
 }
 
-export default forwardRef(MainPage);
+export default MainPage

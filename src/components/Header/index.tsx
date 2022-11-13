@@ -1,23 +1,23 @@
-import { ComponentProps, MouseEvent } from 'react'
+import { memo, ComponentProps, MouseEvent } from 'react'
 import HexSchoolLogo from './images/hex-logo.svg'
 import { flatClassName } from '@utils/reduce'
 import { deviceWidth } from '@utils/config'
 import useCheckScreen from '@hooks/useCheckScreen'
 
 type HeaderProps = ComponentProps<"header"> & {
-	gotoHexSchoolAnchor: (e: MouseEvent) => void
-	gotoScheduleInfoAnchor: (e: MouseEvent) => void
+	gotoHexSchoolAnchor?: (e: MouseEvent) => void
+	gotoScheduleInfoAnchor?: (e: MouseEvent) => void
 }
 
-export default function Header({
+const Header = ({
 	className,
 	gotoHexSchoolAnchor,
 	gotoScheduleInfoAnchor
-}: HeaderProps) {
+}: HeaderProps) => {
 	let [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
 	return (
 		<header className={flatClassName({
-			common: `z-10 translate-x-0 translate-y-0 w-screen fixed flex overflow-hidden	items-center justify-between bg-[#38241B] h-[62px] px-[40px] ${className}`,
+			common: `z-10 translate-x-0 translate-y-0 w-screen fixed flex overflow-hidden	items-center justify-between bg-[#38241B] h-[62px] px-[40px] ${className ?? ''}`,
 			mobile: `sm:h-[60px] sm:px-[16px]`
 		})}>
 			{
@@ -49,7 +49,7 @@ export default function Header({
 				mobile: `sm:w-[130px] sm:h-[40.25px] sm:inset-y-[9.87px]`
 			})}>
 				{
-					isMobile
+					isMobile || !gotoHexSchoolAnchor || !gotoScheduleInfoAnchor
 						? ''
 						: (
 							<ul className={flatClassName({
@@ -80,3 +80,5 @@ export default function Header({
 		</header>
 	)
 }
+
+export default memo(Header)
