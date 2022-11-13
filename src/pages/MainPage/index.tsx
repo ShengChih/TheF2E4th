@@ -922,7 +922,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             common: `w-full relative`,
             desktop: `xl:h-[1825px]`,
             tablet: `md:h-[1216.52px]`,
-            mobile: ``
+            mobile: `sm:h-[2203px]`
           })}>
             <Suspense fallback={<div>loading...</div>}>
               <LiveShareVideo>
@@ -949,18 +949,18 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             common: `bg-white w-full`,
             desktop: `xl:h-[96px]`,
             tablet: `md:h-[192px]`,
-            mobile: ``
+            mobile: `sm:h-[384px] sm:bg-white`
           })}>
             <Suspense fallback={(<div>loading...</div>)}>
               <PartnerInfo></PartnerInfo>
             </Suspense>
           </div>
           
-          <div className={`w-full relative md:h-[543px] xl:h-[366px] bg-[#3C221B]`}>
+          <div className={`w-full relative sm:h-[543px] md:h-[543px] xl:h-[366px] bg-[#3C221B]`}>
             <div className={flatClassName({
               desktop: `xl:mt-[60px] xl:mb-[36px]`,
               tablet: `md:mt-[52px] md:mb-[50px]`,
-              mobile: ``
+              mobile: `sm:mt-[52px] sm:mb-[50px]`
             })}>
               <Suspense fallback={(<div>loading...</div>)}>
                 <SponerInfo></SponerInfo>

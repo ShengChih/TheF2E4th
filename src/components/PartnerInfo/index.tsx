@@ -10,11 +10,12 @@ export default function PartnerInfo() {
 			common: `h-full`,
 			desktop: `xl:w-[1081px] xl:mx-auto xl:flex xl:flex-row xl:items-center xl:justify-between`,
 			tablet: `md:w-[768px] md:flex md:flex-wrap md:justify-center`,
-			mobile: ``
+			mobile: `sm:w-[375px] sm:flex sm:flex-wrap sm:justify-center`
 		})}>
 			<div className={flatClassName({
 				desktop: `xl:flex xl:flex-nowrap xl:w-[505px] xl:justify-between xl:items-center`,
-				tablet: `md:h-[96px] md:w-[505px] md:flex md:items-center md:justify-between`
+				tablet: `md:h-[96px] md:w-[505px] md:flex md:items-center md:justify-between`,
+				mobile: `sm:h-[192px] sm:w-[375px] sm:flex sm:flex-wrap sm:items-center sm:justify-center`,
 			})}>
 				<img className={flatClassName({
 					common: `bg-center bg-contain w-[165px] h-[55px]`,
@@ -31,7 +32,8 @@ export default function PartnerInfo() {
 			</div>
 			<div className={flatClassName({
 				desktop: `xl:flex xl:flex-nowrap xl:w-[526px] xl:justify-between xl:items-center`,
-				tablet: `md:h-[96px] md:w-[526px] md:flex md:items-center md:justify-between`
+				tablet: `md:h-[96px] md:w-[526px] md:flex md:items-center md:justify-between`,
+				mobile: `sm:h-[192px] sm:w-[375px] sm:flex sm:flex-wrap sm:items-center sm:justify-center`,
 			})}>
 				<img className={flatClassName({
 					common: `bg-center bg-contain w-[202px] h-[63px]`,
