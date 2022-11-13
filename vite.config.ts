@@ -88,6 +88,14 @@ export default defineConfig(({ command }: ConfigEnv) => {
         {
           find: '@animations',
           replacement: '/src/animations'
+        },
+        {
+          find: '@routes',
+          replacement: '/src/routes'
+        },
+        {
+          find: '@GsapNewspaper',
+          replacement: '/src/pages/GsapNewspaper'
         }
       ]
     },
@@ -115,7 +123,7 @@ export default defineConfig(({ command }: ConfigEnv) => {
       rollupOptions: {
         output: {
           manualChunks: {
-            react: ['react', 'react-dom', 'styled-components'],
+            react: ['react', 'react-dom', 'styled-components', 'react-router-dom'],
           }
         }
       }

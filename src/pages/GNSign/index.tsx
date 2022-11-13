@@ -13,7 +13,7 @@ import { flatClassName } from '@utils/reduce'
 import useCheckScreen from '@hooks/useCheckScreen'
 import useImagePreloader from "@hooks/useImagePreloader"
 
-import LoadingPage from '@components/LoadingPage'
+import LoadingPage from '@components/shared/LoadingPage'
 
 import MB_Loading from './images/mobile/loading.png'
 import MB_Drawstring from './images/mobile/drawstring.png'
@@ -26,9 +26,9 @@ import MB_Watermark from './images/mobile/watermark.png'
 import MB_Plant from './images/mobile/plant.png'
 
 const MultipleImageSources = lazy(
-	() => import('@components/ResponsiveImageContainer/MultipleImageSources'))
+	() => import('@components/shared/ResponsiveImageContainer/MultipleImageSources'))
 const Footer = lazy(
-	() => import('@components/Footer')
+	() => import('@components/shared/Footer')
 )
 
 const CustomLoadingPage = memo(({ text }: { text: string }) => {
