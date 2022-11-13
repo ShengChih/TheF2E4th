@@ -1,7 +1,7 @@
 import {
   ReactNode,
   useRef, useState, useEffect,
-  useCallback, ElementRef, MouseEvent,
+  ElementRef, MouseEvent,
   forwardRef,
   useImperativeHandle,
   ForwardRefRenderFunction,
@@ -79,6 +79,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   const [isReadyPage, setReadyPage] = useState<boolean>(false)
   const [easterEggBit, setEasterEggBit] = useState<number>(0)
   let [notDefined, isMobile, isTablet, isDesktop, isDesktop1920] = useCheckScreen([...deviceWidth, 1920])
+
   const [commonResources, mobileResoures, tabletResources, desktopResoures, biggerDesktopResources] = DeviceRequiredImageList
   const deivceResources = isDesktop ? desktopResoures : (
     isDesktop1920 ? biggerDesktopResources : (
@@ -128,17 +129,17 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
     }
   }, [])
 
-  const handleEasterEggBit = useCallback<(e: MouseEvent) => void>((e: MouseEvent) => {
+  const handleEasterEggBit = (e: MouseEvent) => {
     console.log(`handleEasterEggBit render`)
     const eggOffset = parseInt((e.currentTarget.getAttribute('data-egg-offset') ?? '0')) 
     setEasterEggBit((easterEggBit | 1 << eggOffset))
-  }, [easterEggBit])
+  }
 
   const appendDisplayEasterEggClassName = (eggOffset: number): string => {
     return !((easterEggBit & (1 << eggOffset)) > 0) ? 'opacity-100' : 'opacity-0'
   }
 
-  /** testing scroll postion*/
+  /** testing scroll postion
   useEffect(() => {
     const handleScroll = (e: Event) => {
       console.log('window.scrollY', window.pageYOffset)
@@ -150,7 +151,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
       document.removeEventListener('scroll', handleScroll)
     }
   }, [])
-  /**/
+  */
 
   const addScheduleTaskRef = (ref: ElementRef<typeof TaskCard>) => {
     if (ref) {
@@ -167,19 +168,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
         trigger: MainBannerRef.current,
         scrub: true,
         pin: FullPageRef.current,
-        pinSpacing: false,
-        onEnter: (self) => {
-          console.log('fullpin onEnter')
-        },
-        onEnterBack: (self) => {
-          console.log('fullpin onEnterBack')
-        },
-        onLeave: (self) => {
-          console.log('fullpin onLeave')
-        },
-        onLeaveBack: (self) => {
-          console.log('fullpin onLeaveBack')
-        }
+        pinSpacing: false 
       }
     })
 
@@ -531,12 +520,14 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   }
 
   useEffect(() => {
+    console.log(`MainPage useEffect dep: [imagePreloaded]`)
     if (imagesPreloaded) {
       setReadyPage(true)
     }
   }, [imagesPreloaded])
 
   useEffect(() => {
+    console.log(`MainPage useEffect dep: [isReadyPage]`)
     let animations: AnimationReturn[] = []
     
     if (isReadyPage) {
@@ -555,6 +546,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   }, [isReadyPage])
 
   useLayoutEffect(() => {
+    console.log(`MainPage useLayoutEffect`)
     let animations: AnimationReturn[] = []
     
     if (isReadyPage) {

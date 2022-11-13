@@ -39,7 +39,6 @@ export default function MainBanner({
 	className
 }: MainBannerProps) {
 	const [ignore, isMobile, isTablet, isDesktop] = useCheckScreen([375, 768, 1280])
-
 	return (
 		<BaseBanner
 			className={

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const detectDevices = (minDeviceWidthInterval: number[], width: number) => {
   const maxIntervalIndex = minDeviceWidthInterval.length - 1
@@ -14,6 +14,41 @@ const detectDevices = (minDeviceWidthInterval: number[], width: number) => {
     }
   }
   return devices
+}
+
+type Callback = () => number
+
+let observers:Callback[] = []
+
+export const useObserver = () => {
+  const [id, setId] = useState<number>(0)
+  console.log(`observer count: ${observers.length}`)
+
+  const handleWindowSizeChange = () => {
+    observers.map((cb: Callback) => {
+      cb()
+    })
+  }
+
+  useEffect(() => {
+    const m = observers.length + 1
+
+    const callback = () => {
+      console.log(`send ${m}`)
+      return m
+    }
+    observers.push(callback)
+    setId(m)
+
+    window.addEventListener('resize', handleWindowSizeChange);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange)
+      observers = observers.filter((cb: Callback) => cb !== callback)
+    }
+  }, [])
+
+  return { id }
 }
 
 const useCheckScreen = (minDeviceWidthInterval: number[]) => {

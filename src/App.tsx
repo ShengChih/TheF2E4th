@@ -1,4 +1,4 @@
-import React, { ReactNode, lazy, Suspense, useRef, MouseEvent } from 'react'
+import React, { lazy, Suspense, useRef, MouseEvent } from 'react'
 import { deviceWidth } from '@utils/config'
 import useCheckScreen from '@hooks/useCheckScreen'
 
@@ -30,16 +30,6 @@ const App = () => {
     if (MainPageRef.current) {
       MainPageRef.current.gotoScheduleInfoAnchor(e)
     }
-  }
-
-  const FullPageContent = ({ children }: { children: ReactNode }) => {
-    return isMobile
-      ? <div style={{
-        backgroundImage: `url(${MobileBgImage})`
-      }}>
-        {children}
-      </div>
-      : <>{children}</>
   }
 
   const NewHeader = ({ className }: { className?: string }) => (
@@ -88,9 +78,7 @@ const App = () => {
   )
 
   if (notDefined) {
-    return <FullPageContent>
-      <div className={`w-screen h-screen flex items-center justify-center`}>不支援此裝置</div>
-    </FullPageContent>
+    return <div className={`w-screen h-screen flex items-center justify-center`}>不支援此裝置</div>
   }
 
   return (
@@ -102,9 +90,11 @@ const App = () => {
     >
       <>
         <Suspense fallback={(<LoadingMask />)}>
-          <FullPageContent>
+          <div style={isMobile ? {
+            backgroundImage: `url(${MobileBgImage})`
+          } : {}}>
             <MainPage ref={MainPageRef} Header={<NewHeader />} LoadingPage={<LoadingMask />} />
-          </FullPageContent>
+          </div>
         </Suspense>
       </>
     </div>

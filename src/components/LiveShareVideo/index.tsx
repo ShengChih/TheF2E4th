@@ -7,7 +7,6 @@ import LeoSpeaker from './images/Speaker2.gif'
 import DraggableSpeaker from './images/FakeSpeaker3.gif'
 import CreativeSpeaker from './images/Speaker4.gif'
 import NameBgImage from './images/NameBgImage1x.png'
-import PlayAction from './images/PlayAction.svg'
 
 interface ShareSpeakerCardProps {
 	SubjectStyle: string
