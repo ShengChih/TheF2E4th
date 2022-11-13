@@ -75,7 +75,7 @@ const AwardInfoBase: ForwardRefRenderFunction<AwardInfoHandle, AwardInfoProps> =
 						common: `grid grid-flow-row  relative`,
 						desktop: `xl:grid-cols-3 xl:w-[1198px] xl:h-[605px] xl:gap-x-[20px] xl:mt-[92px] xl:mb-[12px]`,
 						tablet: `md:grid-cols-2 md:grid-rows-2 md:w-[694px] md:h-[914px] md:gap-x-[8px] md:gap-y-[50px] md:mt-[38px] md:mb-[106.6px]`,
-						mobile: `sm:grid-cols-1 sm:w-[343px] sm:h-[1465.6px] sm:gap-x-[26px] sm:mt-[39px] sm:mb-[118px]`
+						mobile: `sm:grid-cols-1 sm:w-[343px] sm:h-[1465.6px] sm:gap-y-[26px] sm:mt-[39px] sm:mb-[118px]`
 					})}
 				>
 

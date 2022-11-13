@@ -5,8 +5,9 @@ import {
   forwardRef,
   useImperativeHandle,
   ForwardRefRenderFunction,
-  lazy, Suspense
+  lazy, Suspense, useLayoutEffect
 } from "react"
+import _ from 'lodash'
 import { deviceWidth } from '@utils/config'
 import { BasePageProps, MainPageHandle } from './type.d'
 import { gsap, AnimationReturn } from "@animations/gsap"
@@ -129,6 +130,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   }, [])
 
   const handleEasterEggBit = useCallback<(e: MouseEvent) => void>((e: MouseEvent) => {
+    console.log(`handleEasterEggBit render`)
     const eggOffset = parseInt((e.currentTarget.getAttribute('data-egg-offset') ?? '0')) 
     setEasterEggBit((easterEggBit | 1 << eggOffset))
   }, [easterEggBit])
@@ -554,6 +556,24 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
     }
   }, [isReadyPage])
 
+  useLayoutEffect(() => {
+    let animations: AnimationReturn[] = []
+    
+    if (isReadyPage) {
+      if (isDesktop) {
+        animations = initDesktopAnimations()
+      } else if (isMobile) {
+        animations = initMobileAnimations()
+      } else if (isTablet) {
+        animations = initTabletAnimations()
+      }
+    }
+
+    return () => {
+      animations.map((animation) => animation.revert())
+    }
+  }, [])
+
   const FullPageContent = ({ children }: { children: ReactNode }) => {
     return isMobile
       ? <div style={{
@@ -573,6 +593,8 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
   if (!isReadyPage || !imagesPreloaded) {
     return <FullPageContent>{LoadingPage}</FullPageContent>
   }
+
+  console.log(`MainPage render`)
 
   return (
     <FullPageContent>
@@ -645,7 +667,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               common: `fixed z-10`,
               desktop: `xl:translate-x-[462px] xl:translate-y-[287px] ${pcStyles.masklv1}`,
               tablet: `md:translate-x-[230px] md:translate-y-[169px] ${tabletStyles.masklv1}`,
-              mobile: `sm:translate-x-[96px] sm:translate-y-[147px] ${mobileStyles.masklv1}`
+              mobile: `sm:translate-x-[96px] sm:translate-y-[616px] ${mobileStyles.masklv1}`
             })
           },
           {
@@ -679,7 +701,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               common: `fixed z-10`,
               desktop: `xl:translate-x-0 xl:translate-y-0 ${pcStyles.masklv2}`,
               tablet: `md:translate-x-[-144px] md:translate-y-[-62px] ${tabletStyles.masklv2}`,
-              mobile: `sm:translate-x-[-150px] sm:translate-y-[-5px] ${mobileStyles.masklv2}`
+              mobile: `sm:translate-x-[-150px] sm:translate-y-[-330px] ${mobileStyles.masklv2}`
             })
           },
           {
@@ -713,7 +735,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               common: `fixed z-10`,
               desktop: `xl:translate-x-[-248px] xl:translate-y-[261px] ${pcStyles.masklv3}`,
               tablet: `md:translate-x-[-343px] md:translate-y-[149px] ${tabletStyles.masklv3}`,
-              mobile: `md:translate-x-[-283px] md:translate-y-[135px] ${mobileStyles.masklv3}`
+              mobile: `sm:translate-x-[-337px] sm:translate-y-[667px] ${mobileStyles.masklv3}`
             })
           }
         ].map((props, index: number) => (
@@ -741,7 +763,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
               common: `flex bg-no-repeat bg-cover`,
               desktop: ['xl:h-[720px]'],
               tablet: ['md:h-[1024px]'],
-              mobile: ['sm:h-[864px]']
+              mobile: ['sm:h-[938px]']
             })
           }
           ref={MainBannerRef}
@@ -785,7 +807,7 @@ const MainPage: ForwardRefRenderFunction<MainPageHandle, BasePageProps> = ({ Hea
             common: `bg-no-repeat bg-center bg-cover flex flex-col items-center relative  `,
             desktop: `xl:h-[6535px]`,
             tablet: `md:h-[5135px]`,
-            mobile: `sm:[7461px]`
+            mobile: `sm:h-[7461px]`
           })}
         >
           <div className={flatClassName({
