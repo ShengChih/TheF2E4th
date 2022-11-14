@@ -1,5 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import store from '@/store'
+import { Provider } from 'react-redux'
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -14,6 +17,8 @@ const pageRouter = createBrowserRouter(router)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={pageRouter} />
+    <Provider store={store}>
+      <RouterProvider router={pageRouter} />
+    </Provider>
   </React.StrictMode>
 )

@@ -12,6 +12,11 @@ import { deviceWidth } from '@utils/config'
 import { flatClassName } from '@utils/reduce'
 import useCheckScreen from '@hooks/useCheckScreen'
 import useImagePreloader from "@hooks/useImagePreloader"
+import { useAppDispatch, useAppSelector } from "@/hooks"
+
+import { selectDraft, selectOrigin } from '@features/gnsign/files/selector'
+import { UPLOAD_FILE, MODIFY_FILE } from '@features/gnsign/files/action'
+
 
 import LoadingPage from '@components/shared/LoadingPage'
 
@@ -59,6 +64,7 @@ const CustomLoadingPage = memo(({ text }: { text: string }) => {
 })
 
 const GNSign = () => {
+	const dispatch = useAppDispatch()
 	const [isReadyPage, setReadyPage] = useState<boolean>(false)
 	const [selectedFile, setSelectedFile] = useState<HTMLInputElement | null>(null)
 	const [toastState, setToastState] = useState<ToastState>(InitToastState)
@@ -115,16 +121,18 @@ const GNSign = () => {
 	}
 
 	const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
-		console.log(e.target.files)
+		e.preventDefault()
 
 		if (e.target.files && checkFile(e.target.files)) {
+			const file = e.target.files[0];
+			const localImageUrl = window.URL.createObjectURL(file);
 
+			dispatch({
+				type: UPLOAD_FILE,
+				payload: localImageUrl
+			})
 		}
 	}
-
-	
-
-	
 
 	return (<>
 		

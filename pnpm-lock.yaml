@@ -5,10 +5,12 @@ specifiers:
   '@our-patches/postcss-px-to-viewport': ^1.2.0
   '@reduxjs/toolkit': ^1.9.0
   '@types/lodash': ^4.14.188
+  '@types/node': ^18.11.9
   '@types/qs': ^6.9.7
   '@types/react': ^18.0.25
   '@types/react-dom': ^18.0.8
   '@types/react-lazyload': ^3.2.0
+  '@types/redux-logger': ^3.0.9
   '@types/styled-components': ^5.1.26
   '@typescript-eslint/eslint-plugin': ^5.42.1
   '@typescript-eslint/parser': ^5.42.1
@@ -46,6 +48,8 @@ specifiers:
   react-is: ^18.2.0
   react-redux: ^8.0.5
   react-router-dom: ^6.4.3
+  redux: ^4.2.0
+  redux-logger: ^3.0.6
   redux-saga: ^1.2.1
   rollup: ^2.79.1
   rollup-plugin-visualizer: ^5.8.3
@@ -61,8 +65,10 @@ dependencies:
   '@our-patches/postcss-px-to-viewport': 1.2.0_postcss@8.4.19
   '@reduxjs/toolkit': 1.9.0_k4ae6lp43ej6mezo3ztvx6pykq
   '@types/lodash': 4.14.188
+  '@types/node': 18.11.9
   '@types/qs': 6.9.7
   '@types/react-lazyload': 3.2.0
+  '@types/redux-logger': 3.0.9
   axios: 1.1.3
   gsap: 3.11.3
   localforage: 1.10.0
@@ -73,14 +79,16 @@ dependencies:
   qs: 6.11.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  react-redux: 8.0.5_gqczyrwmhlwpr6z64d3xh3wv54
+  react-redux: 8.0.5_ux5ypa4vfeu6lrs5gncpqp4a4u
   react-router-dom: 6.4.3_biqbaboplfbrettd7655fr4n2y
+  redux: 4.2.0
+  redux-logger: 3.0.6
   redux-saga: 1.2.1
   sass: 1.56.1
   sort-by: 1.2.0
   styled-components: 5.3.6_7i5myeigehqah43i5u7wbekgba
   tailwindcss: 3.2.4_postcss@8.4.19
-  vite: 3.2.3_sass@1.56.1
+  vite: 3.2.3_ajklay5k626t46b6fyghkbup3i
 
 devDependencies:
   '@eslint/create-config': 0.2.0
@@ -601,7 +609,7 @@ packages:
     dependencies:
       immer: 9.0.16
       react: 18.2.0
-      react-redux: 8.0.5_gqczyrwmhlwpr6z64d3xh3wv54
+      react-redux: 8.0.5_ux5ypa4vfeu6lrs5gncpqp4a4u
       redux: 4.2.0
       redux-thunk: 2.4.2_redux@4.2.0
       reselect: 4.1.7
@@ -675,7 +683,6 @@ packages:
 
   /@types/node/18.11.9:
     resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==}
-    dev: true
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
@@ -701,6 +708,12 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
       csstype: 3.1.1
+
+  /@types/redux-logger/3.0.9:
+    resolution: {integrity: sha512-cwYhVbYNgH01aepeMwhd0ABX6fhVB2rcQ9m80u8Fl50ZODhsZ8RhQArnLTkE7/Zrfq4Sz/taNoF7DQy9pCZSKg==}
+    dependencies:
+      redux: 4.2.0
+    dev: false
 
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
@@ -1302,6 +1315,10 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 5.5.0
+    dev: false
+
+  /deep-diff/0.3.8:
+    resolution: {integrity: sha512-yVn6RZmHiGnxRKR9sJb3iVV2XTF1Ghh2DiWRZ3dMnGc43yUdWWF/kX6lQyk3+P84iprfWKU/8zFTrlkvtFm1ug==}
     dev: false
 
   /deep-is/0.1.4:
@@ -2979,7 +2996,7 @@ packages:
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
 
-  /react-redux/8.0.5_gqczyrwmhlwpr6z64d3xh3wv54:
+  /react-redux/8.0.5_ux5ypa4vfeu6lrs5gncpqp4a4u:
     resolution: {integrity: sha512-Q2f6fCKxPFpkXt1qNRZdEDLlScsDWyrgSj0mliK59qU6W5gvBiKkdMEG2lJzhd1rCctf0hb6EtePPLZ2e0m1uw==}
     peerDependencies:
       '@types/react': ^16.8 || ^17.0 || ^18.0
@@ -3009,6 +3026,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-is: 18.2.0
+      redux: 4.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
@@ -3057,6 +3075,12 @@ packages:
     engines: {node: '>=8.10.0'}
     dependencies:
       picomatch: 2.3.1
+
+  /redux-logger/3.0.6:
+    resolution: {integrity: sha512-JoCIok7bg/XpqA1JqCqXFypuqBbQzGQySrhFzewB7ThcnysTO30l4VCst86AuB9T9tuT03MAA56Jw2PNhRSNCg==}
+    dependencies:
+      deep-diff: 0.3.8
+    dev: false
 
   /redux-saga/1.2.1:
     resolution: {integrity: sha512-fVCicLlf4hLP+KB6H7RHfZlZ8LdYckhaemXBB3wh//a2ESyz/z/l8ygxlm0OqPjS/PARdsQ2hIdAltxEB+NgvA==}
@@ -3528,13 +3552,13 @@ packages:
       fast-glob: 3.2.12
       mockjs: 1.1.0
       path-to-regexp: 6.2.1
-      vite: 3.2.3_sass@1.56.1
+      vite: 3.2.3_ajklay5k626t46b6fyghkbup3i
     transitivePeerDependencies:
       - rollup
       - supports-color
     dev: true
 
-  /vite/3.2.3_sass@1.56.1:
+  /vite/3.2.3_ajklay5k626t46b6fyghkbup3i:
     resolution: {integrity: sha512-h8jl1TZ76eGs3o2dIBSsvXDLb1m/Ec1iej8ZMdz+PsaFUsftZeWe2CZOI3qogEsMNaywc17gu0q6cQDzh/weCQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -3559,6 +3583,7 @@ packages:
       terser:
         optional: true
     dependencies:
+      '@types/node': 18.11.9
       esbuild: 0.15.13
       postcss: 8.4.19
       resolve: 1.22.1

@@ -21,6 +21,6 @@
     "jsx": "preserve",
     "sourceMap": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/store.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

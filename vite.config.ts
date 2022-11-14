@@ -96,7 +96,15 @@ export default defineConfig(({ command }: ConfigEnv) => {
         {
           find: '@GsapNewspaper',
           replacement: '/src/pages/GsapNewspaper'
-        }
+        },
+        {
+          find: '@stores',
+          replacement: '/src/stores'
+        },
+        {
+          find: '@features',
+          replacement: '/src/features'
+        },
       ]
     },
     server: {
