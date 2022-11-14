@@ -1,5 +1,7 @@
 #/bin/sh
-"歷史記錄上傳中載入中.選擇檔案(限10MB 內的PDF或JPG檔)小綠簽 © Code: Alex  /  Design: KT"
+
+"歷史記錄上傳中載入.選擇檔案(限10MB 內的PDF或JG)小綠簽©Code:Alx/signKT超過，請重新格式錯誤"
+
 
 
 echo "/usr/src/app/fonts/EBGaramond/EBGaramond-Bold.otf\n"

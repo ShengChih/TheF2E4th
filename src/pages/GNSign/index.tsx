@@ -25,10 +25,21 @@ import MB_People3 from './images/mobile/people3.png'
 import MB_Watermark from './images/mobile/watermark.png'
 import MB_Plant from './images/mobile/plant.png'
 
+import { ToastState } from './type.d'
+import {
+	MaximumFileSize,
+	FileType,
+	InitToastState,
+	ToastMessages
+} from './constants'
+
 const MultipleImageSources = lazy(
 	() => import('@components/shared/ResponsiveImageContainer/MultipleImageSources'))
 const Footer = lazy(
 	() => import('@components/shared/Footer')
+)
+const Toast = lazy(
+	() => import('@components/GNsign/Toast')
 )
 
 const CustomLoadingPage = memo(({ text }: { text: string }) => {
@@ -50,7 +61,10 @@ const CustomLoadingPage = memo(({ text }: { text: string }) => {
 const GNSign = () => {
 	const [isReadyPage, setReadyPage] = useState<boolean>(false)
 	const [selectedFile, setSelectedFile] = useState<HTMLInputElement | null>(null)
+	const [toastState, setToastState] = useState<ToastState>(InitToastState)
+
 	const inputFileRef = useRef<HTMLInputElement>(null)
+	
 	const { imagesPreloaded } = useImagePreloader([
 		MB_Logo,
 		MB_Watermark,
@@ -62,25 +76,58 @@ const GNSign = () => {
 		MB_Plant
 	])
 
-	const handleSelectedFileButton = (e: MouseEvent<HTMLButtonElement>) => {
-		if (inputFileRef.current) {
-			inputFileRef.current.click()
-		}
-	}
-
-	const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
-		console.log(e.target.files)
-	}
-
 	useEffect(() => {
     if (imagesPreloaded) {
       setReadyPage(true)
     }
   }, [imagesPreloaded])
 
+	const handleConfirmToast = useCallback(() => {
+		setToastState(InitToastState)
+	}, [])
+
+	const handleSelectedFileButton = (e: MouseEvent<HTMLButtonElement>) => {
+		if (inputFileRef.current) {
+			inputFileRef.current.click()
+		}
+	}
+
+	const checkFile = (files: FileList) => {
+		for (const file of files) {
+			if (file.size >= MaximumFileSize) {
+				setToastState({
+					toastMessage: ToastMessages['oversize'],
+					displayToast: true
+				})
+				return false
+			}
+
+			if (file.type !== FileType) {
+				setToastState({
+					toastMessage: ToastMessages['filetype'],
+					displayToast: true
+				})
+				return false
+			}
+		}
+
+		return files.length > 0
+	}
+
+	const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
+		console.log(e.target.files)
+
+		if (e.target.files && checkFile(e.target.files)) {
+
+		}
+	}
+
 	
 
-	return (
+	
+
+	return (<>
+		
 		<div className={flatClassName({
 			common: `w-screen h-screen relative bg-gnsign-background flex flex-col items-center`
 		})}>
@@ -311,7 +358,18 @@ const GNSign = () => {
 				mobile: `sm:h-[37px] sm:text-[12px] sm:leading-[17px]`
 			})} content={`小綠簽 © Code: Alex  /  Design: KT`} />
 		</div>
-	)
+		<Suspense fallback={``}>
+			<div className={flatClassName({
+				common: `w-screen h-screen absolute inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${toastState.displayToast ? "":"hidden"}`
+			})}>
+				<Toast
+					messageText={toastState.toastMessage}
+					buttonText={`確定`}
+					onConfirm={handleConfirmToast}
+				></Toast>
+			</div>
+		</Suspense>
+	</>)
 }
 
 export default GNSign
