@@ -1,6 +1,6 @@
 import { MediaImageProps } from '@type.d'
 
-export type LoadingPageProps = Partial<MediaImageProps> & {
+export type LoadingPageProps = MultipleImageSourcesProps & {
 	content?: ReactNode
 	extraInfo?: ReactNode
 	loadingImg?: ReactNode

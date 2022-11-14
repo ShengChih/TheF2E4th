@@ -11,12 +11,10 @@ export default function LoadingPage({
 	mediaImages,
 	imageElementProps,
 	pictureElementProps,
-	...props
+	className
 }: LoadingPageProps) {
 	return (
-		<div
-			{...props}
-		>
+		<div className={className}>
 			{
 				mediaImages ?
 					(

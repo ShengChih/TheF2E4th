@@ -1,14 +1,19 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { UploadFilePayload  } from './type.d'
+import { save, modify } from './reducer'
 
 import {
 	UPLOAD_FILE,
 	DOWNLOAD_FILE,
 	MODIFY_FILE
-} from './action'
+} from './sagaActions'
 
-function* uploadLocal({ payload }: UploadFilePayload) {
-	yield put({ type: UPLOAD_FILE, payload })
+function* uploadLocal(actions: UploadFilePayload) {
+	try {
+		yield put(save(actions))
+	} catch (e) {
+
+	}
 }
 
 function* watchFilsSaga() {

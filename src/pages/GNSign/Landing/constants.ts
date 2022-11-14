@@ -1,13 +1,21 @@
-import { ToastMessagesType, ToastMessageKeyType } from './type.d'
+import { ToastMessagesType, ToastMessageKeyType } from './type'
 
 export const MaximumFileSize = 10 * 1024 * 1024
 
 export const FileExtension = '.pdf,.jpg'
-export const FileType = 'application/pdf,image/jpeg'
+export const FileType = {
+	'application/pdf': true,
+	'image/jpeg': true,
+}
 
 export const InitToastState = {
 	toastMessage: '',
 	displayToast: false
+}
+
+export const InitLoadingState = {
+	loadingText: '',
+	isLoading: false
 }
 
 export const ToastMessages: ToastMessagesType = {

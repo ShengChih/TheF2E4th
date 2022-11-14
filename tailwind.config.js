@@ -42,6 +42,7 @@ module.exports = {
           'greenh': '#077854',
           'gray': '#B7B7B7',
           'background': '#F0F0F0',
+          'bg2': '#1E1E1E',
           'orange': '#FFB800',
           'black': '#424242'
         }

@@ -8,7 +8,7 @@ import GnsignSagas from '@features/gnsign/sagas'
 const sagaMiddleware = createSagaMiddleware();
 
 const devMode = process.env.NODE_ENV === 'development'
-const middleware = devMode ? [sagaMiddleware, logger] : [sagaMiddleware]
+const middleware = devMode ? [sagaMiddleware] : [sagaMiddleware]
 
 const store = configureStore({
   reducer: GnsignReducers,

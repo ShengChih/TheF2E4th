@@ -1,7 +1,8 @@
 import App from '@/App'
-import GNSign from "@pages/GNSign"
+import GNSignLanding from "@pages/GNSign/Landing"
 import GsapNewspaper from "@pages/GsapNewspaper/root"
 import ErrorPage from '@pages/ErrorPage'
+import MakeSign from '@pages/GNSign/MakeSign'
 
 const router = [
 	{
@@ -11,7 +12,11 @@ const router = [
 	},
 	{
 		path: "/gnsign",
-		element: <GNSign />,
+		element: <GNSignLanding />,
+	},
+	{
+		path: "/gnsign/sign",
+		element: <MakeSign />,
 	},
 	{
 		path: "/gsapnewspaper",

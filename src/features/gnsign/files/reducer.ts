@@ -11,8 +11,9 @@ export const filesSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-		upload: (state, action) => {
+		save: (state, action) => {
 			state.origin = action.payload
+			state.draft = action.payload
 		},
 		modify: (state, action) => {
 			state.draft = action.payload
@@ -20,7 +21,7 @@ export const filesSlice = createSlice({
   },
 })
 
-export const { upload, modify } = filesSlice.actions
+export const { save, modify } = filesSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 
