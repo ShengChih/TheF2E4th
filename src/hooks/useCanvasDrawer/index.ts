@@ -1,10 +1,16 @@
 import { useState, useEffect, RefObject, MouseEvent, TouchEvent } from "react"
 
 const useCanvasDrawer = (canvasRef: RefObject<HTMLCanvasElement>) => {
+	const [supportOffscreenCanvas, setSupportOffscreenCanvas] = useState<boolean>()
+	const [worker, setWoker] = useState()
 	const [canvas, setCanvas] = useState<HTMLCanvasElement>()
 	const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
 	const [isDrawing, setDrawing] = useState<boolean>(false)
 	const [defaultColor, setColor] = useState<string>('black')
+
+	useEffect(() => {
+		setSupportOffscreenCanvas(("OffscreenCanvas" in window))
+	}, [])
 
 	useEffect(() => {
 		if (canvasRef.current) {
@@ -49,7 +55,7 @@ const useCanvasDrawer = (canvasRef: RefObject<HTMLCanvasElement>) => {
 		const mousePos = getMousePos(e)
 		context.beginPath()
 		context.moveTo(mousePos.x, mousePos.y)
-		e.preventDefault()
+		e.stopPropagation()
 	}
 
 	const handleMouseMove = (e: MouseEvent) => {
@@ -76,7 +82,7 @@ const useCanvasDrawer = (canvasRef: RefObject<HTMLCanvasElement>) => {
     const { x, y } = getTouchPos(e)
     context.beginPath()
     context.moveTo(x, y)
-    e.preventDefault()
+    e.stopPropagation()
   }
 
 	const handleTouchMove = (e: TouchEvent) => {
@@ -104,6 +110,7 @@ const useCanvasDrawer = (canvasRef: RefObject<HTMLCanvasElement>) => {
 
 	return {
 		defaultColor,
+		isDrawing,
 		setColor,
 		handleMouseDown,
 		handleMouseMove,
