@@ -1,25 +1,72 @@
-import { useState, useEffect, RefObject, MouseEvent, TouchEvent } from "react"
+import { useRef, useState, useEffect, RefObject, MouseEvent, TouchEvent } from "react"
+import { movePostion, drawTracking } from './draw'
+import WebWorker from './worker?worker'
+import { Position } from '@/type.d'
+import {
+	INIT_CANVAS,
+	MOVE_IN_CANVAS,
+	DRAW_IN_CANVAS,
+	UPLOAD_IMAGE_TO_CANVAS,
+	CLEAR_ALL
+} from './constants'
 
-const useCanvasDrawer = (canvasRef: RefObject<HTMLCanvasElement>) => {
-	const [supportOffscreenCanvas, setSupportOffscreenCanvas] = useState<boolean>()
-	const [worker, setWoker] = useState()
+const useCanvasDrawer = (
+	canvasRef: RefObject<HTMLCanvasElement>,
+	containerWidth: number,
+	containerHeight: number,
+	needWorker = false
+) => {
+	const [worker, setWoker] = useState<Worker | null>(null)
 	const [canvas, setCanvas] = useState<HTMLCanvasElement>()
-	const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
+	const [offscreen, setOffscreen] = useState<OffscreenCanvas>()
+	const [context, setContext] = useState<CanvasRenderingContext2D>()
 	const [isDrawing, setDrawing] = useState<boolean>(false)
-	const [defaultColor, setColor] = useState<string>('black')
+	const [defaultColor, setColor] = useState<string>('white')
+
+	//const listenWorker = (e: MessageEvent) => {
+	//	console.log(e.data)
+	//}
 
 	useEffect(() => {
-		setSupportOffscreenCanvas(("OffscreenCanvas" in window))
+		let worker: Worker | null = null
+
+		if (canvasRef.current) {
+			setCanvas(canvasRef.current)
+
+			if (needWorker && "OffscreenCanvas" in window) {
+				worker = new WebWorker()
+				//worker.addEventListener('message', listenWorker)
+				setWoker(worker)
+				setOffscreen(canvasRef.current.transferControlToOffscreen())
+			} else {
+				const context = canvasRef.current.getContext('2d', { alpha: false })
+				if (context) {
+					context.fillStyle = 'white'
+					context.fillRect(0, 0, containerWidth, containerHeight)
+					setContext(context)
+				}
+			}
+		}
+
+		return () => {
+			if (worker) worker.terminate()
+		}
 	}, [])
 
 	useEffect(() => {
-		if (canvasRef.current) {
-			setCanvas(canvasRef.current)
-			setContext(canvasRef.current.getContext('2d'))
+		if (worker && offscreen) {
+			worker.postMessage({
+				type: INIT_CANVAS,
+				canvas: offscreen,
+				size: {
+					containerWidth,
+					containerHeight
+				}
+			}, [offscreen])
 		}
-	}, [canvasRef])
+	}, [worker, offscreen])
 
-	const getMousePos = (e: MouseEvent) => {
+	const getMousePos = (e: MouseEvent): Position => {
 		if (!canvasRef.current) {
 			return { x: 0, y: 0 }
 		}
@@ -36,7 +83,7 @@ const useCanvasDrawer = (canvasRef: RefObject<HTMLCanvasElement>) => {
 		}
 	}
 
-	const getTouchPos = (e: TouchEvent) => {
+	const getTouchPos = (e: TouchEvent): Position => {
 		if (!canvas) {
 			return { x: 0, y: 0 }
 		}
@@ -50,26 +97,34 @@ const useCanvasDrawer = (canvasRef: RefObject<HTMLCanvasElement>) => {
 	}
 
 	const handleMouseDown = (e: MouseEvent) => {
-		if (!context) return
 		setDrawing(true)
-		const mousePos = getMousePos(e)
-		context.beginPath()
-		context.moveTo(mousePos.x, mousePos.y)
+		const pos = getMousePos(e)
+		if (worker) {
+			setDrawing(true)
+			worker.postMessage({
+				type: MOVE_IN_CANVAS,
+				postion: pos
+			})
+		} else if (context) {
+			setDrawing(true)
+			movePostion(context, pos)
+		}
 		e.stopPropagation()
 	}
 
 	const handleMouseMove = (e: MouseEvent) => {
-		if (!context || !isDrawing) return
-		const mousePos = getMousePos(e)
-		context.lineWidth = 2
-    context.lineCap = "round" // 繪制圓形的結束線帽
-    context.lineJoin = "round" // 兩條線條交匯時，建立圓形邊角
-    context.shadowBlur = 1 // 邊緣模糊，防止直線邊緣出現鋸齒
-    context.shadowColor = defaultColor // 陰影顏色
-		context.fillStyle = defaultColor // 線體顏色
-		context.strokeStyle = defaultColor // 線框顏色
-    context.lineTo(mousePos.x, mousePos.y)
-    context.stroke()
+		const pos = getMousePos(e)
+		if (worker) {
+			setDrawing(true)
+			worker.postMessage({
+				type: DRAW_IN_CANVAS,
+				postion: pos,
+				defaultColor: defaultColor
+			})
+		} else if (context) {
+			setDrawing(true)
+			drawTracking(context, pos, defaultColor)
+		}
 	}
 
 	const handleMouseUp = (e: MouseEvent) => {
@@ -77,26 +132,33 @@ const useCanvasDrawer = (canvasRef: RefObject<HTMLCanvasElement>) => {
 	}
 
 	const handleTouchStart = (e: TouchEvent) => {
-		if (!context) return
-    setDrawing(true)
-    const { x, y } = getTouchPos(e)
-    context.beginPath()
-    context.moveTo(x, y)
+		const pos = getTouchPos(e)
+		if (worker) {
+			setDrawing(true)
+			worker.postMessage({
+				type: MOVE_IN_CANVAS,
+				postion: pos
+			})
+		} else if (context) {
+			setDrawing(true)
+			movePostion(context, pos)
+		}
+
     e.stopPropagation()
   }
 
 	const handleTouchMove = (e: TouchEvent) => {
-    if (!context || !isDrawing) return
-    const touchPos = getTouchPos(e)
-    context.lineWidth = 2
-    context.lineCap = "round" // 繪制圓形的結束線帽
-    context.lineJoin = "round" // 兩條線條交匯時，建立圓形邊角
-    context.shadowBlur = 1 // 邊緣模糊，防止直線邊緣出現鋸齒
-    context.shadowColor = defaultColor // 陰影顏色
-		context.fillStyle = defaultColor // 線體顏色
-		context.strokeStyle = defaultColor // 線框顏色
-    context.lineTo(touchPos.x, touchPos.y)
-    context.stroke()
+		const pos = getTouchPos(e)
+
+    if (worker) {
+			worker.postMessage({
+				type: DRAW_IN_CANVAS,
+				postion: pos,
+				defaultColor: defaultColor
+			})
+		} else if (context) {
+			drawTracking(context, pos, defaultColor)
+		}
   }
 
 	const handleTouchEnd = (e: TouchEvent) => {
@@ -104,8 +166,18 @@ const useCanvasDrawer = (canvasRef: RefObject<HTMLCanvasElement>) => {
   }
 
 	const handleClear = (e: MouseEvent) => {
-		if (!context || !canvas) return
-		context.clearRect(0, 0, canvas.width, canvas.height)
+		if (worker) {
+			worker.postMessage({
+				type: CLEAR_ALL,
+				size: {
+					containerWidth,
+					containerHeight
+				}
+			})
+		} else if (context) {
+			context.fillStyle = 'white'
+			context.fillRect(0, 0, containerWidth, containerHeight)
+		}
 	}
 
 	return {
