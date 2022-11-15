@@ -1,15 +1,15 @@
 import { useState, useEffect, RefObject, MouseEvent, TouchEvent } from "react"
 
 const useCanvasDrawer = (canvasRef: RefObject<HTMLCanvasElement>) => {
+	const [canvas, setCanvas] = useState<HTMLCanvasElement>()
 	const [context, setContext] = useState<CanvasRenderingContext2D | null>(null)
 	const [isDrawing, setDrawing] = useState<boolean>(false)
 	const [defaultColor, setColor] = useState<string>('black')
 
-	const canvas = canvasRef.current
-
 	useEffect(() => {
-		if (canvas) {
-			setContext(canvas.getContext('2d'))
+		if (canvasRef.current) {
+			setCanvas(canvasRef.current)
+			setContext(canvasRef.current.getContext('2d'))
 		}
 	}, [canvasRef])
 
