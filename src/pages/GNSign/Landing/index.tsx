@@ -4,8 +4,8 @@ import {
   useState,
   useEffect,
   useCallback,
-  ElementRef, MouseEvent,
-  lazy, Suspense, useLayoutEffect, ChangeEvent
+  MouseEvent,
+  lazy, Suspense, ChangeEvent
 } from "react"
 import { useNavigate } from 'react-router-dom'
 
@@ -14,9 +14,7 @@ import { flatClassName } from '@utils/reduce'
 import useCheckScreen from '@hooks/useCheckScreen'
 import useImagePreloader from "@hooks/useImagePreloader"
 
-import { save, modify } from '@features/gnsign/files/reducer'
 import { useAppDispatch, useAppSelector } from "@/hooks"
-
 import { selectDraft, selectOrigin } from '@features/gnsign/files/selector'
 import { UPLOAD_FILE, MODIFY_FILE } from '@features/gnsign/files/sagaActions'
 
