@@ -1,6 +1,6 @@
 import * as pdf from 'pdfjs-dist'
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.js?url'
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState, useRef, MouseEvent } from "react"
 import { useNavigate } from 'react-router-dom'
 
 import { flatClassName } from "@utils/reduce"
@@ -34,8 +34,23 @@ const SignDocument = () => {
 	const pdfDocumentProxy = useRef<Nullable<pdf.PDFDocumentProxy>>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 
-	console.log(draftFile)
-	console.log(makeSign)
+	const goPrevious = (e: MouseEvent) => {
+		if (pageState.current > 1) {
+			setPageState({
+				...pageState,
+				current: pageState.current - 1
+			})
+		}
+	}
+
+	const goNext = (e: MouseEvent) => {
+		if (pageState.current < pageState.maxPage) {
+			setPageState({
+				...pageState,
+				current: pageState.current + 1
+			})
+		}
+	}
 
 	useEffect(() => {
 		if (canvasRef.current) {
@@ -101,6 +116,7 @@ const SignDocument = () => {
 							common: `bg-gnsign-green flex justify-center items-center`,
 							mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`
 						})}
+						onClick={goPrevious}
 					>
 						<svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M1.16244 4.49911L5.16965 0.491906C5.44661 0.214937 5.89448 0.214937 6.1685 0.491906L6.83441 1.15781C7.11137 1.43478 7.11137 1.88264 6.83441 2.15667L3.99695 5.00002L6.83735 7.84042C7.11432 8.11739 7.11432 8.56525 6.83735 8.83927L6.17145 9.50812C5.89448 9.78509 5.44662 9.78509 5.17259 9.50812L1.16538 5.50092C0.885469 5.22395 0.885469 4.77608 1.16244 4.49911Z" fill="white"/>
@@ -110,13 +126,14 @@ const SignDocument = () => {
 					<p className={flatClassName({
 						common: `font-roboto font-normal text-gnsign-black flex items-center`,
 						mobile: `sm:text-[16px] sm:leading-[19px]`
-					})}>{`${1} / ${2}`}</p>
+					})}>{`${pageState.current} / ${pageState.maxPage}`}</p>
 
 					<div
 						className={flatClassName({
 							common: `bg-gnsign-green flex justify-center items-center`,
 							mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`
 						})}
+						onClick={goNext}
 					>
 						<svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M6.83762 5.50112L2.82847 9.51027C2.55137 9.78737 2.10329 9.78737 1.82913 9.51027L1.16291 8.84404C0.885802 8.56694 0.885802 8.11886 1.16291 7.8447L4.00468 5.00293L1.16291 2.16115C0.885802 1.88405 0.885802 1.43596 1.16291 1.16181L1.82618 0.489687C2.10329 0.212585 2.55137 0.212585 2.82552 0.489687L6.83467 4.49883C7.11472 4.77594 7.11472 5.22402 6.83762 5.50112Z" fill="white"/>
