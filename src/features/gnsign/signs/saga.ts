@@ -21,7 +21,7 @@ function* makeSign(actions: SignPayload) {
 
 function* saveDraft2State(actions: SignPayload) {
 	try {
-		yield put(saveDraft(actions))
+		yield put(saveDraft(actions.payload))
 	} catch (e) {
 
 	}
@@ -29,7 +29,7 @@ function* saveDraft2State(actions: SignPayload) {
 
 function* saveSign2State(actions: SignPayload) {
 	try {
-		yield put(createSign(actions))
+		yield put(createSign(actions.payload))
 	} catch (e) {
 
 	}

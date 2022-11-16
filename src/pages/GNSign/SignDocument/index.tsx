@@ -1,7 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import * as pdf from 'pdfjs-dist'
+import pdfWorker from 'pdfjs-dist/build/pdf.worker.js?url'
+import React, { useEffect, useState, useRef } from "react"
 import { useNavigate } from 'react-router-dom'
 
 import { flatClassName } from "@utils/reduce"
+import { convertDataURIToBinary } from '@utils/converter'
 
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { selectDraftFile } from '@features/gnsign/files/selector'
@@ -9,23 +12,65 @@ import { UPLOAD_FILE, MODIFY_FILE } from '@features/gnsign/files/sagaActions'
 import { selectDraftSign, selectMakeSign } from '@features/gnsign/signs/selector'
 import { SAVE_DRAFT, SAVE_SIGN } from '@features/gnsign/signs/sagaActions'
 
+import { Nullable } from '@/type.d'
+
+pdf.GlobalWorkerOptions.workerSrc = pdfWorker;
+
+type PageProps = {
+	current: number
+	maxPage: number
+}
+
 const SignDocument = () => {
 	const draftFile = useAppSelector(selectDraftFile)
 	const makeSign = useAppSelector(selectMakeSign)
 	const navigate = useNavigate()
 
+	const [pageState, setPageState] = useState<PageProps>({
+		current: 0,
+		maxPage: 0
+	})
+	const [context, setContext] = useState<Nullable<CanvasRenderingContext2D>>()
+	const pdfDocumentProxy = useRef<Nullable<pdf.PDFDocumentProxy>>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 
-	useEffect(() => {
-		//if (!draftFile) {
-		//	navigate('/gnsign', { replace: true })
-		//}
-//
-		//if (!makeSign) {
-		//	navigate('/gnsign/makesign', { replace: true })
-		//}
+	console.log(draftFile)
+	console.log(makeSign)
 
+	useEffect(() => {
+		if (canvasRef.current) {
+			const context = canvasRef?.current?.getContext('2d', { alpha: false })
+			setContext(context)
+		}
+
+		(async () => {
+			const pdfAsArray = convertDataURIToBinary(draftFile)
+			const pdfDocument = await pdf.getDocument(pdfAsArray).promise
+			pdfDocumentProxy.current = pdfDocument
+
+			setPageState({
+				current: 1,
+				maxPage: pdfDocument.numPages
+			})
+		})()
 	}, [])
+
+	useEffect(() => {
+		if (canvasRef.current && pdfDocumentProxy.current && context && pageState.current) {
+			pdfDocumentProxy.current.getPage(pageState.current)
+				.then((page) => {
+					const scale = canvasRef.current!.width / page.getViewport({ scale: 1.0 }).width
+					const viewport = page.getViewport({
+						scale: scale
+					})
+
+					page.render({
+						canvasContext: context,
+						viewport: viewport
+					})
+				})
+		}
+	}, [canvasRef, pdfDocumentProxy, context, pageState.current])
 
 	useEffect(() => {
 		if (!draftFile) {

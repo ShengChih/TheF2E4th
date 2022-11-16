@@ -1,4 +1,5 @@
 import {
+	Fragment,
   useRef,
   useState,
   useEffect,
@@ -103,7 +104,9 @@ const GNSign = () => {
 		}
 	}
 
-	const checkFile = getCheckFileFunc(FileType, MaximumFileSize)
+	const checkFile = getCheckFileFunc({
+		'application/pdf': true
+	}, MaximumFileSize)
 
 	const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault()
@@ -126,11 +129,22 @@ const GNSign = () => {
 			isLoading: true
 		})
 		const file = e.target.files[0];
-		const localImageUrl = window.URL.createObjectURL(file);
-		dispatch({
-			type: UPLOAD_FILE,
-			payload: localImageUrl
-		})
+
+		if (file.type === 'image/jpeg' || file.type === 'image/png') {
+			dispatch({
+				type: UPLOAD_FILE,
+				payload: window.URL.createObjectURL(file)
+			})
+		} else if (file.type === 'application/pdf') {
+			const fileReader = new FileReader()
+			fileReader.onload = () => {
+				dispatch({
+					type: UPLOAD_FILE,
+					payload: fileReader.result
+				})
+			}
+			fileReader.readAsDataURL(file)
+		}
 	}
 
 	return (<>
@@ -150,7 +164,7 @@ const GNSign = () => {
 							common: `relative self-start`,
 							mobile: `sm:w-[88.21px] sm:h-[59.35px]`
 						})}>
-							<Suspense fallback={``}>
+							<Suspense fallback={<Fragment />}>
 								<MultipleImageSources
 									aliasName={`GNSign`}
 									mediaImages={[
@@ -181,7 +195,7 @@ const GNSign = () => {
 							common: `absolute`,
 							mobile: `sm:w-[134px] sm:h-[110px] sm:translate-y-[48.5px]`
 						})}>
-							<Suspense fallback={``}>
+							<Suspense fallback={<Fragment />}>
 								<MultipleImageSources
 									aliasName={`Watermark`}
 									mediaImages={[
@@ -231,7 +245,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[355px] sm:h-[59px] sm:translate-x-[7px] sm:translate-y-[169px]`
 							})}>
-								<Suspense fallback={``}>
+								<Suspense fallback={<Fragment />}>
 									<MultipleImageSources
 										aliasName={`Grass`}
 										mediaImages={[
@@ -253,7 +267,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[142px] sm:h-[202px] sm:translate-x-0 sm:translate-y-0`
 							})}>
-								<Suspense fallback={``}>
+								<Suspense fallback={<Fragment />}>
 									<MultipleImageSources
 										aliasName={`People1`}
 										mediaImages={[
@@ -275,7 +289,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[97px] sm:h-[164px] sm:translate-x-[124px] sm:translate-y-[45px]`
 							})}>
-								<Suspense fallback={``}>
+								<Suspense fallback={<Fragment />}>
 									<MultipleImageSources
 										aliasName={`People2`}
 										mediaImages={[
@@ -297,7 +311,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[76px] sm:h-[127px] sm:translate-x-[205px] sm:translate-y-[82px]`
 							})}>
-								<Suspense fallback={``}>
+								<Suspense fallback={<Fragment />}>
 									<MultipleImageSources
 										aliasName={`Plant`}
 										mediaImages={[
@@ -319,7 +333,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[21px] sm:h-[27px] sm:translate-x-[251px] sm:translate-y-[187px]`
 							})}>
-								<Suspense fallback={``}>
+								<Suspense fallback={<Fragment />}>
 									<MultipleImageSources
 										aliasName={`Drawstring`}
 										mediaImages={[
@@ -341,7 +355,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[108px] sm:h-[188px] sm:translate-x-[239px] sm:translate-y-[7px]`
 							})}>
-								<Suspense fallback={``}>
+								<Suspense fallback={<Fragment />}>
 									<MultipleImageSources
 										aliasName={`People3`}
 										mediaImages={[
@@ -370,7 +384,7 @@ const GNSign = () => {
 			)
 		}
 		
-		<Suspense fallback={``}>
+		<Suspense fallback={<Fragment />}>
 			<div className={flatClassName({
 				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${toastState.displayToast ? "":"hidden"}`
 			})}>

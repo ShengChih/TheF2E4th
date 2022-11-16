@@ -10,7 +10,7 @@ import {
 
 function* uploadLocal(actions: UploadFilePayload) {
 	try {
-		yield put(save(actions))
+		yield put(save(actions.payload))
 	} catch (e) {
 
 	}
