@@ -16,9 +16,7 @@ import './styles/scss/global.scss'
 const pageRouter = createBrowserRouter(router)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={pageRouter} />
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <RouterProvider router={pageRouter} />
+  </Provider>
 )

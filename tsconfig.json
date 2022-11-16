@@ -6,7 +6,7 @@
     },
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": ["dom", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -21,6 +21,6 @@
     "jsx": "preserve",
     "sourceMap": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/store.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/store.ts", "src/hooks/useCanvasDrawer/worker.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

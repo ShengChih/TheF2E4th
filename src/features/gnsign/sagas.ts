@@ -1,11 +1,13 @@
 
 import { all } from 'redux-saga/effects';
-import files from './files/saga';
+import filesSaga from './files/saga';
+import signsSaga from './signs/saga';
 
 
 function* gnsignSaga() {
 	yield all([
-		files()
+		filesSaga(),
+		signsSaga()
 	])
 }
 

@@ -1,5 +1,4 @@
 import {
-	memo,
   useRef,
   useState,
   useEffect,
@@ -11,17 +10,16 @@ import { useNavigate } from 'react-router-dom'
 
 import { deviceWidth } from '@utils/config'
 import { flatClassName } from '@utils/reduce'
+import { getCheckFileFunc } from '@utils/validation'
 import useCheckScreen from '@hooks/useCheckScreen'
 import useImagePreloader from "@hooks/useImagePreloader"
+import GNsignLoadingPage, { LoadingPageState, InitLoadingState} from "@components/GNsign/LoadingPage"
 
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { selectDraft, selectOrigin } from '@features/gnsign/files/selector'
 import { UPLOAD_FILE, MODIFY_FILE } from '@features/gnsign/files/sagaActions'
 
 
-import LoadingPage from '@components/shared/LoadingPage'
-
-import MB_Loading from './images/mobile/loading.png'
 import MB_Drawstring from './images/mobile/drawstring.png'
 import MB_Grass from './images/mobile/grass.png'
 import MB_Logo from './images/mobile/logo.png'
@@ -31,12 +29,11 @@ import MB_People3 from './images/mobile/people3.png'
 import MB_Watermark from './images/mobile/watermark.png'
 import MB_Plant from './images/mobile/plant.png'
 
-import { ToastState, LoadingPageState } from './type'
+import { ToastState } from './type'
 import {
 	MaximumFileSize,
 	FileType,
 	InitToastState,
-	InitLoadingState,
 	ToastMessages
 } from './constants'
 
@@ -48,21 +45,6 @@ const Footer = lazy(
 const Toast = lazy(
 	() => import('@components/GNsign/Toast')
 )
-
-const CustomLoadingPage = memo(({ className, text }: { className?: string, text: string }) => {
-	return (
-		<LoadingPage
-			loadingImg={<img src={MB_Loading} className={`absolute sm:translate-y-[176px]`} />}
-			content={<p className={flatClassName({
-				common: `absolute`,
-				mobile: `sm:translate-y-[308px]`
-			})}>{text}</p>}
-			className={flatClassName({
-				common: `w-screen h-screen bg-gnsign-background absolute inset-0 flex justify-center ${className}`,
-			})}
-		/>
-	)
-})
 
 const GNSign = () => {
 	const dispatch = useAppDispatch()
@@ -121,44 +103,34 @@ const GNSign = () => {
 		}
 	}
 
-	const checkFile = (files: FileList) => {
-		for (const file of files) {
-			if (file.size >= MaximumFileSize) {
-				setToastState({
-					toastMessage: ToastMessages['oversize'],
-					displayToast: true
-				})
-				return false
-			}
+	const checkFile = getCheckFileFunc(FileType, MaximumFileSize)
 
-			if (!FileType.hasOwnProperty(file.type)) {
-				console.debug(`${file.type}`)
-				setToastState({
-					toastMessage: ToastMessages['filetype'],
-					displayToast: true
-				})
-				return false
-			}
-		}
-
-		return files.length > 0
-	}
-
-const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault()
 
-		if (e.target.files && checkFile(e.target.files)) {
-			setLoadingState({
-				loadingText: '上傳中...',
-				isLoading: true
-			})
-			const file = e.target.files[0];
-			const localImageUrl = window.URL.createObjectURL(file);
-			dispatch({
-				type: UPLOAD_FILE,
-				payload: localImageUrl
-			})
+		if (!e.target.files) {
+			return
 		}
+
+		const { result, type } = checkFile(e.target.files)
+		if (!result) {
+			setToastState({
+				toastMessage: ToastMessages[type],
+				displayToast: true
+			})
+			return
+		}
+
+		setLoadingState({
+			loadingText: '上傳中...',
+			isLoading: true
+		})
+		const file = e.target.files[0];
+		const localImageUrl = window.URL.createObjectURL(file);
+		dispatch({
+			type: UPLOAD_FILE,
+			payload: localImageUrl
+		})
 	}
 
 	return (<>
@@ -409,7 +381,7 @@ const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
 				></Toast>
 			</div>
 		</Suspense>
-		<CustomLoadingPage className={`${loadingState.isLoading ? '': 'hidden'}`} text={loadingState.loadingText} />
+		<GNsignLoadingPage className={`${loadingState.isLoading ? '': 'hidden'}`} text={loadingState.loadingText} />
 	</>)
 }
 

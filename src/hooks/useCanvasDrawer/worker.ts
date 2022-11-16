@@ -34,7 +34,6 @@ self.onmessage = function(e) {
 			e.data.type === INIT_CANVAS &&
 			e.data.canvas
 		) {
-			console.log(e.data.canvas.toString)
 			if (e.data.canvas.toString() === '[object HTMLCanvasElement]') {
 				canvasElement = e.data.canvas
 				offscreenCanvas = e.data.canvas.transferControlToOffscreen()
@@ -131,6 +130,7 @@ self.onmessage = function(e) {
 		return
 	}
 
+	console.log(`test`)
 	self.postMessage({
 		...response,
 		type: e.data.type,

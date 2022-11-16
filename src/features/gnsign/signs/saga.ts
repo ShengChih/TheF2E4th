@@ -3,6 +3,9 @@ import { SignPayload  } from './type.d'
 import { createSign, saveDraft } from './reducer'
 
 import {
+	CREATE_DRAFT,
+	SAVE_DRAFT,
+	MODIFY_DRAFT,
 	CREATE_SIGN,
 	SAVE_SIGN,
 	MODIFY_SIGN
@@ -16,7 +19,7 @@ function* makeSign(actions: SignPayload) {
 	}
 }
 
-function* keepDraft(actions: SignPayload) {
+function* saveDraft2State(actions: SignPayload) {
 	try {
 		yield put(saveDraft(actions))
 	} catch (e) {
@@ -24,9 +27,17 @@ function* keepDraft(actions: SignPayload) {
 	}
 }
 
+function* saveSign2State(actions: SignPayload) {
+	try {
+		yield put(createSign(actions))
+	} catch (e) {
+
+	}
+}
+
 function* watchFilsSaga() {
-	yield takeEvery(CREATE_SIGN, makeSign)
-	yield takeEvery(SAVE_SIGN, makeSign)
+	yield takeEvery(SAVE_DRAFT, saveDraft2State)
+	yield takeEvery(SAVE_SIGN, saveSign2State)
 }
 
 export default watchFilsSaga

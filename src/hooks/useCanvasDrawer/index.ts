@@ -21,11 +21,11 @@ const useCanvasDrawer = (
 	const [offscreen, setOffscreen] = useState<OffscreenCanvas>()
 	const [context, setContext] = useState<CanvasRenderingContext2D>()
 	const [isDrawing, setDrawing] = useState<boolean>(false)
-	const [defaultColor, setColor] = useState<string>('white')
+	const [defaultColor, setColor] = useState<string>('black')
 
-	//const listenWorker = (e: MessageEvent) => {
-	//	console.log(e.data)
-	//}
+	const listenWorker = (e: MessageEvent) => {
+		console.log(e)
+	}
 
 	useEffect(() => {
 		let worker: Worker | null = null
@@ -35,7 +35,7 @@ const useCanvasDrawer = (
 
 			if (needWorker && "OffscreenCanvas" in window) {
 				worker = new WebWorker()
-				//worker.addEventListener('message', listenWorker)
+				worker.addEventListener('message', listenWorker)
 				setWoker(worker)
 				setOffscreen(canvasRef.current.transferControlToOffscreen())
 			} else {

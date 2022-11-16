@@ -1,4 +1,4 @@
-import { ToastMessagesType, ToastMessageKeyType } from './type'
+import { ToastMessagesType, ToastMessageKeyType } from '@components/GNsign/type.d'
 
 export const MaximumFileSize = 10 * 1024 * 1024
 
@@ -13,12 +13,8 @@ export const InitToastState = {
 	displayToast: false
 }
 
-export const InitLoadingState = {
-	loadingText: '',
-	isLoading: false
-}
-
 export const ToastMessages: ToastMessagesType = {
 	'oversize': '檔案超過10MB，請重新選擇',
-	'filetype': '檔案格式錯誤，請重新選擇'
+	'filetype': '檔案格式錯誤，請重新選擇',
+	'success': ''
 }
