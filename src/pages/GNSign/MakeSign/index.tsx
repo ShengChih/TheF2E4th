@@ -8,7 +8,7 @@ import {
 	ChangeEvent,
 	Suspense
 } from 'react'
-
+import { useNavigate } from 'react-router-dom'
 import useCanvasDrawer from '@hooks/useCanvasDrawer'
 import { flatClassName } from "@utils/reduce"
 import { getCheckFileFunc } from '@utils/validation'
@@ -16,12 +16,12 @@ import { getCheckFileFunc } from '@utils/validation'
 import { useAppDispatch, useAppSelector } from "@/hooks"
 
 import GNsignLoadingPage, { InitLoadingState } from "@components/GNsign/LoadingPage"
-import { selectDraft, selectSign } from '@features/gnsign/signs/selector'
+import { selectDraftSign, selectMakeSign } from '@features/gnsign/signs/selector'
+import { selectDraftFile } from '@features/gnsign/files/selector'
 import { SAVE_DRAFT, SAVE_SIGN } from '@features/gnsign/signs/sagaActions'
 
 import { ModeState } from './type.d'
 import { HAND_WRITING, IMPORT_SIGN } from './constants'
-import { resolve } from 'path'
 
 const SignPalette = lazy(() => import("@components/GNsign/SignPalette"))
 
@@ -44,14 +44,32 @@ const MakeSign = () => {
 		handleLoadImage
 	} = useCanvasDrawer(canvasRef, 343, 200, true)
 	const dispatch = useAppDispatch()
-	const selectedSign = useAppSelector(selectSign)
+	const makeSign = useAppSelector(selectMakeSign)
+	const draftFile = useAppSelector(selectDraftFile)
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		//if (!draftFile) {
+		//	navigate('/gnsign', { replace: true })
+		//}
+	}, [])
+
+	useEffect(() => {
+		if (!draftFile) {
+			navigate('/gnsign', { replace: true })
+		}
+	}, [draftFile])
 
 	useEffect(() => {
 		setLoadingState({
 			...loadingState,
 			isLoading: false
 		})
-	}, [selectedSign])
+
+		if (makeSign && draftFile) {
+			navigate('/gnsign/signdoc', { replace: true })
+		}
+	}, [makeSign])
 
 	useEffect(() => {
 		if (isDrawing) {

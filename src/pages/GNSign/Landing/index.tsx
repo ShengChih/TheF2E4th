@@ -16,7 +16,7 @@ import useImagePreloader from "@hooks/useImagePreloader"
 import GNsignLoadingPage, { LoadingPageState, InitLoadingState} from "@components/GNsign/LoadingPage"
 
 import { useAppDispatch, useAppSelector } from "@/hooks"
-import { selectDraft, selectOrigin } from '@features/gnsign/files/selector'
+import { selectDraftFile, selectOriginFile } from '@features/gnsign/files/selector'
 import { UPLOAD_FILE, MODIFY_FILE } from '@features/gnsign/files/sagaActions'
 
 
@@ -65,7 +65,7 @@ const GNSign = () => {
 	])
 
 	const navigate = useNavigate()
-	const draft = useAppSelector(selectDraft)
+	const draftFile = useAppSelector(selectDraftFile)
 
 	useEffect(() => {
 		setLoadingState({
@@ -75,14 +75,14 @@ const GNSign = () => {
 	}, [])
 
 	useEffect(() => {
-		if (draft) {
+		if (draftFile) {
 			setLoadingState({
 				...loadingState,
 				isLoading: false
 			})
-			navigate('/gnsign/sign', { replace: true })
+			navigate('/gnsign/makesign', { replace: true })
 		}
-	}, [draft])
+	}, [draftFile])
 
 	useEffect(() => {
     if (imagesPreloaded) {
@@ -212,7 +212,7 @@ const GNSign = () => {
 							<button
 								onClick={handleSelectedFileButton}
 								className={flatClassName({
-									common: `font-sans font-normal text-white flex items-center justify-center w-full bg-gradient-to-b	from-gnsign-greenl to-gnsign-greenh rounded-[16px]`,
+									common: `font-sans font-normal text-white flex items-center justify-center w-full bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh rounded-[16px]`,
 									mobile: `sm:text-[18px] sm:leading-[26px] sm:w-[209px] sm:h-[60px]`
 								})}
 							>選擇檔案</button>

@@ -1,4 +1,4 @@
 import type { RootState } from '@store'
 
-export const selectDraft = (state: RootState) => state.gnsignSigns.draft
-export const selectSign = (state: RootState) => state.gnsignSigns.sign
+export const selectDraftSign = (state: RootState) => state.gnsignSigns.draft
+export const selectMakeSign = (state: RootState) => state.gnsignSigns.sign

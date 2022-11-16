@@ -1,8 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 
 export interface FilesState {
-	origin: Blob
-  draft: Blob
+	origin: string
+  draft: string
 }
 
-export type UploadFilePayload = PayloadAction<Blob>
+export type UploadFilePayload = PayloadAction<string>

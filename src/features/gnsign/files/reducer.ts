@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { FilesState } from './type.d'
 
 const initialState: FilesState = {
-  origin: new Blob(),
-	draft: new Blob()
+  origin: '',
+	draft: ''
 }
 
 export const filesSlice = createSlice({
