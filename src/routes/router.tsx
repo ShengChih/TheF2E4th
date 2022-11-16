@@ -3,6 +3,7 @@ import GNSignLanding from "@pages/GNSign/Landing"
 import GsapNewspaper from "@pages/GsapNewspaper/root"
 import ErrorPage from '@pages/ErrorPage'
 import MakeSign from '@pages/GNSign/MakeSign'
+import SignDocument from '@pages/GNSign/SignDocument'
 
 const router = [
 	{
@@ -15,8 +16,12 @@ const router = [
 		element: <GNSignLanding />,
 	},
 	{
-		path: "/gnsign/sign",
+		path: "/gnsign/makesign",
 		element: <MakeSign />,
+	},
+	{
+		path: "/gnsign/signdoc",
+		element: <SignDocument />
 	},
 	{
 		path: "/gsapnewspaper",
