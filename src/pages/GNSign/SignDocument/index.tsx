@@ -99,10 +99,10 @@ const SignDocument = () => {
     if (pageState.current > 0 && canvasRef.current && imageUrlsRef.current[pageState.current - 1]) {
 			const loadImage = document.createElement("img")
 			loadImage.onload = () => {
-				canvas!.add(new fabric.Image(loadImage, {
+				canvas!.setBackgroundImage(new fabric.Image(loadImage, {
 					scaleX: scale,
 					scaleY: scale,
-				}))
+				}), () => canvas!.renderAll())
 			}
 			loadImage.src = imageUrlsRef.current[pageState.current - 1]
     }
