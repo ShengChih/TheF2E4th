@@ -41,7 +41,8 @@ const MakeSign = () => {
 		handleTouchMove,
 		handleTouchEnd,
 		handleClear,
-		handleLoadImage
+		handleLoadImage,
+		hanldeRemoveWhiteBg
 	} = useCanvasDrawer(canvasRef, 343, 200, true)
 	const dispatch = useAppDispatch()
 	const makeSign = useAppSelector(selectMakeSign)
@@ -131,14 +132,18 @@ const MakeSign = () => {
 		setColor(selectedColor)
 	}, [setColor])
 
-	const createSign = (e: MouseEvent) => {
+	const createSign = async (e: MouseEvent) => {
 		if (!canvasRef.current) return
 		const image = canvasRef.current.toDataURL()
 		setLoadingState({
 			...loadingState,
 			isLoading: true
 		})
-		dispatch({ type: SAVE_SIGN, payload: image })
+		const imageBlob = await fetch(image).then(r => r.blob())
+		hanldeRemoveWhiteBg(imageBlob, (status: boolean) => {
+			const image = canvasRef.current!.toDataURL()
+			dispatch({ type: SAVE_SIGN, payload: image })
+		})
 	}
 
 	return (<>

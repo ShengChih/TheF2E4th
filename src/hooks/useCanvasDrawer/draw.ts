@@ -1,5 +1,5 @@
 import { Position, Box } from '@/type.d'
-import { scaleInContainer, toGrayscaleImage } from './photo'
+import { scaleInContainer, toGrayscaleImage, toTransparentImage } from './photo'
 
 export const movePostion = (
 	context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
@@ -53,4 +53,15 @@ export const preprocessUploadImage = (
 	context.fillStyle = 'white'
 	context.fillRect(0, 0, containerWidth, containerHeight)
 	context.putImageData(newImageData, 0, 0, 0, 0, newWidth, newHeight)
+}
+
+export const removeWhiteBg = (
+	context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+	image: Exclude<CanvasImageSource, HTMLOrSVGImageElement>
+) => {
+	context.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width, image.height)
+	const newImageData = toTransparentImage(
+		context.getImageData(0, 0, image.width, image.height)
+	)
+	context.putImageData(newImageData, 0, 0)
 }

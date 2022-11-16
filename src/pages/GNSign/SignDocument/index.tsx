@@ -6,6 +6,7 @@ import { fabric } from 'fabric'
 
 import { flatClassName } from "@utils/reduce"
 import { convertDataURIToBinary } from '@utils/converter'
+import { removeWhiteBg } from '@hooks/useCanvasDrawer/draw'
 
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { selectDraftFile } from '@features/gnsign/files/selector'
@@ -37,24 +38,6 @@ const SignDocument = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 	const imageUrlsRef = useRef<{ [key:string|number]: string}>({})
 
-	const goPrevious = (e: MouseEvent) => {
-		if (pageState.current > 1) {
-			setPageState({
-				...pageState,
-				current: pageState.current - 1
-			})
-		}
-	}
-
-	const goNext = (e: MouseEvent) => {
-		if (pageState.current < pageState.maxPage) {
-			setPageState({
-				...pageState,
-				current: pageState.current + 1
-			})
-		}
-	}
-
 	useEffect(() => {
 		(async () => {
 			const pdfAsArray = convertDataURIToBinary(draftFile)
@@ -65,6 +48,16 @@ const SignDocument = () => {
 				current: 1,
 				maxPage: pdfDocument.numPages
 			})
+
+			/** 名字去背 */
+			//const imageRemoveBg = await new Promise(async () => {
+			//	const imageBlob = await fetch(makeSign).then(r => r.blob())
+			//	const imgBitmap: ImageBitmap = await createImageBitmap(imageBlob)
+			//	const canvas = document.createElement('canvas')
+			//	const context = canvas.getContext('2d', { alpha: false })
+			//	removeWhiteBg(context!, imgBitmap)
+			//	makeSign = canvas.toDataURL()
+			//})
 
 			const tasks = new Array(pdfDocument.numPages).fill(null)
 			await Promise.all(
@@ -119,6 +112,41 @@ const SignDocument = () => {
 			navigate('/gnsign/makesign', { replace: true })
 		}
 	}, [makeSign])
+
+	const goPrevious = (e: MouseEvent) => {
+		if (pageState.current > 1) {
+			setPageState({
+				...pageState,
+				current: pageState.current - 1
+			})
+		}
+	}
+
+	const goNext = (e: MouseEvent) => {
+		if (pageState.current < pageState.maxPage) {
+			setPageState({
+				...pageState,
+				current: pageState.current + 1
+			})
+		}
+	}
+
+	const insertSign = (e: MouseEvent) => {
+		const scale = 1 / window.devicePixelRatio
+		const img = document.createElement('img')
+		img.onload = () => {
+			console.log(makeSign)
+			canvas!.add(new fabric.Image(img, {
+				width: img.width,
+				height: img.height,
+				top: 0,
+				left: 0,
+				scaleX: 0.5,
+				scaleY: 0.5
+			}))
+		}
+		img.src = makeSign
+	}
 
 	return (
 		<div className={`w-screen h-screen flex flex-wrap justify-center bg-gnsign-background`}>
@@ -200,7 +228,9 @@ const SignDocument = () => {
 								<path d="M17.9337 16.8395C18.5217 16.8395 19 17.3241 19 17.9198C19 18.5166 18.5217 19 17.9337 19H11.9063C11.3183 19 10.84 18.5166 10.84 17.9198C10.84 17.3241 11.3183 16.8395 11.9063 16.8395H17.9337ZM13.7537 0.737901L15.3107 1.97472C15.9492 2.47398 16.3748 3.1321 16.5204 3.82427C16.6884 4.58565 16.5092 5.33341 16.0052 5.98019L6.73064 17.9739C6.305 18.5186 5.67774 18.8249 5.00567 18.8363L1.30931 18.8817C1.10769 18.8817 0.939669 18.7455 0.894865 18.5526L0.0547817 14.9102C-0.0908327 14.2408 0.0547817 13.5486 0.480424 13.0153L7.05547 4.50508C7.16749 4.36892 7.36911 4.34736 7.50352 4.44835L10.2702 6.64965C10.4494 6.79716 10.6958 6.87659 10.9535 6.84255C11.5023 6.77447 11.872 6.27521 11.8159 5.7419C11.7823 5.46957 11.6479 5.24263 11.4687 5.07243C11.4127 5.02704 8.78045 2.91651 8.78045 2.91651C8.61243 2.78035 8.57883 2.53072 8.71324 2.36165L9.75494 1.01023C10.7182 -0.226589 12.3984 -0.340058 13.7537 0.737901Z" fill="#B7B7B7"/>
 							</svg>
 						</div>
-						<div className={flatClassName({
+						<div
+						onClick={insertSign}
+						className={flatClassName({
 							common: `w-full text-gnsign-gray font-sans font-nomal text-center`,
 							mobile: `sm:h-[17px] sm:text-[12px] sm:leading-[17px]`
 						})}>簽名</div>

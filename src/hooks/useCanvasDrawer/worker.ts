@@ -1,12 +1,13 @@
 import { Nullable, DictObject } from '@/type.d'
-import { movePostion, drawTracking, preprocessUploadImage } from './draw'
+import { movePostion, drawTracking, preprocessUploadImage, removeWhiteBg } from './draw'
 import { toGrayscaleImage, scaleInContainer } from './photo'
 import {
 	INIT_CANVAS,
 	MOVE_IN_CANVAS,
 	DRAW_IN_CANVAS,
 	UPLOAD_IMAGE_TO_CANVAS,
-	CLEAR_ALL
+	CLEAR_ALL,
+	REMOVE_WHITE_BG
 } from './constants'
 
 let canvasElement: Nullable<HTMLCanvasElement> = null
@@ -104,6 +105,35 @@ self.onmessage = function(e) {
 				containerHeight,
 				image
 			)
+		} else if (
+			e.data.type === REMOVE_WHITE_BG &&
+			e.data.image
+		) {
+			const image: Exclude<CanvasImageSource, HTMLOrSVGImageElement> = e.data.image
+			const [ containerWidth, containerHeight ] = [e.data.image.width, e.data.image.height]
+
+			if (!offscreenCanvas && "OffscreenCanvas" in window) {
+				offscreenCanvas = new OffscreenCanvas(containerWidth, containerHeight)
+				offscreenCanvas.width = containerWidth
+				offscreenCanvas.height = containerHeight
+			} else if (!canvasElement && !offscreenCanvas) {
+				canvasElement = document.createElement('canvas')
+				offscreenCanvas = canvasElement.transferControlToOffscreen()
+				context = offscreenCanvas.getContext('2d')
+			}
+
+			if (!offscreenCanvas) {
+				throw Error("get offscreenCanvas failure")
+			}
+
+			if (!context) {
+				throw Error("get Context failure")
+			}
+
+			removeWhiteBg(
+				context,
+				image
+			)
 		} else {
 			throw Error("Unprocess error")
 		}
@@ -119,8 +149,7 @@ self.onmessage = function(e) {
 		})
 		return
 	}
-
-	console.log(`test`)
+	console.log(1)
 	self.postMessage({
 		...response,
 		type: e.data.type,

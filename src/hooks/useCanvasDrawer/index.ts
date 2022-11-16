@@ -1,15 +1,15 @@
 import { useRef, useState, useEffect, RefObject, MouseEvent, TouchEvent } from "react"
-import { movePostion, drawTracking, preprocessUploadImage } from './draw'
+import { movePostion, drawTracking, preprocessUploadImage, removeWhiteBg } from './draw'
 import WebWorker from './worker?worker'
-import { Position, CallbackFunctionVariadicAnyReturn } from '@/type.d'
+import { Position } from '@/type.d'
 import {
 	INIT_CANVAS,
 	MOVE_IN_CANVAS,
 	DRAW_IN_CANVAS,
 	UPLOAD_IMAGE_TO_CANVAS,
-	CLEAR_ALL
+	CLEAR_ALL,
+	REMOVE_WHITE_BG
 } from './constants'
-import { reject } from "lodash"
 
 const useCanvasDrawer = (
 	canvasRef: RefObject<HTMLCanvasElement>,
@@ -177,56 +177,99 @@ const useCanvasDrawer = (
 	}
 
 	const handleLoadImage = (inputImage: File, callback: (status: boolean) => any) => {
-		const img = new Image()
-		img.onload = () => {
-			createImageBitmap(inputImage).then((imgBitmap: ImageBitmap) => {
-				if (worker) {
-					new Promise((resolve, reject) => {
-						/** side effect call */
-						/**
-						 * 這是全域的 message event 這邊應該會補捉到別人的
-						 * 最好的改法是重新 renew 獨立 worker
-						 * 有點懶得改，先這樣
-						 * or pass callback 給 worker 呼叫 (看可行性？)
-						 * */
-						worker.onmessage = (e: MessageEvent) => {
-							if (e.data?.type === UPLOAD_IMAGE_TO_CANVAS) {
-								e.data.status === 'success' ? resolve(true) : reject(false)
-							}
+		createImageBitmap(inputImage).then((imgBitmap: ImageBitmap) => {
+			if (worker) {
+				new Promise((resolve, reject) => {
+					/** side effect call */
+					/**
+					 * 這是全域的 message event 這邊應該會補捉到別人的
+					 * 最好的改法是重新 renew 獨立 worker
+					 * 有點懶得改，先這樣
+					 * or pass callback 給 worker 呼叫 (看可行性？)
+					 * */
+					worker.onmessage = (e: MessageEvent) => {
+						if (e.data?.type === UPLOAD_IMAGE_TO_CANVAS) {
+							e.data.status === 'success' ? resolve(true) : reject(false)
 						}
-
-						worker.postMessage({
-							type: UPLOAD_IMAGE_TO_CANVAS,
-							image: imgBitmap,
-							size: {
-								containerWidth,
-								containerHeight
-							}
-						})
-					}).then(() => {
-						callback && callback(true)
-					}).catch(() => {
-						callback && callback(false)
-					}).finally(() => {
-						worker.onmessage = null
-					})
-				} else if (context) {
-					try {
-						preprocessUploadImage(
-							context,
-							containerWidth,
-							containerHeight,
-							imgBitmap
-						)
-						callback && callback(true)
-					} catch (error) {
-						callback && callback(false)
 					}
+
+					worker.postMessage({
+						type: UPLOAD_IMAGE_TO_CANVAS,
+						image: imgBitmap,
+						size: {
+							containerWidth,
+							containerHeight
+						}
+					})
+				}).then(() => {
+					callback && callback(true)
+				}).catch(() => {
+					callback && callback(false)
+				}).finally(() => {
+					worker.onmessage = null
+				})
+			} else if (context) {
+				try {
+					preprocessUploadImage(
+						context,
+						containerWidth,
+						containerHeight,
+						imgBitmap
+					)
+					callback && callback(true)
+				} catch (error) {
+					callback && callback(false)
 				}
-			})
-		}
-		img.src = URL.createObjectURL(inputImage)
+			}
+		})
 	}
+
+	const hanldeRemoveWhiteBg = (inputImage: File | Blob, callback: (status: boolean) => any) => {
+		createImageBitmap(inputImage).then((imgBitmap: ImageBitmap) => {
+			if (worker) {
+				new Promise((resolve, reject) => {
+					/** side effect call */
+					/**
+					 * 這是全域的 message event 這邊應該會補捉到別人的
+					 * 最好的改法是重新 renew 獨立 worker
+					 * 有點懶得改，先這樣
+					 * or pass callback 給 worker 呼叫 (看可行性？)
+					 * */
+					worker.onmessage = (e: MessageEvent) => {
+						if (e.data?.type === REMOVE_WHITE_BG) {
+							e.data.status === 'success' ? resolve(true) : reject(false)
+						}
+					}
+
+					worker.postMessage({
+						type: REMOVE_WHITE_BG,
+						image: imgBitmap,
+						size: {
+							containerWidth,
+							containerHeight
+						}
+					})
+				}).then(() => {
+					callback && callback(true)
+				}).catch(() => {
+					callback && callback(false)
+				}).finally(() => {
+					worker.onmessage = null
+				})
+			} else if (context) {
+				try {
+					removeWhiteBg(
+						context,
+						imgBitmap
+					)
+					callback && callback(true)
+				} catch (error) {
+					callback && callback(false)
+				}
+			}
+		})
+	}
+
 
 	return {
 		defaultColor,
@@ -239,7 +282,8 @@ const useCanvasDrawer = (
 		handleTouchMove,
 		handleTouchEnd,
 		handleClear,
-		handleLoadImage
+		handleLoadImage,
+		hanldeRemoveWhiteBg
 	}
 }
 
