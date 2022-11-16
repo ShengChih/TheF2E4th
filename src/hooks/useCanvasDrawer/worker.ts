@@ -1,5 +1,5 @@
 import { Nullable, DictObject } from '@/type.d'
-import { movePostion, drawTracking } from './draw'
+import { movePostion, drawTracking, preprocessUploadImage } from './draw'
 import { toGrayscaleImage, scaleInContainer } from './photo'
 import {
 	INIT_CANVAS,
@@ -21,11 +21,11 @@ self.onmessage = function(e) {
 	try {
 		if (e.data.type === CLEAR_ALL) {
 			if (!context) {
-				throw new Error("get Context failure")
+				throw Error("get Context failure")
 			}
 
 			if (!e.data.size) {
-				throw new Error("get clear size failure")
+				throw Error("get clear size failure")
 			}
 			const { containerWidth, containerHeight } = e.data.size
 			context.fillStyle = 'white'
@@ -40,17 +40,17 @@ self.onmessage = function(e) {
 			} else if (e.data.canvas.toString() === '[object OffscreenCanvas]') {
 				offscreenCanvas = e.data.canvas
 			} else {
-				throw new Error("Crate offscreen canvas failure")
+				throw  Error("Crate offscreen canvas failure")
 			}
-	
+
 			if (!offscreenCanvas) {
-				throw new Error("Crate offscreen canvas failure")
+				throw Error("Crate offscreen canvas failure")
 			}
 
 			context = offscreenCanvas.getContext('2d', { alpha: false })
 
 			if (!context) {
-				throw new Error("get Context failure")
+				throw Error("get Context failure")
 			}
 
 			const { containerWidth, containerHeight } = e.data.size
@@ -61,7 +61,7 @@ self.onmessage = function(e) {
 			e.data.postion
 		) {
 			if (!context) {
-				throw new Error("get Context failure")
+				throw Error("get Context failure")
 			}
 			movePostion(context, e.data.postion)
 		} else if (
@@ -70,7 +70,7 @@ self.onmessage = function(e) {
 			e.data.defaultColor
 		) {
 			if (!context) {
-				throw new Error("get Context failure")
+				throw Error("get Context failure")
 			}
 			drawTracking(context, e.data.postion, e.data.defaultColor)
 		} else if (
@@ -79,48 +79,38 @@ self.onmessage = function(e) {
 		) {
 			const image: Exclude<CanvasImageSource, HTMLOrSVGImageElement> = e.data.image
 			const { containerWidth, containerHeight } = e.data.size
-			
-			if ("OffscreenCanvas" in window) {
+
+			if (!offscreenCanvas && "OffscreenCanvas" in window) {
 				offscreenCanvas = new OffscreenCanvas(containerWidth, containerHeight)
-			} else {
+				offscreenCanvas.width = containerWidth
+				offscreenCanvas.height = containerHeight
+			} else if (!canvasElement && !offscreenCanvas) {
 				canvasElement = document.createElement('canvas')
 				offscreenCanvas = canvasElement.transferControlToOffscreen()
+				context = offscreenCanvas.getContext('2d')
 			}
-	
-			context = offscreenCanvas.getContext('2d')
-	
+
+			if (!offscreenCanvas) {
+				throw Error("get offscreenCanvas failure")
+			}
+
 			if (!context) {
-				throw new Error("get Context failure")
+				throw Error("get Context failure")
 			}
-	
-			offscreenCanvas.width = containerWidth
-			offscreenCanvas.height = containerHeight
-	
-			const [newWidth, newHeight] = scaleInContainer(
+
+			preprocessUploadImage(
+				context,
 				containerWidth,
 				containerHeight,
-				image.width,
-				image.height
+				image
 			)
-	
-			context.drawImage(image, 0, 0, image.width, image.height, 0, 0, newWidth, newHeight)
-			const newImageData = toGrayscaleImage(
-				context.getImageData(0, 0, newWidth, newWidth)
-			)
-			context.fillStyle = 'white'
-			context.fillRect(0, 0, containerWidth, containerHeight)
-			context.putImageData(newImageData, 0, 0, 0, 0, newWidth, newHeight)
-	
-			response = {
-				...response,
-				imageBitmap: offscreenCanvas.transferToImageBitmap(),
-			}
 		} else {
-			throw new Error("Unprocess error")
+			throw Error("Unprocess error")
 		}
 	} catch (error) {
 		console.trace(error)
-		const { message } = error
+		let err = error as Error
+		const { message } = err
 		self.postMessage({
 			...response,
 			type: e?.data?.type ?? 'error type',

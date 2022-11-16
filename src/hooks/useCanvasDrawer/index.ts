@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, RefObject, MouseEvent, TouchEvent } from "react"
-import { movePostion, drawTracking } from './draw'
+import { movePostion, drawTracking, preprocessUploadImage } from './draw'
 import WebWorker from './worker?worker'
-import { Position } from '@/type.d'
+import { Position, CallbackFunctionVariadicAnyReturn } from '@/type.d'
 import {
 	INIT_CANVAS,
 	MOVE_IN_CANVAS,
@@ -9,6 +9,7 @@ import {
 	UPLOAD_IMAGE_TO_CANVAS,
 	CLEAR_ALL
 } from './constants'
+import { reject } from "lodash"
 
 const useCanvasDrawer = (
 	canvasRef: RefObject<HTMLCanvasElement>,
@@ -23,10 +24,6 @@ const useCanvasDrawer = (
 	const [isDrawing, setDrawing] = useState<boolean>(false)
 	const [defaultColor, setColor] = useState<string>('black')
 
-	const listenWorker = (e: MessageEvent) => {
-		console.log(e)
-	}
-
 	useEffect(() => {
 		let worker: Worker | null = null
 
@@ -35,7 +32,6 @@ const useCanvasDrawer = (
 
 			if (needWorker && "OffscreenCanvas" in window) {
 				worker = new WebWorker()
-				worker.addEventListener('message', listenWorker)
 				setWoker(worker)
 				setOffscreen(canvasRef.current.transferControlToOffscreen())
 			} else {
@@ -180,6 +176,58 @@ const useCanvasDrawer = (
 		}
 	}
 
+	const handleLoadImage = (inputImage: File, callback: (status: boolean) => any) => {
+		const img = new Image()
+		img.onload = () => {
+			createImageBitmap(inputImage).then((imgBitmap: ImageBitmap) => {
+				if (worker) {
+					new Promise((resolve, reject) => {
+						/** side effect call */
+						/**
+						 * 這是全域的 message event 這邊應該會補捉到別人的
+						 * 最好的改法是重新 renew 獨立 worker
+						 * 有點懶得改，先這樣
+						 * or pass callback 給 worker 呼叫 (看可行性？)
+						 * */
+						worker.onmessage = (e: MessageEvent) => {
+							if (e.data?.type === UPLOAD_IMAGE_TO_CANVAS) {
+								e.data.status === 'success' ? resolve(true) : reject(false)
+							}
+						}
+
+						worker.postMessage({
+							type: UPLOAD_IMAGE_TO_CANVAS,
+							image: imgBitmap,
+							size: {
+								containerWidth,
+								containerHeight
+							}
+						})
+					}).then(() => {
+						callback && callback(true)
+					}).catch(() => {
+						callback && callback(false)
+					}).finally(() => {
+						worker.onmessage = null
+					})
+				} else if (context) {
+					try {
+						preprocessUploadImage(
+							context,
+							containerWidth,
+							containerHeight,
+							imgBitmap
+						)
+						callback && callback(true)
+					} catch (error) {
+						callback && callback(false)
+					}
+				}
+			})
+		}
+		img.src = URL.createObjectURL(inputImage)
+	}
+
 	return {
 		defaultColor,
 		isDrawing,
@@ -191,6 +239,7 @@ const useCanvasDrawer = (
 		handleTouchMove,
 		handleTouchEnd,
 		handleClear,
+		handleLoadImage
 	}
 }
 

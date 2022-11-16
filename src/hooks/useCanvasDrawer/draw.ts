@@ -1,4 +1,5 @@
 import { Position, Box } from '@/type.d'
+import { scaleInContainer, toGrayscaleImage } from './photo'
 
 export const movePostion = (
 	context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
@@ -26,8 +27,30 @@ export const drawTracking = (
 
 export const drawScaleImage = (
 	context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
-	img: CanvasImageSource,
+	img: Exclude<CanvasImageSource, HTMLOrSVGImageElement>,
 	{ width, height }: Box
 ) => {
 	context.drawImage(img, 0, 0, width, height)
+}
+
+export const preprocessUploadImage = (
+	context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+	containerWidth: number,
+	containerHeight: number,
+	image: Exclude<CanvasImageSource, HTMLOrSVGImageElement>
+) => {
+	const [newWidth, newHeight] = scaleInContainer(
+		containerWidth,
+		containerHeight,
+		image.width,
+		image.height
+	)
+
+	context.drawImage(image, 0, 0, image.width, image.height, 0, 0, newWidth, newHeight)
+	const newImageData = toGrayscaleImage(
+		context.getImageData(0, 0, newWidth, newHeight)
+	)
+	context.fillStyle = 'white'
+	context.fillRect(0, 0, containerWidth, containerHeight)
+	context.putImageData(newImageData, 0, 0, 0, 0, newWidth, newHeight)
 }

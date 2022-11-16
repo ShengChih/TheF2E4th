@@ -21,6 +21,7 @@ import { SAVE_DRAFT, SAVE_SIGN } from '@features/gnsign/signs/sagaActions'
 
 import { ModeState } from './type.d'
 import { HAND_WRITING, IMPORT_SIGN } from './constants'
+import { resolve } from 'path'
 
 const SignPalette = lazy(() => import("@components/GNsign/SignPalette"))
 
@@ -40,6 +41,7 @@ const MakeSign = () => {
 		handleTouchMove,
 		handleTouchEnd,
 		handleClear,
+		handleLoadImage
 	} = useCanvasDrawer(canvasRef, 343, 200, true)
 	const dispatch = useAppDispatch()
 	const selectedSign = useAppSelector(selectSign)
@@ -73,6 +75,13 @@ const MakeSign = () => {
 		}
 	}
 
+	const finishPreprocessImage = (status: boolean) => {
+		setLoadingState({
+			...loadingState,
+			isLoading: false
+		})
+	}
+
 	const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault()
 
@@ -84,6 +93,13 @@ const MakeSign = () => {
 		if (!result) {
 			return
 		}
+
+		setLoadingState({
+			...loadingState,
+			isLoading: true
+		})
+
+		handleLoadImage(e.target.files[0], finishPreprocessImage)
 	}
 
 	const changeMode = (e: MouseEvent) => {

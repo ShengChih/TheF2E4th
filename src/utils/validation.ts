@@ -16,7 +16,7 @@ export const getCheckFileFunc = (FileType: DictObject, MaximumFileSize: number) 
 				}
 			}
 	
-			if (FileType.keys().length > 0 && !FileType.hasOwnProperty(file.type)) {
+			if (Object.keys(FileType).length > 0 && !FileType.hasOwnProperty(file.type)) {
 				return {
 					result: false,
 					type: 'filetype'
