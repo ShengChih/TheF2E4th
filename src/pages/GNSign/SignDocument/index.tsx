@@ -27,7 +27,7 @@ const SignDocument = () => {
 	const makeSign = useAppSelector(selectMakeSign)
 	const navigate = useNavigate()
 
-	const [canvas, setCanvas] = useState<fabric.Canvas>(null)
+	const [canvas, setCanvas] = useState<Nullable<fabric.Canvas>>(null)
 	const [imageConverted, setImageConverted] = useState<boolean>(false)
 	const [pageState, setPageState] = useState<PageProps>({
 		current: 0,
@@ -69,6 +69,9 @@ const SignDocument = () => {
 			const tasks = new Array(pdfDocument.numPages).fill(null)
 			await Promise.all(
 				tasks.map(async (_, index: number) => {
+					if (imageUrlsRef.current[index]) {
+						return
+					}
 					const page = await pdfDocument.getPage(index + 1)
 					const scale = canvasRef.current!.width / page.getViewport({ scale: 1.0 }).width
 					const viewport = page.getViewport({
@@ -96,7 +99,7 @@ const SignDocument = () => {
     if (pageState.current > 0 && canvasRef.current && imageUrlsRef.current[pageState.current - 1]) {
 			const loadImage = document.createElement("img")
 			loadImage.onload = () => {
-				canvas.add(new fabric.Image(loadImage, {
+				canvas!.add(new fabric.Image(loadImage, {
 					scaleX: scale,
 					scaleY: scale,
 				}))
@@ -126,7 +129,7 @@ const SignDocument = () => {
 
 				<div className={flatClassName({
 					common: `relative flex justify-between bg-white`,
-					mobile: `sm:w-[204px] sm:h-[58px] sm:p-[14px]`
+					mobile: `sm:w-[204px] sm:h-[58px] sm:p-[14px] sm:rounded-[16px]`
 				})}>
 					<div
 						className={flatClassName({
@@ -182,8 +185,8 @@ const SignDocument = () => {
 				mobile: `sm:h-[120px]`
 			})}>
 				<div className={flatClassName({
-					common: `flex items-center justify-center`,
-					mobile: `sm:w-[343px] sm:h-[72px]`
+					common: `flex items-center justify-center bg-white`,
+					mobile: `sm:w-[343px] sm:h-[72px] sm:rounded-[16px]`
 				})}>
 					<div className={flatClassName({
 						common: `flex flex-col items-center justify-center`,
