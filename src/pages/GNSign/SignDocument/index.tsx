@@ -1,7 +1,8 @@
+import React, { useEffect, useState, useRef, MouseEvent } from "react"
 import * as pdf from 'pdfjs-dist'
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.js?url'
-import React, { useEffect, useState, useRef, MouseEvent } from "react"
 import { useNavigate } from 'react-router-dom'
+import { fabric } from 'fabric'
 
 import { flatClassName } from "@utils/reduce"
 import { convertDataURIToBinary } from '@utils/converter'
@@ -14,7 +15,7 @@ import { SAVE_DRAFT, SAVE_SIGN } from '@features/gnsign/signs/sagaActions'
 
 import { Nullable } from '@/type.d'
 
-pdf.GlobalWorkerOptions.workerSrc = pdfWorker;
+pdf.GlobalWorkerOptions.workerSrc = pdfWorker
 
 type PageProps = {
 	current: number
@@ -26,13 +27,15 @@ const SignDocument = () => {
 	const makeSign = useAppSelector(selectMakeSign)
 	const navigate = useNavigate()
 
+	const [canvas, setCanvas] = useState<fabric.Canvas>(null)
+	const [imageConverted, setImageConverted] = useState<boolean>(false)
 	const [pageState, setPageState] = useState<PageProps>({
 		current: 0,
 		maxPage: 0
 	})
-	const [context, setContext] = useState<Nullable<CanvasRenderingContext2D>>()
 	const pdfDocumentProxy = useRef<Nullable<pdf.PDFDocumentProxy>>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
+	const imageUrlsRef = useRef<{ [key:string|number]: string}>({})
 
 	const goPrevious = (e: MouseEvent) => {
 		if (pageState.current > 1) {
@@ -53,11 +56,6 @@ const SignDocument = () => {
 	}
 
 	useEffect(() => {
-		if (canvasRef.current) {
-			const context = canvasRef?.current?.getContext('2d', { alpha: false })
-			setContext(context)
-		}
-
 		(async () => {
 			const pdfAsArray = convertDataURIToBinary(draftFile)
 			const pdfDocument = await pdf.getDocument(pdfAsArray).promise
@@ -67,31 +65,50 @@ const SignDocument = () => {
 				current: 1,
 				maxPage: pdfDocument.numPages
 			})
-		})()
-	}, [])
 
-	useEffect(() => {
-		if (canvasRef.current && pdfDocumentProxy.current && context && pageState.current) {
-			pdfDocumentProxy.current.getPage(pageState.current)
-				.then((page) => {
+			const tasks = new Array(pdfDocument.numPages).fill(null)
+			await Promise.all(
+				tasks.map(async (_, index: number) => {
+					const page = await pdfDocument.getPage(index + 1)
 					const scale = canvasRef.current!.width / page.getViewport({ scale: 1.0 }).width
 					const viewport = page.getViewport({
 						scale: scale
 					})
-
-					page.render({
+					const canvas = document.createElement('canvas')
+					canvas.width = viewport.width
+					canvas.height = viewport.height
+					const context = canvas.getContext("2d") as CanvasRenderingContext2D
+					const renderTask = page.render({
 						canvasContext: context,
-						viewport: viewport
+						viewport
 					})
+					await renderTask.promise
+					imageUrlsRef.current[index] = canvas.toDataURL('image/png')
 				})
-		}
-	}, [canvasRef, pdfDocumentProxy, context, pageState.current])
+			)
+			setImageConverted(true)
+			setCanvas(new fabric.Canvas(canvasRef.current))
+		})()
+	}, [])
+
+	useEffect(() => {
+		const scale = 1 / window.devicePixelRatio
+    if (pageState.current > 0 && canvasRef.current && imageUrlsRef.current[pageState.current - 1]) {
+			const loadImage = document.createElement("img")
+			loadImage.onload = () => {
+				canvas.add(new fabric.Image(loadImage, {
+					scaleX: scale,
+					scaleY: scale,
+				}))
+			}
+			loadImage.src = imageUrlsRef.current[pageState.current - 1]
+    }
+  }, [imageConverted, canvasRef, imageUrlsRef, pageState.current])
 
 	useEffect(() => {
 		if (!draftFile) {
 			navigate('/gnsign', { replace: true })
 		}
-
 	}, [draftFile])
 
 	useEffect(() => {
@@ -101,7 +118,7 @@ const SignDocument = () => {
 	}, [makeSign])
 
 	return (
-		<div className={`w-screen h-screen flex flex-wrap justify-center`}>
+		<div className={`w-screen h-screen flex flex-wrap justify-center bg-gnsign-background`}>
 			<div className={flatClassName({
 				common: `w-full flex justify-between`,
 				mobile: `sm:h-[90px] sm:p-[16px]`
