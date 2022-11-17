@@ -7,7 +7,15 @@
     <title>The F2E 4th</title>
   </head>
   <body>
+    <div id='dpi_anchor' style='height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;'></div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
+  <script type='text/javascript'>
+    var devicePixelRatio = window.devicePixelRatio || 1;
+    dpi_x = document.getElementById('dpi_anchor').offsetWidth * devicePixelRatio;
+    dpi_y = document.getElementById('dpi_anchor').offsetHeight * devicePixelRatio;
+    
+    console.log(dpi_x, dpi_y);
+  </script>
 </html>
