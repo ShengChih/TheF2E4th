@@ -29,8 +29,7 @@ self.onmessage = function(e) {
 				throw Error("get clear size failure")
 			}
 			const { containerWidth, containerHeight } = e.data.size
-			context.fillStyle = 'white'
-			context.fillRect(0, 0, containerWidth, containerHeight)
+			context.clearRect(0, 0, containerWidth, containerHeight)
 		} else if (
 			e.data.type === INIT_CANVAS &&
 			e.data.canvas
@@ -48,15 +47,11 @@ self.onmessage = function(e) {
 				throw Error("Crate offscreen canvas failure")
 			}
 
-			context = offscreenCanvas.getContext('2d', { alpha: false })
+			context = offscreenCanvas.getContext('2d')
 
 			if (!context) {
 				throw Error("get Context failure")
 			}
-
-			const { containerWidth, containerHeight } = e.data.size
-			context.fillStyle = 'white'
-			context.fillRect(0, 0, containerWidth, containerHeight)
 		} else if (
 			e.data.type === MOVE_IN_CANVAS &&
 			e.data.postion

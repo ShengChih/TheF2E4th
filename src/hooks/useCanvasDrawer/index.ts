@@ -35,10 +35,8 @@ const useCanvasDrawer = (
 				setWoker(worker)
 				setOffscreen(canvasRef.current.transferControlToOffscreen())
 			} else {
-				const context = canvasRef.current.getContext('2d', { alpha: false })
+				const context = canvasRef.current.getContext('2d')
 				if (context) {
-					context.fillStyle = 'white'
-					context.fillRect(0, 0, containerWidth, containerHeight)
 					setContext(context)
 				}
 			}

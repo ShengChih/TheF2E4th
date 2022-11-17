@@ -139,11 +139,7 @@ const MakeSign = () => {
 			...loadingState,
 			isLoading: true
 		})
-		const imageBlob = await fetch(image).then(r => r.blob())
-		hanldeRemoveWhiteBg(imageBlob, (status: boolean) => {
-			const image = canvasRef.current!.toDataURL()
-			dispatch({ type: SAVE_SIGN, payload: image })
-		})
+		dispatch({ type: SAVE_SIGN, payload: image })
 	}
 
 	return (<>
