@@ -38,6 +38,7 @@ const SignDocument = () => {
 	const makeSign = useAppSelector(selectMakeSign)
 	const navigate = useNavigate()
 
+	const [showSave, setSave] = useState<boolean>(false)
 	const [loadingState, setLoadingState] = useState(InitLoadingState)
 	const [canvas, setCanvas] = useState<Nullable<fabric.Canvas>>(null)
 	const [pageState, setPageState] = useState<PageProps>({
@@ -206,7 +207,7 @@ const SignDocument = () => {
 		toggleTool(e)
 	}
 
-	const finishSignFlow = async (e: MouseEvent) => {
+	const downalodFile = async (e: MouseEvent) => {
 		setLoadingState({
 			loadingText: '檔案儲存中...',
 			isLoading: true
@@ -239,6 +240,14 @@ const SignDocument = () => {
 			...loadingState,
 			isLoading: false
 		})
+	}
+
+	const finishSignFlow = async (e: MouseEvent) => {
+		setSave(true)
+	}
+
+	const goLanding = (e: MouseEvent) => {
+		navigate('/gnsign', { replace: true })
 	}
 
 	const toolProps: ToolButtonProps[] = [
@@ -304,16 +313,26 @@ const SignDocument = () => {
 						</svg>
 					</div>
 				</div>
-
-				<div
-					onClick={finishSignFlow}
-					className={flatClassName({
-					common: `font-sans font-normal flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh text-white`,
-					mobile: `sm:w-[130px] sm:h-[58px] sm:text-[18px] sm:leading-[26px] sm:rounded-[16px]`
-				})}>完成簽署</div>
+				{
+					showSave
+					? (
+						<div
+							onClick={goLanding}
+							className={flatClassName({
+							common: `font-sans font-normal flex items-center justify-center text-gnsign-green bg-white`,
+							mobile: `sm:w-[130px] sm:h-[58px] sm:text-[18px] sm:leading-[26px] sm:rounded-[16px]`
+						})}>回首頁</div>
+					)
+					: (
+						<div
+							onClick={finishSignFlow}
+							className={flatClassName({
+							common: `font-sans font-normal flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh text-white`,
+							mobile: `sm:w-[130px] sm:h-[58px] sm:text-[18px] sm:leading-[26px] sm:rounded-[16px]`
+						})}>完成簽署</div>
+					)
+				}
 			</div>
-
-			
 
 			<div className={flatClassName({
 				common: `relative`,
@@ -331,23 +350,33 @@ const SignDocument = () => {
 				common: `relative w-full flex items-center justify-center`,
 				mobile: `sm:h-[120px]`
 			})}>
-				<div className={flatClassName({
-					common: `flex items-center justify-center bg-white`,
-					mobile: `sm:w-[343px] sm:h-[72px] sm:rounded-[16px]`
-				})}>
-					{
-						toolProps.map((props, index) => (
-							<ToolButton
-								dataToolIndex={`${index + 1}`}
-								key={`tool-${index}`}
-								{...props}
-								{...getToolActiveClassName(index + 1)}
-							/>
-						))
-					}
+				{
+					showSave
+					? (<button
+						onClick={downalodFile}
+						className={flatClassName({
+						common: ` text-white font-sans font-normal  flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`,
+						mobile: ` sm:text-[18px] sm:leading-[26px] sm:w-[260px] sm:h-[56px] sm:rounded-[16px]`
+					})}>儲存</button>)
+					: (
+						<div className={flatClassName({
+							common: `flex items-center justify-center bg-white`,
+							mobile: `sm:w-[343px] sm:h-[72px] sm:rounded-[16px]`
+						})}>
+							{
+								toolProps.map((props, index) => (
+									<ToolButton
+										dataToolIndex={`${index + 1}`}
+										key={`tool-${index}`}
+										{...props}
+										{...getToolActiveClassName(index + 1)}
+									/>
+								))
+							}
+						</div>
+					)
+				}
 				</div>
-			</div>
-
 		</div>
 		<GNsignLoadingPage className={`${loadingState.isLoading ? '': 'hidden'}`} text={loadingState.loadingText} />
 	</>)
