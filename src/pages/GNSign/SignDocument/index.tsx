@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, MouseEvent, useCallback } from "react"
+import React, { lazy, useEffect, useState, useRef, MouseEvent, useCallback, Suspense } from "react"
 import * as pdf from 'pdfjs-dist'
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.js?url'
 import { jsPDF } from 'jspdf'
@@ -17,6 +17,7 @@ import { selectDraftSign, selectMakeSign } from '@features/gnsign/signs/selector
 import { SAVE_DRAFT, SAVE_SIGN } from '@features/gnsign/signs/sagaActions'
 
 import { Nullable } from '@/type.d'
+const ConfirmForm = lazy(() => import('@components/GNsign/ConfirmForm'))
 
 pdf.GlobalWorkerOptions.workerSrc = pdfWorker
 
@@ -27,10 +28,6 @@ type PageProps = {
 
 type ImageUrlRef = Object & {
 	[key: string|number]: string
-}
-
-type ImageScaleRef = Object & {
-	[key: string|number]: number
 }
 
 const SignDocument = () => {
@@ -45,11 +42,12 @@ const SignDocument = () => {
 		current: 0,
 		maxPage: 0
 	})
+	const [downloadCount, setDownloadCount] = useState<number>(0)
+	const [showConfirmForm, setConfirmForm] = useState<boolean>(false)
 	const [toolState, setToolState] = useState<number>(0)
 	const pdfDocumentProxy = useRef<Nullable<pdf.PDFDocumentProxy>>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 	const imageUrlsRef = useRef<ImageUrlRef>({})
-	const imageScaleRef = useRef<ImageScaleRef>({})
 
 	useEffect(() => {
 		(async () => {
@@ -216,17 +214,15 @@ const SignDocument = () => {
 			mergeModified(e)
 			const length = Object.keys(imageUrlsRef.current).length
 			const doc = new jsPDF()
-			let offsetHeight = 0
 			const width = doc.internal.pageSize.width;
 			const height = doc.internal.pageSize.height
 			for (let i = 0; i < length; i++) {
-				const isOK = await new Promise((resolve) => {
+				await new Promise((resolve) => {
 					const img = document.createElement('img')
 					img.onload = () => {
 						doc.addPage()
 						doc.setPage(i + 2)
 						doc.addImage(img, "png", 0, 0,  width, height)
-						offsetHeight += height
 						console.log(imageUrlsRef.current[i])
 						resolve(true)
 					}
@@ -241,10 +237,25 @@ const SignDocument = () => {
 		} catch (error) {
 			navigate('/gnsign/download?status=error', { replace: true })
 		}
+		setDownloadCount(downloadCount + 1)
 	}
 
 	const finishSignFlow = async (e: MouseEvent) => {
 		setSave(true)
+	}
+
+	const checkDownloadCount = (e: MouseEvent) => {
+		e.preventDefault()
+		if (downloadCount > 0) {
+			goLanding(e)
+			return
+		}
+		setConfirmForm(true)
+	}
+
+	const cancleConfirmForm = (e: MouseEvent) => {
+		e.preventDefault()
+		setConfirmForm(false)
 	}
 
 	const goLanding = (e: MouseEvent) => {
@@ -318,7 +329,7 @@ const SignDocument = () => {
 					showSave
 					? (
 						<div
-							onClick={goLanding}
+							onClick={checkDownloadCount}
 							className={flatClassName({
 							common: `font-sans font-normal flex items-center justify-center text-gnsign-green bg-white`,
 							mobile: `sm:w-[130px] sm:h-[58px] sm:text-[18px] sm:leading-[26px] sm:rounded-[16px]`
@@ -379,6 +390,19 @@ const SignDocument = () => {
 				}
 				</div>
 		</div>
+		<Suspense fallback={<p className="hidden"></p>}>
+			<div className={flatClassName({
+				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${showConfirmForm ? "":"hidden"}`
+			})}>
+				<ConfirmForm
+					messageText={`尚未儲存文件，確定要離開？`}
+					rightButtonText={`確定`}
+					handleRightButton={goLanding}
+					leftButtonText={`取消`}
+					handleLeftButton={cancleConfirmForm}
+				/>
+			</div>
+		</Suspense>
 		<GNsignLoadingPage className={`${loadingState.isLoading ? '': 'hidden'}`} text={loadingState.loadingText} />
 	</>)
 }

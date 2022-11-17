@@ -164,7 +164,7 @@ const GNSign = () => {
 							common: `relative self-start`,
 							mobile: `sm:w-[88.21px] sm:h-[59.35px]`
 						})}>
-							<Suspense fallback={<Fragment />}>
+							<Suspense fallback={<p></p>}>
 								<MultipleImageSources
 									aliasName={`GNSign`}
 									mediaImages={[
@@ -195,7 +195,7 @@ const GNSign = () => {
 							common: `absolute`,
 							mobile: `sm:w-[134px] sm:h-[110px] sm:translate-y-[48.5px]`
 						})}>
-							<Suspense fallback={<Fragment />}>
+							<Suspense fallback={<p></p>}>
 								<MultipleImageSources
 									aliasName={`Watermark`}
 									mediaImages={[
@@ -245,7 +245,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[355px] sm:h-[59px] sm:translate-x-[7px] sm:translate-y-[169px]`
 							})}>
-								<Suspense fallback={<Fragment />}>
+								<Suspense fallback={<p></p>}>
 									<MultipleImageSources
 										aliasName={`Grass`}
 										mediaImages={[
@@ -267,7 +267,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[142px] sm:h-[202px] sm:translate-x-0 sm:translate-y-0`
 							})}>
-								<Suspense fallback={<Fragment />}>
+								<Suspense fallback={<p></p>}>
 									<MultipleImageSources
 										aliasName={`People1`}
 										mediaImages={[
@@ -289,7 +289,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[97px] sm:h-[164px] sm:translate-x-[124px] sm:translate-y-[45px]`
 							})}>
-								<Suspense fallback={<Fragment />}>
+								<Suspense fallback={<p></p>}>
 									<MultipleImageSources
 										aliasName={`People2`}
 										mediaImages={[
@@ -311,7 +311,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[76px] sm:h-[127px] sm:translate-x-[205px] sm:translate-y-[82px]`
 							})}>
-								<Suspense fallback={<Fragment />}>
+								<Suspense fallback={<p></p>}>
 									<MultipleImageSources
 										aliasName={`Plant`}
 										mediaImages={[
@@ -333,7 +333,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[21px] sm:h-[27px] sm:translate-x-[251px] sm:translate-y-[187px]`
 							})}>
-								<Suspense fallback={<Fragment />}>
+								<Suspense fallback={<p></p>}>
 									<MultipleImageSources
 										aliasName={`Drawstring`}
 										mediaImages={[
@@ -355,7 +355,7 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[108px] sm:h-[188px] sm:translate-x-[239px] sm:translate-y-[7px]`
 							})}>
-								<Suspense fallback={<Fragment />}>
+								<Suspense fallback={<p></p>}>
 									<MultipleImageSources
 										aliasName={`People3`}
 										mediaImages={[
@@ -384,7 +384,7 @@ const GNSign = () => {
 			)
 		}
 		
-		<Suspense fallback={<Fragment />}>
+		<Suspense fallback={<p></p>}>
 			<div className={flatClassName({
 				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${toastState.displayToast ? "":"hidden"}`
 			})}>
