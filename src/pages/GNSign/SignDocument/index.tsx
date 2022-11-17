@@ -208,38 +208,39 @@ const SignDocument = () => {
 	}
 
 	const downalodFile = async (e: MouseEvent) => {
-		setLoadingState({
-			loadingText: '檔案儲存中...',
-			isLoading: true
-		})
-		mergeModified(e)
-		const length = Object.keys(imageUrlsRef.current).length
-		const doc = new jsPDF()
-		let offsetHeight = 0
-		const width = doc.internal.pageSize.width;
-		const height = doc.internal.pageSize.height
-		for (let i = 0; i < length; i++) {
-			const isOK = await new Promise((resolve) => {
-				const img = document.createElement('img')
-				img.onload = () => {
-					doc.addPage()
-					doc.setPage(i + 2)
-					doc.addImage(img, "png", 0, 0,  width, height)
-					offsetHeight += height
-					console.log(imageUrlsRef.current[i])
-					resolve(true)
-				}
-				img.src = imageUrlsRef.current[i]
+		try {
+			setLoadingState({
+				loadingText: '檔案儲存中...',
+				isLoading: true
 			})
+			mergeModified(e)
+			const length = Object.keys(imageUrlsRef.current).length
+			const doc = new jsPDF()
+			let offsetHeight = 0
+			const width = doc.internal.pageSize.width;
+			const height = doc.internal.pageSize.height
+			for (let i = 0; i < length; i++) {
+				const isOK = await new Promise((resolve) => {
+					const img = document.createElement('img')
+					img.onload = () => {
+						doc.addPage()
+						doc.setPage(i + 2)
+						doc.addImage(img, "png", 0, 0,  width, height)
+						offsetHeight += height
+						console.log(imageUrlsRef.current[i])
+						resolve(true)
+					}
+					img.src = imageUrlsRef.current[i]
+				})
+			}
+			if (length > 0) {
+				doc.deletePage(1)
+			}
+			doc.save("test.pdf")
+			navigate('/gnsign/download?status=success', { replace: true })
+		} catch (error) {
+			navigate('/gnsign/download?status=error', { replace: true })
 		}
-		if (length > 0) {
-			doc.deletePage(1)
-		}
-		doc.save("test.pdf")
-		setLoadingState({
-			...loadingState,
-			isLoading: false
-		})
 	}
 
 	const finishSignFlow = async (e: MouseEvent) => {

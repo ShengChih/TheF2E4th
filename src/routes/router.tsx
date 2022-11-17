@@ -4,6 +4,7 @@ import GsapNewspaper from "@pages/GsapNewspaper/root"
 import ErrorPage from '@pages/ErrorPage'
 import MakeSign from '@pages/GNSign/MakeSign'
 import SignDocument from '@pages/GNSign/SignDocument'
+import DownloadStatus from '@pages/GNSign/DownloadStatus'
 
 const router = [
 	{
@@ -22,6 +23,10 @@ const router = [
 	{
 		path: "/gnsign/signdoc",
 		element: <SignDocument />
+	},
+	{
+		path: "/gnsign/download",
+		element: <DownloadStatus />
 	},
 	{
 		path: "/gsapnewspaper",
