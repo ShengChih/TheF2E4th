@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, MouseEvent, useCallback } from "react"
 import * as pdf from 'pdfjs-dist'
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.js?url'
+import { jsPDF } from 'jspdf'
 import { useNavigate } from 'react-router-dom'
 import { fabric } from 'fabric'
 
@@ -24,6 +25,14 @@ type PageProps = {
 	maxPage: number
 }
 
+type ImageUrlRef = Object & {
+	[key: string|number]: string
+}
+
+type ImageScaleRef = Object & {
+	[key: string|number]: number
+}
+
 const SignDocument = () => {
 	const draftFile = useAppSelector(selectDraftFile)
 	const makeSign = useAppSelector(selectMakeSign)
@@ -38,7 +47,8 @@ const SignDocument = () => {
 	const [toolState, setToolState] = useState<number>(0)
 	const pdfDocumentProxy = useRef<Nullable<pdf.PDFDocumentProxy>>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
-	const imageUrlsRef = useRef<{ [key:string|number]: string}>({})
+	const imageUrlsRef = useRef<ImageUrlRef>({})
+	const imageScaleRef = useRef<ImageScaleRef>({})
 
 	useEffect(() => {
 		(async () => {
@@ -62,9 +72,8 @@ const SignDocument = () => {
 						return
 					}
 					const page = await pdfDocument.getPage(index + 1)
-					const scale = canvasRef.current!.width / page.getViewport({ scale: 1.0 }).width
 					const viewport = page.getViewport({
-						scale: scale
+						scale: 1
 					})
 					const canvas = document.createElement('canvas')
 					canvas.width = viewport.width
@@ -75,7 +84,7 @@ const SignDocument = () => {
 						viewport
 					})
 					await renderTask.promise
-					imageUrlsRef.current[index] = canvas.toDataURL('image/png')
+					imageUrlsRef.current[index] = canvas.toDataURL('image/png', 1.0)
 				})
 			)
 			setLoadingState({
@@ -87,13 +96,16 @@ const SignDocument = () => {
 	}, [])
 
 	useEffect(() => {
-		const scale = 1 / window.devicePixelRatio
     if (pageState.current > 0 && canvasRef.current && imageUrlsRef.current[pageState.current - 1]) {
 			const loadImage = document.createElement("img")
 			loadImage.onload = () => {
+				canvas!.setWidth(343)
+				canvas!.setHeight(467)
+				const scaleX = 343 / loadImage.width
+				const scaleY = 467 / loadImage.height
 				canvas!.setBackgroundImage(new fabric.Image(loadImage, {
-					scaleX: scale,
-					scaleY: scale,
+					scaleX: scaleX,
+					scaleY: scaleY,
 				}), () => canvas!.renderAll())
 			}
 			loadImage.src = imageUrlsRef.current[pageState.current - 1]
@@ -187,8 +199,46 @@ const SignDocument = () => {
 	}, [canvas])
 
 	const mergeModified = (e: MouseEvent) => {
-		imageUrlsRef.current[pageState.current - 1] = canvas!.toDataURL()
+		imageUrlsRef.current[pageState.current - 1] = canvas!.toDataURL({
+			format: 'png',
+			quality: 1
+		})
 		toggleTool(e)
+	}
+
+	const finishSignFlow = async (e: MouseEvent) => {
+		setLoadingState({
+			loadingText: '檔案儲存中...',
+			isLoading: true
+		})
+		mergeModified(e)
+		const length = Object.keys(imageUrlsRef.current).length
+		const doc = new jsPDF()
+		let offsetHeight = 0
+		const width = doc.internal.pageSize.width;
+		const height = doc.internal.pageSize.height
+		for (let i = 0; i < length; i++) {
+			const isOK = await new Promise((resolve) => {
+				const img = document.createElement('img')
+				img.onload = () => {
+					doc.addPage()
+					doc.setPage(i + 2)
+					doc.addImage(img, "png", 0, 0,  width, height)
+					offsetHeight += height
+					console.log(imageUrlsRef.current[i])
+					resolve(true)
+				}
+				img.src = imageUrlsRef.current[i]
+			})
+		}
+		if (length > 0) {
+			doc.deletePage(1)
+		}
+		doc.save("test.pdf")
+		setLoadingState({
+			...loadingState,
+			isLoading: false
+		})
 	}
 
 	const toolProps: ToolButtonProps[] = [
@@ -255,7 +305,9 @@ const SignDocument = () => {
 					</div>
 				</div>
 
-				<div className={flatClassName({
+				<div
+					onClick={finishSignFlow}
+					className={flatClassName({
 					common: `font-sans font-normal flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh text-white`,
 					mobile: `sm:w-[130px] sm:h-[58px] sm:text-[18px] sm:leading-[26px] sm:rounded-[16px]`
 				})}>完成簽署</div>
@@ -269,8 +321,9 @@ const SignDocument = () => {
 			})}>
 				<canvas
 					ref={canvasRef}
-					width={343}
-					height={457}
+					className={flatClassName({
+						mobile: `sm:w-[343px] sm:h-[467px]`
+					})}
 				></canvas>
 			</div>
 

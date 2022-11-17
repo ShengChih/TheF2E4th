@@ -134,7 +134,7 @@ const MakeSign = () => {
 
 	const createSign = async (e: MouseEvent) => {
 		if (!canvasRef.current) return
-		const image = canvasRef.current.toDataURL()
+		const image = canvasRef.current.toDataURL('image/png', 1.0)
 		setLoadingState({
 			...loadingState,
 			isLoading: true
