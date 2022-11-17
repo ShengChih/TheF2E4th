@@ -6,6 +6,7 @@ import { fabric } from 'fabric'
 
 import { flatClassName } from "@utils/reduce"
 import { convertDataURIToBinary } from '@utils/converter'
+import GNsignLoadingPage, { InitLoadingState } from "@components/GNsign/LoadingPage"
 import ToolButton, { ToolButtonProps } from "@components/GNsign/ToolButton"
 
 import { useAppDispatch, useAppSelector } from "@/hooks"
@@ -28,8 +29,8 @@ const SignDocument = () => {
 	const makeSign = useAppSelector(selectMakeSign)
 	const navigate = useNavigate()
 
+	const [loadingState, setLoadingState] = useState(InitLoadingState)
 	const [canvas, setCanvas] = useState<Nullable<fabric.Canvas>>(null)
-	const [imageConverted, setImageConverted] = useState<boolean>(false)
 	const [pageState, setPageState] = useState<PageProps>({
 		current: 0,
 		maxPage: 0
@@ -41,6 +42,11 @@ const SignDocument = () => {
 
 	useEffect(() => {
 		(async () => {
+			setLoadingState({
+				loadingText: '檔案載入中...',
+				isLoading: true
+			})
+
 			const pdfAsArray = convertDataURIToBinary(draftFile)
 			const pdfDocument = await pdf.getDocument(pdfAsArray).promise
 			pdfDocumentProxy.current = pdfDocument
@@ -49,7 +55,6 @@ const SignDocument = () => {
 				current: 1,
 				maxPage: pdfDocument.numPages
 			})
-
 			const tasks = new Array(pdfDocument.numPages).fill(null)
 			await Promise.all(
 				tasks.map(async (_, index: number) => {
@@ -73,7 +78,10 @@ const SignDocument = () => {
 					imageUrlsRef.current[index] = canvas.toDataURL('image/png')
 				})
 			)
-			setImageConverted(true)
+			setLoadingState({
+				...loadingState,
+				isLoading: false
+			})
 			setCanvas(new fabric.Canvas(canvasRef.current))
 		})()
 	}, [])
@@ -90,7 +98,7 @@ const SignDocument = () => {
 			}
 			loadImage.src = imageUrlsRef.current[pageState.current - 1]
     }
-  }, [imageConverted, canvasRef, imageUrlsRef, pageState.current])
+  }, [loadingState.isLoading, canvasRef, imageUrlsRef, pageState.current])
 
 	//useEffect(() => {
 	//	if (!draftFile) {
@@ -123,8 +131,15 @@ const SignDocument = () => {
 			}
 	}
 
+	const clearFabricObjects = () => {
+		let fabricObjects:fabric.Object[] = canvas!.getObjects() as fabric.Object[]
+
+		canvas!.remove(...fabricObjects)
+	}
+
 	const goPrevious = (e: MouseEvent) => {
 		if (pageState.current > 1) {
+			clearFabricObjects()
 			setPageState({
 				...pageState,
 				current: pageState.current - 1
@@ -134,6 +149,7 @@ const SignDocument = () => {
 
 	const goNext = (e: MouseEvent) => {
 		if (pageState.current < pageState.maxPage) {
+			clearFabricObjects()
 			setPageState({
 				...pageState,
 				current: pageState.current + 1
@@ -142,7 +158,6 @@ const SignDocument = () => {
 	}
 
 	const insertSign = (e: MouseEvent) => {
-		const scale = 1 / window.devicePixelRatio
 		const img = document.createElement('img')
 		img.onload = () => {
 			canvas!.add(new fabric.Image(img, {
@@ -171,6 +186,11 @@ const SignDocument = () => {
 		toggleTool(e)
 	}, [canvas])
 
+	const mergeModified = (e: MouseEvent) => {
+		imageUrlsRef.current[pageState.current - 1] = canvas!.toDataURL()
+		toggleTool(e)
+	}
+
 	const toolProps: ToolButtonProps[] = [
 		{
 			iconName: 'sign',
@@ -189,12 +209,12 @@ const SignDocument = () => {
 		},
 		{
 			iconName: 'check',
-			buttonText: '確認合併',
-			handleClick: insertSign
+			buttonText: '合併修改',
+			handleClick: mergeModified
 		}
 	]
 
-	return (
+	return (<>
 		<div className={`w-screen h-screen flex flex-wrap justify-center bg-gnsign-background`}>
 			<div className={flatClassName({
 				common: `w-full flex justify-between`,
@@ -276,7 +296,8 @@ const SignDocument = () => {
 			</div>
 
 		</div>
-	)
+		<GNsignLoadingPage className={`${loadingState.isLoading ? '': 'hidden'}`} text={loadingState.loadingText} />
+	</>)
 }
 
 export default SignDocument
