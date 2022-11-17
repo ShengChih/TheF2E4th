@@ -77,3 +77,55 @@ export const scaleInContainer = (
 		newHeight
 	)
 }
+
+function changeResolution(canvas: HTMLCanvasElement, scaleFactor: number) {
+	// Set up CSS size.
+	canvas.style.width = canvas.style.width || canvas.width + 'px';
+	canvas.style.height = canvas.style.height || canvas.height + 'px';
+
+	// Resize canvas and scale future draws.
+	canvas.width = Math.ceil(canvas.width * scaleFactor);
+	canvas.height = Math.ceil(canvas.height * scaleFactor);
+	var ctx = canvas.getContext('2d');
+	ctx!.scale(scaleFactor, scaleFactor);
+}
+
+function setDPISample(canvas:HTMLCanvasElement, dpi:number) {
+	// Set up CSS size.
+	canvas.style.width = canvas.style.width || canvas.width + 'px';
+	canvas.style.height = canvas.style.height || canvas.height + 'px';
+
+	// Resize canvas and scale future draws.
+	const scaleFactor = dpi / 96;
+	canvas.width = Math.ceil(canvas.width * scaleFactor);
+	canvas.height = Math.ceil(canvas.height * scaleFactor);
+	const ctx = canvas.getContext('2d');
+	ctx!.scale(scaleFactor, scaleFactor);
+}
+
+function setDPI(canvas:HTMLCanvasElement, dpi:number) {
+	// Set up CSS size.
+	canvas.style.width = canvas.style.width || canvas.width + 'px';
+	canvas.style.height = canvas.style.height || canvas.height + 'px';
+
+	// Get size information.
+	var scaleFactor = dpi / 96;
+	var width = parseFloat(canvas.style.width);
+	var height = parseFloat(canvas.style.height);
+
+	// Backup the canvas contents.
+	var oldScale = canvas.width / width;
+	var backupScale = scaleFactor / oldScale;
+	var backup = (canvas.cloneNode(false) as HTMLCanvasElement);
+	backup!.getContext('2d')!.drawImage(canvas, 0, 0);
+
+	// Resize the canvas.
+	var ctx = canvas.getContext('2d');
+	canvas.width = Math.ceil(width * scaleFactor);
+	canvas.height = Math.ceil(height * scaleFactor);
+
+	// Redraw the canvas image and scale future draws.
+	ctx!.setTransform(backupScale, 0, 0, backupScale, 0, 0);
+	ctx!.drawImage(backup, 0, 0);
+	ctx!.setTransform(scaleFactor, 0, 0, scaleFactor, 0, 0);
+}
