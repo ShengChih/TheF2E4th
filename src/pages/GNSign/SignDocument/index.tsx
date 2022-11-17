@@ -92,27 +92,35 @@ const SignDocument = () => {
     }
   }, [imageConverted, canvasRef, imageUrlsRef, pageState.current])
 
-	useEffect(() => {
-		if (!draftFile) {
-			navigate('/gnsign', { replace: true })
-		}
-	}, [draftFile])
-
-	useEffect(() => {
-		if (!makeSign) {
-			navigate('/gnsign/makesign', { replace: true })
-		}
-	}, [makeSign])
+	//useEffect(() => {
+	//	if (!draftFile) {
+	//		navigate('/gnsign', { replace: true })
+	//	}
+	//}, [draftFile])
+//
+	//useEffect(() => {
+	//	if (!makeSign) {
+	//		navigate('/gnsign/makesign', { replace: true })
+	//	}
+	//}, [makeSign])
 
 	const toggleTool = (e: MouseEvent) => {
 		const toolIndex = parseInt((e.currentTarget.getAttribute("data-tool") ?? '0'))
     setToolState((0 | 1 << toolIndex)) /** 按鈕互斥 */
 	}
 
-	const getToolClassName = (toolIndex: number) => {
+	const getToolActiveClassName = (toolIndex: number) => {
 		return (toolState & 1 << toolIndex)
-			? `bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`
-			: ``
+			? {
+				iconContainerClassName: `bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`,
+				iconClassName: `fill-white`,
+				buttonClassName: `text-gnsign-green`,
+			}
+			: {
+				iconContainerClassName: `bg-gnsign-background`,
+				iconClassName: `fill-gnsign-gray`,
+				buttonClassName: `text-gnsign-gray`,
+			}
 	}
 
 	const goPrevious = (e: MouseEvent) => {
@@ -145,11 +153,23 @@ const SignDocument = () => {
 				scaleX: 0.5,
 				scaleY: 0.5
 			}))
-
-			toggleTool(e)
 		}
 		img.src = makeSign
+		toggleTool(e)
 	}
+
+	const insertText = useCallback((e: MouseEvent) => {
+		let text = prompt("輸入文字")
+		if (text != null && text != "") {
+			canvas!.add(new fabric.IText(text))
+		}
+		toggleTool(e)
+	}, [canvas])
+
+	const insertDate = useCallback((e: MouseEvent) => {
+		canvas!.add(new fabric.IText(new Date().toISOString().split('T')[0]))
+		toggleTool(e)
+	}, [canvas])
 
 	const toolProps: ToolButtonProps[] = [
 		{
@@ -158,18 +178,18 @@ const SignDocument = () => {
 			handleClick: insertSign
 		},
 		{
-			iconName: 'check',
-			buttonText: '勾選',
-			handleClick: insertSign
-		},
-		{
 			iconName: 'date',
 			buttonText: '日期',
-			handleClick: insertSign
+			handleClick: insertDate
 		},
 		{
 			iconName: 'text',
 			buttonText: '插入文字',
+			handleClick: insertText
+		},
+		{
+			iconName: 'check',
+			buttonText: '確認合併',
 			handleClick: insertSign
 		}
 	]
@@ -243,7 +263,14 @@ const SignDocument = () => {
 					mobile: `sm:w-[343px] sm:h-[72px] sm:rounded-[16px]`
 				})}>
 					{
-						toolProps.map((props, index) => (<ToolButton data-tool={`${index + 1}`} key={`tool-${index}`} {...props} />))
+						toolProps.map((props, index) => (
+							<ToolButton
+								dataToolIndex={`${index + 1}`}
+								key={`tool-${index}`}
+								{...props}
+								{...getToolActiveClassName(index + 1)}
+							/>
+						))
 					}
 				</div>
 			</div>
