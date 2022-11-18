@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks"
 import GNsignLoadingPage, { InitLoadingState } from "@components/GNsign/LoadingPage"
 import { selectDraftSign, selectMakeSign } from '@features/gnsign/signs/selector'
 import { selectDraftFile } from '@features/gnsign/files/selector'
-import { SAVE_DRAFT, SAVE_SIGN } from '@features/gnsign/signs/sagaActions'
+import { SAVE_DRAFT, SAVE_SIGN, ADD_NEW_TO_SIGN_BOX } from '@features/gnsign/signs/sagaActions'
 
 import { ModeState } from './type.d'
 import { HAND_WRITING, IMPORT_SIGN } from './constants'
@@ -42,7 +42,6 @@ const MakeSign = () => {
 		handleTouchEnd,
 		handleClear,
 		handleLoadImage,
-		hanldeRemoveWhiteBg
 	} = useCanvasDrawer(canvasRef, 343, 200, true)
 	const dispatch = useAppDispatch()
 	const makeSign = useAppSelector(selectMakeSign)
@@ -139,6 +138,7 @@ const MakeSign = () => {
 			...loadingState,
 			isLoading: true
 		})
+		dispatch({ type: ADD_NEW_TO_SIGN_BOX, payload: image })
 		dispatch({ type: SAVE_SIGN, payload: image })
 	}
 

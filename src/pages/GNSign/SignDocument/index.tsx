@@ -23,6 +23,7 @@ import { SAVE_DRAFT, SAVE_SIGN } from '@features/gnsign/signs/sagaActions'
 import { Nullable } from '@/type.d'
 const ConfirmForm = lazy(() => import('@components/GNsign/ConfirmForm'))
 const TextBox = lazy(() => import('@components/GNsign/TextBox'))
+const SignBox = lazy(() => import('@components/GNsign/SignBox'))
 
 pdf.GlobalWorkerOptions.workerSrc = pdfWorker
 
@@ -50,6 +51,7 @@ const SignDocument = () => {
 	const [downloadCount, setDownloadCount] = useState<number>(0)
 	const [showConfirmForm, setConfirmForm] = useState<boolean>(false)
 	const [showTextBox, setTextBox] = useState<boolean>(false)
+	const [showSignBox, setSignBox] = useState<boolean>(false)
 	const [toolState, setToolState] = useState<number>(0)
 	const pdfDocumentProxy = useRef<Nullable<pdf.PDFDocumentProxy>>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -174,6 +176,17 @@ const SignDocument = () => {
 		}
 	}, [setPageState, clearFabricObjects, pageState.current])
 
+	const displaySignBox = (e: MouseEvent) => {
+		setSignBox(true)
+		toggleTool(e)
+		e.preventDefault()
+	}
+
+	const cancleSignBox = (e: MouseEvent) => {
+		setSignBox(false)
+		e.preventDefault()
+	}
+
 	const insertSign = useCallback((e: MouseEvent) => {
 		const img = document.createElement('img')
 		img.onload = () => {
@@ -187,7 +200,6 @@ const SignDocument = () => {
 			}))
 		}
 		img.src = makeSign
-		toggleTool(e)
 	}, [canvas, toggleTool])
 
 	const insertText = useCallback((textBoxMessage: string) => {
@@ -279,7 +291,7 @@ const SignDocument = () => {
 		{
 			iconName: 'sign',
 			buttonText: '簽名',
-			handleClick: insertSign
+			handleClick: displaySignBox
 		},
 		{
 			iconName: 'date',
@@ -403,29 +415,24 @@ const SignDocument = () => {
 				}
 				</div>
 		</div>
-		<Suspense fallback={<p className={`hidden`}></p>}>
-			<div className={flatClassName({
-				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${showTextBox ? "":"hidden"}`
-			})}>
-				<TextBox
+		<div className={flatClassName({
+				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${showSignBox || showTextBox || showConfirmForm ? "":"hidden"}`
+		})}>
+			<Suspense fallback={<p className={`hidden`}></p>}>
+				{ showSignBox ? <SignBox /> : '' }
+				{ showTextBox ? <TextBox
 					handleInsert={insertText}
 					handleCancel={cancleTextBox}
-				/>
-			</div>
-		</Suspense>
-		<Suspense fallback={<p className="hidden"></p>}>
-			<div className={flatClassName({
-				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${showConfirmForm ? "":"hidden"}`
-			})}>
-				<ConfirmForm
+				/> : '' }
+				{ showConfirmForm ? <ConfirmForm
 					messageText={`尚未儲存文件，確定要離開？`}
 					rightButtonText={`確定`}
 					handleRightButton={goLanding}
 					leftButtonText={`取消`}
 					handleLeftButton={cancleConfirmForm}
-				/>
-			</div>
-		</Suspense>
+				/> : '' }
+			</Suspense>
+		</div>
 		<GNsignLoadingPage className={`${loadingState.isLoading ? '': 'hidden'}`} text={loadingState.loadingText} />
 	</>)
 }

@@ -4,6 +4,7 @@ import { SignsState } from './type.d'
 const initialState: SignsState = {
   sign: '',
   draft: '',
+  signBox: []
 }
 
 export const signsSlice = createSlice({
@@ -17,10 +18,16 @@ export const signsSlice = createSlice({
     saveDraft: (state, action) => {
 			state.draft = action.payload
 		},
+    saveSignBox: (state, action) => {
+      state.signBox = action.payload
+    },
+    push2SignBox: (state, action) => {
+      state.signBox.push(action.payload)
+    }
   },
 })
 
-export const { createSign, saveDraft } = signsSlice.actions
+export const { createSign, saveDraft, saveSignBox, push2SignBox } = signsSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 
