@@ -15,6 +15,7 @@ const TextBox = ({
 	const hanldeInsertTextBox = (e: MouseEvent) => {
 		if (textAreaRef.current) {
 			handleInsert(textAreaRef.current.value)
+			textAreaRef.current.value = ''
 		}
 		handleCancel(e)
 		e.preventDefault()
