@@ -186,20 +186,16 @@ const SignDocument = () => {
 		setSignBox(false)
 	}
 
-	const insertSign = useCallback((e: MouseEvent) => {
-		const img = document.createElement('img')
-		img.onload = () => {
-			canvas!.add(new fabric.Image(img, {
-				width: img.width,
-				height: img.height,
-				top: 0,
-				left: 0,
-				scaleX: 0.5,
-				scaleY: 0.5
-			}))
-		}
-		img.src = makeSign
-	}, [canvas, toggleTool])
+	const insertSign = useCallback((img: HTMLImageElement) => {
+		canvas!.add(new fabric.Image(img, {
+			width: img.width,
+			height: img.height,
+			top: 0,
+			left: 0,
+			scaleX: 0.5,
+			scaleY: 0.5
+		}))
+	}, [canvas])
 
 	const insertText = useCallback((textBoxMessage: string) => {
 		canvas!.add(new fabric.IText(textBoxMessage))
@@ -418,7 +414,7 @@ const SignDocument = () => {
 				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${showSignBox || showTextBox || showConfirmForm ? "":"hidden"}`
 		})}>
 			<Suspense fallback={<p className={`hidden`}></p>}>
-				{ showSignBox ? <SignBox cancleSignBox={cancleSignBox} /> : '' }
+				{ showSignBox ? <SignBox insertSign={insertSign} cancleSignBox={cancleSignBox} /> : '' }
 				{ showTextBox ? <TextBox
 					handleInsert={insertText}
 					handleCancel={cancleTextBox}

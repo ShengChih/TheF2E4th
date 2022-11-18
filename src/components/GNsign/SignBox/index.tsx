@@ -10,10 +10,12 @@ type ImageUrls = {
 }
 
 type SignBoxProps = {
+	insertSign: (img: HTMLImageElement) => void
 	cancleSignBox: () => void
 }
 
 const SignBox = ({
+	insertSign,
 	cancleSignBox
 }:SignBoxProps) => {
 	const dispatch = useAppDispatch()
@@ -72,6 +74,14 @@ const SignBox = ({
 		setMakeSignModule(true)
 	}
 
+	const handleInsertSign = useCallback((e: MouseEvent) => {
+		const imageIndex = parseInt((e.currentTarget.getAttribute('data-sign') ?? '-1'))
+		if (imageIndex >= 0) {
+			insertSign(imageUrls.current[imageIndex])
+			cancleSignBox()
+		}
+	}, [imageUrls, insertSign])
+
 	return (
 		<div tabIndex={0} ref={boxRef} onBlur={handleBlur} className={flatClassName({
 			common: `relative h-max flex flex-col items-center bg-gnsign-background rounded-[26px]`,
@@ -95,7 +105,7 @@ const SignBox = ({
 											common: `flex flex-no-wrap items-center w-full`,
 											mobile: `sm:gap-x-[16px]`
 										})}>
-											<img key={`sign-img-${index}`} className={flatClassName({
+											<img onClick={handleInsertSign} data-sign={`${index}`} key={`sign-img-${index}`} className={flatClassName({
 												common: `object-contain bg-white`,
 												mobile: `sm:w-[271px] sm:h-[61px] sm:rounded-[16px]`
 											})} src={dataUrl}  />
