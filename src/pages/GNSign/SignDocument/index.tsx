@@ -22,6 +22,7 @@ import { Nullable } from '@/type.d'
 const ConfirmForm = lazy(() => import('@components/GNsign/ConfirmForm'))
 const TextBox = lazy(() => import('@components/GNsign/TextBox'))
 const SignBox = lazy(() => import('@components/GNsign/SignBox'))
+const Toast = lazy(() => import('@components/GNsign/Toast'))
 
 pdf.GlobalWorkerOptions.workerSrc = pdfWorker
 
@@ -45,6 +46,8 @@ const SignDocument = () => {
 		current: 0,
 		maxPage: 0
 	})
+	const [mergeCount, setMergeCount] = useState<number>(0)
+	const [showToast, setToast] = useState<boolean>(false)
 	const [downloadCount, setDownloadCount] = useState<number>(0)
 	const [showConfirmForm, setConfirmForm] = useState<boolean>(false)
 	const [showTextBox, setTextBox] = useState<boolean>(false)
@@ -114,7 +117,7 @@ const SignDocument = () => {
 			}
 			loadImage.src = imageUrlsRef.current[pageState.current - 1]
     }
-  }, [loadingState.isLoading, canvasRef, imageUrlsRef, pageState.current])
+  }, [loadingState.isLoading, canvasRef, imageUrlsRef, pageState.current, mergeCount])
 
 	const toggleTool = useCallback((e: MouseEvent) => {
 		const toolIndex = parseInt((e.currentTarget.getAttribute("data-tool") ?? '0'))
@@ -191,13 +194,27 @@ const SignDocument = () => {
 		toggleTool(e)
 	}, [canvas, toggleTool])
 
+	const checkCanvasObjects = useCallback(() => {
+		let fabricObjects:fabric.Object[] = canvas!.getObjects() as fabric.Object[]
+		return fabricObjects.length > 0
+	}, [canvas])
+
+	const handleConfirmToast = useCallback((e: MouseEvent) => {
+		setToast(false)
+	}, [setToast])
+
 	const mergeModified = useCallback((e: MouseEvent) => {
+		if (!checkCanvasObjects()) {
+			return
+		}
 		imageUrlsRef.current[pageState.current - 1] = canvas!.toDataURL({
 			format: 'png',
 			quality: 1
 		})
 		toggleTool(e)
-	}, [canvas, toggleTool])
+		setMergeCount(mergeCount + 1)
+		clearFabricObjects()
+	}, [pageState, canvas, toggleTool, setMergeCount, mergeCount, checkCanvasObjects])
 
 	const downalodFile = async (e: MouseEvent) => {
 		try {
@@ -235,8 +252,12 @@ const SignDocument = () => {
 		dispatch({ type: MODIFY_DRAFT, payload: '' })
 	}
 
-	const finishSignFlow = async (e: MouseEvent) => {
-		setSave(true)
+	const finishSignFlow = (e: MouseEvent) => {
+		if (mergeCount > 0 && !checkCanvasObjects()) {
+			setSave(true)
+			return
+		}
+		setToast(true)
 	}
 
 	const goLanding = useCallback((e: MouseEvent) => {
@@ -398,7 +419,7 @@ const SignDocument = () => {
 				</div>
 		</div>
 		<div className={flatClassName({
-				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${showSignBox || showTextBox || showConfirmForm ? "":"hidden"}`
+				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${showSignBox || showTextBox || showConfirmForm || showToast ? "":"hidden"}`
 		})}>
 			<Suspense fallback={<p className={`hidden`}></p>}>
 				{ showSignBox ? <SignBox insertSign={insertSign} cancleSignBox={cancleSignBox} /> : '' }
@@ -413,6 +434,14 @@ const SignDocument = () => {
 					leftButtonText={`取消`}
 					handleLeftButton={cancleConfirmForm}
 				/> : '' }
+				{
+					showToast ? <Toast
+						messageText={'請置入簽名後再完成簽署'}
+						buttonText={`確定`}
+						onConfirm={handleConfirmToast}
+					></Toast>
+					: ''
+				}
 			</Suspense>
 		</div>
 		<GNsignLoadingPage className={`${loadingState.isLoading ? '': 'hidden'}`} text={loadingState.loadingText} />

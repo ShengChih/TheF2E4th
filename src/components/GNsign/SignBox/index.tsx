@@ -51,7 +51,7 @@ const SignBox = ({
 	}, [signBox, setMakeSignModule])
 
 	const handleBlur = showMakeSignModule ? undefined: (e: FocusEvent) => {
-		if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget)){
+		if (!e.currentTarget.contains(e.relatedTarget)){
 			cancleSignBox()
 		}
 	}

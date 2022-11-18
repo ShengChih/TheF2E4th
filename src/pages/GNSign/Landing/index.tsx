@@ -3,9 +3,8 @@ import {
   useState,
   useEffect,
   useCallback,
-	useTransition,
   MouseEvent,
-  lazy, Suspense, ChangeEvent
+  ChangeEvent
 } from "react"
 import { useNavigate } from 'react-router-dom'
 
@@ -46,7 +45,6 @@ const GNSign = () => {
 	const dispatch = useAppDispatch()
 	const [toastState, setToastState] = useState<ToastState>(InitToastState)
 	const [loadingState, setLoadingState] = useState<LoadingPageState>(InitLoadingState)
-	const [isPending, startTransition] = useTransition()
 
 	const inputFileRef = useRef<HTMLInputElement>(null)
 	
@@ -160,23 +158,21 @@ const GNSign = () => {
 							common: `relative self-start`,
 							mobile: `sm:w-[88.21px] sm:h-[59.35px]`
 						})}>
-							<Suspense fallback={<p className={`hidden`}></p>}>
-								<MultipleImageSources
-									aliasName={`GNSign`}
-									mediaImages={[
-										{
-											minWidth: 375,
-											imageSrc: MB_Logo
-										}
-									]}
-									imageElementProps={{
-										src: MB_Logo,
-										className: 'w-full h-full object-contain',
-										srcSet: `${MB_Logo} 375w`,
-										sizes: `(min-width: 375px) 88.21px`
-									}}
-								/>
-							</Suspense>
+							<MultipleImageSources
+								aliasName={`GNSign`}
+								mediaImages={[
+									{
+										minWidth: 375,
+										imageSrc: MB_Logo
+									}
+								]}
+								imageElementProps={{
+									src: MB_Logo,
+									className: 'w-full h-full object-contain',
+									srcSet: `${MB_Logo} 375w`,
+									sizes: `(min-width: 375px) 88.21px`
+								}}
+							/>
 						</div>
 						<div className={flatClassName({
 							common: `self-end font-normal font-sans text-gnsign-black underline`,
@@ -191,23 +187,21 @@ const GNSign = () => {
 							common: `absolute`,
 							mobile: `sm:w-[134px] sm:h-[110px] sm:translate-y-[48.5px]`
 						})}>
-							<Suspense fallback={<p className={`hidden`}></p>}>
-								<MultipleImageSources
-									aliasName={`Watermark`}
-									mediaImages={[
-										{
-											minWidth: 375,
-											imageSrc: MB_Watermark
-										}
-									]}
-									imageElementProps={{
-										src: MB_Watermark,
-										className: 'w-full h-full object-contain',
-										srcSet: `${MB_Watermark} 375w`,
-										sizes: `(min-width: 375px) 299px`
-									}}
-								/>
-							</Suspense>
+							<MultipleImageSources
+								aliasName={`Watermark`}
+								mediaImages={[
+									{
+										minWidth: 375,
+										imageSrc: MB_Watermark
+									}
+								]}
+								imageElementProps={{
+									src: MB_Watermark,
+									className: 'w-full h-full object-contain',
+									srcSet: `${MB_Watermark} 375w`,
+									sizes: `(min-width: 375px) 299px`
+								}}
+							/>
 						</div>
 						<div className={flatClassName({
 							common: `flex flex-col absolute bg-white`,
@@ -241,133 +235,121 @@ const GNSign = () => {
 								common: `absolute`,
 								mobile: `sm:w-[355px] sm:h-[59px] sm:translate-x-[7px] sm:translate-y-[169px]`
 							})}>
-								<Suspense fallback={<p className={`hidden`}></p>}>
-									<MultipleImageSources
-										aliasName={`Grass`}
-										mediaImages={[
-											{
-												minWidth: 375,
-												imageSrc: MB_Grass
-											}
-										]}
-										imageElementProps={{
-											src: MB_Grass,
-											className: 'w-full h-full object-contain',
-											srcSet: `${MB_Grass} 375w`,
-											sizes: `(min-width: 375px) 355px`
-										}}
-									/>
-								</Suspense>
+								<MultipleImageSources
+									aliasName={`Grass`}
+									mediaImages={[
+										{
+											minWidth: 375,
+											imageSrc: MB_Grass
+										}
+									]}
+									imageElementProps={{
+										src: MB_Grass,
+										className: 'w-full h-full object-contain',
+										srcSet: `${MB_Grass} 375w`,
+										sizes: `(min-width: 375px) 355px`
+									}}
+								/>
 							</div>
 							<div className={flatClassName({
 								common: `absolute`,
 								mobile: `sm:w-[142px] sm:h-[202px] sm:translate-x-0 sm:translate-y-0`
 							})}>
-								<Suspense fallback={<p className={`hidden`}></p>}>
-									<MultipleImageSources
-										aliasName={`People1`}
-										mediaImages={[
-											{
-												minWidth: 375,
-												imageSrc: MB_People1
-											}
-										]}
-										imageElementProps={{
-											src: MB_People1,
-											className: 'w-full h-full object-contain',
-											srcSet: `${MB_People1} 375w`,
-											sizes: `(min-width: 375px) 142px`
-										}}
-									/>
-								</Suspense>
+								<MultipleImageSources
+									aliasName={`People1`}
+									mediaImages={[
+										{
+											minWidth: 375,
+											imageSrc: MB_People1
+										}
+									]}
+									imageElementProps={{
+										src: MB_People1,
+										className: 'w-full h-full object-contain',
+										srcSet: `${MB_People1} 375w`,
+										sizes: `(min-width: 375px) 142px`
+									}}
+								/>
 							</div>
 							<div className={flatClassName({
 								common: `absolute`,
 								mobile: `sm:w-[97px] sm:h-[164px] sm:translate-x-[124px] sm:translate-y-[45px]`
 							})}>
-								<Suspense fallback={<p className={`hidden`}></p>}>
-									<MultipleImageSources
-										aliasName={`People2`}
-										mediaImages={[
-											{
-												minWidth: 375,
-												imageSrc: MB_People2
-											}
-										]}
-										imageElementProps={{
-											src: MB_People2,
-											className: 'w-full h-full object-contain',
-											srcSet: `${MB_People2} 375w`,
-											sizes: `(min-width: 375px) 97px`
-										}}
-									/>
-								</Suspense>
+								<MultipleImageSources
+									aliasName={`People2`}
+									mediaImages={[
+										{
+											minWidth: 375,
+											imageSrc: MB_People2
+										}
+									]}
+									imageElementProps={{
+										src: MB_People2,
+										className: 'w-full h-full object-contain',
+										srcSet: `${MB_People2} 375w`,
+										sizes: `(min-width: 375px) 97px`
+									}}
+								/>
 							</div>
 							<div className={flatClassName({
 								common: `absolute`,
 								mobile: `sm:w-[76px] sm:h-[127px] sm:translate-x-[205px] sm:translate-y-[82px]`
 							})}>
-								<Suspense fallback={<p className={`hidden`}></p>}>
-									<MultipleImageSources
-										aliasName={`Plant`}
-										mediaImages={[
-											{
-												minWidth: 375,
-												imageSrc: MB_Plant
-											}
-										]}
-										imageElementProps={{
-											src: MB_Plant,
-											className: 'w-full h-full object-contain',
-											srcSet: `${MB_Plant} 375w`,
-											sizes: `(min-width: 375px) 76px`
-										}}
-									/>
-								</Suspense>
+								<MultipleImageSources
+									aliasName={`Plant`}
+									mediaImages={[
+										{
+											minWidth: 375,
+											imageSrc: MB_Plant
+										}
+									]}
+									imageElementProps={{
+										src: MB_Plant,
+										className: 'w-full h-full object-contain',
+										srcSet: `${MB_Plant} 375w`,
+										sizes: `(min-width: 375px) 76px`
+									}}
+								/>
 							</div>
 							<div className={flatClassName({
 								common: `absolute`,
 								mobile: `sm:w-[21px] sm:h-[27px] sm:translate-x-[251px] sm:translate-y-[187px]`
 							})}>
-								<Suspense fallback={<p className={`hidden`}></p>}>
-									<MultipleImageSources
-										aliasName={`Drawstring`}
-										mediaImages={[
-											{
-												minWidth: 375,
-												imageSrc: MB_Drawstring
-											}
-										]}
-										imageElementProps={{
-											src: MB_Drawstring,
-											className: 'w-full h-full object-contain',
-											srcSet: `${MB_Drawstring} 375w`,
-											sizes: `(min-width: 375px) 21px`
-										}}
-									/>
-								</Suspense>
+								<MultipleImageSources
+									aliasName={`Drawstring`}
+									mediaImages={[
+										{
+											minWidth: 375,
+											imageSrc: MB_Drawstring
+										}
+									]}
+									imageElementProps={{
+										src: MB_Drawstring,
+										className: 'w-full h-full object-contain',
+										srcSet: `${MB_Drawstring} 375w`,
+										sizes: `(min-width: 375px) 21px`
+									}}
+								/>
 							</div>
 							<div className={flatClassName({
 								common: `absolute`,
 								mobile: `sm:w-[108px] sm:h-[188px] sm:translate-x-[239px] sm:translate-y-[7px]`
 							})}>
-								<Suspense fallback={<p className={`hidden`}></p>}>
-									<MultipleImageSources
-										aliasName={`People3`}
-										mediaImages={[
-											{
-												minWidth: 375,
-												imageSrc: MB_People3
-											}
-										]}
-										imageElementProps={{
-											src: MB_People3,
-											className: 'w-full h-full object-contain',
-											srcSet: `${MB_People3} 375w`,
-											sizes: `(min-width: 375px) 108px`
-										}}
-									/>
-								</Suspense>
+								<MultipleImageSources
+									aliasName={`People3`}
+									mediaImages={[
+										{
+											minWidth: 375,
+											imageSrc: MB_People3
+										}
+									]}
+									imageElementProps={{
+										src: MB_People3,
+										className: 'w-full h-full object-contain',
+										srcSet: `${MB_People3} 375w`,
+										sizes: `(min-width: 375px) 108px`
+									}}
+								/>
 							</div>
 							
 						</div>
@@ -379,18 +361,16 @@ const GNSign = () => {
 				</div>
 			)
 		}
-		
-		<Suspense fallback={<p className={`hidden`}></p>}>
-			<div className={flatClassName({
-				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${toastState.displayToast ? "":"hidden"}`
-			})}>
-				<Toast
-					messageText={toastState.toastMessage}
-					buttonText={`確定`}
-					onConfirm={handleConfirmToast}
-				></Toast>
-			</div>
-		</Suspense>
+
+		<div className={flatClassName({
+			common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${toastState.displayToast ? "":"hidden"}`
+		})}>
+			<Toast
+				messageText={toastState.toastMessage}
+				buttonText={`確定`}
+				onConfirm={handleConfirmToast}
+			></Toast>
+		</div>
 		<GNsignLoadingPage className={`${loadingState.isLoading ? '': 'hidden'}`} text={loadingState.loadingText} />
 	</>)
 }
