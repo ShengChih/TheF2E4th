@@ -1,6 +1,5 @@
 import {
 	lazy,
-	useMemo,
 	useState,
 	useEffect,
 	useCallback,
@@ -13,11 +12,8 @@ import useCanvasDrawer from '@hooks/useCanvasDrawer'
 import { flatClassName } from "@utils/reduce"
 import { getCheckFileFunc } from '@utils/validation'
 
-import { useAppDispatch, useAppSelector } from "@/hooks"
-
-import { selectDraftSign, selectMakeSign } from '@features/gnsign/signs/selector'
-import { selectDraftFile } from '@features/gnsign/files/selector'
-import { SAVE_DRAFT, SAVE_SIGN, ADD_NEW_TO_SIGN_BOX } from '@features/gnsign/signs/sagaActions'
+import { useAppDispatch } from "@/hooks"
+import { SAVE_SIGN, ADD_NEW_TO_SIGN_BOX } from '@features/gnsign/signs/sagaActions'
 
 import { ModeState } from './type.d'
 import { CallbackFunctionVariadicAnyReturn } from '@/type.d'

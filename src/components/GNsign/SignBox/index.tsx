@@ -36,8 +36,9 @@ const SignBox = () => {
 					})
 				})
 			)
+			setMakeSignModule(false)
 		})()
-	}, [signBox])
+	}, [signBox, setMakeSignModule])
 
 	const getHandleDeleteSign = (signIndex: number) => {
 		return (e: MouseEvent) => {
@@ -107,12 +108,16 @@ const SignBox = () => {
 					</>
 				)
 			}
-			{ showMakeSignModule && <MakeSignModule
-				canvasWidth={326}
-				canvasHeight={200}
-				isPageContent={false}
-				backToPrevView={back2SignBox}
-			/>}
+			{ showMakeSignModule &&
+				(
+					<MakeSignModule
+						canvasWidth={326}
+						canvasHeight={200}
+						isPageContent={false}
+						backToPrevView={back2SignBox}
+					/>
+				)
+			}
 		</div>
 	)
 }
