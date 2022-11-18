@@ -5,7 +5,7 @@ import { save, modify } from './reducer'
 import {
 	UPLOAD_FILE,
 	DOWNLOAD_FILE,
-	MODIFY_FILE
+	MODIFY_DRAFT
 } from './sagaActions'
 
 function* uploadLocal(actions: UploadFilePayload) {
@@ -16,8 +16,17 @@ function* uploadLocal(actions: UploadFilePayload) {
 	}
 }
 
+function* saveDraft(actions: UploadFilePayload) {
+	try {
+		yield put(modify(actions.payload))
+	} catch (e) {
+
+	}
+}
+
 function* watchFilsSaga() {
 	yield takeEvery(UPLOAD_FILE, uploadLocal)
+	yield takeEvery(MODIFY_DRAFT, saveDraft)
 }
 
 export default watchFilsSaga

@@ -17,8 +17,8 @@ import useImagePreloader from "@hooks/useImagePreloader"
 import GNsignLoadingPage, { LoadingPageState, InitLoadingState} from "@components/GNsign/LoadingPage"
 
 import { useAppDispatch, useAppSelector } from "@/hooks"
-import { selectDraftFile, selectOriginFile } from '@features/gnsign/files/selector'
-import { UPLOAD_FILE, MODIFY_FILE } from '@features/gnsign/files/sagaActions'
+import { selectDraftFile } from '@features/gnsign/files/selector'
+import { UPLOAD_FILE } from '@features/gnsign/files/sagaActions'
 
 
 import MB_Drawstring from './images/mobile/drawstring.png'

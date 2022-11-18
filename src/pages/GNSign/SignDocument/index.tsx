@@ -16,9 +16,7 @@ import ToolButton, { ToolButtonProps } from "@components/GNsign/ToolButton"
 
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { selectDraftFile } from '@features/gnsign/files/selector'
-import { UPLOAD_FILE, MODIFY_FILE } from '@features/gnsign/files/sagaActions'
-import { selectDraftSign, selectMakeSign } from '@features/gnsign/signs/selector'
-import { SAVE_DRAFT, SAVE_SIGN } from '@features/gnsign/signs/sagaActions'
+import { MODIFY_DRAFT } from '@features/gnsign/files/sagaActions'
 
 import { Nullable } from '@/type.d'
 const ConfirmForm = lazy(() => import('@components/GNsign/ConfirmForm'))
@@ -37,10 +35,9 @@ type ImageUrlRef = Object & {
 }
 
 const SignDocument = () => {
-	const draftFile = useAppSelector(selectDraftFile)
-	const makeSign = useAppSelector(selectMakeSign)
 	const navigate = useNavigate()
-
+	const dispatch = useAppDispatch()
+	const draftFile = useAppSelector(selectDraftFile)
 	const [showSave, setSave] = useState<boolean>(false)
 	const [loadingState, setLoadingState] = useState(InitLoadingState)
 	const [canvas, setCanvas] = useState<Nullable<fabric.Canvas>>(null)
@@ -118,18 +115,6 @@ const SignDocument = () => {
 			loadImage.src = imageUrlsRef.current[pageState.current - 1]
     }
   }, [loadingState.isLoading, canvasRef, imageUrlsRef, pageState.current])
-
-	//useEffect(() => {
-	//	if (!draftFile) {
-	//		navigate('/gnsign', { replace: true })
-	//	}
-	//}, [draftFile])
-//
-	//useEffect(() => {
-	//	if (!makeSign) {
-	//		navigate('/gnsign/makesign', { replace: true })
-	//	}
-	//}, [makeSign])
 
 	const toggleTool = useCallback((e: MouseEvent) => {
 		const toolIndex = parseInt((e.currentTarget.getAttribute("data-tool") ?? '0'))
@@ -247,6 +232,7 @@ const SignDocument = () => {
 			navigate('/gnsign/download?status=error', { replace: true })
 		}
 		setDownloadCount(downloadCount + 1)
+		dispatch({ type: MODIFY_DRAFT, payload: '' })
 	}
 
 	const finishSignFlow = async (e: MouseEvent) => {
@@ -255,6 +241,7 @@ const SignDocument = () => {
 
 	const goLanding = useCallback((e: MouseEvent) => {
 		navigate('/gnsign', { replace: true })
+		dispatch({ type: MODIFY_DRAFT, payload: '' })
 	}, [navigate])
 
 	const checkDownloadCount = useCallback((e: MouseEvent) => {

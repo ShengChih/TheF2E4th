@@ -50,8 +50,8 @@ const SignBox = ({
 		boxRef.current!.focus()
 	}, [signBox, setMakeSignModule])
 
-	const handleBlur = (e: FocusEvent) => {
-		if (!e.currentTarget.contains(e.relatedTarget)){
+	const handleBlur = showMakeSignModule ? undefined: (e: FocusEvent) => {
+		if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget)){
 			cancleSignBox()
 		}
 	}
@@ -101,7 +101,7 @@ const SignBox = ({
 							{
 								signBox.map((dataUrl: string, index: number) => {
 									return (
-										<div className={flatClassName({
+										<div key={`sign-record-${index}`} className={flatClassName({
 											common: `flex flex-no-wrap items-center w-full`,
 											mobile: `sm:gap-x-[16px]`
 										})}>

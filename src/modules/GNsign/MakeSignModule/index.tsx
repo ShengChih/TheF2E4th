@@ -76,7 +76,6 @@ const MakeSignModule = ({
 		if (isImportMode && inputFileRef.current) {
 			inputFileRef.current.click()
 		}
-		e.preventDefault()
 	}
 
 	const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
