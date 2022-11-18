@@ -82,10 +82,6 @@ export default defineConfig(({ command }: ConfigEnv) => {
           replacement: '/src/api'
         },
         {
-          find: '@images',
-          replacement: '/src/images'
-        },
-        {
           find: '@animations',
           replacement: '/src/animations'
         },
@@ -104,6 +100,10 @@ export default defineConfig(({ command }: ConfigEnv) => {
         {
           find: '@features',
           replacement: '/src/features'
+        },
+        {
+          find: '@modules',
+          replacement: '/src/modules'
         },
       ]
     },

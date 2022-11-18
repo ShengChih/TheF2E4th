@@ -11,8 +11,8 @@ const SignPalette = ({
 	defaultColor
 }: SignPaletteProps) => (
 	<div className={flatClassName({
-		common: `absolute flex flex-no-wrap items-center justify-between`,
-		mobile: `sm:w-[150px] sm:h-[34px] sm:translate-y-[121px]`
+		common: `flex flex-no-wrap items-center justify-between`,
+		mobile: `sm:w-[150px] sm:h-[34px]`
 	})}>
 
 		<div

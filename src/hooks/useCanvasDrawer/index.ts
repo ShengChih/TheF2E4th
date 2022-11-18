@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, RefObject, MouseEvent, TouchEvent } from "react"
 import { movePostion, drawTracking, preprocessUploadImage, removeWhiteBg } from './draw'
 import WebWorker from './worker?worker'
-import { Position } from '@/type.d'
+import { Position, CallbackFunctionVariadicAnyReturn } from '@/type.d'
 import {
 	INIT_CANVAS,
 	MOVE_IN_CANVAS,
@@ -174,7 +174,7 @@ const useCanvasDrawer = (
 		}
 	}
 
-	const handleLoadImage = (inputImage: File, callback: (status: boolean) => any) => {
+	const handleLoadImage = (inputImage: File, callback?: CallbackFunctionVariadicAnyReturn) => {
 		createImageBitmap(inputImage).then((imgBitmap: ImageBitmap) => {
 			if (worker) {
 				new Promise((resolve, reject) => {
@@ -222,7 +222,7 @@ const useCanvasDrawer = (
 		})
 	}
 
-	const hanldeRemoveWhiteBg = (inputImage: File | Blob, callback: (status: boolean) => any) => {
+	const hanldeRemoveWhiteBg = (inputImage: File | Blob, callback?: CallbackFunctionVariadicAnyReturn) => {
 		createImageBitmap(inputImage).then((imgBitmap: ImageBitmap) => {
 			if (worker) {
 				new Promise((resolve, reject) => {

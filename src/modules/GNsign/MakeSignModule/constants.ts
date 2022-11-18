@@ -1,4 +1,4 @@
-import { ModeState } from './type.d'
+import { ModeState } from './type'
 
 export const HAND_WRITING: ModeState = {
 	mode: 'handwriting',

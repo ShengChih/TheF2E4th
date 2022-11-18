@@ -5,6 +5,8 @@ import ErrorPage from '@pages/ErrorPage'
 import MakeSign from '@pages/GNSign/MakeSign'
 import SignDocument from '@pages/GNSign/SignDocument'
 import DownloadStatus from '@pages/GNSign/DownloadStatus'
+import DocumentCheckRoute from "@routes/DocumentCheckRoute"
+
 
 const router = [
 	{
@@ -18,7 +20,9 @@ const router = [
 	},
 	{
 		path: "/gnsign/makesign",
-		element: <MakeSign />,
+		element: <DocumentCheckRoute>
+			<MakeSign />
+		</DocumentCheckRoute>,
 	},
 	{
 		path: "/gnsign/signdoc",
