@@ -1,4 +1,8 @@
-import React, { lazy, useEffect, useState, useRef, MouseEvent, useCallback, Suspense } from "react"
+import React, {
+	lazy,
+	useEffect, useState, useRef,
+	MouseEvent, useCallback, Suspense, ChangeEvent
+} from "react"
 import * as pdf from 'pdfjs-dist'
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.js?url'
 import { jsPDF } from 'jspdf'
@@ -18,6 +22,7 @@ import { SAVE_DRAFT, SAVE_SIGN } from '@features/gnsign/signs/sagaActions'
 
 import { Nullable } from '@/type.d'
 const ConfirmForm = lazy(() => import('@components/GNsign/ConfirmForm'))
+const TextBox = lazy(() => import('@components/GNsign/TextBox'))
 
 pdf.GlobalWorkerOptions.workerSrc = pdfWorker
 
@@ -44,6 +49,7 @@ const SignDocument = () => {
 	})
 	const [downloadCount, setDownloadCount] = useState<number>(0)
 	const [showConfirmForm, setConfirmForm] = useState<boolean>(false)
+	const [showTextBox, setTextBox] = useState<boolean>(false)
 	const [toolState, setToolState] = useState<number>(0)
 	const pdfDocumentProxy = useRef<Nullable<pdf.PDFDocumentProxy>>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -123,12 +129,12 @@ const SignDocument = () => {
 	//	}
 	//}, [makeSign])
 
-	const toggleTool = (e: MouseEvent) => {
+	const toggleTool = useCallback((e: MouseEvent) => {
 		const toolIndex = parseInt((e.currentTarget.getAttribute("data-tool") ?? '0'))
     setToolState((0 | 1 << toolIndex)) /** 按鈕互斥 */
-	}
+	}, [setToolState])
 
-	const getToolActiveClassName = (toolIndex: number) => {
+	const getToolActiveClassName = useCallback((toolIndex: number) => {
 		return (toolState & 1 << toolIndex)
 			? {
 				iconContainerClassName: `bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`,
@@ -140,15 +146,15 @@ const SignDocument = () => {
 				iconClassName: `fill-gnsign-gray`,
 				buttonClassName: `text-gnsign-gray`,
 			}
-	}
+	}, [toolState])
 
-	const clearFabricObjects = () => {
+	const clearFabricObjects = useCallback(() => {
 		let fabricObjects:fabric.Object[] = canvas!.getObjects() as fabric.Object[]
 
 		canvas!.remove(...fabricObjects)
-	}
+	}, [canvas])
 
-	const goPrevious = (e: MouseEvent) => {
+	const goPrevious = useCallback((e: MouseEvent) => {
 		if (pageState.current > 1) {
 			clearFabricObjects()
 			setPageState({
@@ -156,9 +162,9 @@ const SignDocument = () => {
 				current: pageState.current - 1
 			})
 		}
-	}
+	}, [setPageState, clearFabricObjects, pageState.current])
 
-	const goNext = (e: MouseEvent) => {
+	const goNext = useCallback((e: MouseEvent) => {
 		if (pageState.current < pageState.maxPage) {
 			clearFabricObjects()
 			setPageState({
@@ -166,9 +172,9 @@ const SignDocument = () => {
 				current: pageState.current + 1
 			})
 		}
-	}
+	}, [setPageState, clearFabricObjects, pageState.current])
 
-	const insertSign = (e: MouseEvent) => {
+	const insertSign = useCallback((e: MouseEvent) => {
 		const img = document.createElement('img')
 		img.onload = () => {
 			canvas!.add(new fabric.Image(img, {
@@ -182,28 +188,24 @@ const SignDocument = () => {
 		}
 		img.src = makeSign
 		toggleTool(e)
-	}
+	}, [canvas, toggleTool])
 
-	const insertText = useCallback((e: MouseEvent) => {
-		let text = prompt("輸入文字")
-		if (text != null && text != "") {
-			canvas!.add(new fabric.IText(text))
-		}
-		toggleTool(e)
+	const insertText = useCallback((textBoxMessage: string) => {
+		canvas!.add(new fabric.IText(textBoxMessage))
 	}, [canvas])
 
 	const insertDate = useCallback((e: MouseEvent) => {
 		canvas!.add(new fabric.IText(new Date().toISOString().split('T')[0]))
 		toggleTool(e)
-	}, [canvas])
+	}, [canvas, toggleTool])
 
-	const mergeModified = (e: MouseEvent) => {
+	const mergeModified = useCallback((e: MouseEvent) => {
 		imageUrlsRef.current[pageState.current - 1] = canvas!.toDataURL({
 			format: 'png',
 			quality: 1
 		})
 		toggleTool(e)
-	}
+	}, [canvas, toggleTool])
 
 	const downalodFile = async (e: MouseEvent) => {
 		try {
@@ -244,23 +246,34 @@ const SignDocument = () => {
 		setSave(true)
 	}
 
-	const checkDownloadCount = (e: MouseEvent) => {
+	const goLanding = useCallback((e: MouseEvent) => {
+		navigate('/gnsign', { replace: true })
+	}, [navigate])
+
+	const checkDownloadCount = useCallback((e: MouseEvent) => {
 		e.preventDefault()
 		if (downloadCount > 0) {
 			goLanding(e)
 			return
 		}
 		setConfirmForm(true)
-	}
+	}, [setConfirmForm, goLanding])
 
-	const cancleConfirmForm = (e: MouseEvent) => {
+	const cancleConfirmForm = useCallback((e: MouseEvent) => {
 		e.preventDefault()
 		setConfirmForm(false)
-	}
+	}, [setConfirmForm])
 
-	const goLanding = (e: MouseEvent) => {
-		navigate('/gnsign', { replace: true })
-	}
+	const displayTextBox = useCallback((e: MouseEvent) => {
+		setTextBox(true)
+		toggleTool(e)
+		e.preventDefault()
+	}, [setTextBox, toggleTool])
+
+	const cancleTextBox = useCallback((e: MouseEvent) => {
+		e.preventDefault()
+		setTextBox(false)
+	}, [setTextBox])
 
 	const toolProps: ToolButtonProps[] = [
 		{
@@ -276,7 +289,7 @@ const SignDocument = () => {
 		{
 			iconName: 'text',
 			buttonText: '插入文字',
-			handleClick: insertText
+			handleClick: displayTextBox
 		},
 		{
 			iconName: 'check',
@@ -390,6 +403,16 @@ const SignDocument = () => {
 				}
 				</div>
 		</div>
+		<Suspense fallback={<p className={`hidden`}></p>}>
+			<div className={flatClassName({
+				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${showTextBox ? "":"hidden"}`
+			})}>
+				<TextBox
+					handleInsert={insertText}
+					handleCancel={cancleTextBox}
+				/>
+			</div>
+		</Suspense>
 		<Suspense fallback={<p className="hidden"></p>}>
 			<div className={flatClassName({
 				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${showConfirmForm ? "":"hidden"}`

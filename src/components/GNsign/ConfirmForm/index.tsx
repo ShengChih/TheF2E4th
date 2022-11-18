@@ -18,7 +18,7 @@ const ConfirmForm = ({
 }: ConfirmFormProps) => {
 	return (
 		<div className={flatClassName({
-			common: `flex flex-col items-center bg-white rounded-[26px]`,
+			common: `flex flex-col items-center bg-gnsign-background rounded-[26px]`,
 			mobile: `sm:w-[343px] sm:h-[156px] sm:py-[23px] sm:gap-y-[28px] `
 		})}>
 			<p className={flatClassName({
