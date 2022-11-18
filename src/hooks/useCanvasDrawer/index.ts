@@ -175,6 +175,7 @@ const useCanvasDrawer = (
 	}
 
 	const handleLoadImage = (inputImage: File, callback?: CallbackFunctionVariadicAnyReturn) => {
+		setDrawing(true)
 		createImageBitmap(inputImage).then((imgBitmap: ImageBitmap) => {
 			if (worker) {
 				new Promise((resolve, reject) => {
@@ -223,6 +224,7 @@ const useCanvasDrawer = (
 	}
 
 	const hanldeRemoveWhiteBg = (inputImage: File | Blob, callback?: CallbackFunctionVariadicAnyReturn) => {
+		setDrawing(true)
 		createImageBitmap(inputImage).then((imgBitmap: ImageBitmap) => {
 			if (worker) {
 				new Promise((resolve, reject) => {

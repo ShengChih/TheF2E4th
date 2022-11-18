@@ -1,4 +1,4 @@
-import { lazy, memo, useEffect, useState, useCallback, useRef, MouseEvent, Suspense } from 'react'
+import { lazy, memo, useEffect, useState, useCallback, useRef, MouseEvent, FocusEvent, Suspense } from 'react'
 import { flatClassName } from '@utils/reduce'
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { SAVE_DRAFT, SAVE_SIGN_BOX } from '@features/gnsign/signs/sagaActions'
@@ -9,8 +9,15 @@ type ImageUrls = {
 	[key:string]: HTMLImageElement
 }
 
-const SignBox = () => {
+type SignBoxProps = {
+	cancleSignBox: () => void
+}
+
+const SignBox = ({
+	cancleSignBox
+}:SignBoxProps) => {
 	const dispatch = useAppDispatch()
+	const boxRef = useRef<HTMLDivElement>(null)
 	const imageUrls = useRef<ImageUrls>({})
 	const signBox = useAppSelector(selectSignBox)
 	const [showMakeSignModule, setMakeSignModule] = useState<boolean>(false)
@@ -38,7 +45,14 @@ const SignBox = () => {
 			)
 			setMakeSignModule(false)
 		})()
+		boxRef.current!.focus()
 	}, [signBox, setMakeSignModule])
+
+	const handleBlur = (e: FocusEvent) => {
+		if (!e.currentTarget.contains(e.relatedTarget)){
+			cancleSignBox()
+		}
+	}
 
 	const getHandleDeleteSign = (signIndex: number) => {
 		return (e: MouseEvent) => {
@@ -59,7 +73,7 @@ const SignBox = () => {
 	}
 
 	return (
-		<div className={flatClassName({
+		<div tabIndex={0} ref={boxRef} onBlur={handleBlur} className={flatClassName({
 			common: `relative h-max flex flex-col items-center bg-gnsign-background rounded-[26px]`,
 			mobile: `sm:w-[343px] sm:p-[16px] sm:gap-y-[12px]`
 		})}>

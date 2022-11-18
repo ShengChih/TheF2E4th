@@ -167,16 +167,16 @@ const MakeSignModule = ({
 					onClick={changeMode}
 					data-mode={HAND_WRITING.mode}
 					className={flatClassName({
-						common: `flex flex-1 items-center justify-center grow h-full bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh rounded-[14px] text-white`,
-						mobile: `sm:text-[16px] sm:leading-[23px]`
+						common: `flex flex-1 items-center justify-center grow h-full ${!isImportMode ? 'bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh  text-white': 'bg-white text-gnsign-green'}`,
+						mobile: `sm:text-[16px] sm:leading-[23px] sm:rounded-[14px]`
 					})}
 				>手寫簽名</div>
 				<div
 					onClick={changeMode}
 					data-mode={IMPORT_SIGN.mode}
 					className={flatClassName({
-						common: `flex flex-1 items-center justify-center grow h-full text-gnsign-green `,
-						mobile: `sm:text-[16px] sm:leading-[23px]`
+						common: `flex flex-1 items-center justify-center grow h-full ${isImportMode ? 'bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh  text-white': 'bg-white text-gnsign-green'}`,
+						mobile: `sm:text-[16px] sm:leading-[23px] sm:rounded-[14px]`
 					})}
 				>匯入簽名檔</div>
 			</div>

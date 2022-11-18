@@ -182,9 +182,8 @@ const SignDocument = () => {
 		e.preventDefault()
 	}
 
-	const cancleSignBox = (e: MouseEvent) => {
+	const cancleSignBox = () => {
 		setSignBox(false)
-		e.preventDefault()
 	}
 
 	const insertSign = useCallback((e: MouseEvent) => {
@@ -419,7 +418,7 @@ const SignDocument = () => {
 				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${showSignBox || showTextBox || showConfirmForm ? "":"hidden"}`
 		})}>
 			<Suspense fallback={<p className={`hidden`}></p>}>
-				{ showSignBox ? <SignBox /> : '' }
+				{ showSignBox ? <SignBox cancleSignBox={cancleSignBox} /> : '' }
 				{ showTextBox ? <TextBox
 					handleInsert={insertText}
 					handleCancel={cancleTextBox}
