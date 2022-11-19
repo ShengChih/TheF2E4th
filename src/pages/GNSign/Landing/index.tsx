@@ -21,14 +21,13 @@ import { UPLOAD_FILE } from '@features/gnsign/files/sagaActions'
 import { SAVE_TO_HISTORY } from '@features/gnsign/histories/sagaActions'
 
 
-import MB_Drawstring from './images/mobile/drawstring.png'
-import MB_Grass from './images/mobile/grass.png'
+import MB_Greenlive from './images/mobile/green_live.png'
 import MB_Logo from './images/mobile/logo.png'
-import MB_People1 from './images/mobile/people1.png'
-import MB_People2 from './images/mobile/people2.png'
-import MB_People3 from './images/mobile/people3.png'
 import MB_Watermark from './images/mobile/watermark.png'
-import MB_Plant from './images/mobile/plant.png'
+
+import TB_Greenlive from './images/tablet/green_live.png'
+import TB_Logo from './images/tablet/logo.png'
+import TB_Watermark from './images/tablet/watermark.png'
 
 import { ToastState } from './type'
 import {
@@ -52,12 +51,10 @@ const GNSign = () => {
 	const { imagesPreloaded } = useImagePreloader([
 		MB_Logo,
 		MB_Watermark,
-		MB_Drawstring,
-		MB_Grass,
-		MB_People1,
-		MB_People2,
-		MB_People3,
-		MB_Plant
+		MB_Greenlive,
+		TB_Logo,
+		TB_Watermark,
+		TB_Greenlive,
 	])
 
 	const navigate = useNavigate()
@@ -178,18 +175,23 @@ const GNSign = () => {
 				<div className={flatClassName({
 					common: `w-screen h-screen relative bg-gnsign-background flex flex-col items-center`
 				})}>
-		
 					<div className={flatClassName({
 						common: `flex justify-between`,
-						mobile: `sm:w-[299px] sm:h-[64.95px] sm:mt-[21px] sm:mb-[14.05px]`
+						mobile: `sm:w-[299px] sm:h-[64.95px] sm:mt-[26.05px] sm:mb-[12px]`,
+						tablet: `md:w-[517px] md:h-[87.57px] md:mt-[26.05px] md:mb-[21.38px]`
 					})}>
 						<div className={flatClassName({
 							common: `relative self-start`,
-							mobile: `sm:w-[88.21px] sm:h-[59.35px]`
+							mobile: `sm:w-[88.21px] sm:h-[59.35px]`,
+							tablet: `md:w-[130.75px] md:h-[87.57px]`,
 						})}>
 							<MultipleImageSources
 								aliasName={`GNSign`}
 								mediaImages={[
+									{
+										minWidth: 768,
+										imageSrc: TB_Logo
+									},
 									{
 										minWidth: 375,
 										imageSrc: MB_Logo
@@ -198,8 +200,8 @@ const GNSign = () => {
 								imageElementProps={{
 									src: MB_Logo,
 									className: 'w-full h-full object-contain',
-									srcSet: `${MB_Logo} 375w`,
-									sizes: `(min-width: 375px) 88.21px`
+									srcSet: `${MB_Logo} 375w, ${TB_Logo} 375w`,
+									sizes: `(min-width: 375px) 88.21px, (min-width: 768px) 130.75px`
 								}}
 							/>
 						</div>
@@ -207,21 +209,28 @@ const GNSign = () => {
 							onClick={gotoHistory}
 							className={flatClassName({
 								common: `self-end font-normal font-sans text-gnsign-black underline`,
-								mobile: `sm:text-[18px] sm:leading-[32px] sm:leading-[26px]`
+								mobile: `sm:text-[18px] sm:leading-[32px] sm:leading-[26px]`,
+								tablet: `md:text-[18px] md:leading-[32px] md:leading-[26px]`
 							})}
 						>歷史記錄</div>
 					</div>
 					<div className={flatClassName({
 						common: `flex flex-col items-center bg-white border-dashed rounded-[26px] border-gnsign-gray border-2 box-border`,
-						mobile: `sm:w-[299px] sm:h-[384px]`
+						mobile: `sm:w-[299px] sm:h-[384px]`,
+						tablet: `md:w-[547px] md:h-[567px]`
 					})}>
 						<div className={flatClassName({
 							common: `absolute`,
-							mobile: `sm:w-[134px] sm:h-[110px] sm:translate-y-[48.5px]`
+							mobile: `sm:w-[134px] sm:h-[110px] sm:translate-y-[48.5px]`,
+							tablet: `md:w-[225px] md:h-[183px] md:translate-y-[78.5px]`
 						})}>
 							<MultipleImageSources
 								aliasName={`Watermark`}
 								mediaImages={[
+									{
+										minWidth: 768,
+										imageSrc: TB_Watermark
+									},
 									{
 										minWidth: 375,
 										imageSrc: MB_Watermark
@@ -230,14 +239,15 @@ const GNSign = () => {
 								imageElementProps={{
 									src: MB_Watermark,
 									className: 'w-full h-full object-contain',
-									srcSet: `${MB_Watermark} 375w`,
-									sizes: `(min-width: 375px) 299px`
+									srcSet: `${MB_Watermark} 375w, ${TB_Watermark} 768w`,
+									sizes: `(min-width: 375px) 134px,(min-width: 768px) 225px`
 								}}
 							/>
 						</div>
 						<div className={flatClassName({
 							common: `flex flex-col absolute bg-white`,
-							mobile: `sm:w-[209px] sm:h-[95px] sm:gap-y-[15px] sm:translate-y-[178.5px]`
+							mobile: `sm:w-[209px] sm:h-[95px] sm:gap-y-[15px] sm:translate-y-[178.5px]`,
+							tablet: `md:w-[360px] md:h-[110px] md:gap-y-[15px] md:translate-y-[296.5px]`
 						})}>
 							<input
 								ref={inputFileRef}
@@ -249,141 +259,42 @@ const GNSign = () => {
 								onClick={handleSelectedFileButton}
 								className={flatClassName({
 									common: `font-sans font-normal text-white flex items-center justify-center w-full bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh rounded-[16px]`,
-									mobile: `sm:text-[18px] sm:leading-[26px] sm:w-[209px] sm:h-[60px]`
+									mobile: `sm:text-[18px] sm:leading-[26px] sm:w-[209px] sm:h-[60px]`,
+									tablet: `md:text-[18px] md:leading-[26px] md:w-[360px] md:h-[75px]`,
 								})}
 							>選擇檔案</button>
 							<p className={flatClassName({
 								common: `flex justify-center font-sans font-normal bg-clip-text bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh text-fill-transparent`,
-								mobile: `sm:text-[14px] sm:leading-[20px]`
+								mobile: `sm:text-[14px] sm:leading-[20px]`,
+								tablet: `md:text-[14px] md:leading-[20px]`,
 							})}>(限10MB 內的PDF或JPG檔)</p>
 						</div>
 		
 		
 						<div className={flatClassName({
 							common: `absolute top-0`,
-							mobile: `sm:w-[362px] sm:h-[228px] sm:translate-x-[2.5px] sm:translate-y-[412px]`
+							mobile: `sm:w-[362px] sm:h-[228px] sm:translate-x-[2.5px] sm:translate-y-[412px]`,
+							tablet: `md:w-[696px] md:h-[438px] md:translate-x-[-4px] md:translate-y-[549px]`
 						})}>
-							<div className={flatClassName({
-								common: `absolute`,
-								mobile: `sm:w-[355px] sm:h-[59px] sm:translate-x-[7px] sm:translate-y-[169px]`
-							})}>
-								<MultipleImageSources
-									aliasName={`Grass`}
-									mediaImages={[
-										{
-											minWidth: 375,
-											imageSrc: MB_Grass
-										}
-									]}
-									imageElementProps={{
-										src: MB_Grass,
-										className: 'w-full h-full object-contain',
-										srcSet: `${MB_Grass} 375w`,
-										sizes: `(min-width: 375px) 355px`
-									}}
-								/>
-							</div>
-							<div className={flatClassName({
-								common: `absolute`,
-								mobile: `sm:w-[142px] sm:h-[202px] sm:translate-x-0 sm:translate-y-0`
-							})}>
-								<MultipleImageSources
-									aliasName={`People1`}
-									mediaImages={[
-										{
-											minWidth: 375,
-											imageSrc: MB_People1
-										}
-									]}
-									imageElementProps={{
-										src: MB_People1,
-										className: 'w-full h-full object-contain',
-										srcSet: `${MB_People1} 375w`,
-										sizes: `(min-width: 375px) 142px`
-									}}
-								/>
-							</div>
-							<div className={flatClassName({
-								common: `absolute`,
-								mobile: `sm:w-[97px] sm:h-[164px] sm:translate-x-[124px] sm:translate-y-[45px]`
-							})}>
-								<MultipleImageSources
-									aliasName={`People2`}
-									mediaImages={[
-										{
-											minWidth: 375,
-											imageSrc: MB_People2
-										}
-									]}
-									imageElementProps={{
-										src: MB_People2,
-										className: 'w-full h-full object-contain',
-										srcSet: `${MB_People2} 375w`,
-										sizes: `(min-width: 375px) 97px`
-									}}
-								/>
-							</div>
-							<div className={flatClassName({
-								common: `absolute`,
-								mobile: `sm:w-[76px] sm:h-[127px] sm:translate-x-[205px] sm:translate-y-[82px]`
-							})}>
-								<MultipleImageSources
-									aliasName={`Plant`}
-									mediaImages={[
-										{
-											minWidth: 375,
-											imageSrc: MB_Plant
-										}
-									]}
-									imageElementProps={{
-										src: MB_Plant,
-										className: 'w-full h-full object-contain',
-										srcSet: `${MB_Plant} 375w`,
-										sizes: `(min-width: 375px) 76px`
-									}}
-								/>
-							</div>
-							<div className={flatClassName({
-								common: `absolute`,
-								mobile: `sm:w-[21px] sm:h-[27px] sm:translate-x-[251px] sm:translate-y-[187px]`
-							})}>
-								<MultipleImageSources
-									aliasName={`Drawstring`}
-									mediaImages={[
-										{
-											minWidth: 375,
-											imageSrc: MB_Drawstring
-										}
-									]}
-									imageElementProps={{
-										src: MB_Drawstring,
-										className: 'w-full h-full object-contain',
-										srcSet: `${MB_Drawstring} 375w`,
-										sizes: `(min-width: 375px) 21px`
-									}}
-								/>
-							</div>
-							<div className={flatClassName({
-								common: `absolute`,
-								mobile: `sm:w-[108px] sm:h-[188px] sm:translate-x-[239px] sm:translate-y-[7px]`
-							})}>
-								<MultipleImageSources
-									aliasName={`People3`}
-									mediaImages={[
-										{
-											minWidth: 375,
-											imageSrc: MB_People3
-										}
-									]}
-									imageElementProps={{
-										src: MB_People3,
-										className: 'w-full h-full object-contain',
-										srcSet: `${MB_People3} 375w`,
-										sizes: `(min-width: 375px) 108px`
-									}}
-								/>
-							</div>
-							
+							<MultipleImageSources
+								aliasName={`Green live`}
+								mediaImages={[
+									{
+										minWidth: 768,
+										imageSrc: TB_Greenlive
+									},
+									{
+										minWidth: 375,
+										imageSrc: MB_Greenlive
+									}
+								]}
+								imageElementProps={{
+									src: MB_Greenlive,
+									className: 'w-full h-full object-contain',
+									srcSet: `${MB_Greenlive} 375w, ${TB_Greenlive} 768w`,
+									sizes: `(min-width: 375px) 362px, (min-width: 768px) 696px`
+								}}
+							/>
 						</div>
 					</div>
 					<Footer className={flatClassName({
