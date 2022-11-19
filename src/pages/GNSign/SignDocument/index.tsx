@@ -428,8 +428,9 @@ const SignDocument = () => {
 					? (<button
 						onClick={downalodFile}
 						className={flatClassName({
-						common: ` text-white font-sans font-normal  flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`,
-						mobile: ` sm:text-[18px] sm:leading-[26px] sm:w-[260px] sm:h-[56px] sm:rounded-[16px]`
+						common: `text-white font-sans font-normal  flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`,
+						mobile: `sm:text-[18px] sm:leading-[26px] sm:w-[260px] sm:h-[56px] sm:rounded-[16px]`,
+						tablet: `md:text-[18px] md:leading-[26px] md:w-[260px] md:h-[56px] md:rounded-[16px]`
 					})}>儲存</button>)
 					: (
 						<div className={flatClassName({

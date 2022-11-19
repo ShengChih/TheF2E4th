@@ -159,7 +159,7 @@ const MakeSignModule = ({
 		: flatClassName({
 			common: `flex flex-no-wrap justify-between`,
 			mobile: `sm:w-[284px] sm:h-[56px] sm:gap-x-[12px]`,
-			tablet: `md:w-[357px] md:h-[56px] md:gap-x-[12px]`,
+			tablet: `md:w-[284px] md:h-[56px] md:gap-x-[12px]`,
 		})
 
 	const CanvasContainerClassName = isPageContent
