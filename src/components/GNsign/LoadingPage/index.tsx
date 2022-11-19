@@ -10,10 +10,15 @@ export * from './type.d'
 const GNsignLoadingPage = memo(({ className, text }: { className?: string, text: string }) => {
 	return (
 		<LoadingPage
-			loadingImg={<img src={MB_Loading} className={`absolute sm:translate-y-[176px]`} />}
+			loadingImg={<img src={MB_Loading} className={flatClassName({
+				common: `absolute`,
+				mobile: `sm:translate-y-[176px]`,
+				tablet: `md:translate-y-[176px]`,
+			})} />}
 			content={<p className={flatClassName({
 				common: `absolute`,
-				mobile: `sm:translate-y-[308px]`
+				mobile: `sm:translate-y-[308px]`,
+				tablet: `md:translate-y-[308px]`,
 			})}>{text}</p>}
 			className={flatClassName({
 				common: `w-screen h-screen bg-gnsign-background absolute inset-0 flex justify-center ${className}`,
