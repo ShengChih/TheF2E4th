@@ -107,16 +107,17 @@ const useCanvasDrawer = (
 	}
 
 	const handleMouseMove = (e: MouseEvent) => {
+		if (!isDrawing) {
+			return
+		}
 		const pos = getMousePos(e)
 		if (worker) {
-			setDrawing(true)
 			worker.postMessage({
 				type: DRAW_IN_CANVAS,
 				postion: pos,
 				defaultColor: defaultColor
 			})
 		} else if (context) {
-			setDrawing(true)
 			drawTracking(context, pos, defaultColor)
 		}
 	}
@@ -142,6 +143,9 @@ const useCanvasDrawer = (
   }
 
 	const handleTouchMove = (e: TouchEvent) => {
+		if (!isDrawing) {
+			return
+		}
 		const pos = getTouchPos(e)
 
     if (worker) {
