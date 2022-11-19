@@ -12,7 +12,7 @@ import useCheckScreen from '@hooks/useCheckScreen'
 export * from './constants'
 export * from './type.d'
 
-const GNsignLoadingPage = memo(({ className, text }: { className?: string, text: string }) => {
+const GNsignLoadingPage = memo(({ isLoading, text }: { isLoading: boolean, text: string }) => {
 	const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
 
 	return (<>
@@ -28,11 +28,11 @@ const GNsignLoadingPage = memo(({ className, text }: { className?: string, text:
 				tablet: `md:translate-y-[308px]`,
 			})}>{text}</p>}
 			className={flatClassName({
-				common: `w-screen h-screen bg-gnsign-background absolute inset-0 flex justify-center ${className}`,
+				common: `w-screen h-screen bg-gnsign-background absolute inset-0 flex justify-center ${isLoading ? '':'hidden'}`,
 			})}
 		/>
 		{
-			isDesktop ? (<>
+			isDesktop ? (<div className={isLoading ? '':'hidden'}>
 				<img className={flatClassName({
 					desktop: `xl:w-[122px] xl:h-[255px] absolute top-0 right-0`
 				})} src={PC_LeaveRightTop} />
@@ -42,7 +42,7 @@ const GNsignLoadingPage = memo(({ className, text }: { className?: string, text:
 				<img className={flatClassName({
 					desktop: `xl:w-[150px] xl:h-[305px] absolute bottom-0 left-0`
 				})} src={PC_LeaveBottomLeft} />
-			</>): ''
+			</div>): ''
 		}
 	</>)
 })

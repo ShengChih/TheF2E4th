@@ -437,7 +437,7 @@ const GNSign = () => {
 				onConfirm={handleConfirmToast}
 			></Toast>
 		</div>
-		<GNsignLoadingPage className={`${loadingState.isLoading ? '': 'hidden'}`} text={loadingState.loadingText} />
+		<GNsignLoadingPage isLoading={loadingState.isLoading} text={loadingState.loadingText} />
 	</>)
 }
 

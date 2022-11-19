@@ -56,7 +56,7 @@ const MakeSign = () => {
 				isPageContent={true}
 			/>
 		</div>
-		<GNsignLoadingPage className={`${loadingState.isLoading ? '': 'hidden'}`} text={'簽名優化中...'} />
+		<GNsignLoadingPage isLoading={loadingState.isLoading} text={'簽名優化中...'} />
 	</>)
 }
 
