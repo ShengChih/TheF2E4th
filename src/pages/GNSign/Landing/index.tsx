@@ -18,7 +18,7 @@ import GNsignLoadingPage, { LoadingPageState, InitLoadingState} from "@component
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { selectDraftFile } from '@features/gnsign/files/selector'
 import { UPLOAD_FILE } from '@features/gnsign/files/sagaActions'
-import { SAVE_TO_HISTORY } from '@features/gnsign/histories/sagaActions'
+// import { SAVE_TO_HISTORY } from '@features/gnsign/histories/sagaActions'
 
 
 import MB_Greenlive from './images/mobile/green_live.png'

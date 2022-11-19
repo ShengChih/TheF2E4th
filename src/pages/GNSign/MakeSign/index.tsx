@@ -4,13 +4,11 @@ import {
 	useCallback,
 } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { flatClassName } from "@utils/reduce"
-import { getCheckFileFunc } from '@utils/validation'
-
-import { useAppDispatch, useAppSelector } from "@/hooks"
-
+import { useAppSelector } from "@/hooks"
+import useCheckScreen from '@hooks/useCheckScreen'
+import { deviceWidth } from '@utils/config'
 import GNsignLoadingPage, { InitLoadingState } from "@components/GNsign/LoadingPage"
-import { selectDraftSign, selectMakeSign } from '@features/gnsign/signs/selector'
+import { selectMakeSign } from '@features/gnsign/signs/selector'
 import { selectDraftFile } from '@features/gnsign/files/selector'
 import MakeSignModule from '@modules/GNsign/MakeSignModule'
 
@@ -19,6 +17,8 @@ const MakeSign = () => {
 	const makeSign = useAppSelector(selectMakeSign)
 	const draftFile = useAppSelector(selectDraftFile)
 	const navigate = useNavigate()
+	const [_, isMobile] = useCheckScreen(deviceWidth)
+	const [canvasWidth, canvasHeight] = isMobile ? [343, 200] : [590, 224]
 
 	useEffect(() => {
 		setLoadingState({
@@ -49,8 +49,8 @@ const MakeSign = () => {
 	return (<>
 		<div className={`font-sans font-normal w-screen h-screen bg-gnsign-background flex justify-center`}>
 			<MakeSignModule
-				canvasWidth={343}
-				canvasHeight={200}
+				canvasWidth={canvasWidth}
+				canvasHeight={canvasHeight}
 				doLoading={doLoading}
 				cancelLoading={cancelLoading}
 				isPageContent={true}
