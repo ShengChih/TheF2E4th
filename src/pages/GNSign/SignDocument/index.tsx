@@ -1,13 +1,15 @@
 import React, {
 	lazy,
 	useEffect, useState, useRef,
-	MouseEvent, useCallback, Suspense, ChangeEvent
+	MouseEvent, useCallback, Suspense
 } from "react"
 import * as pdf from 'pdfjs-dist'
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.js?url'
 import { jsPDF } from 'jspdf'
 import { useNavigate } from 'react-router-dom'
 import { fabric } from 'fabric'
+import { v4 as uuidv4 } from 'uuid'
+
 
 import { flatClassName } from "@utils/reduce"
 import { convertDataURIToBinary } from '@utils/converter'
@@ -17,8 +19,11 @@ import ToolButton, { ToolButtonProps } from "@components/GNsign/ToolButton"
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { selectDraftFile } from '@features/gnsign/files/selector'
 import { MODIFY_DRAFT } from '@features/gnsign/files/sagaActions'
+import { SAVE_TO_HISTORY } from '@features/gnsign/histories/sagaActions'
 
 import { Nullable } from '@/type.d'
+import { FileInfo } from '@features/gnsign/type.d'
+
 const ConfirmForm = lazy(() => import('@components/GNsign/ConfirmForm'))
 const TextBox = lazy(() => import('@components/GNsign/TextBox'))
 const SignBox = lazy(() => import('@components/GNsign/SignBox'))
@@ -38,7 +43,7 @@ type ImageUrlRef = Object & {
 const SignDocument = () => {
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
-	const draftFile = useAppSelector(selectDraftFile)
+	const draftFile: FileInfo = useAppSelector(selectDraftFile)
 	const [showSave, setSave] = useState<boolean>(false)
 	const [loadingState, setLoadingState] = useState(InitLoadingState)
 	const [canvas, setCanvas] = useState<Nullable<fabric.Canvas>>(null)
@@ -64,7 +69,7 @@ const SignDocument = () => {
 				isLoading: true
 			})
 
-			const pdfAsArray = convertDataURIToBinary(draftFile)
+			const pdfAsArray = convertDataURIToBinary(draftFile.url)
 			const pdfDocument = await pdf.getDocument(pdfAsArray).promise
 			pdfDocumentProxy.current = pdfDocument
 
@@ -190,7 +195,7 @@ const SignDocument = () => {
 	}, [canvas])
 
 	const insertDate = useCallback((e: MouseEvent) => {
-		canvas!.add(new fabric.IText(new Date().toISOString().split('T')[0]))
+		canvas!.add(new fabric.IText(new Date((+new Date() + (60 * 60 * 8 * 1000))).toISOString().split('T')[0]))
 		toggleTool(e)
 	}, [canvas, toggleTool])
 
@@ -243,7 +248,17 @@ const SignDocument = () => {
 			if (length > 0) {
 				doc.deletePage(1)
 			}
-			doc.save("test.pdf")
+
+			dispatch({ type: SAVE_TO_HISTORY, payload: {
+				fileId: uuidv4(),
+				filename: draftFile.filename,
+				url: doc.output('datauristring'),
+				ctime: new Date((+new Date() + (60 * 60 * 8 * 1000))),
+				mtime: new Date((+new Date() + (60 * 60 * 8 * 1000)))
+			}})
+			/** 超鬆散寫 */
+			doc.save(`${draftFile.filename}.pdf`.replaceAll(/\.pdf\.pdf/g, '.pdf'))
+			
 			navigate('/gnsign/download?status=success', { replace: true })
 		} catch (error) {
 			navigate('/gnsign/download?status=error', { replace: true })

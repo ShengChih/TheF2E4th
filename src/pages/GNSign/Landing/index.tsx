@@ -7,7 +7,7 @@ import {
   ChangeEvent
 } from "react"
 import { useNavigate } from 'react-router-dom'
-
+import { v4 as uuidv4 } from 'uuid'
 import { deviceWidth } from '@utils/config'
 import { flatClassName } from '@utils/reduce'
 import { getCheckFileFunc } from '@utils/validation'
@@ -18,6 +18,7 @@ import GNsignLoadingPage, { LoadingPageState, InitLoadingState} from "@component
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { selectDraftFile } from '@features/gnsign/files/selector'
 import { UPLOAD_FILE } from '@features/gnsign/files/sagaActions'
+import { SAVE_TO_HISTORY } from '@features/gnsign/histories/sagaActions'
 
 
 import MB_Drawstring from './images/mobile/drawstring.png'
@@ -123,22 +124,50 @@ const GNSign = () => {
 			isLoading: true
 		})
 		const file = e.target.files[0];
+		const fileInfo = {
+			fileId: uuidv4(),
+			filename: file.name,
+			ctime: new Date((+new Date() + (60 * 60 * 8 * 1000))),
+			mtime: new Date((+new Date() + (60 * 60 * 8 * 1000)))
+		}
 
 		if (file.type === 'image/jpeg' || file.type === 'image/png') {
 			dispatch({
 				type: UPLOAD_FILE,
-				payload: window.URL.createObjectURL(file)
+				payload: {
+					url: window.URL.createObjectURL(file),
+					...fileInfo
+				}
 			})
+			//dispatch({ type: SAVE_TO_HISTORY, payload: {
+			//	url: window.URL.createObjectURL(file),
+			//	...fileInfo,
+			//	ctime: new Date((+new Date() - (60 * 60 * 24 * 365 * 1000))),
+			//	mtime: new Date((+new Date() - (60 * 60 * 24 * 365 * 1000))),
+			//}})
 		} else if (file.type === 'application/pdf') {
 			const fileReader = new FileReader()
 			fileReader.onload = () => {
 				dispatch({
 					type: UPLOAD_FILE,
-					payload: fileReader.result
+					payload: {
+						url: fileReader.result,
+						...fileInfo
+					}
 				})
+				//dispatch({ type: SAVE_TO_HISTORY, payload: {
+				//	url: fileReader.result,
+				//	...fileInfo,
+				//	ctime: new Date((+new Date() - (60 * 60 * 24 * 365 * 1000))),
+				//	mtime: new Date((+new Date() - (60 * 60 * 24 * 365 * 1000))),
+				//}})
 			}
 			fileReader.readAsDataURL(file)
 		}
+	}
+
+	const gotoHistory = (e: MouseEvent) => {
+		navigate('/gnsign/history', { replace: true })
 	}
 
 	return (<>
@@ -174,10 +203,13 @@ const GNSign = () => {
 								}}
 							/>
 						</div>
-						<div className={flatClassName({
-							common: `self-end font-normal font-sans text-gnsign-black underline`,
-							mobile: `sm:text-[18px] sm:leading-[32px] sm:leading-[26px]`
-						})}>歷史記錄</div>
+						<div
+							onClick={gotoHistory}
+							className={flatClassName({
+								common: `self-end font-normal font-sans text-gnsign-black underline`,
+								mobile: `sm:text-[18px] sm:leading-[32px] sm:leading-[26px]`
+							})}
+						>歷史記錄</div>
 					</div>
 					<div className={flatClassName({
 						common: `flex flex-col items-center bg-white border-dashed rounded-[26px] border-gnsign-gray border-2 box-border`,
@@ -221,7 +253,7 @@ const GNSign = () => {
 								})}
 							>選擇檔案</button>
 							<p className={flatClassName({
-								common: `flex justify-center font-sans font-normal bg-clip-text bg-gradient-to-b	from-gnsign-greenl to-gnsign-greenh text-fill-transparent`,
+								common: `flex justify-center font-sans font-normal bg-clip-text bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh text-fill-transparent`,
 								mobile: `sm:text-[14px] sm:leading-[20px]`
 							})}>(限10MB 內的PDF或JPG檔)</p>
 						</div>

@@ -1,10 +1,9 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 import { UploadFilePayload  } from './type.d'
 import { save, modify } from './reducer'
 
 import {
 	UPLOAD_FILE,
-	DOWNLOAD_FILE,
 	MODIFY_DRAFT
 } from './sagaActions'
 

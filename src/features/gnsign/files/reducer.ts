@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { FilesState } from './type.d'
 
 const initialState: FilesState = {
-  origin: '',
-	draft: ''
+  origin: undefined,
+	draft: undefined
 }
 
 export const filesSlice = createSlice({
