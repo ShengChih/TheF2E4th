@@ -53,7 +53,7 @@ const DeviceRequiredImageList = [
   [],
   [MB_Logo, MB_Watermark, MB_Greenlive], // mobile
   [TB_Logo, TB_Watermark, TB_Greenlive], // tablet
-  [], // 1280 Desktop
+  [PC_Logo, PC_Greenlive, PC_LeaveBottomLeft, PC_LeaveRightTop, PC_GrassLeft, PC_Watermark], // 1280 Desktop
 ]
 
 const GNSign = () => {
@@ -271,7 +271,18 @@ const GNSign = () => {
 								common: `absolute bg-gnsign-background/[.58]`,
 								desktop: `xl:w-[1036px] xl:h-[558px] xl:translate-y-[103px] xl:rounded-[34px]`
 							})}>
-
+								<p className={flatClassName({
+									common: `flex items-center justify-center font-sans text-white bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`,
+									desktop: `xl:w-[225px] xl:h-[62px] xl:text-[24px] xl:leading-[35px] xl:rounded-tl-[34px] xl:rounded-br-[34px]`
+								})}>免費試用版</p>
+								<p className={flatClassName({
+									common: `absolute font-sans font-bold bg-clip-text bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh text-fill-transparent`,
+									desktop: `xl:translate-x-[44px] xl:translate-y-[55px] xl:text-[50px] xl:leading-[72px]`
+								})}>小綠簽</p>
+								<p className={flatClassName({
+									common: `absolute`,
+									desktop: `xl:translate-x-[47px] xl:translate-y-[133px] whitespace-pre`
+								})}>{'護樹、永續、減碳的綠色生活\n響應環保無紙化電子簽署，\n省時便利又環保。'}</p>
 							</div>
 						): ''
 					}
@@ -401,6 +412,20 @@ const GNSign = () => {
 					})} content={`小綠簽 © Code: Alex  /  Design: KT`} />
 				</div>
 			)
+		}
+
+		{
+			isDesktop ? (<>
+				<img className={flatClassName({
+					desktop: `xl:w-[122px] xl:h-[255px] absolute top-0 right-0`
+				})} src={PC_LeaveRightTop} />
+				<img className={flatClassName({
+					desktop: `xl:w-[243px] xl:h-[62px] absolute bottom-[159px] left-0`
+				})} src={PC_GrassLeft} />
+				<img className={flatClassName({
+					desktop: `xl:w-[150px] xl:h-[305px] absolute bottom-0 left-0`
+				})} src={PC_LeaveBottomLeft} />
+			</>): ''
 		}
 
 		<div className={flatClassName({
