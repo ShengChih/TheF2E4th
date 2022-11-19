@@ -41,24 +41,32 @@ import MultipleImageSources from '@components/shared/ResponsiveImageContainer/Mu
 import Footer from '@components/shared/Footer'
 import Toast from '@components/GNsign/Toast'
 
+const DeviceRequiredImageList = [
+  [],
+  [MB_Logo, MB_Watermark, MB_Greenlive], // mobile
+  [TB_Logo, TB_Watermark, TB_Greenlive], // tablet
+  [], // 1280 Desktop
+]
+
 const GNSign = () => {
 	const dispatch = useAppDispatch()
-	const [toastState, setToastState] = useState<ToastState>(InitToastState)
-	const [loadingState, setLoadingState] = useState<LoadingPageState>(InitLoadingState)
-
-	const inputFileRef = useRef<HTMLInputElement>(null)
-	
-	const { imagesPreloaded } = useImagePreloader([
-		MB_Logo,
-		MB_Watermark,
-		MB_Greenlive,
-		TB_Logo,
-		TB_Watermark,
-		TB_Greenlive,
-	])
-
 	const navigate = useNavigate()
 	const draftFile = useAppSelector(selectDraftFile)
+
+	const inputFileRef = useRef<HTMLInputElement>(null)
+	const [toastState, setToastState] = useState<ToastState>(InitToastState)
+	const [loadingState, setLoadingState] = useState<LoadingPageState>(InitLoadingState)
+	const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
+
+	const [commonResources, mobileResoures, tabletResources, desktopResoures] = DeviceRequiredImageList
+  const deivceResources = isDesktop ? desktopResoures : (
+    (
+      isTablet ? tabletResources : (
+        isMobile ? mobileResoures : []
+      )
+    )
+  )
+	const { imagesPreloaded } = useImagePreloader([...commonResources, ...deivceResources])
 
 	useEffect(() => {
 		setLoadingState({
