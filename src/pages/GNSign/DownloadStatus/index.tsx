@@ -29,27 +29,32 @@ const DownloadStatus = () => {
 	const Icon = (status: string) => {
 		return status === 'success' ? (<>
 			<div className={flatClassName({
-				common: ``,
-				mobile: `relative sm:w-[140px] sm:h-[140px] sm:translate-y-[166px]`
+				common: `relative`,
+				mobile: `sm:w-[140px] sm:h-[140px] sm:translate-y-[166px]`,
+				tablet: `md:w-[140px] md:h-[140px] md:translate-y-[166px]`
 			})}>
 				<Success />
 			</div>
 			<p className={flatClassName({
 				common: `absolute font-sans font-normal text-gnsign-black`,
-				mobile: `sm:text-[22px] sm:text-[32px] sm:translate-y-[334px]`
+				mobile: `sm:text-[22px] sm:text-[32px] sm:translate-y-[334px]`,
+				tablet: `md:text-[22px] md:text-[32px] md:translate-y-[334px]`,
 			})}>下載成功</p>
 		</>
 		): (
 			<>
 			<div className={flatClassName({
-				common: ``,
-				mobile: `relative sm:w-[155.24px] sm:h-[140.57px] sm:translate-y-[165.02px]`
+				common: `relative`,
+				mobile: `sm:w-[155.24px] sm:h-[140.57px] sm:translate-y-[166px]`,
+				tablet: `md:w-[155.24px] md:h-[140.57px] md:translate-y-[166px]`
 			})}>
 				<Warning />
 			</div>
 			<p className={flatClassName({
 				common: `absolute font-sans font-normal text-gnsign-black`,
-				mobile: `sm:text-[22px] sm:text-[32px] sm:translate-y-[334px]`})}
+				mobile: `sm:text-[22px] sm:text-[32px] sm:translate-y-[334px]`,
+				tablet: `md:text-[22px] md:text-[32px] md:translate-y-[334px]`
+			})}
 			>下載失敗，請稍候再試</p>
 			</>
 		)
@@ -69,7 +74,8 @@ const DownloadStatus = () => {
 				onClick={goLanding}
 				className={flatClassName({
 				common: `absolute text-white font-sans font-normal  flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`,
-				mobile: `sm:translate-y-[579px] sm:text-[18px] sm:leading-[26px] sm:w-[260px] sm:h-[56px] sm:rounded-[16px]`
+				mobile: `sm:translate-y-[579px] sm:text-[18px] sm:leading-[26px] sm:w-[260px] sm:h-[56px] sm:rounded-[16px]`,
+				tablet: `md:translate-y-[435px] md:text-[18px] md:leading-[26px] md:w-[260px] md:h-[56px] md:rounded-[16px]`
 			})}>回首頁</button>
 		</div>
 	)

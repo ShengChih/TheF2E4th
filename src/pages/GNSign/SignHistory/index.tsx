@@ -76,23 +76,27 @@ const SignHistory = () => {
 					<div
 						className={flatClassName({
 							common: `flex flex-no-wrap bg-white justify-between`,
-							mobile: `sm:rounded-[13px] sm:pl-[12px] shadow-[1px_4px_6px_rgba(0,0,0,0.11)]`
+							mobile: `sm:rounded-[13px] sm:pl-[12px] shadow-[1px_4px_6px_rgba(0,0,0,0.11)]`,
+							tablet: `md:rounded-[13px] md:pl-[12px] shadow-[1px_4px_6px_rgba(0,0,0,0.11)]`,
 						})}
 						key={`${year}-${index}`}
 					>
 						<div
 							className={flatClassName({
 								common: `flex flex-no-wrap items-center`,
-								mobile: `sm:w-[259px] sm:h-[64px] sm:gap-x-[12px]`
+								mobile: `sm:w-[259px] sm:h-[64px] sm:gap-x-[12px]`,
+								tablet: `md:w-[652px] md:h-[64px] md:gap-x-[12px]`,
 							})}
 						>
 							<p className={flatClassName({
 								common: `font-roboto text-gnsign-black flex justify-center text-center`,
-								mobile: `sm:w-[43px] sm:h-[19px] sm:text-[16px] sm:leading-[19px]`
+								mobile: `sm:w-[43px] sm:h-[19px] sm:text-[16px] sm:leading-[19px]`,
+								tablet: `md:w-[43px] md:h-[19px] md:text-[16px] md:leading-[19px]`,
 							})}>{mtime.getMonth()}/{mtime.getDate()}</p>
 							<p className={flatClassName({
 								common: `bg-clip-text bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh text-fill-transparent font-normal text-ellipsis overflow-hidden whitespace-nowrap`,
-								mobile: `sm:text-[16px] sm:leading-[23px]`
+								mobile: `sm:text-[16px] sm:leading-[23px]`,
+								tablet: `md:text-[16px] md:leading-[23px]`,
 							})}>{filename}</p>
 						</div>
 						<div
@@ -100,7 +104,8 @@ const SignHistory = () => {
 							data-row-id={`${year}-${index}`}
 							className={flatClassName({
 								common: `flex items-center justify-center`,
-								mobile: `sm:w-[56px] sm:h-[64px]`
+								mobile: `sm:w-[56px] sm:h-[64px]`,
+								tablet: `md:w-[56px] md:h-[64px]`,
 							})}
 						>
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -118,12 +123,14 @@ const SignHistory = () => {
 
 			historyJsx.push(<div key={`history-${year}`}>
 				<p className={flatClassName({
-					common: `w-full flex items-center text-gnsign-black font-roboto`,
-					mobile: `sm:h-[42px] sm:text-[16px] sm:leading-[19px] sm:pl-[16px]`
+					common: `w-full flex items-center text-gnsign-black font-roboto font-bold`,
+					mobile: `sm:h-[42px] sm:text-[16px] sm:leading-[19px] sm:pl-[16px]`,
+					tablet: `md:h-[42px] md:text-[16px] md:leading-[19px] md:pl-[16px]`,
 				})}>{year}</p>
 				<div className={flatClassName({
 					common: `flex flex-col `,
-					mobile: `sm:px-[16px] sm:gap-y-[10px]`
+					mobile: `sm:px-[16px] sm:gap-y-[10px]`,
+					tablet: `md:px-[16px] md:gap-y-[10px]`,
 				})}>{histories}</div>
 			</div>)
 		}
@@ -191,7 +198,8 @@ const SignHistory = () => {
 
 						<p className={flatClassName({
 							common: `font-sans font-normal text-gnsign-black`,
-							mobile: `sm:text-[18px] sm:leading-[26px]`
+							mobile: `sm:text-[18px] sm:leading-[26px]`,
+							tablet: `md:text-[18px] md:leading-[26px]`
 						})}>尚無任何記錄</p>
 					</div>
 				)
