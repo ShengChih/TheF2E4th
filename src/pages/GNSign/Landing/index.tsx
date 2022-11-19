@@ -260,16 +260,27 @@ const GNSign = () => {
 								common: `font-normal font-sans  `,
 								mobile: `sm:self-end sm:text-[18px] sm:leading-[26px] sm:underline sm:text-gnsign-black`,
 								tablet: `md:self-end md:text-[18px] md:leading-[26px] md:underline md:text-gnsign-black`,
-								desktop: `xl:flex xl:items-center xl:justify-center xl:mt-[3px] xl:text-[18px] xl:leading-[26px] xl:border-gnsign-green xl:text-gnsign-green xl:w-[136px] xl:h-[44px]`
+								desktop: `xl:border-2 xl:border-gnsign-green xl:rounded-[16px] xl:flex xl:items-center xl:justify-center xl:mt-[3px] xl:text-[18px] xl:leading-[26px] xl:border-gnsign-green xl:text-gnsign-green xl:w-[136px] xl:h-[44px]`
 							})}
 						>歷史記錄</div>
 					</div>
+
+					{
+						isDesktop ? (
+							<div className={flatClassName({
+								common: `absolute bg-gnsign-background/[.58]`,
+								desktop: `xl:w-[1036px] xl:h-[558px] xl:translate-y-[103px] xl:rounded-[34px]`
+							})}>
+
+							</div>
+						): ''
+					}
 
 					<div className={flatClassName({
 						common: `flex flex-col items-center bg-white border-dashed rounded-[26px] border-gnsign-gray border-2 box-border`,
 						mobile: `sm:w-[299px] sm:h-[384px]`,
 						tablet: `md:w-[547px] md:h-[567px]`,
-						desktop: `xl:w-[417px] xl:h-[376px] xl:translate-x-[196.5px]`
+						desktop: `xl:w-[417px] xl:h-[376px] xl:translate-x-[196.5px] xl:translate-y-[31px]`
 					})}>
 						<div className={flatClassName({
 							common: `absolute`,
@@ -383,9 +394,10 @@ const GNSign = () => {
 						}
 					</div>
 					<Footer className={flatClassName({
-						common: `flex items-center justify-center font-sans font-normal text-gnsign-black w-full absolute bottom-0`,
-						mobile: `sm:h-[37px] sm:text-[12px] sm:leading-[17px]`,
-						tablet: `md:h-[37px] md:text-[12px] md:leading-[17px]`
+						common: `flex items-center justify-center font-sans font-normal text-gnsign-black absolute `,
+						mobile: `sm:h-[37px] sm:text-[12px] sm:leading-[17px] sm:bottom-0`,
+						tablet: `md:h-[37px] md:text-[12px] md:leading-[17px] md:bottom-0`,
+						desktop: `xl:h-[17px] xl:text-[12px] xl:leading-[17px] xl:bottom-[17px] xl:translate-x-[530.5px]`
 					})} content={`小綠簽 © Code: Alex  /  Design: KT`} />
 				</div>
 			)
