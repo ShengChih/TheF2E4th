@@ -5,7 +5,7 @@ import { selectHistory } from '@features/gnsign/histories/selector'
 import { UPLOAD_FILE } from '@features/gnsign/files/sagaActions'
 import { FileInfo } from "@features/gnsign/histories/type"
 import { flatClassName } from "@utils/reduce"
-import MobileTree from './images/mobile/tree.png'
+import Tree from './images/tree.png'
 
 type GroupYearHistroy = {
 	[key:number|string]: FileInfo[]
@@ -16,8 +16,6 @@ const SignHistory = () => {
 	const navigate = useNavigate()
 	const histories: FileInfo[] = useAppSelector(selectHistory)
 	const hasHistory = histories.length > 0
-
-	console.log(histories)
 
 	const groupByYear: GroupYearHistroy = histories.reduce((ret, current: FileInfo) => {
 		const { mtime } = current
@@ -140,13 +138,15 @@ const SignHistory = () => {
 
 			<div className={flatClassName({
 				common: `w-full bg-gnsign-green flex flex-no-wrap justify-between items-center`,
-				mobile: `sm:h-[56px] sm:p-[16px]`
+				mobile: `sm:h-[56px] sm:p-[16px]`,
+				tablet: `md:h-[56px] md:p-[16px]`,
 			})}>
 				<div
 					onClick={goPrevPage}
 					className={flatClassName({
 						common: ``,
-						mobile: `sm:w-[24px] sm:h-[24px]`
+						mobile: `sm:w-[24px] sm:h-[24px]`,
+						tablet: `md:w-[24px] md:h-[24px]`,
 					})}
 				>
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -155,7 +155,8 @@ const SignHistory = () => {
 				</div>
 				<div className={flatClassName({
 					common: ``,
-					mobile: `sm:w-[24px] sm:h-[24px]`
+					mobile: `sm:w-[24px] sm:h-[24px]`,
+					tablet: `md:w-[24px] md:h-[24px]`,
 				})}>
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path fillRule="evenodd" clipRule="evenodd" d="M4 11C4 7.13401 7.13401 4 11 4C14.866 4 18 7.13401 18 11C18 12.8858 17.2543 14.5974 16.0417 15.8561C16.0073 15.8825 15.9743 15.9114 15.9428 15.9429C15.9113 15.9744 15.8824 16.0074 15.856 16.0417C14.5974 17.2543 12.8858 18 11 18C7.13401 18 4 14.866 4 11ZM16.6176 18.0319C15.078 19.2635 13.125 20 11 20C6.02944 20 2 15.9706 2 11C2 6.02944 6.02944 2 11 2C15.9706 2 20 6.02944 20 11C20 13.125 19.2635 15.0781 18.0319 16.6177L21.707 20.2929C22.0975 20.6834 22.0975 21.3166 21.707 21.7071C21.3165 22.0976 20.6833 22.0976 20.2928 21.7071L16.6176 18.0319Z" fill="white"/>
@@ -167,7 +168,8 @@ const SignHistory = () => {
 				groupHistory && (
 					<div className={flatClassName({
 						common: `font-sans w-full h-full flex flex-col `,
-						mobile: `sm:gap-y-[24px]`
+						mobile: `sm:gap-y-[24px]`,
+						tablet: `md:gap-y-[24px]`
 					})}>
 						<div className={flatClassName({
 							common: ``,
@@ -177,17 +179,21 @@ const SignHistory = () => {
 			}
 			{
 				!hasHistory && (
-					<>
+					<div className={flatClassName({
+						common: `absolute flex flex-col items-center`,
+						mobile: `sm:translate-y-[168px] sm:gap-y-[33px]`,
+						tablet: `md:translate-y-[188px] md:gap-y-[33px]`
+					})}>
 						<img className={flatClassName({
-							common: `absolute`,
-							mobile: `sm:w-[95px] sm:h-[200px] sm:translate-y-[168px]`
-						})} src={MobileTree} />
+							mobile: `sm:w-[95px] sm:h-[200px] `,
+							tablet: `md:w-[95px] md:h-[200px] `
+						})} src={Tree} />
 
 						<p className={flatClassName({
-							common: `absolute font-sans font-normal text-gnsign-black`,
-							mobile: `sm:text-[18px] sm:leading-[26px] sm:translate-y-[401px]`
+							common: `font-sans font-normal text-gnsign-black`,
+							mobile: `sm:text-[18px] sm:leading-[26px]`
 						})}>尚無任何記錄</p>
-					</>
+					</div>
 				)
 			}
 		</div>
