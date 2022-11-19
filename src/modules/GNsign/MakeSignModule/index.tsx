@@ -66,8 +66,8 @@ const MakeSignModule = ({
 	}, [isDrawing])
 
 	useEffect(() => {
-		canvasRef.current.width = canvasWidth
-		canvasRef.current.height = canvasHeight
+		canvasRef.current!.width = canvasWidth
+		canvasRef.current!.height = canvasHeight
 	}, [canvasWidth, canvasHeight, canvasRef])
 
 	const isImportMode = mode.mode === IMPORT_SIGN.mode
@@ -131,35 +131,41 @@ const MakeSignModule = ({
 			common: `absolute`,
 			mobile: `sm:translate-y-[121px]`,
 			tablet: `md:translate-y-[143px]`,
+			desktop: `xl:translate-y-[143px]`,
 		})
 		: flatClassName({
 			common: `flex items-center justify-between`,
 			mobile: `sm:w-[284px] sm:h-[45px]`,
 			tablet: `md:w-[284px] md:h-[45px]`,
+			desktop: `xl:w-[284px] xl:h-[45px]`,
 		})
 
 	const ModeClassName = isPageContent
 		? flatClassName({
 			common: `flex items-center absolute bg-white rounded-[14px]`,
 			mobile: `sm:translate-y-[28px] sm:w-[240px] sm:h-[40px]`,
-			tablet: `md:translate-y-[50px] md:w-[240px] md:h-[40px]`
+			tablet: `md:translate-y-[50px] md:w-[240px] md:h-[40px]`,
+			desktop: `xl:translate-y-[53px] xl:w-[240px] xl:h-[40px]`,
 		})
 		: flatClassName({
 			common: `flex items-center bg-white rounded-[14px]`,
 			mobile: `sm:w-[240px] sm:h-[40px]`,
-			tablet: `md:w-[240px] md:h-[40px]`
+			tablet: `md:w-[240px] md:h-[40px]`,
+			desktop: `xl:w-[240px] xl:h-[40px]`,
 		})
 
 	const ButtonGroupClassName = isPageContent
 		? flatClassName({
 			common: `absolute flex flex-no-wrap justify-between`,
 			mobile: `sm:w-[343px] sm:h-[56px] sm:translate-y-[403px] sm:gap-x-[11.5px]`,
-			tablet: `md:w-[590px] md:h-[56px] md:translate-y-[480px] md:gap-x-[19px]`
+			tablet: `md:w-[590px] md:h-[56px] md:translate-y-[480px] md:gap-x-[19px]`,
+			desktop: `xl:w-[590px] xl:h-[56px] xl:translate-y-[480px] xl:gap-x-[39px]`,
 		})
 		: flatClassName({
 			common: `flex flex-no-wrap justify-between`,
 			mobile: `sm:w-[284px] sm:h-[56px] sm:gap-x-[12px]`,
 			tablet: `md:w-[284px] md:h-[56px] md:gap-x-[12px]`,
+			desktop: `xl:w-[284px] xl:h-[56px] xl:gap-x-[16px]`,
 		})
 
 	const CanvasContainerClassName = isPageContent
@@ -167,11 +173,13 @@ const MakeSignModule = ({
 			common: `bg-white relative flex items-center justify-center rounded-[26px]`,
 			mobile: `sm:w-[343px] sm:h-[200px] sm:translate-y-[178px]`,
 			tablet: `md:w-[589px] md:h-[224px] md:translate-y-[217px]`,
+			desktop: `xl:w-[590px] xl:h-[224px] xl:translate-y-[217px]`,
 		})
 		: flatClassName({
 			common: `bg-white flex items-center justify-center rounded-[26px]`,
 			mobile: `sm:w-[326px] sm:h-[200px]`,
-			tablet: `md:w-[326px] md:h-[200px]`
+			tablet: `md:w-[326px] md:h-[200px]`,
+			desktop: `xl:w-[590px] xl:h-[224px]`,
 		})
 
 	return (<>
@@ -182,7 +190,8 @@ const MakeSignModule = ({
 					className={flatClassName({
 						common: `flex flex-1 items-center justify-center grow h-full ${!isImportMode ? 'bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh  text-white': 'bg-white text-gnsign-green'}`,
 						mobile: `sm:text-[16px] sm:leading-[23px] sm:rounded-[14px]`,
-						tablet: `md:text-[16px] md:leading-[23px] md:rounded-[14px]`
+						tablet: `md:text-[16px] md:leading-[23px] md:rounded-[14px]`,
+						desktop: `xl:text-[16px] xl:leading-[23px] xl:rounded-[14px]`
 					})}
 				>手寫簽名</div>
 				<div
@@ -191,7 +200,8 @@ const MakeSignModule = ({
 					className={flatClassName({
 						common: `flex flex-1 items-center justify-center grow h-full ${isImportMode ? 'bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh  text-white': 'bg-white text-gnsign-green'}`,
 						mobile: `sm:text-[16px] sm:leading-[23px] sm:rounded-[14px]`,
-						tablet: `md:text-[16px] md:leading-[23px] md:rounded-[14px]`
+						tablet: `md:text-[16px] md:leading-[23px] md:rounded-[14px]`,
+						desktop: `xl:text-[16px] xl:leading-[23px] xl:rounded-[14px]`
 					})}
 				>匯入簽名檔</div>
 			</div>
@@ -204,6 +214,7 @@ const MakeSignModule = ({
 							common: `font-sans font-normal text-gnsign-green`,
 							mobile: `sm:text-[18px] sm:leading-[26px]`,
 							tablet: `md:text-[18px] md:leading-[26px]`,
+							desktop: `xl:text-[18px] xl:leading-[26px]`,
 						})}
 						onClick={handleClear}
 						>清除</div>}
@@ -236,6 +247,7 @@ const MakeSignModule = ({
 					common: `absolute text-gnsign-gray`,
 					mobile: `sm:text-[18px] sm:leading-[26px]`,
 					tablet: `md:text-[22px] md:leading-[32px]`,
+					desktop: `xl:text-[22px] xl:leading-[32px]`,
 				})}>{isDrawing ? '' : mode.canvasText}</div>
 			</div>
 
@@ -246,6 +258,7 @@ const MakeSignModule = ({
 						common: `font-sans font-normal flex items-center justify-center h-full flex-1 text-gnsign-green bg-white rounded-[16px]`,
 						mobile: `sm:text-[18px] sm:leading-[26px]`,
 						tablet: `md:text-[18px] md:leading-[26px]`,
+						desktop: `xl:text-[18px] xl:leading-[26px]`,
 					})}
 				>{leftButtonText}</button>
 				<button
@@ -254,6 +267,7 @@ const MakeSignModule = ({
 						common: `font-sans font-normal flex items-center justify-center h-full flex-1 text-white bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh rounded-[16px]`,
 						mobile: `sm:text-[18px] sm:leading-[26px]`,
 						tablet: `md:text-[18px] md:leading-[26px]`,
+						desktop: `xl:text-[18px] xl:leading-[26px]`,
 					})}
 				>建立簽名</button>
 			</div>

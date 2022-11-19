@@ -190,8 +190,8 @@ const GNSign = () => {
 	}
 
 	const fileDragEnter = (e: DragEvent) => {
-		e.stopPropagation()
-		e.preventDefault()
+		//e.stopPropagation()
+		//e.preventDefault()
 	}
 
 	const fileDragOver = (e: DragEvent) => {
@@ -324,9 +324,40 @@ const GNSign = () => {
 							/>
 						</div>
 						
+						<div className={flatClassName({
+							common: `absolute top-0`,
+							mobile: `sm:w-[362px] sm:h-[228px] sm:translate-x-[2.5px] sm:translate-y-[412px]`,
+							tablet: `md:w-[696px] md:h-[438px] md:translate-x-[-4px] md:translate-y-[549px]`,
+							desktop: `xl:w-[670px] xl:h-[460px] xl:translate-y-[103px]`
+						})}>
+							<MultipleImageSources
+								aliasName={`Green live`}
+								mediaImages={[
+									{
+										minWidth: 1280,
+										imageSrc: PC_Greenlive
+									},
+									{
+										minWidth: 768,
+										imageSrc: TB_Greenlive
+									},
+									{
+										minWidth: 375,
+										imageSrc: MB_Greenlive
+									}
+								]}
+								imageElementProps={{
+									src: MB_Greenlive,
+									className: 'w-full h-full object-contain',
+									srcSet: `${MB_Greenlive} 375w, ${TB_Greenlive} 768w, ${PC_Greenlive} 1280w`,
+									sizes: `(min-width: 375px) 362px, (min-width: 768px) 696px , (min-width: 1280px) 670px`
+								}}
+							/>
+						</div>
+
 						<div
 							className={flatClassName({
-								common: `flex flex-col absolute bg-white`,
+								common: `flex flex-col absolute`,
 								mobile: `sm:w-[209px] sm:h-[95px] sm:gap-y-[15px] sm:translate-y-[178.5px]`,
 								tablet: `md:w-[360px] md:h-[110px] md:gap-y-[15px] md:translate-y-[296.5px]`,
 								desktop: `xl:w-[227px] xl:h-[133px] xl:gap-y-[15px] xl:translate-y-[151.5px]`
@@ -360,39 +391,10 @@ const GNSign = () => {
 						</div>
 		
 		
-						<div className={flatClassName({
-							common: `absolute top-0`,
-							mobile: `sm:w-[362px] sm:h-[228px] sm:translate-x-[2.5px] sm:translate-y-[412px]`,
-							tablet: `md:w-[696px] md:h-[438px] md:translate-x-[-4px] md:translate-y-[549px]`,
-							desktop: `xl:w-[670px] xl:h-[460px] xl:translate-y-[103px]`
-						})}>
-							<MultipleImageSources
-								aliasName={`Green live`}
-								mediaImages={[
-									{
-										minWidth: 1280,
-										imageSrc: PC_Greenlive
-									},
-									{
-										minWidth: 768,
-										imageSrc: TB_Greenlive
-									},
-									{
-										minWidth: 375,
-										imageSrc: MB_Greenlive
-									}
-								]}
-								imageElementProps={{
-									src: MB_Greenlive,
-									className: 'w-full h-full object-contain',
-									srcSet: `${MB_Greenlive} 375w, ${TB_Greenlive} 768w, ${PC_Greenlive} 1280w`,
-									sizes: `(min-width: 375px) 362px, (min-width: 768px) 696px , (min-width: 1280px) 670px`
-								}}
-							/>
-						</div>
+						
 
 						{
-							isDesktop ? (
+							isDesktop ? (<>
 								<div
 									onDragEnter={fileDragEnter}
 									onDragOver={fileDragOver}
@@ -401,7 +403,14 @@ const GNSign = () => {
 										common: `absolute`,
 										desktop: `xl:w-[227px] xl:h-[133px] xl:translate-y-[151.5px]`
 								})}></div>
-							): ''
+								<button
+									onClick={handleSelectedFileButton}
+									className={flatClassName({
+										common: `font-sans font-normal text-white flex items-center justify-center w-full rounded-[16px]`,
+										desktop: `xl:text-[18px] xl:leading-[26px] xl:w-[227px] xl:h-[60px] xl:translate-y-[151.5px]`,
+									})}
+								></button>
+							</>): ''
 						}
 					</div>
 					<Footer className={flatClassName({
