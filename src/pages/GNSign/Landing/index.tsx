@@ -307,7 +307,8 @@ const GNSign = () => {
 					</div>
 					<Footer className={flatClassName({
 						common: `flex items-center justify-center font-sans font-normal text-gnsign-black w-full absolute bottom-0`,
-						mobile: `sm:h-[37px] sm:text-[12px] sm:leading-[17px]`
+						mobile: `sm:h-[37px] sm:text-[12px] sm:leading-[17px]`,
+						tablet: `md:h-[37px] md:text-[12px] md:leading-[17px]`
 					})} content={`小綠簽 © Code: Alex  /  Design: KT`} />
 				</div>
 			)
