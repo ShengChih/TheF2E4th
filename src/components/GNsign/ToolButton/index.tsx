@@ -75,16 +75,19 @@ const ToolButton = ({
 			onClick={handleClick}
 			className={flatClassName({
 				common: `flex flex-col items-center justify-center `,
-				mobile: `sm:w-[56px] sm:h-[59px]`
+				mobile: `sm:w-[56px] sm:h-[59px]`,
+				tablet: `md:w-[56px] md:h-[59px]`,
 			})}
 		>
 			<div className={flatClassName({
 				common: `rounded-[9px] flex items-center justify-center ${iconContainerClassName}`,
-				mobile: `sm:w-[40px] sm:h-[40px]`
+				mobile: `sm:w-[40px] sm:h-[40px]`,
+				tablet: `md:w-[40px] md:h-[40px]`,
 			})}><Icon className={iconClassName} /></div>
 			<div className={flatClassName({
 				common: `w-full font-sans font-nomal text-center ${buttonClassName}`,
-				mobile: `sm:h-[17px] sm:text-[12px] sm:leading-[17px]`
+				mobile: `sm:h-[17px] sm:text-[12px] sm:leading-[17px]`,
+				tablet: `md:h-[17px] md:text-[12px] md:leading-[17px]`
 			})}>{buttonText}</div>
 		</div>
 	)

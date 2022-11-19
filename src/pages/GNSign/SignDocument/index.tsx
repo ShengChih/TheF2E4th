@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom'
 import { fabric } from 'fabric'
 import { v4 as uuidv4 } from 'uuid'
 
-
+import { deviceWidth } from '@utils/config'
+import useCheckScreen from '@hooks/useCheckScreen'
 import { flatClassName } from "@utils/reduce"
 import { convertDataURIToBinary } from '@utils/converter'
 import GNsignLoadingPage, { InitLoadingState } from "@components/GNsign/LoadingPage"
@@ -43,6 +44,7 @@ type ImageUrlRef = Object & {
 const SignDocument = () => {
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
+	const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
 	const draftFile: FileInfo = useAppSelector(selectDraftFile)
 	const [showSave, setSave] = useState<boolean>(false)
 	const [loadingState, setLoadingState] = useState(InitLoadingState)
@@ -61,6 +63,12 @@ const SignDocument = () => {
 	const pdfDocumentProxy = useRef<Nullable<pdf.PDFDocumentProxy>>(null)
 	const canvasRef = useRef<HTMLCanvasElement>(null)
 	const imageUrlsRef = useRef<ImageUrlRef>({})
+
+	const [canvasWidth, canvasHeight] = isMobile ? [343, 457] : (
+		isTablet ? [736, 981] : (
+			isDesktop ? [793, 1053] : [-1, -1]
+		)
+	)
 
 	useEffect(() => {
 		(async () => {
@@ -111,10 +119,10 @@ const SignDocument = () => {
     if (pageState.current > 0 && canvasRef.current && imageUrlsRef.current[pageState.current - 1]) {
 			const loadImage = document.createElement("img")
 			loadImage.onload = () => {
-				canvas!.setWidth(343)
-				canvas!.setHeight(467)
-				const scaleX = 343 / loadImage.width
-				const scaleY = 467 / loadImage.height
+				canvas!.setWidth(canvasWidth)
+				canvas!.setHeight(canvasHeight)
+				const scaleX = canvasWidth / loadImage.width
+				const scaleY = canvasHeight / loadImage.height
 				canvas!.setBackgroundImage(new fabric.Image(loadImage, {
 					scaleX: scaleX,
 					scaleY: scaleY,
@@ -332,17 +340,20 @@ const SignDocument = () => {
 		<div className={`w-screen h-screen flex flex-wrap justify-center bg-gnsign-background`}>
 			<div className={flatClassName({
 				common: `w-full flex justify-between`,
-				mobile: `sm:h-[90px] sm:p-[16px]`
+				mobile: `sm:h-[90px] sm:p-[16px]`,
+				tablet: `md:h-[90px] md:p-[16px]`,
 			})}>
 
 				<div className={flatClassName({
 					common: `relative flex justify-between bg-white`,
-					mobile: `sm:w-[204px] sm:h-[58px] sm:p-[14px] sm:rounded-[16px]`
+					mobile: `sm:w-[204px] sm:h-[58px] sm:py-[14px] sm:px-[16px] sm:rounded-[16px]`,
+					tablet: `md:w-[560px] md:h-[58px] md:py-[14px] md:px-[16px] md:rounded-[16px]`
 				})}>
 					<div
 						className={flatClassName({
 							common: `bg-gnsign-green flex justify-center items-center`,
-							mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`
+							mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`,
+							tablet: `md:w-[30px] md:h-[30px] md:rounded-[12px]`,
 						})}
 						onClick={goPrevious}
 					>
@@ -353,13 +364,15 @@ const SignDocument = () => {
 
 					<p className={flatClassName({
 						common: `font-roboto font-normal text-gnsign-black flex items-center`,
-						mobile: `sm:text-[16px] sm:leading-[19px]`
+						mobile: `sm:text-[16px] sm:leading-[19px]`,
+						tablet: `md:text-[16px] md:leading-[19px]`,
 					})}>{`${pageState.current} / ${pageState.maxPage}`}</p>
 
 					<div
 						className={flatClassName({
 							common: `bg-gnsign-green flex justify-center items-center`,
-							mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`
+							mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`,
+							tablet: `md:w-[30px] md:h-[30px] md:rounded-[12px]`,
 						})}
 						onClick={goNext}
 					>
@@ -375,7 +388,8 @@ const SignDocument = () => {
 							onClick={checkDownloadCount}
 							className={flatClassName({
 							common: `font-sans font-normal flex items-center justify-center text-gnsign-green bg-white`,
-							mobile: `sm:w-[130px] sm:h-[58px] sm:text-[18px] sm:leading-[26px] sm:rounded-[16px]`
+							mobile: `sm:w-[130px] sm:h-[58px] sm:text-[18px] sm:leading-[26px] sm:rounded-[16px]`,
+							tablet: `md:w-[167px] md:h-[58px] md:text-[18px] md:leading-[26px] md:rounded-[16px]`
 						})}>回首頁</div>
 					)
 					: (
@@ -383,27 +397,31 @@ const SignDocument = () => {
 							onClick={finishSignFlow}
 							className={flatClassName({
 							common: `font-sans font-normal flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh text-white`,
-							mobile: `sm:w-[130px] sm:h-[58px] sm:text-[18px] sm:leading-[26px] sm:rounded-[16px]`
+							mobile: `sm:w-[130px] sm:h-[58px] sm:text-[18px] sm:leading-[26px] sm:rounded-[16px]`,
+							tablet: `md:w-[167px] md:h-[58px] md:text-[18px] md:leading-[26px] md:rounded-[16px]`
 						})}>完成簽署</div>
 					)
 				}
 			</div>
 
 			<div className={flatClassName({
-				common: `relative`,
-				mobile: `sm:w-[343px] h-[457px]`
+				common: `absolute overflow-auto`,
+				mobile: `sm:w-[343px] sm:h-[457px] sm:translate-y-[90px]`,
+				tablet: `md:w-[736px] md:h-[814px] md:translate-y-[90px]`,
 			})}>
 				<canvas
 					ref={canvasRef}
 					className={flatClassName({
-						mobile: `sm:w-[343px] sm:h-[467px]`
+						mobile: `sm:w-[343px] sm:h-[457px]`,
+						tablet: `md:w-[736px] md:h-[981px]`
 					})}
 				></canvas>
 			</div>
 
 			<div className={flatClassName({
-				common: `relative w-full flex items-center justify-center`,
-				mobile: `sm:h-[120px]`
+				common: `absolute w-full flex items-center justify-center bottom-0`,
+				mobile: `sm:h-[120px]`,
+				tablet: `md:h-[120px]`,
 			})}>
 				{
 					showSave
@@ -416,7 +434,8 @@ const SignDocument = () => {
 					: (
 						<div className={flatClassName({
 							common: `flex items-center justify-center bg-white`,
-							mobile: `sm:w-[343px] sm:h-[72px] sm:rounded-[16px]`
+							mobile: `sm:w-[343px] sm:h-[72px] sm:gap-x-[8px] sm:rounded-[16px]`,
+							tablet: `md:w-[736px] md:h-[72px] md:gap-x-[8px] md:rounded-[16px]`,
 						})}>
 							{
 								toolProps.map((props, index) => (

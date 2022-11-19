@@ -54,7 +54,7 @@ const MakeSignModule = ({
 		handleTouchEnd,
 		handleClear,
 		handleLoadImage,
-	} = useCanvasDrawer(canvasRef, canvasWidth, canvasHeight, true)
+	} = useCanvasDrawer(canvasRef, canvasWidth, canvasHeight, false)
 
 	useEffect(() => {
 		if (isDrawing) {
@@ -64,6 +64,11 @@ const MakeSignModule = ({
 			})
 		}
 	}, [isDrawing])
+
+	useEffect(() => {
+		canvasRef.current.width = canvasWidth
+		canvasRef.current.height = canvasHeight
+	}, [canvasWidth, canvasHeight, canvasRef])
 
 	const isImportMode = mode.mode === IMPORT_SIGN.mode
 
