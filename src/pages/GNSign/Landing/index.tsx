@@ -32,9 +32,9 @@ import TB_Watermark from './images/tablet/watermark.png'
 
 import PC_Greenlive from './images/desktop/green_live.png'
 import PC_Logo from './images/desktop/logo.png'
-import PC_LeaveBottomLeft from './images/desktop/leave_bottom_left.png'
-import PC_LeaveRightTop from './images/desktop/leave_right_top.png'
-import PC_GrassLeft from './images/desktop/grass_left.png'
+import PC_LeaveBottomLeft from '@components/GNsign/LoadingPage/images/desktop/leave_bottom_left.png'
+import PC_LeaveRightTop from '@components/GNsign/LoadingPage/images/desktop/leave_right_top.png'
+import PC_GrassLeft from '@components/GNsign/LoadingPage/images/desktop/grass_left.png'
 import PC_Watermark from './images/desktop/watermark.png'
 
 import { ToastState } from './type'
