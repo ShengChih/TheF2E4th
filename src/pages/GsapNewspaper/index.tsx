@@ -48,6 +48,7 @@ import TabletNewspaper3 from '@GsapNewspaper/images/tablet/Newspaper3.png'
 import MobileNewpaper1 from '@GsapNewspaper/images/mobile/Newspaper1.png'
 import MobileNewpaper2 from '@GsapNewspaper/images/mobile/Newspaper2.png'
 import MobileNewpaper3 from '@GsapNewspaper/images/mobile/Newspaper3.png'
+import { NewsPaperFavicon } from '@utils/favicon'
 
 
 const LiveShareVideo = lazy(() =>  import("@components/GsapNewspaper/LiveShareVideo"))
@@ -79,7 +80,7 @@ const GsapLandingPage = () => {
   const [easterEggBit, setEasterEggBit] = useState<number>(0)
   const [anchor, setAnchor] = useState<string>('')
   let [notDefined, isMobile, isTablet, isDesktop, isDesktop1920] = useCheckScreen([...deviceWidth, 1920])
-
+  NewsPaperFavicon()
   const [commonResources, mobileResoures, tabletResources, desktopResoures, biggerDesktopResources] = DeviceRequiredImageList
   const deivceResources = isDesktop ? desktopResoures : (
     isDesktop1920 ? biggerDesktopResources : (

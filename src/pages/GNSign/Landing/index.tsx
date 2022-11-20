@@ -19,6 +19,7 @@ import GNsignLoadingPage, { LoadingPageState, InitLoadingState} from "@component
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { selectDraftFile } from '@features/gnsign/files/selector'
 import { UPLOAD_FILE } from '@features/gnsign/files/sagaActions'
+import { GNsignFavicon } from '@utils/favicon'
 // import { SAVE_TO_HISTORY } from '@features/gnsign/histories/sagaActions'
 
 
@@ -76,6 +77,7 @@ const GNSign = () => {
     )
   )
 	const { imagesPreloaded } = useImagePreloader([...commonResources, ...deivceResources])
+	GNsignFavicon()
 
 	useEffect(() => {
 		setLoadingState({
@@ -416,7 +418,7 @@ const GNSign = () => {
 						mobile: `sm:h-[37px] sm:text-[12px] sm:leading-[17px] sm:bottom-0`,
 						tablet: `md:h-[37px] md:text-[12px] md:leading-[17px] md:bottom-0`,
 						desktop: `xl:h-[17px] xl:text-[12px] xl:leading-[17px] xl:bottom-[17px] xl:right-[18px]`
-					})} content={`小綠簽 © Code: Alex  /  Design: KT`} />
+					})} content={`小綠簽 © Code: Sammy  /  Design: KT`} />
 				</div>
 			)
 		}

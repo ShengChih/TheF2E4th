@@ -26,6 +26,7 @@ import { Nullable } from '@/type.d'
 import { FileInfo } from '@features/gnsign/type.d'
 import PC_Logo from '@pages/GNSign/Landing/images/desktop/logo.png'
 import './styles/fullpage/base.scss'
+import { GNsignFavicon } from '@utils/favicon'
 
 const ConfirmForm = lazy(() => import('@components/GNsign/ConfirmForm'))
 const TextBox = lazy(() => import('@components/GNsign/TextBox'))
@@ -72,6 +73,7 @@ const SignDocument = () => {
 			isDesktop ? [793, 1053] : [-1, -1]
 		)
 	)
+	GNsignFavicon()
 
 	useEffect(() => {
 		(async () => {

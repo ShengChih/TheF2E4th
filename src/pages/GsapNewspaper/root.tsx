@@ -8,13 +8,14 @@ import Header from '@components/GsapNewspaper/Header'
 // import SparkleMouse from "@components/GsapNewspaper/SparkleMouse"
 import WandCursor from '@GsapNewspaper/images/pc/WandCursor.png'
 import MobileBgImage from '@GsapNewspaper/images/mobile/full_bg.png'
+import { NewsPaperFavicon } from '@utils/favicon'
 
 const MainPage = lazy(() => import("./index"))
 
 
 const EntryRoot = () => {
   const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
-
+  NewsPaperFavicon()
   if (notDefined) {
     return <div className={`w-screen h-screen flex items-center justify-center`}>不支援此裝置</div>
   }

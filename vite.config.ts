@@ -131,7 +131,12 @@ export default defineConfig(({ command }: ConfigEnv) => {
       rollupOptions: {
         output: {
           manualChunks: {
-            react: ['react', 'react-dom', 'styled-components', 'react-router-dom'],
+            react: [
+              'react', 'react-dom'
+            ],
+            'lottie-react': ['lottie-react'],
+            'styled-components': ['styled-components'],
+            'react-router-dom': ['react-router-dom']
           }
         }
       }

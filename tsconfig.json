@@ -21,6 +21,6 @@
     "jsx": "preserve",
     "sourceMap": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/store.ts", "src/hooks/useCanvasDrawer/worker.js"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/store.ts", "src/hooks/useCanvasDrawer/worker.js", "src/hooks/useCanvasDrawer/workerpool.!ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

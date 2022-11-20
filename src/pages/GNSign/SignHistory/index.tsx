@@ -12,6 +12,7 @@ import PC_Logo from '@pages/GNSign/Landing/images/desktop/logo.png'
 import PC_LeaveBottomLeft from '@components/GNsign/LoadingPage/images/desktop/leave_bottom_left.png'
 import PC_LeaveRightTop from '@components/GNsign/LoadingPage/images/desktop/leave_right_top.png'
 import PC_GrassLeft from '@components/GNsign/LoadingPage/images/desktop/grass_left.png'
+import { GNsignFavicon } from '@utils/favicon'
 
 type GroupYearHistroy = {
 	[key:number|string]: FileInfo[]
@@ -23,6 +24,7 @@ const SignHistory = () => {
 	const histories: FileInfo[] = useAppSelector(selectHistory)
 	const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
 	const hasHistory = histories.length > 0
+	GNsignFavicon()
 
 	const groupByYear: GroupYearHistroy = histories.reduce((ret, current: FileInfo) => {
 		const { mtime } = current

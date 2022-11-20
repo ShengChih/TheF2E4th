@@ -12,6 +12,7 @@ import { selectMakeSign } from '@features/gnsign/signs/selector'
 import { selectDraftFile } from '@features/gnsign/files/selector'
 import MakeSignModule from '@modules/GNsign/MakeSignModule'
 import PC_Logo from '@pages/GNSign/Landing/images/desktop/logo.png'
+import { GNsignFavicon } from '@utils/favicon'
 
 const MakeSign = () => {
 	const [loadingState, setLoadingState] = useState(InitLoadingState)
@@ -20,6 +21,7 @@ const MakeSign = () => {
 	const navigate = useNavigate()
 	const [_, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
 	const [canvasWidth, canvasHeight] = isMobile ? [343, 200] : [590, 224]
+	GNsignFavicon()
 
 	useEffect(() => {
 		setLoadingState({

@@ -1,6 +1,7 @@
 import { MouseEvent } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Lottie from 'lottie-react'
+import { GNsignFavicon } from '@utils/favicon'
 
 
 import { flatClassName } from "@utils/reduce"
@@ -15,6 +16,7 @@ const DownloadStatus = () => {
 	let [searchParams, _] = useSearchParams()
 	let status = searchParams.get("status") ?? '';
 	const [notDefined, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
+	GNsignFavicon()
 
 	const Icon = (status: string) => {
 		return status === 'success' ? (<>
