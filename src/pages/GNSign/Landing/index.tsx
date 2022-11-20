@@ -9,9 +9,9 @@ import {
 } from "react"
 import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
-import { deviceWidth } from '@utils/config'
 import { flatClassName } from '@utils/reduce'
 import { getCheckFileFunc } from '@utils/validation'
+import { deviceWidth } from '@utils/config'
 import useCheckScreen from '@hooks/useCheckScreen'
 import useImagePreloader from "@hooks/useImagePreloader"
 import GNsignLoadingPage, { LoadingPageState, InitLoadingState} from "@components/GNsign/LoadingPage"
@@ -48,6 +48,7 @@ import {
 import MultipleImageSources from '@components/shared/ResponsiveImageContainer/MultipleImageSources'
 import Footer from '@components/shared/Footer'
 import Toast from '@components/GNsign/Toast'
+import PCFullPageStyles from './styles/fullpage/pc.module.scss'
 
 const DeviceRequiredImageList = [
   [],
@@ -222,7 +223,7 @@ const GNSign = () => {
 						common: `flex justify-between`,
 						mobile: `sm:w-[299px] sm:h-[64.95px] sm:mt-[26.05px] sm:mb-[12px]`,
 						tablet: `md:w-[517px] md:h-[87.57px] md:mt-[26.05px] md:mb-[21.38px]`,
-						desktop: `xl:w-[1098px] xl:h-[57.15px] xl:mt-[28px] xl:mb-[19.85px] xl:translate-x-[-51px]`
+						desktop: `xl:h-[57.15px] xl:mt-[28px] xl:mb-[19.85px] xl:pl-[40px] xl:pr-[142px] w-full`
 					})}>
 						<div className={flatClassName({
 							common: `relative self-start`,
@@ -269,7 +270,7 @@ const GNSign = () => {
 						isDesktop ? (
 							<div className={flatClassName({
 								common: `absolute bg-gnsign-background/[.58]`,
-								desktop: `xl:w-[1036px] xl:h-[558px] xl:translate-y-[103px] xl:rounded-[34px]`
+								desktop: `xl:w-[1036px] xl:h-[558px] xl:rounded-[34px] ${PCFullPageStyles.mainVisual}`
 							})}>
 								<p className={flatClassName({
 									common: `flex items-center justify-center font-sans text-white bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`,
@@ -291,7 +292,7 @@ const GNSign = () => {
 						common: `flex flex-col items-center bg-white border-dashed rounded-[26px] border-gnsign-gray border-2 box-border`,
 						mobile: `sm:w-[299px] sm:h-[384px]`,
 						tablet: `md:w-[547px] md:h-[567px]`,
-						desktop: `xl:w-[417px] xl:h-[376px] xl:translate-x-[196.5px] xl:translate-y-[31px]`
+						desktop: `xl:absolute xl:w-[417px] xl:h-[376px] xl:translate-x-[196.5px] ${PCFullPageStyles.dragRegion}`
 					})}>
 						<div className={flatClassName({
 							common: `absolute`,
@@ -414,7 +415,7 @@ const GNSign = () => {
 						common: `flex items-center justify-center font-sans font-normal text-gnsign-black absolute `,
 						mobile: `sm:h-[37px] sm:text-[12px] sm:leading-[17px] sm:bottom-0`,
 						tablet: `md:h-[37px] md:text-[12px] md:leading-[17px] md:bottom-0`,
-						desktop: `xl:h-[17px] xl:text-[12px] xl:leading-[17px] xl:bottom-[17px] xl:translate-x-[530.5px]`
+						desktop: `xl:h-[17px] xl:text-[12px] xl:leading-[17px] xl:bottom-[17px] xl:right-[18px]`
 					})} content={`小綠簽 © Code: Alex  /  Design: KT`} />
 				</div>
 			)

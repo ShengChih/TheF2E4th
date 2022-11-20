@@ -24,6 +24,8 @@ import { SAVE_TO_HISTORY } from '@features/gnsign/histories/sagaActions'
 
 import { Nullable } from '@/type.d'
 import { FileInfo } from '@features/gnsign/type.d'
+import PC_Logo from '@pages/GNSign/Landing/images/desktop/logo.png'
+import './styles/fullpage/base.scss'
 
 const ConfirmForm = lazy(() => import('@components/GNsign/ConfirmForm'))
 const TextBox = lazy(() => import('@components/GNsign/TextBox'))
@@ -358,9 +360,30 @@ const SignDocument = () => {
 	]
 
 	return (<>
-		<div className={`w-screen h-screen flex flex-wrap justify-center bg-gnsign-background`}>
+		<div className={`w-screen h-screen flex flex-wrap justify-center`}>
+			{
+				isDesktop ? (
+					<img className={`absolute w-fit h-fit xl:left-[40px] xl:top-[28px]`} src={PC_Logo} />
+				) : ''
+			}
+
 			<div className={flatClassName({
-				common: `w-full flex`,
+				common: `relative overflow-auto flex justify-center`,
+				mobile: `sm:w-[343px] sm:h-[457px] sm:translate-y-[90px]`,
+				tablet: `md:w-[736px] md:h-[814px] md:translate-y-[90px]`,
+				desktop: `xl:w-[793px] xl:grow xl:mt-[56px]`
+			})}>
+				<canvas
+					ref={canvasRef}
+					className={flatClassName({
+						mobile: `sm:w-[343px] sm:h-[457px]`,
+						tablet: `md:w-[736px] md:h-[981px]`
+					})}
+				></canvas>
+			</div>
+
+			<div className={flatClassName({
+				common: `absolute w-full flex`,
 				mobile: `sm:h-[90px] sm:p-[16px] sm:justify-between`,
 				tablet: `md:h-[90px] md:p-[16px] md:justify-between`,
 				desktop: `xl:justify-center xl:bottom-0 xl:absolute xl:items-center xl:bg-white xl:h-[92px]`
@@ -473,21 +496,6 @@ const SignDocument = () => {
 						})}>完成簽署</div>
 					)
 				}
-			</div>
-
-			<div className={flatClassName({
-				common: `absolute overflow-auto`,
-				mobile: `sm:w-[343px] sm:h-[457px] sm:translate-y-[90px]`,
-				tablet: `md:w-[736px] md:h-[814px] md:translate-y-[90px]`,
-				desktop: `xl:w-[793px] xl:h-[572px] xl:translate-y-[56px]`
-			})}>
-				<canvas
-					ref={canvasRef}
-					className={flatClassName({
-						mobile: `sm:w-[343px] sm:h-[457px]`,
-						tablet: `md:w-[736px] md:h-[981px]`
-					})}
-				></canvas>
 			</div>
 
 			<div className={flatClassName({

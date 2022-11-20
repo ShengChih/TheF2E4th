@@ -11,13 +11,14 @@ import GNsignLoadingPage, { InitLoadingState } from "@components/GNsign/LoadingP
 import { selectMakeSign } from '@features/gnsign/signs/selector'
 import { selectDraftFile } from '@features/gnsign/files/selector'
 import MakeSignModule from '@modules/GNsign/MakeSignModule'
+import PC_Logo from '@pages/GNSign/Landing/images/desktop/logo.png'
 
 const MakeSign = () => {
 	const [loadingState, setLoadingState] = useState(InitLoadingState)
 	const makeSign = useAppSelector(selectMakeSign)
 	const draftFile = useAppSelector(selectDraftFile)
 	const navigate = useNavigate()
-	const [_, isMobile] = useCheckScreen(deviceWidth)
+	const [_, isMobile, isTablet, isDesktop] = useCheckScreen(deviceWidth)
 	const [canvasWidth, canvasHeight] = isMobile ? [343, 200] : [590, 224]
 
 	useEffect(() => {
@@ -47,7 +48,12 @@ const MakeSign = () => {
 
 
 	return (<>
-		<div className={`font-sans font-normal w-screen h-screen bg-gnsign-background flex justify-center`}>
+		<div className={`relative font-sans font-normal w-screen h-screen bg-gnsign-background flex justify-center`}>
+			{
+				isDesktop ? (
+					<img className={`absolute w-fit h-fit xl:left-[40px] xl:top-[28px]`} src={PC_Logo} />
+				) : ''
+			}
 			<MakeSignModule
 				canvasWidth={canvasWidth}
 				canvasHeight={canvasHeight}

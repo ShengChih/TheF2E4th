@@ -13,7 +13,8 @@ import DocumentCheckRoute from "@routes/DocumentCheckRoute"
 const router = [
 	{
 		path: '/',
-		element: <App />,
+		//element: <App />,
+		element: <GsapNewspaper />,
 		errorElement: <ErrorPage />,
 	},
 	{

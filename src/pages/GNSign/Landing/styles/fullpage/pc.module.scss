@@ -1,0 +1,23 @@
+.header {
+	@apply xl:w-[1098px] xl:translate-x-[-51px];
+}
+
+.mainVisual {
+	@apply xl:translate-y-[105px];
+}
+
+.dragRegion {
+	@apply xl:translate-y-[136px];
+}
+
+.leaveRT {
+	@apply xl:w-[122px] xl:h-[255px];
+}
+
+.grassLeft {
+	@apply xl:w-[243px] xl:h-[62px]
+}
+
+.leaveBL {
+	@apply xl:w-[150px] xl:h-[305px];
+}
