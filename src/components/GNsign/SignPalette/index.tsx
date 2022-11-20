@@ -21,7 +21,7 @@ const SignPalette = ({
 			data-color="black"
 			onClick={changeColor}
 			className={flatClassName({
-				common: `${defaultColor === 'black' ? 'bg-white border-black':''} rounded-full flex items-center justify-center`,
+				common: `${defaultColor === 'black' ? 'border-2 bg-white border-black':''} rounded-full flex items-center justify-center`,
 				mobile: `sm:w-[45px] sm:h-[45px]`,
 				tablet: `md:w-[45px] md:h-[45px]`,
 				desktop: `xl:w-[45px] xl:h-[45px]`,
@@ -38,7 +38,7 @@ const SignPalette = ({
 			data-color="#0014C7"
 			onClick={changeColor}
 			className={flatClassName({
-				common: `${defaultColor === '#0014C7' ? 'bg-white border-[#0014C7]':''} rounded-full flex items-center justify-center`,
+				common: `${defaultColor === '#0014C7' ? 'border-2 bg-white border-[#0014C7]':''} rounded-full flex items-center justify-center`,
 				mobile: `sm:w-[45px] sm:h-[45px]`,
 				tablet: `md:w-[45px] md:h-[45px]`,
 				desktop: `xl:w-[45px] xl:h-[45px]`,
@@ -55,7 +55,7 @@ const SignPalette = ({
 			data-color="#CA0000"
 			onClick={changeColor}
 			className={flatClassName({
-				common: `${defaultColor === '#CA0000' ? 'bg-white border-[#CA0000]':''} rounded-full flex items-center justify-center`,
+				common: `${defaultColor === '#CA0000' ? 'border-2 bg-white border-[#CA0000]':''} rounded-full flex items-center justify-center`,
 				mobile: `sm:w-[45px] sm:h-[45px]`,
 				tablet: `md:w-[45px] md:h-[45px]`,
 				desktop: `xl:w-[45px] xl:h-[45px]`,
