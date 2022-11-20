@@ -170,13 +170,13 @@ const MakeSignModule = ({
 
 	const CanvasContainerClassName = isPageContent
 		? flatClassName({
-			common: `bg-white relative flex items-center justify-center rounded-[26px]`,
+			common: `overflow-hidden bg-white relative flex items-center justify-center rounded-[26px]`,
 			mobile: `sm:w-[343px] sm:h-[200px] sm:translate-y-[178px]`,
 			tablet: `md:w-[589px] md:h-[224px] md:translate-y-[217px]`,
 			desktop: `xl:w-[590px] xl:h-[224px] xl:translate-y-[217px]`,
 		})
 		: flatClassName({
-			common: `bg-white flex items-center justify-center rounded-[26px]`,
+			common: `overflow-hidden bg-white flex items-center justify-center rounded-[26px]`,
 			mobile: `sm:w-[326px] sm:h-[200px]`,
 			tablet: `md:w-[326px] md:h-[200px]`,
 			desktop: `xl:w-[590px] xl:h-[224px]`,

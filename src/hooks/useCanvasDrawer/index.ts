@@ -210,6 +210,7 @@ const useCanvasDrawer = (
 					callback && callback(false)
 				}).finally(() => {
 					worker.onmessage = null
+					setDrawing(false)
 				})
 			} else if (context) {
 				try {
@@ -222,6 +223,8 @@ const useCanvasDrawer = (
 					callback && callback(true)
 				} catch (error) {
 					callback && callback(false)
+				} finally {
+					setDrawing(false)
 				}
 			}
 		})

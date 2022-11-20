@@ -53,6 +53,7 @@ const SignDocument = () => {
 		current: 0,
 		maxPage: 0
 	})
+	const [scaleState, setScaleState] = useState<number>(1) /** 100% */
 	const [mergeCount, setMergeCount] = useState<number>(0)
 	const [showToast, setToast] = useState<boolean>(false)
 	const [downloadCount, setDownloadCount] = useState<number>(0)
@@ -119,10 +120,10 @@ const SignDocument = () => {
     if (pageState.current > 0 && canvasRef.current && imageUrlsRef.current[pageState.current - 1]) {
 			const loadImage = document.createElement("img")
 			loadImage.onload = () => {
-				canvas!.setWidth(canvasWidth)
-				canvas!.setHeight(canvasHeight)
-				const scaleX = canvasWidth / loadImage.width
-				const scaleY = canvasHeight / loadImage.height
+				canvas!.setWidth(canvasWidth * scaleState)
+				canvas!.setHeight(canvasHeight * scaleState)
+				const scaleX = canvasWidth / loadImage.width * scaleState
+				const scaleY = canvasHeight / loadImage.height * scaleState
 				canvas!.setBackgroundImage(new fabric.Image(loadImage, {
 					scaleX: scaleX,
 					scaleY: scaleY,
@@ -130,7 +131,7 @@ const SignDocument = () => {
 			}
 			loadImage.src = imageUrlsRef.current[pageState.current - 1]
     }
-  }, [loadingState.isLoading, canvasRef, imageUrlsRef, pageState.current, mergeCount])
+  }, [loadingState.isLoading, canvasRef, imageUrlsRef, pageState.current, mergeCount, scaleState])
 
 	const toggleTool = useCallback((e: MouseEvent) => {
 		const toolIndex = parseInt((e.currentTarget.getAttribute("data-tool") ?? '0'))
@@ -176,6 +177,20 @@ const SignDocument = () => {
 			})
 		}
 	}, [setPageState, clearFabricObjects, pageState.current])
+
+	const scale2Small = (e: MouseEvent) => {
+		if (scaleState - 0.1 < 0.5) {
+			return
+		}
+		setScaleState(scaleState - 0.1)
+	}
+
+	const scale2Bigger = (e: MouseEvent) => {
+		if (scaleState + 0.1 >= 1.5) {
+			return
+		}
+		setScaleState(scaleState + 0.1)
+	}
 
 	const displaySignBox = (e: MouseEvent) => {
 		setSignBox(true)
@@ -339,21 +354,24 @@ const SignDocument = () => {
 	return (<>
 		<div className={`w-screen h-screen flex flex-wrap justify-center bg-gnsign-background`}>
 			<div className={flatClassName({
-				common: `w-full flex justify-between`,
-				mobile: `sm:h-[90px] sm:p-[16px]`,
-				tablet: `md:h-[90px] md:p-[16px]`,
+				common: `w-full flex`,
+				mobile: `sm:h-[90px] sm:p-[16px] sm:justify-between`,
+				tablet: `md:h-[90px] md:p-[16px] md:justify-between`,
+				desktop: `xl:justify-center xl:bottom-0 xl:absolute xl:items-center xl:bg-white xl:h-[92px]`
 			})}>
 
 				<div className={flatClassName({
-					common: `relative flex justify-between bg-white`,
-					mobile: `sm:w-[204px] sm:h-[58px] sm:py-[14px] sm:px-[16px] sm:rounded-[16px]`,
-					tablet: `md:w-[560px] md:h-[58px] md:py-[14px] md:px-[16px] md:rounded-[16px]`
+					common: `flex justify-between bg-white`,
+					mobile: `sm:relative sm:w-[204px] sm:h-[58px] sm:py-[14px] sm:px-[16px] sm:rounded-[16px]`,
+					tablet: `md:relative md:w-[560px] md:h-[58px] md:py-[14px] md:px-[16px] md:rounded-[16px]`,
+					desktop: `xl:absolute xl:translate-x-[-281px] xl:w-[199px] xl:h-[58px] xl:py-[14px] xl:px-[16px] xl:rounded-[16px] xl:shadow-[0_4px_6px_rgba(0,0,0,0.11)]`
 				})}>
 					<div
 						className={flatClassName({
 							common: `bg-gnsign-green flex justify-center items-center`,
 							mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`,
 							tablet: `md:w-[30px] md:h-[30px] md:rounded-[12px]`,
+							desktop: `xl:w-[30px] xl:h-[30px] xl:rounded-[12px]`,
 						})}
 						onClick={goPrevious}
 					>
@@ -366,6 +384,7 @@ const SignDocument = () => {
 						common: `font-roboto font-normal text-gnsign-black flex items-center`,
 						mobile: `sm:text-[16px] sm:leading-[19px]`,
 						tablet: `md:text-[16px] md:leading-[19px]`,
+						desktop: `xl:text-[16px] xl:leading-[19px]`
 					})}>{`${pageState.current} / ${pageState.maxPage}`}</p>
 
 					<div
@@ -373,6 +392,7 @@ const SignDocument = () => {
 							common: `bg-gnsign-green flex justify-center items-center`,
 							mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`,
 							tablet: `md:w-[30px] md:h-[30px] md:rounded-[12px]`,
+							desktop: `xl:w-[30px] xl:h-[30px] xl:rounded-[12px]`,
 						})}
 						onClick={goNext}
 					>
@@ -381,6 +401,55 @@ const SignDocument = () => {
 						</svg>
 					</div>
 				</div>
+
+				{
+					isDesktop
+					? (
+						<div className={flatClassName({
+							common: `flex justify-between bg-white`,
+							mobile: `sm:relative sm:w-[204px] sm:h-[58px] sm:py-[14px] sm:px-[16px] sm:rounded-[16px]`,
+							tablet: `md:relative md:w-[560px] md:h-[58px] md:py-[14px] md:px-[16px] md:rounded-[16px]`,
+							desktop: `xl:absolute xl:translate-x-[-72px] xl:w-[199px] xl:h-[58px] xl:py-[14px] xl:px-[16px] xl:rounded-[16px] xl:shadow-[0_4px_6px_rgba(0,0,0,0.11)]`
+						})}>
+							<div
+								className={flatClassName({
+									common: `bg-gnsign-green flex justify-center items-center`,
+									mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`,
+									tablet: `md:w-[30px] md:h-[30px] md:rounded-[12px]`,
+									desktop: `xl:w-[30px] xl:h-[30px] xl:rounded-[12px]`,
+								})}
+								onClick={scale2Small}
+							>
+								<svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M1.16244 4.49911L5.16965 0.491906C5.44661 0.214937 5.89448 0.214937 6.1685 0.491906L6.83441 1.15781C7.11137 1.43478 7.11137 1.88264 6.83441 2.15667L3.99695 5.00002L6.83735 7.84042C7.11432 8.11739 7.11432 8.56525 6.83735 8.83927L6.17145 9.50812C5.89448 9.78509 5.44662 9.78509 5.17259 9.50812L1.16538 5.50092C0.885469 5.22395 0.885469 4.77608 1.16244 4.49911Z" fill="white"/>
+								</svg>
+							</div>
+		
+							<p className={flatClassName({
+								common: `font-roboto font-normal text-gnsign-black flex items-center`,
+								mobile: `sm:text-[16px] sm:leading-[19px]`,
+								tablet: `md:text-[16px] md:leading-[19px]`,
+								desktop: `xl:text-[16px] xl:leading-[19px]`
+							})}>{`${Math.round(scaleState * 100)} %`}</p>
+		
+							<div
+								className={flatClassName({
+									common: `bg-gnsign-green flex justify-center items-center`,
+									mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`,
+									tablet: `md:w-[30px] md:h-[30px] md:rounded-[12px]`,
+									desktop: `xl:w-[30px] xl:h-[30px] xl:rounded-[12px]`,
+								})}
+								onClick={scale2Bigger}
+							>
+								<svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M6.83762 5.50112L2.82847 9.51027C2.55137 9.78737 2.10329 9.78737 1.82913 9.51027L1.16291 8.84404C0.885802 8.56694 0.885802 8.11886 1.16291 7.8447L4.00468 5.00293L1.16291 2.16115C0.885802 1.88405 0.885802 1.43596 1.16291 1.16181L1.82618 0.489687C2.10329 0.212585 2.55137 0.212585 2.82552 0.489687L6.83467 4.49883C7.11472 4.77594 7.11472 5.22402 6.83762 5.50112Z" fill="white"/>
+								</svg>
+							</div>
+						</div>
+					)
+					: ''
+				}
+
 				{
 					showSave
 					? (
@@ -389,7 +458,8 @@ const SignDocument = () => {
 							className={flatClassName({
 							common: `font-sans font-normal flex items-center justify-center text-gnsign-green bg-white`,
 							mobile: `sm:w-[130px] sm:h-[58px] sm:text-[18px] sm:leading-[26px] sm:rounded-[16px]`,
-							tablet: `md:w-[167px] md:h-[58px] md:text-[18px] md:leading-[26px] md:rounded-[16px]`
+							tablet: `md:w-[167px] md:h-[58px] md:text-[18px] md:leading-[26px] md:rounded-[16px]`,
+							desktop: `xl:absolute xl:translate-x-[508.5px] xl:w-[183px] xl:h-[56px] xl:text-[18px] xl:leading-[26px] xl:rounded-[16px]`
 						})}>回首頁</div>
 					)
 					: (
@@ -398,7 +468,8 @@ const SignDocument = () => {
 							className={flatClassName({
 							common: `font-sans font-normal flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh text-white`,
 							mobile: `sm:w-[130px] sm:h-[58px] sm:text-[18px] sm:leading-[26px] sm:rounded-[16px]`,
-							tablet: `md:w-[167px] md:h-[58px] md:text-[18px] md:leading-[26px] md:rounded-[16px]`
+							tablet: `md:w-[167px] md:h-[58px] md:text-[18px] md:leading-[26px] md:rounded-[16px]`,
+							desktop: `xl:absolute xl:translate-x-[508.5px] xl:w-[183px] xl:h-[56px] xl:text-[18px] xl:leading-[26px] xl:rounded-[16px]`
 						})}>完成簽署</div>
 					)
 				}
@@ -408,6 +479,7 @@ const SignDocument = () => {
 				common: `absolute overflow-auto`,
 				mobile: `sm:w-[343px] sm:h-[457px] sm:translate-y-[90px]`,
 				tablet: `md:w-[736px] md:h-[814px] md:translate-y-[90px]`,
+				desktop: `xl:w-[793px] xl:h-[572px] xl:translate-y-[56px]`
 			})}>
 				<canvas
 					ref={canvasRef}
@@ -419,9 +491,10 @@ const SignDocument = () => {
 			</div>
 
 			<div className={flatClassName({
-				common: `absolute w-full flex items-center justify-center bottom-0`,
+				common: `absolute  flex items-center justify-center bottom-0`,
 				mobile: `sm:h-[120px]`,
 				tablet: `md:h-[120px]`,
+				desktop: `xl:h-[92px] xl:translate-x-[210px]`
 			})}>
 				{
 					showSave
@@ -430,13 +503,15 @@ const SignDocument = () => {
 						className={flatClassName({
 						common: `text-white font-sans font-normal  flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`,
 						mobile: `sm:text-[18px] sm:leading-[26px] sm:w-[260px] sm:h-[56px] sm:rounded-[16px]`,
-						tablet: `md:text-[18px] md:leading-[26px] md:w-[260px] md:h-[56px] md:rounded-[16px]`
+						tablet: `md:text-[18px] md:leading-[26px] md:w-[260px] md:h-[56px] md:rounded-[16px]`,
+						desktop: `xl:text-[18px] xl:leading-[26px] xl:w-[183px] xl:h-[56px] xl:rounded-[16px]`
 					})}>儲存</button>)
 					: (
 						<div className={flatClassName({
 							common: `flex items-center justify-center bg-white`,
 							mobile: `sm:w-[343px] sm:h-[72px] sm:gap-x-[8px] sm:rounded-[16px]`,
 							tablet: `md:w-[736px] md:h-[72px] md:gap-x-[8px] md:rounded-[16px]`,
+							desktop: `xl:w-[343px] xl:h-[72px] xl:gap-x-[8px] xl:rounded-[16px]`,
 						})}>
 							{
 								toolProps.map((props, index) => (
@@ -451,7 +526,8 @@ const SignDocument = () => {
 						</div>
 					)
 				}
-				</div>
+			</div>
+
 		</div>
 		<div className={flatClassName({
 				common: `w-screen h-screen fixed inset-0 flex items-center justify-center bg-gnsign-black/[.54] ${showSignBox || showTextBox || showConfirmForm || showToast ? "":"hidden"}`

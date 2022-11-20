@@ -21,11 +21,13 @@ const GNsignLoadingPage = memo(({ isLoading, text }: { isLoading: boolean, text:
 				common: `absolute`,
 				mobile: `sm:translate-y-[176px]`,
 				tablet: `md:translate-y-[176px]`,
+				desktop: `xl:translate-y-[176px]`,
 			})} />}
 			content={<p className={flatClassName({
 				common: `absolute`,
 				mobile: `sm:translate-y-[308px]`,
 				tablet: `md:translate-y-[308px]`,
+				desktop: `xl:translate-y-[308px]`,
 			})}>{text}</p>}
 			className={flatClassName({
 				common: `w-screen h-screen bg-gnsign-background absolute inset-0 flex justify-center ${isLoading ? '':'hidden'}`,
