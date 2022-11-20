@@ -1,5 +1,6 @@
 import { memo } from 'react'
 import { flatClassName } from '@utils/reduce'
+import Lottie from 'lottie-react'
 import LoadingPage from '@components/shared/LoadingPage'
 
 import MB_Loading from './images/mobile/loading.png'
@@ -9,6 +10,8 @@ import PC_GrassLeft from './images/desktop/grass_left.png'
 import PC_Logo from '@pages/GNSign/Landing/images/desktop/logo.png'
 import { deviceWidth } from '@utils/config'
 import useCheckScreen from '@hooks/useCheckScreen'
+import LoadingAnimation from './lotties/GNsign_loading.json'
+
 
 export * from './constants'
 export * from './type.d'
@@ -18,12 +21,12 @@ const GNsignLoadingPage = memo(({ isLoading, text }: { isLoading: boolean, text:
 
 	return (<>
 		<LoadingPage
-			loadingImg={<img src={MB_Loading} className={flatClassName({
-				common: `absolute`,
+			loadingImg={<div className={flatClassName({
+				common: `absolute w-[132px] h-[132px]`,
 				mobile: `sm:translate-y-[176px]`,
 				tablet: `md:translate-y-[176px]`,
 				desktop: `xl:translate-y-[176px]`,
-			})} />}
+			})}><Lottie animationData={LoadingAnimation} loop={true} /></div>}
 			content={<p className={flatClassName({
 				common: `absolute`,
 				mobile: `sm:translate-y-[308px]`,
