@@ -158,6 +158,10 @@ const SignDocument = () => {
 		canvas!.remove(...fabricObjects)
 	}, [canvas])
 
+	const roundDecimal = (val:number, precision:number) => {
+		return Math.round(Math.round(val * Math.pow(10, (precision || 0) + 1)) / 10) / Math.pow(10, (precision || 0));
+	}
+
 	const goPrevious = useCallback((e: MouseEvent) => {
 		if (pageState.current > 1) {
 			clearFabricObjects()
@@ -178,18 +182,20 @@ const SignDocument = () => {
 		}
 	}, [setPageState, clearFabricObjects, pageState.current])
 
-	const scale2Small = (e: MouseEvent) => {
-		if (scaleState - 0.1 < 0.5) {
+	const scaleLess = (e: MouseEvent) => {
+		const ret = roundDecimal(scaleState - 0.1, 1)
+		if (ret < 0.5) {
 			return
 		}
-		setScaleState(scaleState - 0.1)
+		setScaleState(ret)
 	}
 
-	const scale2Bigger = (e: MouseEvent) => {
-		if (scaleState + 0.1 >= 1.5) {
+	const scaleMore = (e: MouseEvent) => {
+		const ret = roundDecimal(scaleState + 0.1, 1)
+		if (ret > 1.5) {
 			return
 		}
-		setScaleState(scaleState + 0.1)
+		setScaleState(ret)
 	}
 
 	const displaySignBox = (e: MouseEvent) => {
@@ -413,36 +419,30 @@ const SignDocument = () => {
 						})}>
 							<div
 								className={flatClassName({
-									common: `bg-gnsign-green flex justify-center items-center`,
-									mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`,
-									tablet: `md:w-[30px] md:h-[30px] md:rounded-[12px]`,
-									desktop: `xl:w-[30px] xl:h-[30px] xl:rounded-[12px]`,
+									common: `flex justify-center items-center`,
+									desktop: `xl:w-[27px] xl:h-[27px]`,
 								})}
-								onClick={scale2Small}
+								onClick={scaleMore}
 							>
-								<svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M1.16244 4.49911L5.16965 0.491906C5.44661 0.214937 5.89448 0.214937 6.1685 0.491906L6.83441 1.15781C7.11137 1.43478 7.11137 1.88264 6.83441 2.15667L3.99695 5.00002L6.83735 7.84042C7.11432 8.11739 7.11432 8.56525 6.83735 8.83927L6.17145 9.50812C5.89448 9.78509 5.44662 9.78509 5.17259 9.50812L1.16538 5.50092C0.885469 5.22395 0.885469 4.77608 1.16244 4.49911Z" fill="white"/>
+								<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path fillRule="evenodd" clipRule="evenodd" d="M14.3582 2.99036C19.2703 2.99036 23.2524 6.97245 23.2524 11.8846C23.2524 16.7968 19.2703 20.7789 14.3582 20.7789C11.955 20.7789 9.77444 19.8258 8.17385 18.277C8.14491 18.238 8.11276 18.2007 8.07741 18.1653C8.04206 18.13 8.00473 18.0978 7.96577 18.0689C6.41699 16.4683 5.46392 14.2878 5.46392 11.8846C5.46392 6.97245 9.44601 2.99036 14.3582 2.99036ZM5.97996 18.8486C4.40886 16.9605 3.46392 14.5329 3.46392 11.8846C3.46392 5.86788 8.34145 0.990356 14.3582 0.990356C20.3749 0.990356 25.2524 5.86788 25.2524 11.8846C25.2524 17.9014 20.3749 22.7789 14.3582 22.7789C11.7099 22.7789 9.28227 21.8339 7.39417 20.2628L2.6974 24.9595C2.30688 25.3501 1.67371 25.3501 1.28319 24.9595C0.892666 24.569 0.892666 23.9359 1.28319 23.5453L5.97996 18.8486ZM19.0684 11.8846C19.0684 12.4369 18.6207 12.8846 18.0684 12.8846H15.3584V15.5949C15.3584 16.1472 14.9107 16.5949 14.3584 16.5949C13.8061 16.5949 13.3584 16.1472 13.3584 15.5949V12.8846H10.6477C10.0954 12.8846 9.64768 12.4369 9.64768 11.8846C9.64768 11.3323 10.0954 10.8846 10.6477 10.8846H13.3584V8.17425C13.3584 7.62197 13.8061 7.17425 14.3584 7.17425C14.9107 7.17425 15.3584 7.62197 15.3584 8.17425V10.8846H18.0684C18.6207 10.8846 19.0684 11.3323 19.0684 11.8846Z" fill="#1C8B6A"/>
 								</svg>
 							</div>
 		
 							<p className={flatClassName({
 								common: `font-roboto font-normal text-gnsign-black flex items-center`,
-								mobile: `sm:text-[16px] sm:leading-[19px]`,
-								tablet: `md:text-[16px] md:leading-[19px]`,
 								desktop: `xl:text-[16px] xl:leading-[19px]`
 							})}>{`${Math.round(scaleState * 100)} %`}</p>
 		
 							<div
 								className={flatClassName({
-									common: `bg-gnsign-green flex justify-center items-center`,
-									mobile: `sm:w-[30px] sm:h-[30px] sm:rounded-[12px]`,
-									tablet: `md:w-[30px] md:h-[30px] md:rounded-[12px]`,
-									desktop: `xl:w-[30px] xl:h-[30px] xl:rounded-[12px]`,
+									common: `flex justify-center items-center`,
+									desktop: `xl:w-[27px] xl:h-[27px]`,
 								})}
-								onClick={scale2Bigger}
+								onClick={scaleLess}
 							>
-								<svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M6.83762 5.50112L2.82847 9.51027C2.55137 9.78737 2.10329 9.78737 1.82913 9.51027L1.16291 8.84404C0.885802 8.56694 0.885802 8.11886 1.16291 7.8447L4.00468 5.00293L1.16291 2.16115C0.885802 1.88405 0.885802 1.43596 1.16291 1.16181L1.82618 0.489687C2.10329 0.212585 2.55137 0.212585 2.82552 0.489687L6.83467 4.49883C7.11472 4.77594 7.11472 5.22402 6.83762 5.50112Z" fill="white"/>
+								<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path fillRule="evenodd" clipRule="evenodd" d="M11.883 2.98853C6.97086 2.98853 2.98877 6.97062 2.98877 11.8828C2.98877 16.7949 6.97086 20.777 11.883 20.777C14.2861 20.777 16.4666 19.824 18.0672 18.2753C18.0962 18.2363 18.1283 18.1989 18.1637 18.1635C18.1991 18.1281 18.2365 18.0959 18.2755 18.067C19.8242 16.4664 20.7773 14.2859 20.7773 11.8828C20.7773 6.97062 16.7952 2.98853 11.883 2.98853ZM11.883 22.777C14.5313 22.777 16.9589 21.8321 18.847 20.261L23.5437 24.9577C23.9343 25.3482 24.5674 25.3482 24.9579 24.9577C25.3485 24.5672 25.3485 23.934 24.9579 23.5435L20.2612 18.8468C21.8323 16.9587 22.7773 14.5311 22.7773 11.8828C22.7773 5.86605 17.8998 0.988525 11.883 0.988525C5.86629 0.988525 0.98877 5.86605 0.98877 11.8828C0.98877 17.8995 5.86629 22.777 11.883 22.777ZM8.17267 10.8825C7.62038 10.8825 7.17267 11.3302 7.17267 11.8825C7.17267 12.4348 7.62038 12.8825 8.17267 12.8825H15.5934C16.1456 12.8825 16.5934 12.4348 16.5934 11.8825C16.5934 11.3302 16.1456 10.8825 15.5934 10.8825H8.17267Z" fill="#1C8B6A"/>
 								</svg>
 							</div>
 						</div>
@@ -504,7 +504,7 @@ const SignDocument = () => {
 						common: `text-white font-sans font-normal  flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`,
 						mobile: `sm:text-[18px] sm:leading-[26px] sm:w-[260px] sm:h-[56px] sm:rounded-[16px]`,
 						tablet: `md:text-[18px] md:leading-[26px] md:w-[260px] md:h-[56px] md:rounded-[16px]`,
-						desktop: `xl:text-[18px] xl:leading-[26px] xl:w-[183px] xl:h-[56px] xl:rounded-[16px]`
+						desktop: `xl:absoulte xl:translate-x-[105.5px] xl:text-[18px] xl:leading-[26px] xl:w-[183px] xl:h-[56px] xl:rounded-[16px]`
 					})}>儲存</button>)
 					: (
 						<div className={flatClassName({

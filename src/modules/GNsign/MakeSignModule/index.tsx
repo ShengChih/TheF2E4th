@@ -137,7 +137,7 @@ const MakeSignModule = ({
 			common: `flex items-center justify-between`,
 			mobile: `sm:w-[284px] sm:h-[45px]`,
 			tablet: `md:w-[284px] md:h-[45px]`,
-			desktop: `xl:w-[284px] xl:h-[45px]`,
+			desktop: `xl:w-[590px] xl:h-[45px]`,
 		})
 
 	const ModeClassName = isPageContent
@@ -179,7 +179,7 @@ const MakeSignModule = ({
 			common: `overflow-hidden bg-white flex items-center justify-center rounded-[26px]`,
 			mobile: `sm:w-[326px] sm:h-[200px]`,
 			tablet: `md:w-[326px] md:h-[200px]`,
-			desktop: `xl:w-[590px] xl:h-[224px]`,
+			desktop: `xl:w-[590px] xl:h-[200px]`,
 		})
 
 	return (<>
@@ -232,6 +232,16 @@ const MakeSignModule = ({
 					className="hidden"
 					onChange={handleChangeFile}
 				/>
+				<div
+					onMouseDown={isImportMode ? undefined : handleMouseDown}
+					onMouseMove={isImportMode ? undefined : handleMouseMove}
+					className={flatClassName({
+						common: `absolute text-gnsign-gray`,
+						mobile: `sm:text-[18px] sm:leading-[26px]`,
+						tablet: `md:text-[22px] md:leading-[32px]`,
+						desktop: `xl:text-[22px] xl:leading-[32px]`,
+					})}
+				>{isDrawing ? '' : mode.canvasText}</div>
 				<canvas
 					ref={canvasRef}
 					width={canvasWidth}
@@ -243,12 +253,6 @@ const MakeSignModule = ({
 					onTouchMove={isImportMode ? undefined : handleTouchMove}
 					onTouchEnd={isImportMode ? undefined : handleTouchEnd}
 				></canvas>
-				<div className={flatClassName({
-					common: `absolute text-gnsign-gray`,
-					mobile: `sm:text-[18px] sm:leading-[26px]`,
-					tablet: `md:text-[22px] md:leading-[32px]`,
-					desktop: `xl:text-[22px] xl:leading-[32px]`,
-				})}>{isDrawing ? '' : mode.canvasText}</div>
 			</div>
 
 			<div className={ButtonGroupClassName}>

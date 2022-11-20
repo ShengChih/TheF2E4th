@@ -389,9 +389,6 @@ const GNSign = () => {
 								desktop: `xl:text-[14px] xl:leading-[20px]`,
 							})}>(限10MB 內的PDF或JPG檔)</p>
 						</div>
-		
-		
-						
 
 						{
 							isDesktop ? (<>
@@ -400,8 +397,8 @@ const GNSign = () => {
 									onDragOver={fileDragOver}
 									onDrop={fileDragDrop}
 									className={flatClassName({
-										common: `absolute`,
-										desktop: `xl:w-[227px] xl:h-[133px] xl:translate-y-[151.5px]`
+										common: `absolute rounded-[26px]`,
+										desktop: `xl:w-[417px] xl:h-[376px]`
 								})}></div>
 								<button
 									onClick={handleSelectedFileButton}

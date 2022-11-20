@@ -282,6 +282,7 @@ const useCanvasDrawer = (
 		defaultColor,
 		isDrawing,
 		setColor,
+		setDrawing,
 		handleMouseDown,
 		handleMouseMove,
 		handleMouseUp,
