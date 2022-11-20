@@ -1,23 +1,44 @@
-## install pnpm packages
+# Week 2 - 來點點點簽
+
+The F2E 4th 來點點點簽
+
+## 介紹
+
+無任何後端 / 純前端，簡易 PDF 簽名流程
+[ Design 設計稿](https://www.figma.com/file/6ZjDFQSrwRy6OUAXDmJNhz/%E5%B0%8F%E7%B6%A0%E7%B0%BD?node-id=53%3A252&t=bwFvHXXrLozEKyvO-0)
+
+## 限制
+- 無後端純前端，也沒有檔案存放處，重新載入資料清空。
+
+## 技術
+
+- Web worker
+- Canvas
+
+## 第三方套件
+
+- [ReactJS]
+- [TailwindCSS]
+- [React Router]
+- [Redux and Redux saga]
+- [pdfjs](https://mozilla.github.io/pdf.js/examples/)
+- [jspdf](https://rawgit.com/MrRio/jsPDF/master/docs/index.html)
+- [fabric](http://fabricjs.com/)
+- [react-lottie]
+
+## 環境
+- NodeJS v16.17.1
+- Vite(https://vitejs.dev/)
+- PNPM(https://pnpm.io/zh-TW/)
+- Docker(有需要抽字型才需要)
+
+## 部署
 ```
 pnpm i 
-```
-
-## run frontend service 
-```
 pnpm run dev
-
-or 
-
-vite
 ```
 
-## JS dedupe string
-```javascript
-uniq = [...new Set("AAAAA".split(""))].join("");
-```
-
-## extract font subset example
+## 抽取字型
 ```
 cd scripts/python
 
