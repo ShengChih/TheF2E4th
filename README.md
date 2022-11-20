@@ -28,8 +28,8 @@ The F2E 4th 來點點點簽
 
 ## 環境
 - NodeJS v16.17.1
-- Vite(https://vitejs.dev/)
-- PNPM(https://pnpm.io/zh-TW/)
+- [Vite](https://vitejs.dev/)
+- [PNPM](https://pnpm.io/zh-TW/)
 - Docker(有需要抽字型才需要)
 
 ## 部署
