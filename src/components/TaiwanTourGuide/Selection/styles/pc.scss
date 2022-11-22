@@ -1,0 +1,30 @@
+/** 1280px */
+@media (min-width: 1280px) {
+	.dropdown_click {
+		@apply rounded-[6px];
+	}
+
+	.dropdown_text--pc {
+		@apply w-[63px] h-[23px] ml-[16px] text-[16px] leading-[23px];
+	}
+
+	.dropdown_action--pc {
+		@apply right-[18.5px];
+	}
+
+	.dropdown_options--pc {
+		li {
+			@apply last:rounded-b-[6px];
+		}
+
+		a {
+			@apply hover:bg-[#F8235B] hover:text-[#FFFFFF] h-[40px] text-[16px] pl-[16px];
+		}
+
+		p {
+			@apply w-[63px];
+		}
+
+		@apply top-[40px];
+	}
+}

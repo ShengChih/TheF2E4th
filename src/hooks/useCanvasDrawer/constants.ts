@@ -1,0 +1,6 @@
+export const INIT_CANVAS = 'initDrawInCanvas'
+export const MOVE_IN_CANVAS = 'moveInCanvas'
+export const DRAW_IN_CANVAS = 'drawInCanvas'
+export const UPLOAD_IMAGE_TO_CANVAS = 'toGrayAndResizeInCanvas'
+export const CLEAR_ALL = 'clearRect'
+export const REMOVE_WHITE_BG = 'removeWhiteBg'

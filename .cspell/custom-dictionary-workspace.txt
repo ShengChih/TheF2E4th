@@ -1,0 +1,13 @@
+# Custom Dictionary Words
+datauristring
+fullpage
+gnsign
+greenh
+greenl
+Gsap
+hexschool
+jspdf
+lotties
+Scroller
+signdoc
+uuidv

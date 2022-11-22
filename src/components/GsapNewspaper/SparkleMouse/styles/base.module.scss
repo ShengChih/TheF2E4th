@@ -1,0 +1,16 @@
+.star {
+  position: fixed;
+  z-index: 9999;
+  transform: translate(-40%, -40%);
+  opacity: 1;
+  animation: fade 1s infinite;
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

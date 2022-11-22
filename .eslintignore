@@ -1,0 +1,21 @@
+## file extensions
+*.*
+dist/*
+build/*
+!*.css
+!*.js
+!*.json
+!*.jsx
+!*.less
+!*.md
+!*.mdx
+!*.ts
+!*.tsx
+!*.yml
+LICENSE
+tailwind.config.js
+postcss.config.js
+
+## copied from .gitignore
+
+## shared between eslint and prettier
