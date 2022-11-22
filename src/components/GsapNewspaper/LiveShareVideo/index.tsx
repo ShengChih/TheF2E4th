@@ -1,4 +1,4 @@
-import React, { useCallback, useState, MouseEvent, ReactNode } from 'react'
+import React, { useCallback, useState, ReactNode } from 'react'
 import MagicWand from '@/components/GsapNewspaper/MagicWand'
 import SectionTitle from '@/components/GsapNewspaper/SectionTitle'
 import { flatClassName } from '@/utils/reduce'
@@ -28,75 +28,78 @@ const initState = {
   displayCard: false,
 }
 
-const ShareSpeakerCard = React.memo(
-  ({
-    SubjectStyle,
-    SubjectTitle,
-    SpeakerImage,
-    SpeakerTitleStyle,
-    SpeakerTitle,
-    ActivityPeriodsStyle,
-    ActivityInfo,
-    VideoLink,
-  }: ShareSpeakerCardProps) => {
-    const go2Link = VideoLink
-      ? () => {
-          window.open(VideoLink, '_blank')
-        }
-      : undefined
+const ShareSpeakerCard = ({
+  SubjectStyle,
+  SubjectTitle,
+  SpeakerImage,
+  SpeakerTitleStyle,
+  SpeakerTitle,
+  ActivityPeriodsStyle,
+  ActivityInfo,
+  VideoLink,
+}: ShareSpeakerCardProps) => {
+  const go2Link = VideoLink
+    ? () => {
+        window.open(VideoLink, '_blank')
+      }
+    : undefined
 
-    return (
+  return (
+    <div
+      role="link"
+      tabIndex={0}
+      onKeyDown={go2Link}
+      onClick={go2Link}
+      style={{
+        backgroundImage: `url(${SpeakerImage})`,
+      }}
+      className={flatClassName({
+        common: `relative flex flex-col items-center bg-contain`,
+        desktop: `xl:w-[522px] xl:h-[738.5px]`,
+        tablet: `md:w-[343.px] md:h-[485.26px]`,
+        mobile: `sm:w-[343.px] sm:h-[485.26px]`,
+      })}
+    >
       <div
-        onClick={go2Link}
+        className={flatClassName({
+          common: `text-center font-serif font-black mx-auto ${SubjectStyle}`,
+          tablet: `md:absolute`,
+          mobile: `sm:absolute`,
+        })}
+      >
+        {SubjectTitle}
+      </div>
+      <div
         style={{
-          backgroundImage: `url(${SpeakerImage})`,
+          backgroundImage: `url(${NameBgImage})`,
         }}
         className={flatClassName({
-          common: `relative flex flex-col items-center bg-contain`,
-          desktop: `xl:w-[522px] xl:h-[738.5px]`,
-          tablet: `md:w-[343.px] md:h-[485.26px]`,
-          mobile: `sm:w-[343.px] sm:h-[485.26px]`,
+          common: `absolute flex items-center`,
+          desktop: `xl:w-[259px] xl:h-[66px] xl:top-[583px]`,
+          tablet: `md:w-[170.19px] md:h-[43.37px] md:top-[383.08px] md:justify-center`,
+          mobile: `sm:w-[170.19px] sm:h-[43.37px] sm:top-[383.08px] sm:justify-center`,
         })}
       >
         <div
           className={flatClassName({
-            common: `text-center font-serif font-black mx-auto ${SubjectStyle}`,
-            tablet: `md:absolute`,
-            mobile: `sm:absolute`,
+            common: `flex items-center relative whitespace-pre text-center text-white font-sans font-bold ${SpeakerTitleStyle}`,
           })}
         >
-          {SubjectTitle}
-        </div>
-        <div
-          style={{
-            backgroundImage: `url(${NameBgImage})`,
-          }}
-          className={flatClassName({
-            common: `absolute flex items-center`,
-            desktop: `xl:w-[259px] xl:h-[66px] xl:top-[583px]`,
-            tablet: `md:w-[170.19px] md:h-[43.37px] md:top-[383.08px] md:justify-center`,
-            mobile: `sm:w-[170.19px] sm:h-[43.37px] sm:top-[383.08px] sm:justify-center`,
-          })}
-        >
-          <div
-            className={flatClassName({
-              common: `flex items-center relative whitespace-pre text-center text-white font-sans font-bold ${SpeakerTitleStyle}`,
-            })}
-          >
-            {SpeakerTitle}
-          </div>
-        </div>
-        <div
-          className={flatClassName({
-            common: `absolute font-roboto font-black text-center text-[#38241B] ${ActivityPeriodsStyle}`,
-          })}
-        >
-          {ActivityInfo}
+          {SpeakerTitle}
         </div>
       </div>
-    )
-  },
-)
+      <div
+        className={flatClassName({
+          common: `absolute font-roboto font-black text-center text-[#38241B] ${ActivityPeriodsStyle}`,
+        })}
+      >
+        {ActivityInfo}
+      </div>
+    </div>
+  )
+}
+
+const MemorizedShareSpeakerCard = React.memo(ShareSpeakerCard)
 
 const liveShares = [
   {
@@ -196,11 +199,14 @@ const liveShares = [
 ]
 
 type ClickBlockProps = {
-  handleClick: (e: MouseEvent<HTMLDivElement>) => void
+  handleClick: () => void
 }
 
-const ClickBlock = React.memo(({ handleClick }: ClickBlockProps) => (
+const ClickBlock = ({ handleClick }: ClickBlockProps) => (
   <div
+    role="button"
+    tabIndex={0}
+    onKeyDown={handleClick}
     onClick={handleClick}
     className={flatClassName({
       common: `relative w-[504px] h-[245px] font-serif font-black text-[72px] leading-[103px] mx-auto text-center text-[#3C221B]`,
@@ -218,7 +224,9 @@ const ClickBlock = React.memo(({ handleClick }: ClickBlockProps) => (
       })}
     />
   </div>
-))
+)
+
+const MemorizedClickBlock = React.memo(ClickBlock)
 
 type LiveShareVideoProps = {
   children?: ReactNode | ReactNode[]
@@ -261,13 +269,13 @@ export default function LiveShareVideo({ children }: LiveShareVideoProps) {
           })}
         >
           {liveShares.map((speaker, index: number) => (
-            <ShareSpeakerCard {...speaker} key={`speaker-${index}`} />
+            <MemorizedShareSpeakerCard {...speaker} key={`speaker-${index}`} />
           ))}
         </div>
       </div>
       {children}
     </>
   ) : (
-    <ClickBlock handleClick={handleClick} />
+    <MemorizedClickBlock handleClick={handleClick} />
   )
 }

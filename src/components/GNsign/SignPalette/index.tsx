@@ -1,8 +1,8 @@
-import React, { memo, MouseEvent } from 'react'
+import React, { memo, MouseEvent, KeyboardEvent } from 'react'
 import { flatClassName } from '@/utils/reduce'
 
 type SignPaletteProps = {
-  changeColor: (e: MouseEvent) => void
+  changeColor: (e: MouseEvent | KeyboardEvent) => void
   defaultColor: string
 }
 
@@ -17,6 +17,10 @@ const SignPalette = ({ changeColor, defaultColor }: SignPaletteProps) => (
   >
     <div
       data-color="black"
+      role="radio"
+      aria-checked="mixed"
+      tabIndex={0}
+      onKeyDown={changeColor}
       onClick={changeColor}
       className={flatClassName({
         common: `${
@@ -39,6 +43,10 @@ const SignPalette = ({ changeColor, defaultColor }: SignPaletteProps) => (
 
     <div
       data-color="#0014C7"
+      role="radio"
+      aria-checked="mixed"
+      tabIndex={0}
+      onKeyDown={changeColor}
       onClick={changeColor}
       className={flatClassName({
         common: `${
@@ -61,6 +69,10 @@ const SignPalette = ({ changeColor, defaultColor }: SignPaletteProps) => (
 
     <div
       data-color="#CA0000"
+      role="radio"
+      aria-checked="mixed"
+      tabIndex={0}
+      onKeyDown={changeColor}
       onClick={changeColor}
       className={flatClassName({
         common: `${

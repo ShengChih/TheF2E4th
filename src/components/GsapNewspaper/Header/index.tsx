@@ -44,6 +44,7 @@ const Header = ({ className, gotoHexSchoolAnchor, gotoScheduleInfoAnchor }: Head
         </div>
       ) : (
         <img
+          alt={`hexschool-logo`}
           src={HexSchoolLogo}
           className={flatClassName({
             common: `bg-no-repeat flex items-center w-[145px] h-[35px]`,
@@ -69,17 +70,29 @@ const Header = ({ className, gotoHexSchoolAnchor, gotoScheduleInfoAnchor }: Head
               className={flatClassName({
                 common: `flex items-center text-white text-[18px] font-normal	font-sans w-[72px] h-full`,
               })}
-              onClick={gotoHexSchoolAnchor}
             >
-              關卡任務
+              <span
+                onClick={gotoHexSchoolAnchor}
+                onKeyDown={gotoHexSchoolAnchor}
+                role="button"
+                tabIndex={0}
+              >
+                關卡任務
+              </span>
             </li>
             <li
               className={flatClassName({
                 common: `flex items-center text-white text-[18px] font-normal	font-sans w-[72px] h-full`,
               })}
-              onClick={gotoScheduleInfoAnchor}
             >
-              競賽說明
+              <span
+                onClick={gotoScheduleInfoAnchor}
+                onKeyDown={gotoScheduleInfoAnchor}
+                role="button"
+                tabIndex={0}
+              >
+                競賽說明
+              </span>
             </li>
           </ul>
         )}

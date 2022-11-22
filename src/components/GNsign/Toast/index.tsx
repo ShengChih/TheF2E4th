@@ -32,6 +32,9 @@ const Toast = ({ toastClassName, messageText, onConfirm, buttonText }: ToastProp
           desktop: `xl:text-[18px] xl:leading-[26px] xl:w-[229px] xl:h-[56px]`,
         })}
         onClick={onConfirm}
+        onKeyDown={onConfirm}
+        role="button"
+        tabIndex={0}
       >
         {buttonText}
       </div>

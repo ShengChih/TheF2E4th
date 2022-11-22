@@ -6,6 +6,7 @@ import React, {
   useRef,
   MouseEvent,
   FocusEvent,
+  KeyboardEvent,
 } from 'react'
 import { flatClassName } from '@/utils/reduce'
 import { useAppDispatch, useAppSelector } from '@/hooks'
@@ -22,10 +23,10 @@ type ImageUrls = {
 
 type SignBoxProps = {
   insertSign: (img: HTMLImageElement) => void
-  cancleSignBox: () => void
+  cancelSignBox: () => void
 }
 
-const SignBox = ({ insertSign, cancleSignBox }: SignBoxProps) => {
+const SignBox = ({ insertSign, cancelSignBox }: SignBoxProps) => {
   const dispatch = useAppDispatch()
   const signBox = useAppSelector(selectSignBox)
   const [, , , isDesktop] = useCheckScreen(deviceWidth)
@@ -66,7 +67,7 @@ const SignBox = ({ insertSign, cancleSignBox }: SignBoxProps) => {
     ? undefined
     : (e: FocusEvent) => {
         if (!e.currentTarget.contains(e.relatedTarget)) {
-          cancleSignBox()
+          cancelSignBox()
         }
       }
 
@@ -89,18 +90,21 @@ const SignBox = ({ insertSign, cancleSignBox }: SignBoxProps) => {
   }
 
   const handleInsertSign = useCallback(
-    (e: MouseEvent) => {
-      const imageIndex = parseInt(e.currentTarget.getAttribute('data-sign') ?? '-1')
+    (e: MouseEvent | KeyboardEvent) => {
+      const imageIndex = e.currentTarget
+        ? parseInt(e.currentTarget.getAttribute('data-sign') ?? '-1')
+        : '-1'
       if (imageIndex >= 0) {
         insertSign(imageUrls.current[imageIndex])
-        cancleSignBox()
+        cancelSignBox()
       }
     },
-    [imageUrls, insertSign],
+    [imageUrls, insertSign, cancelSignBox],
   )
 
   return (
     <div
+      role="grid"
       tabIndex={0}
       ref={boxRef}
       onBlur={handleBlur}
@@ -144,18 +148,25 @@ const SignBox = ({ insertSign, cancleSignBox }: SignBoxProps) => {
                     desktop: `xl:gap-x-[16px]`,
                   })}
                 >
-                  <img
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={handleInsertSign}
                     onClick={handleInsertSign}
                     data-sign={`${index}`}
                     key={`sign-img-${index}`}
-                    className={flatClassName({
-                      common: `object-contain bg-white`,
-                      mobile: `sm:w-[271px] sm:h-[61px] sm:rounded-[16px]`,
-                      tablet: `md:w-[271px] md:h-[61px] md:rounded-[16px]`,
-                      desktop: `xl:w-[271px] xl:h-[61px] xl:rounded-[16px]`,
-                    })}
-                    src={dataUrl}
-                  />
+                  >
+                    <img
+                      alt={'custom-sign'}
+                      className={flatClassName({
+                        common: `object-contain bg-white`,
+                        mobile: `sm:w-[271px] sm:h-[61px] sm:rounded-[16px]`,
+                        tablet: `md:w-[271px] md:h-[61px] md:rounded-[16px]`,
+                        desktop: `xl:w-[271px] xl:h-[61px] xl:rounded-[16px]`,
+                      })}
+                      src={dataUrl}
+                    />
+                  </div>
                   <div
                     key={`trash-icon-${index}`}
                     className={flatClassName({
@@ -163,6 +174,9 @@ const SignBox = ({ insertSign, cancleSignBox }: SignBoxProps) => {
                       tablet: `md:w-[24px] md:h-[24px]`,
                       desktop: `xl:w-[24px] xl:h-[24px]`,
                     })}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={getHandleDeleteSign(index)}
                     onClick={getHandleDeleteSign(index)}
                   >
                     <svg
@@ -185,6 +199,9 @@ const SignBox = ({ insertSign, cancleSignBox }: SignBoxProps) => {
             })}
           </div>
           <div
+            role="button"
+            tabIndex={0}
+            onKeyDown={switch2MakeSignModule}
             onClick={switch2MakeSignModule}
             className={flatClassName({
               common: `font-sans font-normal text-gnsign-green w-full`,

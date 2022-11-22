@@ -22,23 +22,25 @@ export default function withSlider<T extends ElementType>({
   totalRows,
   maxRowsInContainer,
 }: SliderProps<T>) {
-  const { start, end, currentPage, maxPage, handleLeftClick, handleRightClick } = useSlider({
-    totalRows: totalRows,
-    maxRowsInContainer: maxRowsInContainer,
-  })
+  const SliderContainer = (props: ComponentAnyProps<T>, data: ReactNode[], dataKey: string) => {
+    const { start, end, currentPage, maxPage, handleLeftClick, handleRightClick } = useSlider({
+      totalRows: totalRows,
+      maxRowsInContainer: maxRowsInContainer,
+    })
 
-  const sliceFunc = (data: ReactNode[]) => data.slice(start, end)
+    const newProps = {
+      ...props,
+      [dataKey]: data.slice(start, end),
+    }
 
-  const SliderContainer = (props: ComponentAnyProps<T>) => (
-    <>
-      <WrappedContainer {...props} />
-      {currentPage > 1 ? <LeftButton onClick={handleLeftClick} /> : ''}
-      {currentPage < maxPage ? <RightButton onClick={handleRightClick} /> : ''}
-    </>
-  )
-
-  return {
-    SliderContainer,
-    sliceFunc,
+    return (
+      <>
+        <WrappedContainer {...newProps} />
+        {currentPage > 1 ? <LeftButton onClick={handleLeftClick} /> : ''}
+        {currentPage < maxPage ? <RightButton onClick={handleRightClick} /> : ''}
+      </>
+    )
   }
+
+  return SliderContainer
 }

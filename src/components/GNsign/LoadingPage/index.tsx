@@ -14,7 +14,7 @@ import LoadingAnimation from './lotties/GNsign_loading.json'
 export * from './constants'
 export * from './type.d'
 
-const GNsignLoadingPage = memo(({ isLoading, text }: { isLoading: boolean; text: string }) => {
+const GNsignLoadingPage = ({ isLoading, text }: { isLoading: boolean; text: string }) => {
   const [, , , isDesktop] = useCheckScreen(deviceWidth)
 
   return (
@@ -53,20 +53,27 @@ const GNsignLoadingPage = memo(({ isLoading, text }: { isLoading: boolean; text:
 
       {isDesktop ? (
         <div className={isLoading ? '' : 'hidden'}>
-          <img className={`absolute w-fit h-fit xl:left-[40px] xl:top-[28px]`} src={PC_Logo} />
           <img
+            alt={`gnsign-logo`}
+            className={`absolute w-fit h-fit xl:left-[40px] xl:top-[28px]`}
+            src={PC_Logo}
+          />
+          <img
+            alt={`leave-rt`}
             className={flatClassName({
               desktop: `xl:w-[122px] xl:h-[255px] absolute top-0 right-0`,
             })}
             src={PC_LeaveRightTop}
           />
           <img
+            alt={`grass-l`}
             className={flatClassName({
               desktop: `xl:w-[243px] xl:h-[62px] absolute bottom-[159px] left-0`,
             })}
             src={PC_GrassLeft}
           />
           <img
+            alt={`leave-bl`}
             className={flatClassName({
               desktop: `xl:w-[150px] xl:h-[305px] absolute bottom-0 left-0`,
             })}
@@ -78,6 +85,8 @@ const GNsignLoadingPage = memo(({ isLoading, text }: { isLoading: boolean; text:
       )}
     </>
   )
-})
+}
 
-export default GNsignLoadingPage
+const MemorizedGNsignLoadingPage = memo(GNsignLoadingPage)
+
+export default MemorizedGNsignLoadingPage

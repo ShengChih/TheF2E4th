@@ -1,15 +1,15 @@
-import React, { memo, useRef, MouseEvent } from 'react'
+import React, { memo, useRef, MouseEvent, KeyboardEvent } from 'react'
 import { flatClassName } from '@/utils/reduce'
 
 type TextBoxProps = {
   handleInsert: (textBoxMessage: string) => void
-  handleCancel: (e: MouseEvent) => void
+  handleCancel: (e: MouseEvent | KeyboardEvent) => void
 }
 
 const TextBox = ({ handleInsert, handleCancel }: TextBoxProps) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
-  const hanldeInsertTextBox = (e: MouseEvent) => {
+  const handleInsertTextBox = (e: MouseEvent | KeyboardEvent) => {
     if (textAreaRef.current) {
       handleInsert(textAreaRef.current.value)
       textAreaRef.current.value = ''
@@ -46,7 +46,10 @@ const TextBox = ({ handleInsert, handleCancel }: TextBoxProps) => {
         })}
       >
         <div
+          role="button"
+          tabIndex={0}
           onClick={handleCancel}
+          onKeyDown={handleCancel}
           className={flatClassName({
             common: `flex items-center justify-center bg-white border-gnsign-green rounded-[16px] font-sans text-gnsign-green`,
             mobile: `sm:text-[18px] sm:leading-[26px] sm:w-[136px] sm:h-[56px]`,
@@ -63,7 +66,10 @@ const TextBox = ({ handleInsert, handleCancel }: TextBoxProps) => {
             tablet: `md:text-[18px] md:leading-[26px] md:w-[136px] md:h-[56px]`,
             desktop: `xl:text-[18px] xl:leading-[26px] xl:w-[136px] xl:h-[56px]`,
           })}
-          onClick={hanldeInsertTextBox}
+          onClick={handleInsertTextBox}
+          onKeyDown={handleInsertTextBox}
+          role="button"
+          tabIndex={0}
         >
           使用
         </div>

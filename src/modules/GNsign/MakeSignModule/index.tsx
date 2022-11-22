@@ -110,7 +110,7 @@ const MakeSignModule = ({
   }
 
   const changeColor = useCallback(
-    (e: MouseEvent) => {
+    (e: MouseEvent | KeyboardEvent) => {
       const selectedColor = e.currentTarget.getAttribute('data-color') ?? 'black'
       setColor(selectedColor)
     },

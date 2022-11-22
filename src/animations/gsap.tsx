@@ -47,7 +47,7 @@ const GsapEffect = (
     if (gsap.effects[effect]) {
       animation.current = gsap.effects[effect](targetRef.current, vars)
     }
-  }, [effect])
+  }, [effect, targetRef, vars])
 
   useEffect(() => {
     // forward the animation instance if a ref is passed
@@ -64,7 +64,13 @@ const GsapEffect = (
 export const GsapEffectComponent = forwardRef(GsapEffect)
 
 export function useGsapContext(scope: RefObject<HTMLElement>) {
-  const ctx = useMemo(() => gsap.context(() => {}, scope), [scope])
+  const ctx = useMemo(
+    () =>
+      gsap.context(() => {
+        return
+      }, scope),
+    [scope],
+  )
   return ctx
 }
 export type AnimationReturn = ReturnType<

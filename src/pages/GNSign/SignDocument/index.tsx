@@ -159,7 +159,7 @@ const SignDocument = () => {
   ])
 
   const toggleTool = useCallback(
-    (e: MouseEvent) => {
+    (e: MouseEvent | KeyboardEvent) => {
       const toolIndex = parseInt(e.currentTarget.getAttribute('data-tool') ?? '0')
       setToolState(0 | (1 << toolIndex)) /** 按鈕互斥 */
     },
@@ -233,13 +233,13 @@ const SignDocument = () => {
     setScaleState(ret)
   }
 
-  const displaySignBox = (e: MouseEvent) => {
+  const displaySignBox = (e: MouseEvent | KeyboardEvent) => {
     setSignBox(true)
     toggleTool(e)
     e.preventDefault()
   }
 
-  const cancleSignBox = () => {
+  const cancelSignBox = () => {
     setSignBox(false)
   }
 
@@ -268,7 +268,7 @@ const SignDocument = () => {
   )
 
   const insertDate = useCallback(
-    (e: MouseEvent) => {
+    (e: MouseEvent | KeyboardEvent) => {
       canvas &&
         canvas &&
         canvas.add(
@@ -290,7 +290,7 @@ const SignDocument = () => {
   }, [setToast])
 
   const mergeModified = useCallback(
-    (e: MouseEvent) => {
+    (e: MouseEvent | KeyboardEvent) => {
       if (!checkCanvasObjects()) {
         return
       }
@@ -316,7 +316,7 @@ const SignDocument = () => {
     ],
   )
 
-  const downalodFile = async (e: MouseEvent) => {
+  const downloadFile = async (e: MouseEvent) => {
     try {
       setLoadingState({
         loadingText: '檔案儲存中...',
@@ -390,8 +390,8 @@ const SignDocument = () => {
     [setConfirmForm, goLanding, downloadCount],
   )
 
-  const cancleConfirmForm = useCallback(
-    (e: MouseEvent) => {
+  const cancelConfirmForm = useCallback(
+    (e: MouseEvent | KeyboardEvent) => {
       e.preventDefault()
       setConfirmForm(false)
     },
@@ -399,7 +399,7 @@ const SignDocument = () => {
   )
 
   const displayTextBox = useCallback(
-    (e: MouseEvent) => {
+    (e: MouseEvent | KeyboardEvent) => {
       setTextBox(true)
       toggleTool(e)
       e.preventDefault()
@@ -407,8 +407,8 @@ const SignDocument = () => {
     [setTextBox, toggleTool],
   )
 
-  const cancleTextBox = useCallback(
-    (e: MouseEvent) => {
+  const cancelTextBox = useCallback(
+    (e: MouseEvent | KeyboardEvent) => {
       e.preventDefault()
       setTextBox(false)
     },
@@ -661,12 +661,12 @@ const SignDocument = () => {
         >
           {showSave ? (
             <button
-              onClick={downalodFile}
+              onClick={downloadFile}
               className={flatClassName({
                 common: `text-white font-sans font-normal  flex items-center justify-center bg-gradient-to-b from-gnsign-greenl to-gnsign-greenh`,
                 mobile: `sm:text-[18px] sm:leading-[26px] sm:w-[260px] sm:h-[56px] sm:rounded-[16px]`,
                 tablet: `md:text-[18px] md:leading-[26px] md:w-[260px] md:h-[56px] md:rounded-[16px]`,
-                desktop: `xl:absoulte xl:translate-x-[105.5px] xl:text-[18px] xl:leading-[26px] xl:w-[183px] xl:h-[56px] xl:rounded-[16px]`,
+                desktop: `xl:translate-x-[105.5px] xl:text-[18px] xl:leading-[26px] xl:w-[183px] xl:h-[56px] xl:rounded-[16px]`,
               })}
             >
               儲存
@@ -700,15 +700,15 @@ const SignDocument = () => {
         })}
       >
         <Suspense fallback={<p className={`hidden`}></p>}>
-          {showSignBox ? <SignBox insertSign={insertSign} cancleSignBox={cancleSignBox} /> : ''}
-          {showTextBox ? <TextBox handleInsert={insertText} handleCancel={cancleTextBox} /> : ''}
+          {showSignBox ? <SignBox insertSign={insertSign} cancelSignBox={cancelSignBox} /> : ''}
+          {showTextBox ? <TextBox handleInsert={insertText} handleCancel={cancelTextBox} /> : ''}
           {showConfirmForm ? (
             <ConfirmForm
               messageText={`尚未儲存文件，確定要離開？`}
               rightButtonText={`確定`}
               handleRightButton={goLanding}
               leftButtonText={`取消`}
-              handleLeftButton={cancleConfirmForm}
+              handleLeftButton={cancelConfirmForm}
             />
           ) : (
             ''

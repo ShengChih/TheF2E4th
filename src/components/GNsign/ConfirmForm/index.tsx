@@ -1,12 +1,12 @@
-import React, { memo, MouseEvent } from 'react'
+import React, { memo, MouseEvent, KeyboardEvent } from 'react'
 import { flatClassName } from '@/utils/reduce'
 
 type ConfirmFormProps = {
   messageText: string
   rightButtonText: string
-  handleRightButton: (e: MouseEvent) => void
+  handleRightButton: () => void
   leftButtonText: string
-  handleLeftButton: (e: MouseEvent) => void
+  handleLeftButton: (e: MouseEvent | KeyboardEvent) => void
 }
 
 const ConfirmForm = ({
@@ -44,6 +44,9 @@ const ConfirmForm = ({
         })}
       >
         <div
+          role="button"
+          tabIndex={0}
+          onKeyDown={handleLeftButton}
           onClick={handleLeftButton}
           className={flatClassName({
             common: `flex items-center justify-center bg-white border-gnsign-green rounded-[16px] font-sans text-gnsign-green`,
@@ -62,6 +65,9 @@ const ConfirmForm = ({
             desktop: `xl:text-[18px] xl:leading-[26px] xl:w-[136px] xl:h-[56px]`,
           })}
           onClick={handleRightButton}
+          onKeyDown={handleRightButton}
+          tabIndex={0}
+          role="button"
         >
           {rightButtonText}
         </div>

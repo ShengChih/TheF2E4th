@@ -1,4 +1,4 @@
-import React, { MouseEvent, memo } from 'react'
+import React, { memo, MouseEvent, KeyboardEvent } from 'react'
 import { flatClassName } from '@/utils/reduce'
 
 export type IconProps = {
@@ -12,7 +12,7 @@ export type ToolButtonProps = {
   iconClassName?: string
   buttonText: string
   buttonClassName?: string
-  handleClick?: (e: MouseEvent) => void
+  handleClick?: (e: MouseEvent | KeyboardEvent) => void
 }
 
 const SignIcon = ({ className }: IconProps) => (
@@ -87,8 +87,11 @@ const ToolButton = ({
 
   return (
     <div
+      role="button"
+      tabIndex={0}
       data-tool={dataToolIndex}
       onClick={handleClick}
+      onKeyDown={handleClick}
       className={flatClassName({
         common: `flex flex-col items-center justify-center `,
         mobile: `sm:w-[56px] sm:h-[59px]`,
@@ -108,7 +111,7 @@ const ToolButton = ({
       </div>
       <div
         className={flatClassName({
-          common: `w-full font-sans font-nomal text-center ${buttonClassName}`,
+          common: `w-full font-sans font-normal text-center ${buttonClassName}`,
           mobile: `sm:h-[17px] sm:text-[12px] sm:leading-[17px]`,
           tablet: `md:h-[17px] md:text-[12px] md:leading-[17px]`,
           desktop: `xl:h-[17px] xl:text-[12px] xl:leading-[17px]`,
