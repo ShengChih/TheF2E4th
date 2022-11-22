@@ -1,13 +1,11 @@
-import { memo } from 'react'
+import React, { memo } from 'react'
 type FooterProps = {
-	content?: string
-	className?: string
+  content?: string
+  className?: string
 }
 
 const Footer = ({ className, content }: FooterProps) => {
-	return (
-		<footer className={className}>{content}</footer>
-	)
+  return <footer className={className}>{content}</footer>
 }
 
 export default memo(Footer)

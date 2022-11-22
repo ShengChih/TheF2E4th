@@ -1,0 +1,11 @@
+{
+	"git.enabled": true,
+	"git.autorefresh": false,
+	"prettier.configPath": ".prettierrc.js",
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"path-intellisense.mappings": {
+		"@/": "${workspaceFolder}/src"
+	},
+	"path-intellisense.autoTriggerNextSuggestion": true
+}

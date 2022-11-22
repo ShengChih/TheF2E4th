@@ -1,9 +1,7 @@
-import { MediaImageProps } from '@type.d'
-
 export type LoadingPageProps = MultipleImageSourcesProps & {
-	content?: ReactNode
-	extraInfo?: ReactNode
-	loadingImg?: ReactNode
+  content?: ReactNode
+  extraInfo?: ReactNode
+  loadingImg?: ReactNode
 }
 
-export * from '@type.d'
+export * from '@/type.d'

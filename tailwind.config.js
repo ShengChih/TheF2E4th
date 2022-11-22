@@ -1,51 +1,49 @@
 const plugin = require('tailwindcss/plugin')
 
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}"
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     screens: {
-      'mobile': '375px',
-      'tablet': '768px',
-      'desktop': '1280px',
-      sm: {'min': '375px', 'max': '767px'},
-      md: {'min': '768px', 'max': '1279px'},
+      mobile: '375px',
+      tablet: '768px',
+      desktop: '1280px',
+      sm: { min: '375px', max: '767px' },
+      md: { min: '768px', max: '1279px' },
       xl: '1280px',
     },
     fontFamily: {
-      'sans': ['Noto Sans TC', ],
-      'serif': ['Noto Serif TC'],
-      'julian': ['AR JULIAN'],
-      'roboto': ['Roboto'],
-      'ebgaramond': ['EB Garamond']
+      sans: ['Noto Sans TC'],
+      serif: ['Noto Serif TC'],
+      julian: ['AR JULIAN'],
+      roboto: ['Roboto'],
+      ebgaramond: ['EB Garamond'],
     },
     extend: {
       animation: {
         'fade-in': 'fadeIn 1s linear',
-        'swipe-up-infinite': 'swipeUp 1.5s infinite'
+        'swipe-up-infinite': 'swipeUp 1.5s infinite',
       },
       keyframes: {
-        'fadeIn': {
+        fadeIn: {
           '0%': { opacity: 0 },
-          '100%': { opacity: 1 }
+          '100%': { opacity: 1 },
         },
-        'swipeUp': {
+        swipeUp: {
           '0%': { translateY: '100%' },
-          '100%' : { translateY: '0%' },
-        }
+          '100%': { translateY: '0%' },
+        },
       },
       colors: {
-        'gnsign': {
-          'green': '#1C8B6A',
-          'greenl': '#35A483',
-          'greenh': '#077854',
-          'gray': '#B7B7B7',
-          'background': '#F0F0F0',
-          'bg2': '#1E1E1E',
-          'orange': '#FFB800',
-          'black': '#424242'
-        }
+        gnsign: {
+          green: '#1C8B6A',
+          greenl: '#35A483',
+          greenh: '#077854',
+          gray: '#B7B7B7',
+          background: '#F0F0F0',
+          bg2: '#1E1E1E',
+          orange: '#FFB800',
+          black: '#424242',
+        },
       },
     },
   },
@@ -154,10 +152,10 @@ module.exports = {
             fontWeight: 900,
             src: 'url("./fonts/Noto_Serif_TC/small-NotoSerifTC-Black.otf") format("opentype");',
             fontDisplay: 'swap',
-          }
-        ]
+          },
+        ],
       }
       addBase(fonts)
-    })
+    }),
   ],
 }

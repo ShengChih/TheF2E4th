@@ -10,15 +10,14 @@ export const signsSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-		saveFinishSignDocument: (state, action) => {
-			state.history.splice(0, 0, action.payload)
-		}
+    saveFinishSignDocument: (state, action) => {
+      state.history.splice(0, 0, action.payload)
+    },
   },
 })
 
 export const { saveFinishSignDocument } = signsSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-
 
 export default signsSlice.reducer

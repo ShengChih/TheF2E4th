@@ -8,6 +8,7 @@ The F2E 4th 來點點點簽
 [ Design 設計稿](https://www.figma.com/file/6ZjDFQSrwRy6OUAXDmJNhz/%E5%B0%8F%E7%B6%A0%E7%B0%BD?node-id=53%3A252&t=bwFvHXXrLozEKyvO-0)
 
 ## 限制
+
 - 無後端純前端，也沒有檔案存放處，重新載入資料清空。
 
 ## 技術
@@ -27,18 +28,21 @@ The F2E 4th 來點點點簽
 - [react-lottie]
 
 ## 環境
+
 - NodeJS v16.17.1
 - [Vite](https://vitejs.dev/)
 - [PNPM](https://pnpm.io/zh-TW/)
 - Docker(有需要抽字型才需要)
 
 ## 部署
+
 ```
-pnpm i 
+pnpm i
 pnpm run dev
 ```
 
 ## 抽取字型
+
 ```
 cd scripts/python
 

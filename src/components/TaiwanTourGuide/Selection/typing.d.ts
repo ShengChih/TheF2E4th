@@ -1,5 +1,5 @@
 export interface SelectionProps {
-  defaultText: string;
-  dropdownId: string;
+  defaultText: string
+  dropdownId: string
   selectOptions: Array<string>
 }

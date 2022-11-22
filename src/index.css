@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer utilities {
-	.text-fill-transparent { -webkit-text-fill-color: transparent }
+  .text-fill-transparent {
+    -webkit-text-fill-color: transparent;
+  }
 }

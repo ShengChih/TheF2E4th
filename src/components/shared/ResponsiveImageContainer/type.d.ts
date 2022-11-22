@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
-import { MediaImageProps, MediaImage } from '@type.d'
+import { MediaImageProps } from '@/type.d'
 
 export type ResponsiveImageContainerProps = MediaImageProps & {
-	children: ReactNode
+  children: ReactNode
 }
 
-export * from '@type.d'
+export * from '@/type.d'

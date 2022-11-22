@@ -1,37 +1,33 @@
-import {
-	RefObject,
-	ComponentProps,
-	ReactNode
-} from "react"
+import { ComponentProps } from 'react'
 
 export type MediaImage = {
-	minWidth: number
-	imageSrc: string
+  minWidth: number
+  imageSrc: string
 }
 
 export type MultipleImageSourcesProps = {
-	aliasName?: string
-	mediaImages: MediaImage[]
-	imageElementProps?: ComponentProps<"img">
-	pictureElementProps?: ComponentProps<"picture">
+  aliasName?: string
+  mediaImages: MediaImage[]
+  imageElementProps?: ComponentProps<'img'>
+  pictureElementProps?: ComponentProps<'picture'>
 }
 
-export type MediaImageProps = ComponentProps<"div"> & MultipleImageSourcesProps
+export type MediaImageProps = ComponentProps<'div'> & MultipleImageSourcesProps
 
-export type CallbackFunctionVariadicAnyReturn = (...args: any[]) => any;
+export type CallbackFunctionVariadicAnyReturn = (...args: unknown[]) => unknown
 
 export type Position = {
-	x: number
-	y: number
+  x: number
+  y: number
 }
 
 export type Box = {
-	width: number
-	height: number
+  width: number
+  height: number
 }
 
-export type Nullable<T> = T | null;
+export type Nullable<T> = T | null
 
 export type DictObject = {
-	[key: string]: any
+  [key: string]: unknown
 }

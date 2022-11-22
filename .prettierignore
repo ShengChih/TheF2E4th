@@ -1,0 +1,19 @@
+*.*
+dist/*
+build/*
+!*.css
+!*.js
+!*.json
+!*.jsx
+!*.less
+!*.md
+!*.mdx
+!*.ts
+!*.tsx
+!*.yml
+LICENSE
+
+## copied from .gitignore
+
+
+## shared between eslint and prettier

@@ -1,4 +1,4 @@
 export type ModeState = {
-	mode: string
-	canvasText: string
+  mode: string
+  canvasText: string
 }

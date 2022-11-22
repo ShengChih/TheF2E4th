@@ -4,9 +4,9 @@ import gnsignSigns from './signs/reducer'
 import gnsignHistories from './histories/reducer'
 
 const gnsignReducers = combineReducers({
-	gnsignFiles,
-	gnsignSigns,
-	gnsignHistories
+  gnsignFiles,
+  gnsignSigns,
+  gnsignHistories,
 })
 
 export default gnsignReducers

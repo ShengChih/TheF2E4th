@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "@*": ["./src/*"],
-    },
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["dom", "DOM.Iterable", "ESNext"],
@@ -19,8 +16,19 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "sourceMap": true
+    "sourceMap": true,
+    "paths": {
+      "@": ["src"],
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/store.ts", "src/hooks/useCanvasDrawer/worker.js", "src/hooks/useCanvasDrawer/workerpool.!ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/store.ts",
+    "src/hooks/useCanvasDrawer/worker.js",
+    "src/hooks/useCanvasDrawer/workerpool.!ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

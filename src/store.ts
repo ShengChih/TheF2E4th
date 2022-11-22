@@ -1,11 +1,10 @@
-import { configureStore, Middleware } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
-import logger from 'redux-logger'
 
-import GnsignReducers from '@features/gnsign/reducers'
-import GnsignSagas from '@features/gnsign/sagas'
+import GnsignReducers from '@/features/gnsign/reducers'
+import GnsignSagas from '@/features/gnsign/sagas'
 
-const sagaMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware()
 
 const devMode = process.env.NODE_ENV === 'development'
 const middleware = devMode ? [sagaMiddleware] : [sagaMiddleware]
@@ -13,7 +12,7 @@ const middleware = devMode ? [sagaMiddleware] : [sagaMiddleware]
 const store = configureStore({
   reducer: GnsignReducers,
   devTools: devMode,
-  middleware: middleware
+  middleware: middleware,
 })
 sagaMiddleware.run(GnsignSagas)
 

@@ -1,4 +1,4 @@
 export type ToastState = {
-	toastMessage: string
-	displayToast: boolean
+  toastMessage: string
+  displayToast: boolean
 }

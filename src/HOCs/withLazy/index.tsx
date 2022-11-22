@@ -1,27 +1,19 @@
 import React from 'react'
 
-import LoadingPage from '@components/shared/LoadingPage'
+import LoadingPage from '@/components/shared/LoadingPage'
 
-type LazyProps = {
-
-}
+type LazyProps = {}
 
 export default function withPageLoading<T = {}>(asyncModule: any): React.FC<LazyProps & T> {
   const WrappedComponent: React.FC = React.lazy(asyncModule)
 
-  const Comp: React.FC<any> = ({
-    isComponent = false,
-    content = "",
-    ...props
-  }) => {
+  const Comp: React.FC<any> = ({ isComponent = false, content = '', ...props }) => {
     return (
-      <React.Suspense
-        fallback={<LoadingPage mediaImages={[]} content={`努力加載中…`} />}
-      >
+      <React.Suspense fallback={<LoadingPage mediaImages={[]} content={`努力加載中…`} />}>
         <WrappedComponent {...props} />
       </React.Suspense>
     )
   }
 
-  return Comp;
+  return Comp
 }

@@ -1,84 +1,70 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-import {
-  SelectionProps,
-  // @ts-ignore
-} from "./typing.d.ts";
+import { SelectionProps } from './typing.d'
 
-import './styles/base.scss';
-import './styles/pc.scss';
-import './styles/tablet.scss';
+import './styles/base.scss'
+import './styles/pc.scss'
+import './styles/tablet.scss'
 
-import useTouchDetector from '@hooks/useTouchDetector';
-
+import useTouchDetector from '@/hooks/useTouchDetector'
 
 export default function Selection({ defaultText, dropdownId, selectOptions }: SelectionProps) {
-  const [isOpened, setOpened] = useState<Boolean>(false);
-  const [selected, setSelected] = useState<Array<any>>();
+  const [isOpened, setOpened] = useState<boolean>(false)
 
   let touchEventGroup = {}
-  if (true) {
-    const findCurrentTouchedElement = (element: HTMLElement) => {
-      return element.tagName.toLowerCase() === 'li'
+  const findCurrentTouchedElement = (element: HTMLElement) => {
+    return element.tagName.toLowerCase() === 'li'
+  }
+  const entryElement = (element: HTMLElement | undefined) => {
+    if (!element) {
+      return
     }
-    const entryElement = (element: HTMLElement | undefined) => {
-      if (!!!element) {
-        return
-      }
-      console.log(`entry element:`, element?.innerText)
-      element.classList.add('active')
+    element.classList.add('active')
+  }
+  const leaveElement = (element: HTMLElement | undefined) => {
+    if (!element) {
+      return
     }
-    const leaveElement = (element: HTMLElement | undefined) => {
-      if (!!!element) {
-        return
-      }
-      console.log(`leave element:`, element?.innerText)
-      element.classList.remove('active')
-    }
-
-    const onTouchControl = useTouchDetector({
-      findFunc: findCurrentTouchedElement,
-      entryFunc: entryElement,
-      leaveFunc: leaveElement,
-    });
-
-    touchEventGroup = {
-      onTouchStart: onTouchControl,
-      onTouchMove: onTouchControl,
-      onTouchEnd: onTouchControl,
-    }
+    element.classList.remove('active')
   }
 
-  const hasRoundedStyles = isOpened
-    ? 'rounded-b-none'
-    : ''
+  const onTouchControl = useTouchDetector({
+    findFunc: findCurrentTouchedElement,
+    entryFunc: entryElement,
+    leaveFunc: leaveElement,
+  })
 
-  const displaySelectionOptions = (
-    isOpened
-      ? (
-        <div id={dropdownId}  className="dropdown_options dropdown_options--pc dropdown_options--tablet">
-        <ul className="" aria-labelledby={dropdownId}>
-          {
-              selectOptions
-                ? (
-                  selectOptions.map((option: string, index: number) => (
-                  <li key={`option-${index}`} {...touchEventGroup}>
-                    <a href="#"><p>{option}</p></a>
-                  </li>
-                ))
-              )
-              : ''
-          }
-          </ul>
-      </div>
-    ): ''
+  touchEventGroup = {
+    onTouchStart: onTouchControl,
+    onTouchMove: onTouchControl,
+    onTouchEnd: onTouchControl,
+  }
+
+  const hasRoundedStyles = isOpened ? 'rounded-b-none' : ''
+
+  const displaySelectionOptions = isOpened ? (
+    <div id={dropdownId} className="dropdown_options dropdown_options--pc dropdown_options--tablet">
+      <ul className="" aria-labelledby={dropdownId}>
+        {selectOptions
+          ? selectOptions.map((option: string, index: number) => (
+              <li key={`option-${index}`} {...touchEventGroup}>
+                <a href="#!">
+                  <p>{option}</p>
+                </a>
+              </li>
+            ))
+          : ''}
+      </ul>
+    </div>
+  ) : (
+    ''
   )
 
-  const onClickDropdown = () => { 
+  const onClickDropdown = () => {
     setOpened(!isOpened)
   }
 
-  const onBlurDropdown = () => { 
+  const onBlurDropdown = () => {
     setOpened(false)
   }
 
@@ -89,9 +75,7 @@ export default function Selection({ defaultText, dropdownId, selectOptions }: Se
         onClick={onClickDropdown}
         onBlur={onBlurDropdown}
       >
-        <p className="dropdown_text dropdown_text--pc dropdown_text--tablet">
-          {defaultText}
-        </p>
+        <p className="dropdown_text dropdown_text--pc dropdown_text--tablet">{defaultText}</p>
         <span className="dropdown_action dropdown_action--pc dropdown_action--tablet">
           <svg
             width="8"
@@ -100,14 +84,11 @@ export default function Selection({ defaultText, dropdownId, selectOptions }: Se
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path
-              d="M4 7.5L0.102887 0.750001L7.89711 0.750001L4 7.5Z"
-              fill="#0D0B0C"
-            />
+            <path d="M4 7.5L0.102887 0.750001L7.89711 0.750001L4 7.5Z" fill="#0D0B0C" />
           </svg>
         </span>
       </button>
       {displaySelectionOptions}
     </>
-  );
+  )
 }
