@@ -125,7 +125,7 @@ const SignDocument = () => {
       })
       setCanvas(new fabric.Canvas(canvasRef.current))
     })()
-  }, [draftFile.url, loadingState])
+  }, [draftFile.url])
 
   useEffect(() => {
     if (pageState.current > 0 && canvasRef.current && imageUrlsRef.current[pageState.current - 1]) {
@@ -147,7 +147,6 @@ const SignDocument = () => {
       loadImage.src = imageUrlsRef.current[pageState.current - 1]
     }
   }, [
-    loadingState.isLoading,
     canvasRef,
     imageUrlsRef,
     pageState,

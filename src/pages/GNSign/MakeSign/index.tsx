@@ -20,15 +20,16 @@ const MakeSign = () => {
   GNsignFavicon()
 
   useEffect(() => {
+    if (makeSign && draftFile) {
+      navigate('/gnsign/signdoc', { replace: true })
+      return
+    }
+
     setLoadingState({
       ...loadingState,
       isLoading: false,
     })
-
-    if (makeSign && draftFile) {
-      navigate('/gnsign/signdoc', { replace: true })
-    }
-  }, [loadingState, draftFile, makeSign, navigate])
+  }, [draftFile, makeSign, navigate])
 
   const doLoading = useCallback(() => {
     setLoadingState({

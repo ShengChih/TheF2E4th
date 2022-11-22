@@ -64,7 +64,7 @@ const MakeSignModule = ({
         canvasText: '',
       })
     }
-  }, [mode, isDrawing])
+  }, [isDrawing])
 
   useEffect(() => {
     canvasRef.current && (canvasRef.current.width = canvasWidth)
