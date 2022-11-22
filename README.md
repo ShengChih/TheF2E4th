@@ -1,6 +1,25 @@
-# Week 2 - 來點點點簽
-
 The F2E 4th 來點點點簽
+
+設計稿採用 [K.T](https://www.facebook.com/K.T1003)
+
+[The F2E 4th 官網視差滾動設計稿](https://www.figma.com/file/F0hXct6TPxkt8bwzQMuVlN/F2E2022?node-id=94%3A2402)
+
+[PDF 電子簽核設計稿](https://www.figma.com/file/6ZjDFQSrwRy6OUAXDmJNhz/%E5%B0%8F%E7%B6%A0%E7%B0%BD?node-id=53%3A260&t=bwFvHXXrLozEKyvO-0)
+
+# Week 1 - TheF2E 4th 官網 視差滾動
+
+## 技術
+
+- GSAP
+
+## 第三方套件
+
+- [ReactJS]
+- [TailwindCSS]
+- [GSAP]
+- [react-lottie]
+
+# Week 2 - 來點點點簽
 
 ## 介紹
 
