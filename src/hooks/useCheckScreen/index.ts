@@ -55,31 +55,20 @@ export const useObserver = () => {
 }
 
 const useCheckScreen = (minDeviceWidthInterval: number[]) => {
-  const [input, setInput] = useState<number[]>([])
   const [maxWidth, setMaxWidth] = useState<number>(window.innerWidth)
-  const [deviceBoundaries, setDeviceBoundaries] = useState<boolean[]>([])
-
-  const handleWindowSizeChange = () => {
-    const width = window.innerWidth
-    setMaxWidth(width)
-  }
 
   useEffect(() => {
-    setInput(minDeviceWidthInterval)
+    const handleWindowSizeChange = () => {
+      const width = window.innerWidth
+      setMaxWidth(width)
+    }
     window.addEventListener('resize', handleWindowSizeChange)
     return () => {
       window.removeEventListener('resize', handleWindowSizeChange)
     }
-  }, [minDeviceWidthInterval])
+  }, [])
 
-  useEffect(() => {
-    if (!input || maxWidth <= 0) {
-      return
-    }
-    setDeviceBoundaries(detectDevices(input, maxWidth))
-  }, [maxWidth, input])
-
-  return deviceBoundaries
+  return detectDevices(minDeviceWidthInterval, maxWidth)
 }
 
 export default useCheckScreen

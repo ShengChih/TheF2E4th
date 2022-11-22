@@ -5,7 +5,7 @@ import { flatClassName } from '@/utils/reduce'
 import { getCheckFileFunc } from '@/utils/validation'
 import { deviceWidth } from '@/utils/config'
 import useCheckScreen from '@/hooks/useCheckScreen'
-import useImagePreloader from '@/hooks/useImagePreloader'
+import { preloadImage } from '@/hooks/useImagePreloader'
 import GNsignLoadingPage, {
   LoadingPageState,
   InitLoadingState,
@@ -59,14 +59,14 @@ const GNSign = () => {
 
   const [commonResources, mobileResoures, tabletResources, desktopResoures] =
     DeviceRequiredImageList
-  const deivceResources = isDesktop
+  const deviceResources = isDesktop
     ? desktopResoures
     : isTablet
     ? tabletResources
     : isMobile
     ? mobileResoures
     : []
-  const { imagesPreloaded } = useImagePreloader([...commonResources, ...deivceResources])
+
   GNsignFavicon()
 
   useEffect(() => {
@@ -77,6 +77,17 @@ const GNSign = () => {
   }, [])
 
   useEffect(() => {
+    ;(async () => {
+      const imageList = [...commonResources, ...deviceResources]
+      await imageList.map(imageUrl => preloadImage(imageUrl))
+      setLoadingState({
+        ...loadingState,
+        isLoading: false,
+      })
+    })()
+  }, [isMobile, isTablet, isDesktop])
+
+  useEffect(() => {
     if (draftFile) {
       setLoadingState({
         ...loadingState,
@@ -85,15 +96,6 @@ const GNSign = () => {
       navigate('/gnsign/makesign', { replace: true })
     }
   }, [loadingState, draftFile, navigate])
-
-  useEffect(() => {
-    if (imagesPreloaded) {
-      setLoadingState({
-        ...loadingState,
-        isLoading: false,
-      })
-    }
-  }, [loadingState, imagesPreloaded])
 
   const handleConfirmToast = useCallback(() => {
     setToastState(InitToastState)

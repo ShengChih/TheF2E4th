@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
-function preloadImage(src: string) {
-  return new Promise((resolve, reject) => {
+export function preloadImage(src: string) {
+  return new Promise<string>((resolve, reject) => {
     const img = new Image()
     img.onload = function () {
-      resolve(img)
+      resolve(src)
     }
     img.onerror = img.onabort = function () {
       reject(src)
@@ -13,10 +13,29 @@ function preloadImage(src: string) {
   })
 }
 
+export type imageProgressMapProps = {
+  [key: string]: boolean
+}
+
 export default function useImagePreloader(imageList: string[]) {
-  const [imagesPreloaded, setImagesPreloaded] = useState<boolean>(false)
+  const imagesPreloaded = useRef<boolean>(false)
+  const imageProgressMap = useRef<imageProgressMapProps>({})
 
   useEffect(() => {
+    /** check image progress */
+    const todoImages: string[] = imageList.reduce((ret: string[], imageUrl) => {
+      if (!Object.hasOwnProperty.call(imageProgressMap, imageUrl)) {
+        ret.push(imageUrl)
+      }
+      return ret
+    }, [])
+
+    if (todoImages.length > 1) {
+      return
+    }
+
+    imagesPreloaded.current = false
+
     let isCancelled = false
 
     async function effect() {
@@ -24,18 +43,22 @@ export default function useImagePreloader(imageList: string[]) {
         return
       }
 
-      const imagesPromiseList: Promise<unknown>[] = []
-      for (const i of imageList) {
+      const imagesPromiseList: Promise<string>[] = []
+      for (const i of todoImages) {
         imagesPromiseList.push(preloadImage(i))
       }
 
-      await Promise.all(imagesPromiseList)
+      const ret = await Promise.all(imagesPromiseList)
 
       if (isCancelled) {
         return
       }
 
-      setImagesPreloaded(true)
+      ret.forEach((val: string) => {
+        imageProgressMap.current[val] = true
+      })
+
+      imagesPreloaded.current = true
     }
 
     effect()
@@ -45,5 +68,5 @@ export default function useImagePreloader(imageList: string[]) {
     }
   }, [imageList])
 
-  return { imagesPreloaded }
+  return imagesPreloaded.current
 }

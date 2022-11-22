@@ -15,7 +15,7 @@ import { gsap, AnimationReturn } from '@/animations/gsap'
 
 import { flatClassName } from '@/utils/reduce'
 import useCheckScreen from '@/hooks/useCheckScreen'
-import useImagePreloader from '@/hooks/useImagePreloader'
+import { preloadImage } from '@/hooks/useImagePreloader'
 
 import pcStyles from './styles/fullpage/pc.module.scss'
 import mobileStyles from './styles/fullpage/mobile.module.scss'
@@ -47,16 +47,16 @@ import TabletNewspaper1 from '@/pages/GsapNewspaper/images/tablet/Newspaper1.png
 import TabletNewspaper2 from '@/pages/GsapNewspaper/images/tablet/Newspaper2.png'
 import TabletNewspaper3 from '@/pages/GsapNewspaper/images/tablet/Newspaper3.png'
 
-import MobileNewpaper1 from '@/pages/GsapNewspaper/images/mobile/Newspaper1.png'
-import MobileNewpaper2 from '@/pages/GsapNewspaper/images/mobile/Newspaper2.png'
-import MobileNewpaper3 from '@/pages/GsapNewspaper/images/mobile/Newspaper3.png'
+import MobileNewspaper1 from '@/pages/GsapNewspaper/images/mobile/Newspaper1.png'
+import MobileNewspaper2 from '@/pages/GsapNewspaper/images/mobile/Newspaper2.png'
+import MobileNewspaper3 from '@/pages/GsapNewspaper/images/mobile/Newspaper3.png'
 import { NewsPaperFavicon } from '@/utils/favicon'
 
 const LiveShareVideo = lazy(() => import('@/components/GsapNewspaper/LiveShareVideo'))
 const ScrollMouseIcon = lazy(() => import('@/components/GsapNewspaper/ScrollMouseIcon'))
 const HostInfo = lazy(() => import('@/components/GsapNewspaper/HostInfo'))
 const PartnerInfo = lazy(() => import('@/components/GsapNewspaper/PartnerInfo'))
-const SponerInfo = lazy(() => import('@/components/GsapNewspaper/SponerInfo'))
+const SponsorInfo = lazy(() => import('@/components/GsapNewspaper/SponsorInfo'))
 const Footer = lazy(() => import('@/components/shared/Footer'))
 
 type ScheduleInfoHandle = ElementRef<typeof ScheduleInfo>
@@ -69,7 +69,7 @@ type TaskCardHandle = ElementRef<typeof TaskCard>
 const MaxEasterEggBit = 0b111110
 const DeviceRequiredImageList = [
   [ContentBgImage],
-  [MobileNewpaper1, MobileNewpaper2, MobileNewpaper3], // mobile
+  [MobileNewspaper1, MobileNewspaper2, MobileNewspaper3], // mobile
   [TabletNewspaper1, TabletNewspaper2, TabletNewspaper3, MainImage, RewardTask], // tablet
   [PcNewspaper1, PcNewspaper2, PcNewspaper3, MainImage, RewardTask], // 1280 Desktop
   [PcNewspaper1_1_5x, PcNewspaper2_1_5x, PcNewspaper3_1_5x, MainImage, RewardTask], // 1920 Desktop
@@ -83,22 +83,21 @@ const GsapLandingPage = () => {
   NewsPaperFavicon()
   const [
     commonResources,
-    mobileResoures,
+    mobileResources,
     tabletResources,
-    desktopResoures,
+    desktopResources,
     biggerDesktopResources,
   ] = DeviceRequiredImageList
-  const deivceResources = isDesktop
-    ? desktopResoures
+  const deviceResources = isDesktop
+    ? desktopResources
     : isDesktop1920
     ? biggerDesktopResources
     : isTablet
     ? tabletResources
     : isMobile
-    ? mobileResoures
+    ? mobileResources
     : []
 
-  const { imagesPreloaded } = useImagePreloader([...commonResources, ...deivceResources])
   const hexSchoolAnchorRef = useRef<HTMLDivElement>(null)
   const scheduleInfoAnchorRef = useRef<HTMLElement>(null)
   const scheduleInfoRef = useRef<ScheduleInfoHandle>(null)
@@ -116,6 +115,14 @@ const GsapLandingPage = () => {
   const ScheduleTaskRefs = useRef<Array<TaskCardHandle>>([])
 
   ScheduleTaskRefs.current = []
+
+  useEffect(() => {
+    ;(async () => {
+      const imageList = [...commonResources, ...deviceResources]
+      await imageList.map(imageUrl => preloadImage(imageUrl))
+      setReadyPage(true)
+    })()
+  }, [isMobile, isTablet, isDesktop, isDesktop1920])
 
   useEffect(() => {
     let y = null
@@ -148,7 +155,7 @@ const GsapLandingPage = () => {
     return !((easterEggBit & (1 << eggOffset)) > 0) ? 'opacity-100' : 'opacity-0'
   }
 
-  /** testing scroll postion
+  /** testing scroll position
   useEffect(() => {
     const handleScroll = (e: Event) => {
       console.log('window.scrollY', window.pageYOffset)
@@ -369,15 +376,15 @@ const GsapLandingPage = () => {
 
     if (scheduleInfoAnchorRef.current && scheduleInfoRef.current) {
       const scheduleInfoSectionElement = scheduleInfoRef.current
-      let scheduleInfoSilder = gsap.effects.timelineScroller(scheduleInfoAnchorRef.current, {
+      let scheduleInfoSlider = gsap.effects.timelineScroller(scheduleInfoAnchorRef.current, {
         id: `schedule_info`,
         pin: FullPageRef.current,
         start: 'center+=1070 center',
         end: `+=400`,
         scrub: true,
       })
-      scheduleInfoSilder = scheduleInfoSectionElement.movePointAnimation(scheduleInfoSilder)
-      animations.push(scheduleInfoSilder)
+      scheduleInfoSlider = scheduleInfoSectionElement.movePointAnimation(scheduleInfoSlider)
+      animations.push(scheduleInfoSlider)
     }
 
     if (AwardInfoSectionRef.current) {
@@ -517,15 +524,15 @@ const GsapLandingPage = () => {
 
     if (scheduleInfoAnchorRef.current && scheduleInfoRef.current) {
       const scheduleInfoSectionElement = scheduleInfoRef.current
-      let scheduleInfoSilder = gsap.effects.timelineScroller(scheduleInfoAnchorRef.current, {
+      let scheduleInfoSlider = gsap.effects.timelineScroller(scheduleInfoAnchorRef.current, {
         id: `schedule_info`,
         pin: FullPageRef.current,
         start: 'center+=1000 center',
         end: `+=800`,
         scrub: true,
       })
-      scheduleInfoSilder = scheduleInfoSectionElement.movePointAnimation(scheduleInfoSilder)
-      animations.push(scheduleInfoSilder)
+      scheduleInfoSlider = scheduleInfoSectionElement.movePointAnimation(scheduleInfoSlider)
+      animations.push(scheduleInfoSlider)
     }
 
     if (AwardInfoSectionRef.current) {
@@ -572,12 +579,6 @@ const GsapLandingPage = () => {
     return animations
   }
 
-  useEffect(() => {
-    if (imagesPreloaded) {
-      setReadyPage(true)
-    }
-  }, [imagesPreloaded])
-
   useLayoutEffect(() => {
     let animations: AnimationReturn[] = []
 
@@ -596,7 +597,7 @@ const GsapLandingPage = () => {
     }
   }, [isReadyPage, isMobile, isTablet, isDesktop, isDesktop1920])
 
-  if (!isReadyPage || !imagesPreloaded) {
+  if (!isReadyPage) {
     return (
       <>
         <F2E4thWeek1LoadingPage />
@@ -607,7 +608,7 @@ const GsapLandingPage = () => {
 
   return (
     <>
-      {/** postion:fixed element */ ''}
+      {/** position:fixed element */ ''}
       {isReadyPage ? (
         <Header
           gotoHexSchoolAnchor={scrollToHexSchoolAnchor}
@@ -700,13 +701,13 @@ const GsapLandingPage = () => {
             },
             {
               minWidth: 375,
-              imageSrc: MobileNewpaper1,
+              imageSrc: MobileNewspaper1,
             },
           ],
           imageElementProps: {
             src: TabletNewspaper1,
             className: 'w-full h-full object-cover',
-            srcSet: `${MobileNewpaper1} 375w, ${TabletNewspaper1} 750w, ${PcNewspaper1} 1280w, ${PcNewspaper1_1_5x} 1920w`,
+            srcSet: `${MobileNewspaper1} 375w, ${TabletNewspaper1} 750w, ${PcNewspaper1} 1280w, ${PcNewspaper1_1_5x} 1920w`,
             sizes: `(min-width:375px) 650px, (min-width: 768px) 983px, (min-width: 1280px) 1218px`,
           },
           className: flatClassName({
@@ -734,13 +735,13 @@ const GsapLandingPage = () => {
             },
             {
               minWidth: 375,
-              imageSrc: MobileNewpaper2,
+              imageSrc: MobileNewspaper2,
             },
           ],
           imageElementProps: {
             src: TabletNewspaper2,
             className: 'w-full h-full object-cover',
-            srcSet: `${MobileNewpaper2} 375w, ${TabletNewspaper2} 750w, ${PcNewspaper2} 1280w, ${PcNewspaper2_1_5x} 1920w`,
+            srcSet: `${MobileNewspaper2} 375w, ${TabletNewspaper2} 750w, ${PcNewspaper2} 1280w, ${PcNewspaper2_1_5x} 1920w`,
             sizes: `(min-width:375px) 683px, (min-width: 768px) 768px, (min-width: 1280px) 1280px, (min-width: 1920px) 1920px`,
           },
           className: flatClassName({
@@ -768,13 +769,13 @@ const GsapLandingPage = () => {
             },
             {
               minWidth: 375,
-              imageSrc: MobileNewpaper3,
+              imageSrc: MobileNewspaper3,
             },
           ],
           imageElementProps: {
             src: TabletNewspaper3,
             className: 'w-full h-full object-cover',
-            srcSet: `${MobileNewpaper3} 375w, ${TabletNewspaper3} 750w, ${PcNewspaper3} 1280w, ${PcNewspaper3_1_5x} 1920w`,
+            srcSet: `${MobileNewspaper3} 375w, ${TabletNewspaper3} 750w, ${PcNewspaper3} 1280w, ${PcNewspaper3_1_5x} 1920w`,
             sizes: `(min-width:375px) 503px, (min-width: 768px) 760px, (min-width: 1280px) 942px`,
           },
           className: flatClassName({
@@ -888,7 +889,7 @@ const GsapLandingPage = () => {
             >
               <div
                 className={flatClassName({
-                  common: `relative flex flex-wrap items-ceneter justify-center`,
+                  common: `relative flex flex-wrap justify-center`,
                   desktop: `xl:w-[1200px] xl:h-[386px] xl:mb-[57px]`,
                   tablet: `md:w-[343px] md:h-[552px]`,
                   mobile: `sm:w-[338px] sm:h-[231px] sm:mb-[7.02px]`,
@@ -1117,7 +1118,7 @@ const GsapLandingPage = () => {
               })}
             >
               <Suspense fallback={<div>loading...</div>}>
-                <SponerInfo></SponerInfo>
+                <SponsorInfo></SponsorInfo>
               </Suspense>
             </div>
             <div className={`xl:mb-[8px]`}>

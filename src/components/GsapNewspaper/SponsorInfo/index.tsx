@@ -6,7 +6,7 @@ import BlockStudioLogo from './images/BlockStudioLogo.svg'
 import KdanLogo from './images/KdanLogo.svg'
 import TitansoftLogo from './images/TitansoftLogo.svg'
 
-export default function SponerInfo() {
+export default function SponsorInfo() {
   return (
     <div
       className={flatClassName({
