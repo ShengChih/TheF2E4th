@@ -18,15 +18,15 @@ const BaseBanner: React.FC<ComponentProps<'div'>> = styled.div`
 	background-repeat: no-repeat;
 	background-size: cover;
 
-	@/media (min-width: 375px) {
+	@media (min-width: 375px) {
 		background-image: url(${MobileMainImage});
 	}
 
-	@/media (min-width: 768px) {
+	@media (min-width: 768px) {
 		background-image: url(${TabletMainImage});
 	}
 
-	@/media (min-width: 1280px) {
+	@media (min-width: 1280px) {
 		background-image: url(${PcMainImage});
 	}
 }
